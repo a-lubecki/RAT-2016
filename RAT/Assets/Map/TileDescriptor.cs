@@ -11,7 +11,9 @@ namespace TiledMap {
 		public Sprite tileSprite { get; private set; }
 
 		public TileDescriptor(int id, Texture2D texture, int x, int y, int pixelsPerUnit) {
+
 			this.id = id;
+
 			tileSprite = Sprite.Create(
 				texture, 
 				new Rect(x * pixelsPerUnit, y * pixelsPerUnit, pixelsPerUnit, pixelsPerUnit), 

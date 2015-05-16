@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour {
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
 
-	void Update() {
+	void FixedUpdate() {
 
 		Vector2 newVector = getNewMoveVector();
 
@@ -34,8 +34,8 @@ public abstract class Entity : MonoBehaviour {
 			}
 
 			//update transform with int vector to move with the grid
-			GetComponent<Transform>().position = snapToGrid(lastFloatPosition);
-		
+			GetComponent<Rigidbody2D>().MovePosition(snapToGrid(lastFloatPosition));
+
 		} else {
 
 			lastFloatPosition = snapToGrid(lastRealPosition);
@@ -43,6 +43,7 @@ public abstract class Entity : MonoBehaviour {
 
 		//Debug.Log(">> " + lastFloatPosition.x + " / " + lastFloatPosition.y + " => " + isMoving);
 	}
+
 
 	protected abstract Vector2 getNewMoveVector();
 
