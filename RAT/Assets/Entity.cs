@@ -3,9 +3,6 @@ using System.Collections;
 
 public abstract class Entity : MonoBehaviour { 
 
-	private static readonly int TILE_SIZE = 32;
-	private static readonly float PIXEL_SIZE = 1 / (float) TILE_SIZE;
-
 	private Vector3 lastFloatPosition;
 	private bool hasSetLastFloatPosition = false;
 
@@ -60,7 +57,7 @@ public abstract class Entity : MonoBehaviour {
 	
 	private static float snapToGrid(float value) {
 
-		float diff = value % PIXEL_SIZE;
+		float diff = value % Constants.PIXEL_SIZE;
 		return value - diff;
 	}
 
