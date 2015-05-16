@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="16" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="TilesLevel1" tilewidth="32" tileheight="32">
+  <image source="../RAT/Assets/Res/Map/TilesLevel1.png" width="256" height="256"/>
+ </tileset>
+ <layer name="Calque de Tile 1" width="16" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+NlYGDgJBPzATE3EDOSiXlG9Y/qH9VPkX5+IOaCYj6oOC+SGD45AQbKAbluZ0RyE6mYUnupqX8UjIKhDACMTnUoAAgAAA==
+  </data>
+ </layer>
+ <layer name="Calque 2" width="16" height="32">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NiYGBgogCDgDIQqzCQD7SBWIcC/aNgcALkNDIQ+kfBKBgFo2AU4AYA/mo5NAAIAAA=
+  </data>
+ </layer>
+ <objectgroup name="Calque d'objets 1"/>
+ <imagelayer name="Calque d'image 1"/>
+</map>

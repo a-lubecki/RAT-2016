@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="16" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Murs Gris" tilewidth="32" tileheight="32">
+  <image source="test_tiles.png" width="160" height="96"/>
+ </tileset>
+ <tileset firstgid="16" name="Murs Verts" tilewidth="32" tileheight="32">
+  <image source="test_tiles2.png" width="160" height="96"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="1000"/>
+    <frame tileid="14" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="1">
+   <animation>
+    <frame tileid="1" duration="1000"/>
+    <frame tileid="11" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="2">
+   <animation>
+    <frame tileid="2" duration="1000"/>
+    <frame tileid="13" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="5">
+   <animation>
+    <frame tileid="5" duration="1000"/>
+    <frame tileid="7" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="7">
+   <animation>
+    <frame tileid="7" duration="1000"/>
+    <frame tileid="5" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="10">
+   <animation>
+    <frame tileid="10" duration="1000"/>
+    <frame tileid="9" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="11">
+   <animation>
+    <frame tileid="11" duration="1000"/>
+    <frame tileid="1" duration="1000"/>
+   </animation>
+  </tile>
+  <tile id="12">
+   <objectgroup draworder="index"/>
+   <animation>
+    <frame tileid="12" duration="1000"/>
+    <frame tileid="8" duration="1000"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer name="ground" width="10" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYCAfsEMxNnEBIBYEYiEC6qSAWBqIZQiow4bJVUeMHyhVh81+XO6jhjp8bqVUHQOZ6ogBABHRAj4=
+  </data>
+ </layer>
+ <layer name="walls" width="10" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAFjEDMBMXMOMRBmBNJjgOJzcaAGwwGddxAzAPFfEji/EDMi0M/stlcDKjhgxwunJha4fbjcx811IHcj+4nbOpgYcFGpDpuJDPxqUM2k4MBNZxBGDlsuZHEANOvAe0=
+  </data>
+ </layer>
+</map>
