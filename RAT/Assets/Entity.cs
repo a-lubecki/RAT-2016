@@ -9,10 +9,6 @@ public abstract class Entity : MonoBehaviour {
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
 
-	void Start() {
-
-	}
-
 	void Update() {
 
 		Vector2 newVector = getNewMoveVector();

@@ -22,7 +22,14 @@ public class Player : Entity {
 	};
 
 	public float moveSpeed = 1;
+	public int xGeneration = 0;
+	public int yGeneration = 0;
+	
+	void Start() {
 
+		//set the first position of the player
+		GetComponent<Transform>().position = new Vector2(xGeneration, -yGeneration);
+	}
 	
 	protected override Vector2 getNewMoveVector() {
 
