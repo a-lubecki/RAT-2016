@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class Player : Entity { 
+public class Player : EntityCollider { 
 	
 	public KeyCode[] KEYS_RIGHT = new KeyCode[] {
 		KeyCode.RightArrow,
@@ -28,7 +28,9 @@ public class Player : Entity {
 	void Start() {
 
 		//set the first position of the player
-		GetComponent<Transform>().position = new Vector2(xGeneration * Constants.TILE_SIZE, -yGeneration * Constants.TILE_SIZE);
+		GetComponent<Transform>().position = new Vector2(
+			xGeneration * Constants.TILE_SIZE, 
+			- yGeneration * Constants.TILE_SIZE);
 	}
 	
 	protected override Vector2 getNewMoveVector() {
