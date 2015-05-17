@@ -130,7 +130,7 @@ namespace TiledMap {
 							throw new System.InvalidOperationException();
 						}
 
-						GameObject tileObject = GameObject.Instantiate(prefabTile, new Vector2(x, -y), Quaternion.identity) as GameObject;
+						GameObject tileObject = GameObject.Instantiate(prefabTile, new Vector2(x * Constants.TILE_SIZE, -y * Constants.TILE_SIZE), Quaternion.identity) as GameObject;
 						tileObject.transform.SetParent(mapObject.transform);
 
 						SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();

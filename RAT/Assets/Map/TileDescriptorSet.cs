@@ -25,6 +25,10 @@ namespace TiledMap {
 				throw new System.InvalidOperationException();
 			}
 
+			int startIndex = imagePath.LastIndexOfAny(new char[]{'/', '\\'}) + 1;
+			int length = imagePath.Length - startIndex;
+			imagePath = imagePath.Substring(startIndex, length);
+
 			image = (Texture2D)Resources.LoadAssetAtPath("Assets/Res/" + imagePath, typeof(Texture2D));
 
 			if(image == null) {

@@ -28,7 +28,7 @@ public class Player : Entity {
 	void Start() {
 
 		//set the first position of the player
-		GetComponent<Transform>().position = new Vector2(xGeneration, -yGeneration);
+		GetComponent<Transform>().position = new Vector2(xGeneration * Constants.TILE_SIZE, -yGeneration * Constants.TILE_SIZE);
 	}
 	
 	protected override Vector2 getNewMoveVector() {
