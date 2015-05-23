@@ -5,8 +5,14 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
+	
+	protected bool isPaused { get; private set; }
 
 	void FixedUpdate() {
+
+		if(isPaused) {
+			return;
+		}
 
 		Vector2 newVector = getNewMoveVector();
 
@@ -31,6 +37,10 @@ public abstract class EntityCollider : MonoBehaviour {
 			);
 		}
 
+	}
+
+	protected void OnApplicationFocus(bool focusStatus) {
+		this.isPaused = !focusStatus;
 	}
 
 

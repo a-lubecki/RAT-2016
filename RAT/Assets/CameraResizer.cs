@@ -11,6 +11,8 @@ public class CameraResizer : MonoBehaviour {
 	
 	[Tooltip("Nb min of visible tiles in the screen, may be ignored if too big, can't be 0")]
 	public int nbVisibleTiles;
+	
+	protected bool isPaused { get; private set; }
 
 	void Start () {
 		
@@ -18,15 +20,14 @@ public class CameraResizer : MonoBehaviour {
 	}
 
 	void Update () {
-
-		if (Input.GetKeyDown(KeyCode.F)) {
-			Screen.fullScreen = !Screen.fullScreen;//TEST with fullscreen
-		}
-
 		scaleScene();
 	}
 
 	private void scaleScene() {
+
+		if(isPaused) {
+			return;
+		}
 
 		if(nbVisibleTiles <= 0) {
 			throw new System.InvalidOperationException();
@@ -67,4 +68,9 @@ public class CameraResizer : MonoBehaviour {
 
 
 	}
+
+	protected void OnApplicationFocus(bool focusStatus) {
+		this.isPaused = !focusStatus;
+	}
+
 }
