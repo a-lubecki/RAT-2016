@@ -57,12 +57,12 @@
  </tileset>
  <layer name="ground" width="10" height="16">
   <data encoding="base64" compression="zlib">
-   eJxjYCAfsEMxNnEBIBYEYiEC6qSAWBqIZQiow4bJVYfLL9RQh89+XO6jhjpsbqCWOgYy1REDAP2iAjA=
+   eJxjYMAO2HGIo6uBYXRxASAWBGIhAuqkgFgaiGUIqMOFiVFHDKCWOnz24/MHpeqwuYFa6hhIUEcqAABFOQJM
   </data>
  </layer>
  <layer name="walls" width="10" height="16">
   <data encoding="base64" compression="zlib">
-   eJzNkNsKgEAIRN2CZcsu//+3KSiNkdJjA8OKHmRHoqgmnsxz0lcvMBtQd8r1B47Fm/kQn/Y+OZTuXunOrLXfp0Gd/WHADPdUXKU3TnN4porzjP0jxxTvk3G4c1C8s3oHjqF3AQoGAhg=
+   eJzFUEEKwCAMqxsM59T9/7ez0GIXXK4LhAabFhuRN9LgZlrrDu/OE+ay1UM4/vDdg830NViN3XoddiF0d5F5s2rPJgX99YccenEP8zGsfHqH38R8q7yYz/NSNOJDxJyrzPwRDyaqAf0=
   </data>
  </layer>
 </map>
