@@ -29,7 +29,7 @@ namespace TiledMap {
 			int length = imagePath.Length - startIndex;
 			imagePath = imagePath.Substring(startIndex, length);
 
-			image = (Texture2D)Resources.LoadAssetAtPath("Assets/Res/" + imagePath, typeof(Texture2D));
+			image = (Texture2D)Resources.LoadAssetAtPath("Assets/Res/Test/" + imagePath, typeof(Texture2D));//Change to "Assets/Res/Environments/"
 
 			if(image == null) {
 				throw new System.ArgumentException("Wrong image path : " + imagePath);

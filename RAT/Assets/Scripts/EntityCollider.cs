@@ -2,11 +2,22 @@
 using System.Collections; 
 
 public abstract class EntityCollider : MonoBehaviour {
+	
+	public int xGeneration = 0;//TODO replace by spawnpoint in mm file
+	public int yGeneration = 0;//TODO replace by spawnpoint in mm file
 
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
 	
 	protected bool isPaused { get; private set; }
+	
+	void Start() {
+		
+		//set the first position of the player
+		GetComponent<Transform>().position = new Vector2(
+			xGeneration * Constants.TILE_SIZE, 
+			- yGeneration * Constants.TILE_SIZE);
+	}
 
 	void FixedUpdate() {
 
@@ -35,6 +46,7 @@ public abstract class EntityCollider : MonoBehaviour {
 					rigidBody.position.y + dy * Time.deltaTime
 				)
 			);
+
 		}
 
 	}

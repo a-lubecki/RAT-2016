@@ -7,6 +7,8 @@ namespace TiledMap {
 
 	public class Map {
 
+		private static readonly string PATH_PREFAB = "Assets/Prefabs/";
+
 		public int width { get; private set; }
 		public int height { get; private set; }
 		
@@ -121,9 +123,9 @@ namespace TiledMap {
 						GameObject prefabTile;
 
 						if(layerName.Equals("walls")) {
-							prefabTile = Resources.LoadAssetAtPath("Assets/Res/PrefabTileWall.prefab", typeof(GameObject)) as GameObject;
+							prefabTile = Resources.LoadAssetAtPath(PATH_PREFAB + "PrefabTileWall.prefab", typeof(GameObject)) as GameObject;
 						} else {
-							prefabTile = Resources.LoadAssetAtPath("Assets/Res/PrefabTileGround.prefab", typeof(GameObject)) as GameObject;
+							prefabTile = Resources.LoadAssetAtPath(PATH_PREFAB + "PrefabTileGround.prefab", typeof(GameObject)) as GameObject;
 						}
 
 						if(prefabTile == null) {
@@ -140,7 +142,6 @@ namespace TiledMap {
 						spriteRenderer.sortingOrder = orderInLayer;
 
 						//TODO
-
 
 					}
 				}

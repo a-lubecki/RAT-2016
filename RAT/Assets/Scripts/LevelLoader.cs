@@ -3,7 +3,7 @@ using MiniJSON;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapGenerator : MonoBehaviour {
+public class LevelLoader : MonoBehaviour {
 	
 	//public string mapFilePath;
 	public TextAsset textAsset;

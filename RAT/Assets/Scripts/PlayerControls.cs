@@ -22,17 +22,7 @@ public class PlayerControls : EntityCollider {
 	};
 
 	public float moveSpeed = 1;
-	public int xGeneration = 0;//TODO replace by spawnpoint in mm file
-	public int yGeneration = 0;//TODO replace by spawnpoint in mm file
-	
-	void Start() {
-
-		//set the first position of the player
-		GetComponent<Transform>().position = new Vector2(
-			xGeneration * Constants.TILE_SIZE, 
-			- yGeneration * Constants.TILE_SIZE);
-	}
-	
+		
 	protected override Vector2 getNewMoveVector() {
 
 		float angleDegrees = 0;
