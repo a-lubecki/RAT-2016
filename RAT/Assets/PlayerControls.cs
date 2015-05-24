@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class Player : EntityCollider { 
+public class PlayerControls : EntityCollider { 
 	
 	public KeyCode[] KEYS_RIGHT = new KeyCode[] {
 		KeyCode.RightArrow,
@@ -22,8 +22,8 @@ public class Player : EntityCollider {
 	};
 
 	public float moveSpeed = 1;
-	public int xGeneration = 0;
-	public int yGeneration = 0;
+	public int xGeneration = 0;//TODO replace by spawnpoint in mm file
+	public int yGeneration = 0;//TODO replace by spawnpoint in mm file
 	
 	void Start() {
 
