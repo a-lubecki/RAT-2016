@@ -13,20 +13,28 @@ namespace Level {
 			}
 			this.node = node;
 		}
-		
-		protected string getNodeId() {
-			return getNodeId(node);
+
+		protected XmlNodeList getNodeChildren() {
+			return getNodeChildren(node);
+		}
+
+		protected string getId() {
+			return getId(node);
 		}
 		
-		protected string getNodeText() {
-			return getNodeText(node);
+		protected string getText() {
+			return getText(node);
 		}
-		
-		public static string getNodeId(XmlNode node) {
+
+		public static XmlNodeList getNodeChildren(XmlNode node) {
+			return node.SelectNodes("node");
+		}
+
+		public static string getId(XmlNode node) {
 			return getAttributeValue(node, "ID");
 		}
 
-		public static string getNodeText(XmlNode node) {
+		public static string getText(XmlNode node) {
 			return getAttributeValue(node, "TEXT");			
 		}
 		

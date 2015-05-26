@@ -125,10 +125,51 @@
       test !!!
     </p>
   </body>
-</html>
-</richcontent>
+</html></richcontent>
 <node TEXT="42" ID="ID_1484142215" CREATED="1432587593572" MODIFIED="1432587597624"/>
 <node TEXT="17" ID="ID_1483934397" CREATED="1432587598872" MODIFIED="1432587600644"/>
+</node>
+<node TEXT="level" POSITION="left" ID="ID_24789762" CREATED="1432587589642" MODIFIED="1432675125055">
+<richcontent TYPE="NOTE">
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      test !!!
+    </p>
+  </body>
+</html></richcontent>
+<node TEXT="888" ID="ID_1984279691" CREATED="1432587593572" MODIFIED="1432675130486"/>
+</node>
+<node TEXT="name" POSITION="left" ID="ID_398853734" CREATED="1432587589642" MODIFIED="1432675137767">
+<richcontent TYPE="NOTE">
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      test !!!
+    </p>
+  </body>
+</html></richcontent>
+<node TEXT="&quot;AAA&quot;" ID="ID_501492401" CREATED="1432587593572" MODIFIED="1432675145867"/>
+</node>
+<node TEXT="label" POSITION="left" ID="ID_1240152669" CREATED="1432587589642" MODIFIED="1432675153148">
+<richcontent TYPE="NOTE">
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      test !!!
+    </p>
+  </body>
+</html></richcontent>
+<node TEXT="MY_LABEL" ID="ID_794200166" CREATED="1432587593572" MODIFIED="1432675215934"/>
 </node>
 <node TEXT="SPAWN" POSITION="left" ID="ID_937269768" CREATED="1432470553574" MODIFIED="1432470561282">
 <node TEXT="pos" ID="ID_1639010071" CREATED="1432470565135" MODIFIED="1432470820743">

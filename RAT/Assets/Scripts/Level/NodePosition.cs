@@ -4,20 +4,23 @@ using UnityEngine;
 
 namespace Level {
 
-	public class Position : LevelNode {
+	public class NodePosition : LevelNode {
 
 		public int x { get; private set; }
 		public int y { get; private set; }
 		
-		public Position(XmlNode node) : base(node) {
+		public NodePosition(XmlNode node) : base(node) {
 
-			XmlNodeList nodeList = node.SelectNodes("node");
+			XmlNodeList nodeList = getNodeChildren();
 			if(nodeList.Count <= 0) {
-				return;
+				throw new System.InvalidOperationException();
 			}
-			
+			if(nodeList.Count > 2) {
+				Debug.LogWarning("Nb elements for " + getText() + " > 2 : " + nodeList.Count);
+			}
+
 			XmlNode nodeX = nodeList[0];
-			string strX = getNodeText(nodeX);
+			string strX = getText(nodeX);
 			if(!String.IsNullOrEmpty(strX)) {
 				x = int.Parse(strX);
 			}
@@ -27,14 +30,9 @@ namespace Level {
 			}
 
 			XmlNode nodeY = nodeList[1];
-			string strY = getNodeText(nodeY);
+			string strY = getText(nodeY);
 			if(!String.IsNullOrEmpty(strY)) {
 				y = int.Parse(strY);
-			}
-
-			
-			if(nodeList.Count > 1) {
-				Debug.LogWarning("Nb elements for " + getNodeText() + " > 2 : " + nodeList.Count);
 			}
 
 		}

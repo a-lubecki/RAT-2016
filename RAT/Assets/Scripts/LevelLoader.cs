@@ -42,12 +42,26 @@ public class LevelLoader : MonoBehaviour {
 		////TODO TEST
 		foreach (XmlNode node in mainNode) {
 			
-			if("pos".Equals(LevelNode.getNodeText(node))) {
+			if("pos".Equals(LevelNode.getText(node))) {
 				
-				Position p = new Position(node);
-				Debug.Log(">>> DONE !!! => pos : " + p.x + " / " + p.y);
+				NodePosition n = new NodePosition(node);
+				Debug.Log(">>> DONE !!! => pos : " + n.x + " / " + n.y);
 				
-				break;
+			} else if("level".Equals(LevelNode.getText(node))) {
+				
+				LevelNodeInt n = new LevelNodeInt(node);
+				Debug.Log(">>> DONE !!! => level : " + n.value);
+
+			} else if("name".Equals(LevelNode.getText(node))) {
+				
+				LevelNodeString n = new LevelNodeString(node);
+				Debug.Log(">>> DONE !!! => name : " + n.value);
+				
+			} else if("label".Equals(LevelNode.getText(node))) {
+				
+				LevelNodeLabel n = new LevelNodeLabel(node);
+				Debug.Log(">>> DONE !!! => label : " + n.value);
+				
 			}
 		}
 
