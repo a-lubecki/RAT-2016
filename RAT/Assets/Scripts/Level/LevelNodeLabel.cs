@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Level {
 
-	public class LevelNodeLabel : LevelNode {
+	public class LevelNodeLabel : BaseLevelNode {
 
 		public string value { get; protected set; }
 

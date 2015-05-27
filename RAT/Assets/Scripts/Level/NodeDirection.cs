@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Level {
 
-	public class NodeDirection : LevelNode {
+	public class NodeDirection : BaseLevelNode {
 
 		public enum Direction {
 			UP,
@@ -13,7 +13,11 @@ namespace Level {
 			RIGHT
 		}
 
-		public Direction direction { get; private set; }
+		public Direction value { get; private set; }
+
+		public NodeDirection() {
+			value = Direction.UP;
+		}
 
 		public NodeDirection(XmlNode node) : base(node) {
 
@@ -31,7 +35,7 @@ namespace Level {
 				throw new System.InvalidOperationException();
 			}
 
-			direction = (Direction)Enum.Parse(typeof(Direction), nodeValue);
+			value = (Direction)Enum.Parse(typeof(Direction), nodeValue);
 		}
 
 	}

@@ -3,11 +3,14 @@ using System.Xml;
 
 namespace Level {
 
-	public abstract class LevelNode {
+	public abstract class BaseLevelNode {
 
 		private XmlNode node;
+		
+		public BaseLevelNode() {
+		}
 
-		public LevelNode(XmlNode node) {
+		public BaseLevelNode(XmlNode node) {
 			if(node == null) {
 				throw new System.InvalidOperationException();
 			}

@@ -4,11 +4,14 @@ using UnityEngine;
 
 namespace Level {
 
-	public class NodePosition : LevelNode {
+	public class NodePosition : BaseLevelNode {
 
 		public int x { get; private set; }
 		public int y { get; private set; }
-		
+
+		public NodePosition() {
+		}
+
 		public NodePosition(XmlNode node) : base(node) {
 
 			XmlNodeList nodeList = getNodeChildren();

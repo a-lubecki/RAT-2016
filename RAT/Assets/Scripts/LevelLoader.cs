@@ -11,7 +11,9 @@ public class LevelLoader : MonoBehaviour {
 	public static TextAsset textAssetLevel;
 
 	private TextAsset textAssetMap;//TODO set to private
-	
+
+	private NodeLevel nodeLevel;
+
 	void OnLevelWasLoaded(int level) {
 
 		//TODO
@@ -36,11 +38,31 @@ public class LevelLoader : MonoBehaviour {
 		
 		XmlElement rootNode = xmlDocument.DocumentElement;
 
-		XmlNode mainNode = rootNode.SelectSingleNode("node");
+		nodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
 
+		/// TODO DEBUG ///
+		if(nodeLevel.spawnElement == null) {
+			Debug.Log(">>> nodeLevel.spawnElement => null");
+		} else {	
+			Debug.Log(">>> nodeLevel.spawnElement => " + 
+			          "x(" + nodeLevel.spawnElement.nodePosition.x + ") " +
+			          "y(" + nodeLevel.spawnElement.nodePosition.y + ") " +
+			          "direction(" + nodeLevel.spawnElement.nodeDirection.value + ")");
+		}
 
-		////TODO TEST
-		foreach (XmlNode node in mainNode) {
+		for(int i=0;i<nodeLevel.getHubCount();i++) {
+
+			NodeElementHub hubElement = nodeLevel.getHub(i);
+
+			Debug.Log(">>> nodeLevel.hubElement[" + i + "] => " + 
+			          "x(" + hubElement.nodePosition.x + ") " +
+			          "y(" + hubElement.nodePosition.y + ") " +
+			          "direction(" + hubElement.nodeDirection.value + ")");
+		}
+		
+		/*   
+		   ////TODO TEST
+		   foreach (XmlNode node in mainNode) {
 			
 			if("pos".Equals(LevelNode.getText(node))) {
 				
@@ -51,7 +73,7 @@ public class LevelLoader : MonoBehaviour {
 				
 				LevelNodeInt n = new LevelNodeInt(node);
 				Debug.Log(">>> DONE !!! => level : " + n.value);
-
+				
 			} else if("name".Equals(LevelNode.getText(node))) {
 				
 				LevelNodeString n = new LevelNodeString(node);
@@ -61,9 +83,8 @@ public class LevelLoader : MonoBehaviour {
 				
 				LevelNodeLabel n = new LevelNodeLabel(node);
 				Debug.Log(">>> DONE !!! => label : " + n.value);
-				
-			}
-		}
+			}*/
+		/// TODO DEBUG ///
 
 
 		//TODO test, assign the textAssetMap from the level
