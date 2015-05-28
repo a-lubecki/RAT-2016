@@ -9,16 +9,19 @@ namespace Level {
 
 
 		public NodeElementSpawn spawnElement { get ; private set; } //can be null
-		private List<NodeElementHub> hubElements = new List<NodeElementHub>();
-		//private List<NodeElementLink> linkElements = new List<NodeElementLink>();
+
+		private List<BaseLevelNode> hubElements;
+		//private List<BaseLevelNode> linkElements;
 
 
 		public NodeLevel(XmlNode node) : base (node) {
+			
+			spawnElement = parseChild("SPAWN", typeof(NodeElementSpawn)) as NodeElementSpawn;
 
+			hubElements = parseChildren("HUB", typeof(NodeElementHub));
+
+			/*
 			XmlNodeList nodeList = getNodeChildren();
-			if(nodeList.Count <= 0) {
-				Debug.LogWarning("No elements in main node");
-			}
 
 			int i = 0;
 			foreach(XmlNode n in nodeList) {
@@ -73,7 +76,7 @@ namespace Level {
 				}
 
 				i++;
-			}
+			}*/
 
 		}
 		
@@ -91,7 +94,7 @@ namespace Level {
 		}
 		
 		public NodeElementHub getHub(int pos) {
-			return hubElements[pos];
+			return hubElements[pos] as NodeElementHub;
 		}
 
 	}

@@ -11,9 +11,7 @@ namespace Level {
 		public LevelNodeLabel(XmlNode node) : base(node) {
 
 			XmlNodeList nodeList = getNodeChildren();
-			if(nodeList.Count <= 0) {
-				throw new System.InvalidOperationException();
-			}			
+
 			if(nodeList.Count > 1) {
 				Debug.LogWarning("Nb elements for " + getText() + " > 1 : " + nodeList.Count);
 			}

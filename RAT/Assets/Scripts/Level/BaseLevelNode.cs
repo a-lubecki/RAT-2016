@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace Level {
 
@@ -11,10 +12,16 @@ namespace Level {
 		}
 
 		public BaseLevelNode(XmlNode node) {
+
 			if(node == null) {
 				throw new System.InvalidOperationException();
 			}
 			this.node = node;
+
+			XmlNodeList nodeList = getNodeChildren();
+			if(nodeList.Count <= 0) {
+				throw new System.InvalidOperationException();
+			}
 		}
 
 		protected XmlNodeList getNodeChildren() {
@@ -65,6 +72,62 @@ namespace Level {
 			}
 			
 			return val;
+		}
+		
+		protected BaseLevelNode parseChild(string label, Type fieldType) {
+			return parseChild(label, fieldType, false);
+		}
+
+		protected BaseLevelNode parseChild(string label, Type fieldType, bool returnNonNull) {
+
+			if(string.IsNullOrEmpty(label)) {
+				throw new ArgumentException();
+			}
+
+			XmlNodeList nodeList = getNodeChildren();
+
+			foreach(XmlNode n in nodeList) {
+				
+				string l = getText(n);
+				
+				if(label.Equals(l)) {
+					return newLevelNode(fieldType, n);
+				}
+			}
+
+			if(returnNonNull) {
+				return newLevelNode(fieldType);
+			}
+
+			return null;
+		}
+			
+		protected List<BaseLevelNode> parseChildren(string label, Type fieldType) {
+			
+			if(string.IsNullOrEmpty(label)) {
+				throw new ArgumentException();
+			}
+
+			List<BaseLevelNode> res = new List<BaseLevelNode>();
+
+			XmlNodeList nodeList = getNodeChildren();
+
+			foreach(XmlNode n in nodeList) {
+				
+				string l = getText(n);
+				
+				if(label.Equals(l)) {
+					res.Add(newLevelNode(fieldType, n));
+				}
+			}
+
+			return res;
+		}
+		
+
+		private BaseLevelNode newLevelNode(Type fieldType, params XmlNode[] args) {
+
+			return Activator.CreateInstance(fieldType, args) as BaseLevelNode;
 		}
 
 	}

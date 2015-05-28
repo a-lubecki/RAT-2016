@@ -15,9 +15,7 @@ namespace Level {
 		public NodePosition(XmlNode node) : base(node) {
 
 			XmlNodeList nodeList = getNodeChildren();
-			if(nodeList.Count <= 0) {
-				throw new System.InvalidOperationException();
-			}
+
 			if(nodeList.Count > 2) {
 				Debug.LogWarning("Nb elements for " + getText() + " > 2 : " + nodeList.Count);
 			}
