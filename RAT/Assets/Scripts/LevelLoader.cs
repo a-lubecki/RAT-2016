@@ -49,15 +49,28 @@ public class LevelLoader : MonoBehaviour {
 			          "y(" + nodeLevel.spawnElement.nodePosition.y + ") " +
 			          "direction(" + nodeLevel.spawnElement.nodeDirection.value + ")");
 		}
-
+		
 		for(int i=0;i<nodeLevel.getHubCount();i++) {
-
+			
 			NodeElementHub hubElement = nodeLevel.getHub(i);
-
+			
 			Debug.Log(">>> nodeLevel.hubElement[" + i + "] => " + 
 			          "x(" + hubElement.nodePosition.x + ") " +
 			          "y(" + hubElement.nodePosition.y + ") " +
 			          "direction(" + hubElement.nodeDirection.value + ")");
+		}
+
+		for(int i=0;i<nodeLevel.getLinkCount();i++) {
+
+			NodeElementLink linkElement = nodeLevel.getLink(i);
+
+			Debug.Log(">>> nodeLevel.linkElement[" + i + "] => " + 
+			          "x(" + linkElement.nodePosition.x + ") " +
+			          "y(" + linkElement.nodePosition.y + ") " +
+			          "nextMap(" + linkElement.nodeNextMap.value + ") " +
+			          "nextPos.x(" + linkElement.nodeNextPosition.x + ") " +
+			          "nextPos.y(" + linkElement.nodeNextPosition.y + ") " +
+					  "nextDirection(" + linkElement.nodeNextDirection.value + ")");
 		}
 		
 		/*   

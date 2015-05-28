@@ -11,14 +11,15 @@ namespace Level {
 		public NodeElementSpawn spawnElement { get ; private set; } //can be null
 
 		private List<BaseLevelNode> hubElements;
-		//private List<BaseLevelNode> linkElements;
+		private List<BaseLevelNode> linkElements;
 
 
 		public NodeLevel(XmlNode node) : base (node) {
 			
 			spawnElement = parseChild("SPAWN", typeof(NodeElementSpawn)) as NodeElementSpawn;
-
+			
 			hubElements = parseChildren("HUB", typeof(NodeElementHub));
+			linkElements = parseChildren("LINK", typeof(NodeElementLink));
 
 			/*
 			XmlNodeList nodeList = getNodeChildren();
@@ -80,14 +81,14 @@ namespace Level {
 
 		}
 		
-		/*
+
 		public int getLinkCount() {
 			return linkElements.Count;
 		}
 		
 		public NodeElementLink getLink(int pos) {
-			return linkElements[pos];
-		}*/
+			return linkElements[pos] as NodeElementLink;
+		}
 		
 		public int getHubCount() {
 			return hubElements.Count;
