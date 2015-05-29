@@ -6,13 +6,15 @@ using System.Xml;
 using System.IO;
 using Level;
 
-public class LevelLoader : MonoBehaviour {
+public class LevelManager : MonoBehaviour {
+
+	private string FIRST_LEVEL = Constants.PATH_RES_TEST + "level1.xml";
 
 	public static TextAsset textAssetLevel;
 
 	private TextAsset textAssetMap;//TODO set to private
 
-	private NodeLevel nodeLevel;
+	public static NodeLevel level { get; private set; }
 
 	void OnLevelWasLoaded(int level) {
 
@@ -29,7 +31,7 @@ public class LevelLoader : MonoBehaviour {
 		
 		if(textAssetLevel == null) {
 			//load the first level
-			textAssetLevel = Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + "level1.xml", typeof(TextAsset)) as TextAsset;
+			textAssetLevel = Resources.LoadAssetAtPath(FIRST_LEVEL, typeof(TextAsset)) as TextAsset;
 		}
 		
 		//TODO load textAssetLevel then assign textAssetMap 
@@ -38,21 +40,21 @@ public class LevelLoader : MonoBehaviour {
 		
 		XmlElement rootNode = xmlDocument.DocumentElement;
 
-		nodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
+		level = new NodeLevel(rootNode.SelectSingleNode("node"));
 
 		/// TODO DEBUG ///
-		if(nodeLevel.spawnElement == null) {
+		if(level.spawnElement == null) {
 			Debug.Log(">>> nodeLevel.spawnElement => null");
 		} else {	
 			Debug.Log(">>> nodeLevel.spawnElement => " + 
-			          "x(" + nodeLevel.spawnElement.nodePosition.x + ") " +
-			          "y(" + nodeLevel.spawnElement.nodePosition.y + ") " +
-			          "direction(" + nodeLevel.spawnElement.nodeDirection.value + ")");
+			          "x(" + level.spawnElement.nodePosition.x + ") " +
+			          "y(" + level.spawnElement.nodePosition.y + ") " +
+			          "direction(" + level.spawnElement.nodeDirection.value + ")");
 		}
 		
-		for(int i=0;i<nodeLevel.getHubCount();i++) {
+		for(int i=0;i<level.getHubCount();i++) {
 			
-			NodeElementHub hubElement = nodeLevel.getHub(i);
+			NodeElementHub hubElement = level.getHub(i);
 			
 			Debug.Log(">>> nodeLevel.hubElement[" + i + "] => " + 
 			          "x(" + hubElement.nodePosition.x + ") " +
@@ -60,9 +62,9 @@ public class LevelLoader : MonoBehaviour {
 			          "direction(" + hubElement.nodeDirection.value + ")");
 		}
 
-		for(int i=0;i<nodeLevel.getLinkCount();i++) {
+		for(int i=0;i<level.getLinkCount();i++) {
 
-			NodeElementLink linkElement = nodeLevel.getLink(i);
+			NodeElementLink linkElement = level.getLink(i);
 
 			Debug.Log(">>> nodeLevel.linkElement[" + i + "] => " + 
 			          "x(" + linkElement.nodePosition.x + ") " +

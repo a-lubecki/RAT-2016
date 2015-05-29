@@ -8,7 +8,7 @@ namespace Level {
 	public class NodeLevel : BaseLevelNode {
 
 
-		public NodeElementSpawn spawnElement { get ; private set; } //can be null
+		public NodeElementSpawn spawnElement { get; private set; } //can be null
 
 		private List<BaseLevelNode> hubElements;
 		private List<BaseLevelNode> linkElements;

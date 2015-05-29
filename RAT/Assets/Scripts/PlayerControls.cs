@@ -1,5 +1,6 @@
 ﻿using UnityEngine; 
 using System.Collections;
+using Level;
 
 
 public class PlayerControls : EntityCollider { 
@@ -23,6 +24,27 @@ public class PlayerControls : EntityCollider {
 
 	public float moveSpeed = 1;
 		
+
+	protected override void Start() {
+
+		NodeElementSpawn nodeSpawn = LevelManager.level.spawnElement;
+		xGeneration = nodeSpawn.nodePosition.x;
+		yGeneration = nodeSpawn.nodePosition.y;
+
+		NodeDirection.Direction direction = nodeSpawn.nodeDirection.value;
+		if(direction == NodeDirection.Direction.UP) {
+			angleDegreesGeneration = 0;
+		} else if(direction == NodeDirection.Direction.RIGHT) {
+			angleDegreesGeneration = 90;
+		} else if(direction == NodeDirection.Direction.DOWN) {
+			angleDegreesGeneration = 180;
+		} else if(direction == NodeDirection.Direction.LEFT) {
+			angleDegreesGeneration = -90;
+		}
+
+		base.Start();
+	}
+
 	protected override Vector2 getNewMoveVector() {
 
 		float angleDegrees = 0;

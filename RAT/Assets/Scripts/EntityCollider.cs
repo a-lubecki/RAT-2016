@@ -3,16 +3,20 @@ using System.Collections;
 
 public abstract class EntityCollider : MonoBehaviour {
 	
-	public int xGeneration = 0;//TODO replace by spawnpoint in mm file
-	public int yGeneration = 0;//TODO replace by spawnpoint in mm file
+	public int xGeneration { get; protected set; }
+	public int yGeneration { get; protected set; }
+	public float angleDegreesGeneration { get; protected set; }
 
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
 	
 	protected bool isPaused { get; private set; }
-	
-	void Start() {
-		
+
+	protected virtual void Start() {
+
+		//set the first angle
+		angleDegrees = angleDegreesGeneration;
+
 		//set the first position of the player
 		GetComponent<Transform>().position = new Vector2(
 			xGeneration * Constants.TILE_SIZE, 
