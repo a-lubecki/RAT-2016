@@ -120,18 +120,22 @@ namespace TiledMap {
 
 						GameObject prefabTile;
 
+						string tileName;
 						if(layerName.Equals("walls")) {
-							prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + "PrefabTileWall.prefab", typeof(GameObject)) as GameObject;
+							tileName = Constants.PREFAB_NAME_TILE_WALL;
 						} else {
-							prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + "PrefabTileGround.prefab", typeof(GameObject)) as GameObject;
+							tileName = Constants.PREFAB_NAME_TILE_GROUND;
 						}
 
+						prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + tileName, typeof(GameObject)) as GameObject;
 						if(prefabTile == null) {
 							throw new System.InvalidOperationException();
 						}
 
 						GameObject tileObject = GameObject.Instantiate(prefabTile, new Vector2(x * Constants.TILE_SIZE, -y * Constants.TILE_SIZE), Quaternion.identity) as GameObject;
 						tileObject.transform.SetParent(mapObject.transform);
+
+						tileObject.name = tileName;
 
 						SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
 						

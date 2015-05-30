@@ -116,10 +116,39 @@ public class LevelManager : MonoBehaviour {
 
 		Dictionary<string,object> dict = Json.Deserialize(textAssetMap.text) as Dictionary<string,object>;
 		
+		GameObject mapObject = this.gameObject;
+
 		//generate map
 		TiledMap.Map map = new TiledMap.Map(dict);
-		
-		map.instanciateMap(this.gameObject);
+		map.instanciateMap(mapObject);
+
+
+		// load links
+		int linkCount = level.getLinkCount();
+		for(int i=0 ; i<linkCount ; i++) {
+
+			NodeElementLink link = level.getLink(i);
+			GameObject prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_LINK, typeof(GameObject)) as GameObject;
+
+			if(prefabTile == null) {
+				throw new System.InvalidOperationException();
+			}
+			
+			GameObject tileObject = GameObject.Instantiate(
+				prefabTile, 
+				new Vector2(link.nodePosition.x * Constants.TILE_SIZE, -link.nodePosition.y * Constants.TILE_SIZE), 
+				Quaternion.identity) as GameObject;
+
+			tileObject.transform.SetParent(mapObject.transform);
+
+			tileObject.name = Constants.PREFAB_NAME_TILE_LINK;
+		}
+
+	}
+
+	public static void loadNextMap(PlayerControls playerControls, Collider2D linkCollider) {
+		//TODO
+		Debug.Log("loadNextMap !!!");
 	}
 
 }

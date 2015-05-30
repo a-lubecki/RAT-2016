@@ -8,6 +8,10 @@ public class Constants {
 	public static readonly string PATH_PREFABS = "Assets/Prefabs/";
 	public static readonly string PATH_RES = "Assets/Res/";
 	public static readonly string PATH_RES_TEST = "Assets/Res/Test/";
+	
+	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround.prefab";
+	public static readonly string PREFAB_NAME_TILE_WALL = "PrefabTileWall.prefab";
+	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink.prefab";
 
 }
 
