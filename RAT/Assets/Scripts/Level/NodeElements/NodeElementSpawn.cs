@@ -7,6 +7,9 @@ namespace Level {
 	public class NodeElementSpawn : BaseNodeElement {
 
 		public NodeDirection nodeDirection { get ; private set; }
+		
+		public NodeElementSpawn () : base() {
+		}
 
 		public NodeElementSpawn (XmlNode node) : base(node) {
 

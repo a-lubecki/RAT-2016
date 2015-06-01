@@ -7,31 +7,87 @@ using System.IO;
 using Level;
 
 public class LevelManager : MonoBehaviour {
+	
+	private string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
+	
+	private static string nextLevelName;//used to keep the information between levels
+	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 
-	private string FIRST_LEVEL = Constants.PATH_RES_TEST + "level1.xml";
+	private static string currentLevelName;
+	private static NodeLevel currentNodeLevel;
 
-	public static TextAsset textAssetLevel;
 
-	private TextAsset textAssetMap;//TODO set to private
+	private static void loadNextLevel(string levelName) {
+		
+		nextLevelName = levelName;
+		
+		Application.LoadLevel(0);
 
-	public static NodeLevel level { get; private set; }
-
-	void OnLevelWasLoaded(int level) {
-
-		//TODO
 	}
 
 	void Start () {
-		loadLevel();
-		loadMap();
+
+		if(currentLevelName == null) {
+
+			//load a level
+			
+			string levelName = null;
+			
+			//TODO load saved game, ex : levelName = loadSavedLevelName();
+			
+			if(levelName == null) {
+				levelName = FIRST_LEVEL_NAME;
+			}
+			
+			loadNextLevel(levelName);
+		}
+
+
 	}
 	
+	void OnLevelWasLoaded(int level) {
 
-	private void loadLevel() {
+		Debug.Log("LOAD LEVEL : " + nextLevelName);
+
+
+		//loaded set the current name
+		currentLevelName = nextLevelName;
+
+		createLevel();
+		createMap();
+
+
+		PlayerControls playerControls = FindObjectOfType<PlayerControls>();
+		if(playerControls == null) {
+			throw new System.InvalidOperationException();
+		}
+
+
+		BaseNodeElement currentNodeElementTrigger;
+
+		if(lastNodeElementTrigger != null) {
+			//something has triggered the load level (can be a link or a spawn)
+			currentNodeElementTrigger = lastNodeElementTrigger;
+
+		} else {
+
+			//get spawn element of the level
+			currentNodeElementTrigger = currentNodeLevel.spawnElement;
+			if(currentNodeElementTrigger == null) {
+				//replace by default spawn element
+				currentNodeElementTrigger = new NodeElementSpawn();
+			}
+		}
+
+		processPlayerLoad(playerControls, currentNodeElementTrigger);
+		lastNodeElementTrigger = null;
+	}
+
+	private void createLevel() {
 		
+		TextAsset textAssetLevel = getLevelAsset(currentLevelName);
 		if(textAssetLevel == null) {
-			//load the first level
-			textAssetLevel = Resources.LoadAssetAtPath(FIRST_LEVEL, typeof(TextAsset)) as TextAsset;
+			throw new System.InvalidOperationException("Could not load textAssetLevel : " + currentLevelName);
 		}
 		
 		//TODO load textAssetLevel then assign textAssetMap 
@@ -40,21 +96,21 @@ public class LevelManager : MonoBehaviour {
 		
 		XmlElement rootNode = xmlDocument.DocumentElement;
 
-		level = new NodeLevel(rootNode.SelectSingleNode("node"));
+		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
 
 		/// TODO DEBUG ///
-		if(level.spawnElement == null) {
+		if(currentNodeLevel.spawnElement == null) {
 			Debug.Log(">>> nodeLevel.spawnElement => null");
 		} else {	
 			Debug.Log(">>> nodeLevel.spawnElement => " + 
-			          "x(" + level.spawnElement.nodePosition.x + ") " +
-			          "y(" + level.spawnElement.nodePosition.y + ") " +
-			          "direction(" + level.spawnElement.nodeDirection.value + ")");
+			          "x(" + currentNodeLevel.spawnElement.nodePosition.x + ") " +
+			          "y(" + currentNodeLevel.spawnElement.nodePosition.y + ") " +
+			          "direction(" + currentNodeLevel.spawnElement.nodeDirection.value + ")");
 		}
 		
-		for(int i=0;i<level.getHubCount();i++) {
+		for(int i=0;i<currentNodeLevel.getHubCount();i++) {
 			
-			NodeElementHub hubElement = level.getHub(i);
+			NodeElementHub hubElement = currentNodeLevel.getHub(i);
 			
 			Debug.Log(">>> nodeLevel.hubElement[" + i + "] => " + 
 			          "x(" + hubElement.nodePosition.x + ") " +
@@ -62,9 +118,9 @@ public class LevelManager : MonoBehaviour {
 			          "direction(" + hubElement.nodeDirection.value + ")");
 		}
 
-		for(int i=0;i<level.getLinkCount();i++) {
+		for(int i=0;i<currentNodeLevel.getLinkCount();i++) {
 
-			NodeElementLink linkElement = level.getLink(i);
+			NodeElementLink linkElement = currentNodeLevel.getLink(i);
 
 			Debug.Log(">>> nodeLevel.linkElement[" + i + "] => " + 
 			          "x(" + linkElement.nodePosition.x + ") " +
@@ -101,17 +157,14 @@ public class LevelManager : MonoBehaviour {
 			}*/
 		/// TODO DEBUG ///
 
-
-		//TODO test, assign the textAssetMap from the level
-		textAssetMap = Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + "test_map2.json", typeof(TextAsset)) as TextAsset;
-	
 	}
 
 
-	private void loadMap() {
+	private void createMap() {
 		
+		TextAsset textAssetMap = getMapAsset(currentLevelName);
 		if(textAssetMap == null) {
-			throw new System.InvalidOperationException();
+			throw new System.InvalidOperationException("Could not load textAssetMap : " + currentLevelName);
 		}
 
 		Dictionary<string,object> dict = Json.Deserialize(textAssetMap.text) as Dictionary<string,object>;
@@ -124,10 +177,10 @@ public class LevelManager : MonoBehaviour {
 
 
 		// load links
-		int linkCount = level.getLinkCount();
+		int linkCount = currentNodeLevel.getLinkCount();
 		for(int i=0 ; i<linkCount ; i++) {
 
-			NodeElementLink link = level.getLink(i);
+			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
 			GameObject prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_LINK, typeof(GameObject)) as GameObject;
 
 			if(prefabTile == null) {
@@ -136,19 +189,100 @@ public class LevelManager : MonoBehaviour {
 			
 			GameObject tileObject = GameObject.Instantiate(
 				prefabTile, 
-				new Vector2(link.nodePosition.x * Constants.TILE_SIZE, -link.nodePosition.y * Constants.TILE_SIZE), 
+				new Vector2(nodeElementLink.nodePosition.x * Constants.TILE_SIZE, -nodeElementLink.nodePosition.y * Constants.TILE_SIZE), 
 				Quaternion.identity) as GameObject;
 
 			tileObject.transform.SetParent(mapObject.transform);
 
 			tileObject.name = Constants.PREFAB_NAME_TILE_LINK;
+
+			Link link = tileObject.GetComponent<Link>();
+			link.nodeElementLink = nodeElementLink;
+
 		}
 
 	}
 
-	public static void loadNextMap(PlayerControls playerControls, Collider2D linkCollider) {
+	
+	
+	public static void processPlayerLoad(PlayerControls playerControls, BaseNodeElement nodeElement) {
+		//move player in level with SPAWN / HUB / LINK / load from save
+
+		if(nodeElement == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		NodePosition nodePosition = null;
+		NodeDirection nodeDirection = null;
+
+		if(nodeElement is NodeElementSpawn) {
+
+			NodeElementSpawn nodeElementSpawn = nodeElement as NodeElementSpawn;
+			
+			nodePosition = nodeElementSpawn.nodePosition;
+			nodeDirection = nodeElementSpawn.nodeDirection;
+
+		} else if(nodeElement is NodeElementLink) {
+			
+			NodeElementLink nodeElementLink = nodeElement as NodeElementLink;
+			
+			nodePosition = nodeElementLink.nodeNextPosition;
+			nodeDirection = nodeElementLink.nodeNextDirection;
+
+		} else {
+
+			throw new System.NotSupportedException("Not supported yet");
+		}
+
+		playerControls.setInitialPosition(nodePosition, nodeDirection);
+	}
+
+	public static void processPlayerDeath(PlayerControls playerControls) {
+
 		//TODO
-		Debug.Log("loadNextMap !!!");
+	}
+
+	public static void processLink(PlayerControls playerControls, Collider2D linkCollider) {
+		//move player in current level or load next level with LINK
+
+		Link link = linkCollider.GetComponent<Link>();
+		NodeElementLink nodeElementLink = link.nodeElementLink;
+
+		string requiredLevelName = nodeElementLink.nodeNextMap.value;
+
+		if(string.IsNullOrEmpty(requiredLevelName) || requiredLevelName.Equals(currentLevelName)) {
+			//move player
+
+			processPlayerLoad(playerControls, nodeElementLink);
+
+		} else {
+
+			//TODO save scene elements (player, dead enemies...)
+			
+			lastNodeElementTrigger = nodeElementLink;
+
+			//load level
+			loadNextLevel(requiredLevelName);
+		}
+
+	}
+
+
+
+	public static TextAsset getLevelAsset(string levelName) {
+		
+		if(string.IsNullOrEmpty(levelName)) {
+			return null;
+		}
+		return Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + levelName + ".xml", typeof(TextAsset)) as TextAsset;
+	}
+	
+	public static TextAsset getMapAsset(string levelName) {
+		
+		if(string.IsNullOrEmpty(levelName)) {
+			return null;
+		}
+		return Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + levelName + ".json", typeof(TextAsset)) as TextAsset;
 	}
 
 }

@@ -23,26 +23,21 @@ public class PlayerControls : EntityCollider {
 	};
 
 	public float moveSpeed = 1;
-		
 
-	protected override void Start() {
 
-		NodeElementSpawn nodeSpawn = LevelManager.level.spawnElement;
-		xGeneration = nodeSpawn.nodePosition.x;
-		yGeneration = nodeSpawn.nodePosition.y;
+	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
-		NodeDirection.Direction direction = nodeSpawn.nodeDirection.value;
-		if(direction == NodeDirection.Direction.UP) {
-			angleDegreesGeneration = 0;
-		} else if(direction == NodeDirection.Direction.RIGHT) {
-			angleDegreesGeneration = 90;
-		} else if(direction == NodeDirection.Direction.DOWN) {
-			angleDegreesGeneration = 180;
-		} else if(direction == NodeDirection.Direction.LEFT) {
-			angleDegreesGeneration = -90;
+		if(nodePosition != null) {
+			setPosition(nodePosition.x, nodePosition.y);
+		} else {
+			setPosition(0, 0);
 		}
 
-		base.Start();
+		if(nodeDirection != null) {
+			setDirection(nodeDirection.value);
+		} else {
+			setDirection(NodeDirection.Direction.UP);
+		}
 	}
 
 	protected override Vector2 getNewMoveVector() {
@@ -124,7 +119,7 @@ public class PlayerControls : EntityCollider {
 	void OnTriggerEnter2D(Collider2D other) {
 
 		if(Constants.PREFAB_NAME_TILE_LINK.Equals(other.name)) {
-			LevelManager.loadNextMap(this, other);
+			LevelManager.processLink(this, other);
 		}
 
 		//Debug.Log("OnTriggerEnter");

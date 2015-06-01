@@ -1,27 +1,34 @@
 ﻿using UnityEngine; 
 using System.Collections; 
+using Level;
 
 public abstract class EntityCollider : MonoBehaviour {
-	
-	public int xGeneration { get; protected set; }
-	public int yGeneration { get; protected set; }
-	public float angleDegreesGeneration { get; protected set; }
 
 	public float angleDegrees { get; private set; }
 	public bool isMoving { get; private set; }
 	
 	protected bool isPaused { get; private set; }
 
-	protected virtual void Start() {
 
-		//set the first angle
-		angleDegrees = angleDegreesGeneration;
+	public void setPosition(int xGeneration, int yGeneration) {
 
-		//set the first position of the player
 		GetComponent<Transform>().position = new Vector2(
 			xGeneration * Constants.TILE_SIZE, 
 			- yGeneration * Constants.TILE_SIZE);
 	}
+
+	public void setDirection(NodeDirection.Direction direction) {
+
+		if(direction == NodeDirection.Direction.UP) {
+			angleDegrees = 0;
+		} else if(direction == NodeDirection.Direction.RIGHT) {
+			angleDegrees = 90;
+		} else if(direction == NodeDirection.Direction.DOWN) {
+			angleDegrees = 180;
+		} else if(direction == NodeDirection.Direction.LEFT) {
+			angleDegrees = -90;
+		}
+ 	}
 
 	void FixedUpdate() {
 
