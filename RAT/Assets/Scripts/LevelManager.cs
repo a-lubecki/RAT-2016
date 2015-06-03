@@ -98,6 +98,7 @@ public class LevelManager : MonoBehaviour {
 
 		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
 
+		/*
 		/// TODO DEBUG ///
 		if(currentNodeLevel.spawnElement == null) {
 			Debug.Log(">>> nodeLevel.spawnElement => null");
@@ -129,7 +130,7 @@ public class LevelManager : MonoBehaviour {
 			          "nextPos.x(" + linkElement.nodeNextPosition.x + ") " +
 			          "nextPos.y(" + linkElement.nodeNextPosition.y + ") " +
 					  "nextDirection(" + linkElement.nodeNextDirection.value + ")");
-		}
+		}*/
 		
 		/*   
 		   ////TODO TEST
@@ -248,7 +249,11 @@ public class LevelManager : MonoBehaviour {
 		Link link = linkCollider.GetComponent<Link>();
 		NodeElementLink nodeElementLink = link.nodeElementLink;
 
-		string requiredLevelName = nodeElementLink.nodeNextMap.value;
+		string requiredLevelName = null;
+		LevelNodeString nodeNextMap = nodeElementLink.nodeNextMap;
+		if(nodeNextMap != null) {
+			requiredLevelName = nodeNextMap.value;
+		}
 
 		if(string.IsNullOrEmpty(requiredLevelName) || requiredLevelName.Equals(currentLevelName)) {
 			//move player
@@ -274,7 +279,7 @@ public class LevelManager : MonoBehaviour {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + levelName + ".xml", typeof(TextAsset)) as TextAsset;
+		return Resources.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
 	}
 	
 	public static TextAsset getMapAsset(string levelName) {
@@ -282,7 +287,7 @@ public class LevelManager : MonoBehaviour {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.LoadAssetAtPath(Constants.PATH_RES_TEST + levelName + ".json", typeof(TextAsset)) as TextAsset;
+		return Resources.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
 	}
 
 }

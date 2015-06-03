@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="50" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Map.Laboratory" tilewidth="32" tileheight="32">
+  <image source="../Environments/Map.Laboratory.png" width="320" height="320"/>
+ </tileset>
+ <tileset firstgid="101" name="Map.Info" tilewidth="32" tileheight="32">
+  <image source="../Environments/Map.Info.png" width="320" height="320"/>
+ </tileset>
+ <layer name="ground" width="30" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt0rEJADAIRUGL7D9zJkj7JXoH1k/BKgAAAID/ncfoZrqpHRI3bu52/JSu7iQXqs0A8Q==
+  </data>
+ </layer>
+ <layer name="walls" width="30" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt1LsKgDAMheGoo7fJ2/u/qCk0WIrdTEX5PzhDpgMpqQgAAAAAAPibRtMW0jn29pqhkNG5t+St3l2undfsTXdes9fTolk1c5ynOOd5mt3REWd7U88bCtI7EqlzQ9Z7h156v9hr/0aezbn3BJjwA0s=
+  </data>
+ </layer>
+ <layer name="info_1" width="30" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzbEJACAMAMEsa232r7QRMkECcgdffwQAAAAAANUaer467Vs2P391ACl4AnQ=
+  </data>
+ </layer>
+ <layer name="info_2" width="30" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztzbENADAIwDCuLe3/D8DIAZVYbClzIgAAAAAAmM7C83XZ3YU3fxQb8QGf
+  </data>
+ </layer>
+</map>
