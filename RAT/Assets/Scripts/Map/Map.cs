@@ -143,8 +143,6 @@ namespace TiledMap {
 						spriteRenderer.sortingLayerName = layerName;
 						spriteRenderer.sortingOrder = orderInLayer;
 
-						//TODO
-
 					}
 				}
 

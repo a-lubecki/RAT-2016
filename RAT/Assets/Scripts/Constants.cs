@@ -13,6 +13,7 @@ public class Constants {
 	public static readonly string PATH_RES_TEST = PATH_RES + "Test/";
 	public static readonly string PATH_RES_MAPS = PATH_RES + "Maps/";
 	public static readonly string PATH_RES_ENVIRONMENTS = PATH_RES + "Environments/";
+	public static readonly string PATH_RES_DEBUG = PATH_RES + "Debug/";
 		
 	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround.prefab";
 	public static readonly string PREFAB_NAME_TILE_WALL = "PrefabTileWall.prefab";

@@ -197,6 +197,17 @@ public class LevelManager : MonoBehaviour {
 
 			tileObject.name = Constants.PREFAB_NAME_TILE_LINK;
 
+			//display debug image
+			if(Debug.isDebugBuild) {
+
+				Sprite sprite = Resources.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Link.png", typeof(Sprite)) as Sprite;
+				
+				SpriteRenderer spriteRenderer = tileObject.AddComponent<SpriteRenderer>();
+
+				spriteRenderer.sprite = sprite;
+				spriteRenderer.sortingLayerName = "objects";
+			}
+
 			Link link = tileObject.GetComponent<Link>();
 			link.nodeElementLink = nodeElementLink;
 
