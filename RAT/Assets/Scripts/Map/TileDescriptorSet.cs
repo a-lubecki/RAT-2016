@@ -32,10 +32,7 @@ namespace TiledMap {
 			imagePath = imagePath.Substring(startIndex, length);
 
 			image = (Texture2D)Resources.LoadAssetAtPath(Constants.PATH_RES_ENVIRONMENTS + imagePath, typeof(Texture2D));//Change to "Assets/Res/Environments/"
-
-			if(image.filterMode != FilterMode.Point) {
-				throw new InvalidOperationException("The filter mode of the image was not configured in Unity : " + imagePath);
-			}
+			image.filterMode = FilterMode.Point;
 
 			if(image == null) {
 				throw new System.ArgumentException("Wrong image path : " + imagePath);
