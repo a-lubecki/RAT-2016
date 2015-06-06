@@ -120,8 +120,10 @@ namespace TiledMap {
 
 						GameObject prefabTile;
 
+						bool isWall = layerName.Equals("walls");
+
 						string tileName;
-						if(layerName.Equals("walls")) {
+						if(isWall) {
 							tileName = Constants.PREFAB_NAME_TILE_WALL;
 						} else {
 							tileName = Constants.PREFAB_NAME_TILE_GROUND;
@@ -137,12 +139,14 @@ namespace TiledMap {
 
 						tileObject.name = tileName;
 
-						SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
-						
-						spriteRenderer.sprite = sprite;
-						spriteRenderer.sortingLayerName = layerName;
-						spriteRenderer.sortingOrder = orderInLayer;
-
+						//walls are not displayed
+						if(!isWall) {
+							SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
+							
+							spriteRenderer.sprite = sprite;
+							spriteRenderer.sortingLayerName = layerName;
+							spriteRenderer.sortingOrder = orderInLayer;
+						}
 					}
 				}
 
