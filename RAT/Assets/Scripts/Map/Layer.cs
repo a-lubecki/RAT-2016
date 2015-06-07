@@ -68,11 +68,14 @@ namespace TiledMap {
 			int ix = 0, iy = 0;
 			foreach (object t in dataJson) {
 				
-				int id = (int)(long)t;
+				long id = (long)t;
 
-				if(id > 0) {
+				if(id > 0) {//id == 0 : no tile here
 
-					TileDescriptor tileDescriptor = map.getTileDescriptor(id);
+					//id can contain rotation, need to filter
+					int tileDescriptorId = Tile.getTileDescriptorId(id);
+
+					TileDescriptor tileDescriptor = map.getTileDescriptor(tileDescriptorId);
 
 					if(tileDescriptor != null) {
 						tiles[iy, ix] = new Tile(id, x+ix, y+iy, tileDescriptor);

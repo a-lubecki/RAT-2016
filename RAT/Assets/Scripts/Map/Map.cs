@@ -134,7 +134,10 @@ namespace TiledMap {
 							throw new System.InvalidOperationException();
 						}
 
-						GameObject tileObject = GameObject.Instantiate(prefabTile, new Vector2(x * Constants.TILE_SIZE, -y * Constants.TILE_SIZE), Quaternion.identity) as GameObject;
+						Vector2 location = new Vector2(x * Constants.TILE_SIZE, -y * Constants.TILE_SIZE);
+						Quaternion rotation = tile.rotation;
+
+						GameObject tileObject = GameObject.Instantiate(prefabTile, location, rotation) as GameObject;
 						tileObject.transform.SetParent(mapObject.transform);
 
 						tileObject.name = tileName;
