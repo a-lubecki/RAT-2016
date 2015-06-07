@@ -13,8 +13,15 @@ namespace Level {
 
 		public NodeElementSpawn (XmlNode node) : base(node) {
 
-			nodeDirection = parseChild("direction", typeof(NodeDirection)) as NodeDirection;
+			nodeDirection = parseChild("direction", typeof(NodeDirection), true) as NodeDirection;
 			 
+		}
+		
+		public override void freeXmlObjects() {
+						
+			nodeDirection.freeXmlObjects();
+
+			base.freeXmlObjects();
 		}
 	}
 }

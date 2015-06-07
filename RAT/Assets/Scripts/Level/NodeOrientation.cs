@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Level {
 
-	public class NodeOrientation : BaseLevelNode {
+	public class NodeOrientation : BaseNode {
 
 		public enum Orientation {
 			VERTICAL,

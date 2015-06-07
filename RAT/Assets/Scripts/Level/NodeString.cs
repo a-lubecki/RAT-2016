@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Level {
 
-	public class LevelNodeString : LevelNodeLabel {
+	public class NodeString : NodeLabel {
 
 		private static char TAG = '\"';
 
-		public LevelNodeString(XmlNode node) : base(node) {
+		public NodeString(XmlNode node) : base(node) {
 			
 			value = decodeHtmlText(value);
 

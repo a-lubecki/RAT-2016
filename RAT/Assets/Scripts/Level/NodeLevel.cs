@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Level {
 
-	public class NodeLevel : BaseLevelNode {
+	public class NodeLevel : BaseNode {
 
 
 		public NodeElementSpawn spawnElement { get; private set; } //can be null
 
-		private List<BaseLevelNode> hubElements;
-		private List<BaseLevelNode> linkElements;
+		private List<BaseNode> hubElements;
+		private List<BaseNode> linkElements;
 
 
 		public NodeLevel(XmlNode node) : base (node) {
@@ -96,6 +96,23 @@ namespace Level {
 		
 		public NodeElementHub getHub(int pos) {
 			return hubElements[pos] as NodeElementHub;
+		}
+
+		
+		public override void freeXmlObjects() {
+
+			if(spawnElement != null) {
+				spawnElement.freeXmlObjects();
+			}
+			
+			foreach(BaseNode node in hubElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in linkElements) {
+				node.freeXmlObjects();
+			}
+			
+			base.freeXmlObjects();
 		}
 
 	}

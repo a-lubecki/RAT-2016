@@ -4,25 +4,23 @@ using UnityEngine;
 
 namespace Level {
 
-	public class LevelNodeInt : BaseLevelNode {
+	public class NodeLabel : BaseNode {
 
-		public int value { get; private set; }
+		public string value { get; protected set; }
 
-		public LevelNodeInt(XmlNode node) : base(node) {
-			
+		public NodeLabel(XmlNode node) : base(node) {
+
 			XmlNodeList nodeList = getNodeChildren();
-		
+
 			if(nodeList.Count > 1) {
 				Debug.LogWarning("Nb elements for " + getText() + " > 1 : " + nodeList.Count);
 			}
 
-			string nodeValue = getText(nodeList[0]);
-			
-			if(String.IsNullOrEmpty(nodeValue)) {
+			value = getText(nodeList[0]);
+
+			if(string.IsNullOrEmpty(value)) {
 				throw new System.InvalidOperationException();
 			}
-
-			value = int.Parse(nodeValue);
 		}
 	}
 }

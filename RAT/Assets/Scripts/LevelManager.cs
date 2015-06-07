@@ -102,6 +102,9 @@ public class LevelManager : MonoBehaviour {
 
 		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
 
+		//free the xml objects from memory
+		currentNodeLevel.freeXmlObjects();
+
 		/*
 		/// TODO DEBUG ///
 		if(currentNodeLevel.spawnElement == null) {
@@ -271,7 +274,7 @@ public class LevelManager : MonoBehaviour {
 		NodeElementLink nodeElementLink = link.nodeElementLink;
 
 		string requiredLevelName = null;
-		LevelNodeString nodeNextMap = nodeElementLink.nodeNextMap;
+		NodeString nodeNextMap = nodeElementLink.nodeNextMap;
 		if(nodeNextMap != null) {
 			requiredLevelName = nodeNextMap.value;
 		}

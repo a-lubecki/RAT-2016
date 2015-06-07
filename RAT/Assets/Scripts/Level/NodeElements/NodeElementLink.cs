@@ -6,16 +6,28 @@ namespace Level {
 
 	public class NodeElementLink : BaseNodeElement {
 		
-		public LevelNodeString nodeNextMap { get ; private set; }
+		public NodeString nodeNextMap { get ; private set; }
 		public NodePosition nodeNextPosition { get ; private set; }
 		public NodeDirection nodeNextDirection { get ; private set; }
 
 		public NodeElementLink (XmlNode node) : base(node) {
 			
-			nodeNextMap = parseChild("nextMap", typeof(LevelNodeString)) as LevelNodeString;
-			nodeNextPosition = parseChild("nextPos", typeof(NodePosition)) as NodePosition;
-			nodeNextDirection = parseChild("nextDirection", typeof(NodeDirection)) as NodeDirection;
+			nodeNextMap = parseChild("nextMap", typeof(NodeString)) as NodeString;
+			nodeNextPosition = parseChild("nextPos", typeof(NodePosition), true) as NodePosition;
+			nodeNextDirection = parseChild("nextDirection", typeof(NodeDirection), true) as NodeDirection;
 
+		}
+				
+		public override void freeXmlObjects() {
+			
+			if(nodeNextMap != null) {
+				nodeNextMap.freeXmlObjects();
+			}
+			
+			nodeNextPosition.freeXmlObjects();
+			nodeNextDirection.freeXmlObjects();
+
+			base.freeXmlObjects();
 		}
 	}
 }

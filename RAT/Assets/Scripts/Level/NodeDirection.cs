@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Level {
 
-	public class NodeDirection : BaseLevelNode {
+	public class NodeDirection : BaseNode {
 
 		public enum Direction {
 			UP,

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace Level {
 
-	public abstract class BaseLevelNode {
+	public abstract class BaseNode {
 
 		private XmlNode node;
 		
-		public BaseLevelNode() {
+		public BaseNode() {
 		}
 
-		public BaseLevelNode(XmlNode node) {
+		public BaseNode(XmlNode node) {
 
 			if(node == null) {
 				throw new System.InvalidOperationException();
@@ -74,11 +74,11 @@ namespace Level {
 			return val;
 		}
 		
-		protected BaseLevelNode parseChild(string label, Type fieldType) {
+		protected BaseNode parseChild(string label, Type fieldType) {
 			return parseChild(label, fieldType, false);
 		}
 
-		protected BaseLevelNode parseChild(string label, Type fieldType, bool returnNonNull) {
+		protected BaseNode parseChild(string label, Type fieldType, bool returnNonNull) {
 
 			if(string.IsNullOrEmpty(label)) {
 				throw new ArgumentException();
@@ -102,13 +102,13 @@ namespace Level {
 			return null;
 		}
 			
-		protected List<BaseLevelNode> parseChildren(string label, Type fieldType) {
+		protected List<BaseNode> parseChildren(string label, Type fieldType) {
 			
 			if(string.IsNullOrEmpty(label)) {
 				throw new ArgumentException();
 			}
 
-			List<BaseLevelNode> res = new List<BaseLevelNode>();
+			List<BaseNode> res = new List<BaseNode>();
 
 			XmlNodeList nodeList = getNodeChildren();
 
@@ -125,11 +125,18 @@ namespace Level {
 		}
 		
 
-		private BaseLevelNode newLevelNode(Type fieldType, params XmlNode[] args) {
+		private BaseNode newLevelNode(Type fieldType, params XmlNode[] args) {
 
-			return Activator.CreateInstance(fieldType, args) as BaseLevelNode;
+			return Activator.CreateInstance(fieldType, args) as BaseNode;
 		}
 
+		/**
+		 * When the xml object is not used anymore, free it
+		 */
+		public virtual void freeXmlObjects() {
+
+			node = null;
+		}
 	}
 }
 
