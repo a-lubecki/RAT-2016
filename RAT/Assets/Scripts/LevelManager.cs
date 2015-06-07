@@ -189,7 +189,7 @@ public class LevelManager : MonoBehaviour {
 		for(int i=0 ; i<linkCount ; i++) {
 
 			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
-			GameObject prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_LINK, typeof(GameObject)) as GameObject;
+			GameObject prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_LINK, typeof(GameObject)) as GameObject;
 
 			if(prefabTile == null) {
 				throw new System.InvalidOperationException();
@@ -207,7 +207,7 @@ public class LevelManager : MonoBehaviour {
 			//display debug image
 			if(Debug.isDebugBuild) {
 
-				Sprite sprite = Resources.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Link.png", typeof(Sprite)) as Sprite;
+				Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Link.png", typeof(Sprite)) as Sprite;
 				
 				SpriteRenderer spriteRenderer = tileObject.AddComponent<SpriteRenderer>();
 
@@ -303,7 +303,7 @@ public class LevelManager : MonoBehaviour {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
+		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
 	}
 	
 	public static TextAsset getMapAsset(string levelName) {
@@ -311,7 +311,7 @@ public class LevelManager : MonoBehaviour {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
+		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
 	}
 
 }

@@ -31,7 +31,7 @@ namespace TiledMap {
 			int length = imagePath.Length - startIndex;
 			imagePath = imagePath.Substring(startIndex, length);
 
-			image = (Texture2D)Resources.LoadAssetAtPath(Constants.PATH_RES_ENVIRONMENTS + imagePath, typeof(Texture2D));//Change to "Assets/Res/Environments/"
+			image = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_ENVIRONMENTS + imagePath, typeof(Texture2D)) as Texture2D;//Change to "Assets/Res/Environments/"
 			image.filterMode = FilterMode.Point;
 
 			if(image == null) {

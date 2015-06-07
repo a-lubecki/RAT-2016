@@ -129,7 +129,7 @@ namespace TiledMap {
 							tileName = Constants.PREFAB_NAME_TILE_GROUND;
 						}
 
-						prefabTile = Resources.LoadAssetAtPath(Constants.PATH_PREFABS + tileName, typeof(GameObject)) as GameObject;
+						prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + tileName, typeof(GameObject)) as GameObject;
 						if(prefabTile == null) {
 							throw new System.InvalidOperationException();
 						}
