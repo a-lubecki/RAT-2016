@@ -79,6 +79,10 @@ namespace Level {
 				i++;
 			}*/
 
+			
+			//free the xml objects from memory
+			freeXmlObjects();
+			
 		}
 		
 

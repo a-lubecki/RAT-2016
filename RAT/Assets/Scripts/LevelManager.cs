@@ -93,8 +93,7 @@ public class LevelManager : MonoBehaviour {
 		if(textAssetLevel == null) {
 			throw new System.InvalidOperationException("Could not load textAssetLevel : " + currentLevelName);
 		}
-		
-		//TODO load textAssetLevel then assign textAssetMap 
+
 		XmlDocument xmlDocument = new XmlDocument();
 		xmlDocument.LoadXml(textAssetLevel.text);
 		
@@ -102,8 +101,6 @@ public class LevelManager : MonoBehaviour {
 
 		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
 
-		//free the xml objects from memory
-		currentNodeLevel.freeXmlObjects();
 
 		/*
 		/// TODO DEBUG ///
