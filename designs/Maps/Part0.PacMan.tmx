@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="28" height="32" tilewidth="32" tileheight="32" backgroundcolor="#ffc8ff" nextobjectid="1">
+ <tileset firstgid="1" name="Map.Laboratory" tilewidth="32" tileheight="32">
+  <image source="../Environments/Map.Laboratory.png" width="320" height="320"/>
+ </tileset>
+ <layer name="walls" width="28" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzNU1sKwCAM6wF2//OO/UnpI0mnGBDEmjap1ew8HnJNeCuf1TfhZVqqc+ROxTO39x46XsZFdO72dwJsv5HZU/NVca9Xydf5n5yv8UiLnzHGd5ez0zGph0Kd3+pfsvWUeel07ZxP1jfy3mgO5f8q91Edaj0Ut83n1N+N8xnpm/Aqf6oPhGcFR+lbxos8T5DlrjT88d+j2mw9z2N1Z8h6y55H8axHPlbxovvq+/zNOwFW43R9eAEnIRVh
+  </data>
+ </layer>
+ <layer name="ground" width="28" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzFVkkOwjAMdFlOCDixnTjT/z+QRsLCjMa13RaINAfcOCaT8dKJyKqI9YBuot9uwL2I/Uy/RxFL+G0GnF/YEpu1e36eL/M7GJ6PxIb2zB602XjINbOhPbPH2qa+w1TYeFdz/5t5gy35jvkQ7b+ReNH9o3yonlfRfdVuv5/kU8+oX+Stl099Is9enjRchC/1Ybz14utwD77ZhfH6JLLxsK5iXrezlB/ltOEqb/6RZ6wDKxMvyln97/a35XUn4zwrdDFuHoQrj0fkHH0Vujx9av4qV15fs5x7tf4s/mJ6iXpbRS+ZeEvpk80FTJ9R/czoc2yeQH1G9TOjz3/OE8pXuzPrKbavePUTe1MHNtY/xnpKpb8j5x4vS/V872y8s+VqTn9nnKM+kasl+rv3Vr/q72xe8pDR55hfpMWp+ow0O1eLFc2yeelbaPPSE0Q1VWk=
+  </data>
+ </layer>
+ <layer name="ground_1" width="28" height="32">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUYANiUExIHh2Ta95IBKIMxIebOF1cNPiBKxFqGIGYCYs4SIyZCP0uSGx/ItRz45HjJUK/HxLbng722SGxiQlP5HSKjolJly6ElYw4QGr5OdIBtvAhpd7BpXckAVg+JgZQkj5HYn2FrVwktX7HVs6OAtoBAJ7JCBE=
+  </data>
+ </layer>
+</map>

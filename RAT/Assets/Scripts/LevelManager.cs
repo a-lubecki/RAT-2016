@@ -44,14 +44,18 @@ public class LevelManager : MonoBehaviour {
 
 
 	}
-	
+
+	private static bool isAboutToLoadNextLevel() {
+		return !(string.IsNullOrEmpty(nextLevelName));
+	}
+
 	void OnLevelWasLoaded(int level) {
-
-		Debug.Log("LOAD LEVEL : " + nextLevelName);
-
 
 		//loaded set the current name
 		currentLevelName = nextLevelName;
+		nextLevelName = null;
+		
+		Debug.Log("LOAD LEVEL : " + currentLevelName);
 
 		createLevel();
 		createMap();
@@ -255,6 +259,12 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public static void processLink(PlayerControls playerControls, Collider2D linkCollider) {
+
+		if(isAboutToLoadNextLevel()) {
+			//already processing for next level
+			return;
+		}
+
 		//move player in current level or load next level with LINK
 
 		Link link = linkCollider.GetComponent<Link>();
@@ -267,8 +277,8 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		if(string.IsNullOrEmpty(requiredLevelName) || requiredLevelName.Equals(currentLevelName)) {
-			//move player
 
+			//move player
 			processPlayerLoad(playerControls, nodeElementLink);
 
 		} else {
