@@ -51,10 +51,12 @@ public abstract class EntityCollider : MonoBehaviour {
 			Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
 
 			//update transform with int vector to move with the grid
-			transform.position = new Vector2(
-				rigidBody.position.x + dx * Time.deltaTime, 
-				rigidBody.position.y + dy * Time.deltaTime
-				);
+			rigidBody.MovePosition(
+				new Vector2(
+					rigidBody.position.x + dx * Time.deltaTime, 
+					rigidBody.position.y + dy * Time.deltaTime
+				)
+			);
 
 		}
 
