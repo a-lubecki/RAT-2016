@@ -8,22 +8,14 @@ using Level;
 
 public class LevelManager : MonoBehaviour {
 	
-	private string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
+	private static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
 	
 	private static string nextLevelName;//used to keep the information between levels
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 
 	private static string currentLevelName;
-	private static NodeLevel currentNodeLevel;
+	private static NodeLevel currentNodeLevel;//optional
 
-
-	private static void loadNextLevel(string levelName) {
-		
-		nextLevelName = levelName;
-		
-		Application.LoadLevel(0);
-
-	}
 
 	void Start () {
 
@@ -45,53 +37,39 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	private static bool isAboutToLoadNextLevel() {
-		return !(string.IsNullOrEmpty(nextLevelName));
-	}
 
 	void OnLevelWasLoaded(int level) {
 
+		if(string.IsNullOrEmpty(nextLevelName)) {
+			return;
+		}
+
 		//loaded set the current name
 		currentLevelName = nextLevelName;
+		currentNodeLevel = null;
 		nextLevelName = null;
 		
 		Debug.Log("LOAD LEVEL : " + currentLevelName);
 
 		createLevel();
 		createMap();
+		createGameElements();
 
-
-		PlayerControls playerControls = FindObjectOfType<PlayerControls>();
-		if(playerControls == null) {
-			throw new System.InvalidOperationException();
-		}
-
-
-		BaseNodeElement currentNodeElementTrigger;
-
-		if(lastNodeElementTrigger != null) {
-			//something has triggered the load level (can be a link or a spawn)
-			currentNodeElementTrigger = lastNodeElementTrigger;
-
-		} else {
-
-			//get spawn element of the level
-			currentNodeElementTrigger = currentNodeLevel.spawnElement;
-			if(currentNodeElementTrigger == null) {
-				//replace by default spawn element
-				currentNodeElementTrigger = new NodeElementSpawn();
-			}
-		}
-
-		processPlayerLoad(playerControls, currentNodeElementTrigger);
+		spawnPlayer();
+		
 		lastNodeElementTrigger = null;
+	}
+	
+	private GameObject getMapObject() {
+		return this.gameObject;
 	}
 
 	private void createLevel() {
 		
 		TextAsset textAssetLevel = getLevelAsset(currentLevelName);
 		if(textAssetLevel == null) {
-			throw new System.InvalidOperationException("Could not load textAssetLevel : " + currentLevelName);
+			Debug.LogWarning("Could not load textAssetLevel : " + currentLevelName);
+			return;
 		}
 
 		XmlDocument xmlDocument = new XmlDocument();
@@ -173,13 +151,20 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		Dictionary<string,object> dict = Json.Deserialize(textAssetMap.text) as Dictionary<string,object>;
-		
-		GameObject mapObject = this.gameObject;
 
 		//generate map
 		TiledMap.Map map = new TiledMap.Map(dict);
-		map.instanciateMap(mapObject);
+		map.instanciateMap(getMapObject());
 
+	}
+
+	private void createGameElements() {
+
+		if(currentNodeLevel == null) {
+			return;
+		}
+
+		GameObject mapObject = getMapObject();
 
 		// load links
 		int linkCount = currentNodeLevel.getLinkCount();
@@ -219,8 +204,54 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
+	private void spawnPlayer() {
+
+		
+		PlayerControls playerControls = FindObjectOfType<PlayerControls>();
+		if(playerControls == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		BaseNodeElement currentNodeElementTrigger;
+		
+		if(lastNodeElementTrigger != null) {
+			//something has triggered the load level (can be a link or a spawn)
+			currentNodeElementTrigger = lastNodeElementTrigger;
+			
+		} else if(currentNodeLevel == null) {
+			//no level file provided : replace by default spawn element
+			currentNodeElementTrigger = new NodeElementSpawn();
+			
+		} else {
+			
+			//get spawn element of the level
+			currentNodeElementTrigger = currentNodeLevel.spawnElement;
+			if(currentNodeElementTrigger == null) {
+				//replace by default spawn element
+				currentNodeElementTrigger = new NodeElementSpawn();
+			}
+		}
+		
+		processPlayerLoad(playerControls, currentNodeElementTrigger);
+
+	}
 	
+	private static void loadNextLevel(string levelName) {
+		
+		if(isAboutToLoadNextLevel()) {
+			//call already done, waiting for level to load
+			return;
+		}
+		
+		nextLevelName = levelName;
+		
+		Application.LoadLevelAsync(0);
+	}
 	
+	private static bool isAboutToLoadNextLevel() {
+		return !(string.IsNullOrEmpty(nextLevelName));
+	}
+
 	public static void processPlayerLoad(PlayerControls playerControls, BaseNodeElement nodeElement) {
 		//move player in level with SPAWN / HUB / LINK / load from save
 

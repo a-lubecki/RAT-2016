@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="Map.Laboratory" tilewidth="32" tileheight="32">
+  <image source="../Environments/Map.Laboratory.png" width="320" height="320"/>
+ </tileset>
+ <layer name="walls" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt06ERAEAIA0EKoP96v4IIMC/YnYmLvaqZHv7hEn1Apg/I9AGZPrikFwMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD44QHQ+gDZ
+  </data>
+ </layer>
+ <layer name="ground" width="200" height="200">
+  <data encoding="base64" compression="zlib">
+   eJzt06ERADAIBEEaiE1qoP8GUwECxwwr1r14cxkR2XCae9hEH1DTB9T0ATV9sMltegM+AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADt9+SUGNg==
+  </data>
+ </layer>
+</map>
