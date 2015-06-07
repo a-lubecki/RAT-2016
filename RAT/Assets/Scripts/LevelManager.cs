@@ -34,7 +34,6 @@ public class LevelManager : MonoBehaviour {
 			loadNextLevel(levelName);
 		}
 
-
 	}
 
 
@@ -49,7 +48,7 @@ public class LevelManager : MonoBehaviour {
 		currentNodeLevel = null;
 		nextLevelName = null;
 		
-		Debug.Log("LOAD LEVEL : " + currentLevelName);
+		Debug.Log("LOAD LEVEL : " + currentLevelName + " - SCENE " + level);
 
 		createLevel();
 		createMap();
@@ -61,7 +60,7 @@ public class LevelManager : MonoBehaviour {
 	}
 	
 	private GameObject getMapObject() {
-		return this.gameObject;
+		return GameObject.Find("Map");
 	}
 
 	private void createLevel() {
@@ -244,8 +243,10 @@ public class LevelManager : MonoBehaviour {
 		}
 		
 		nextLevelName = levelName;
-		
-		Application.LoadLevelAsync(0);
+
+		bool fadeIn = !string.IsNullOrEmpty(currentLevelName);//no fadein if level is the first
+
+		AutoFade.LoadLevel(0, fadeIn ? 0.3f : 0, 0.3f, Color.black);
 	}
 	
 	private static bool isAboutToLoadNextLevel() {
