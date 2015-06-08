@@ -84,7 +84,7 @@ namespace TiledMap {
 			return tileDescriptors[id];
 		}
 
-
+		[Obsolete("Remove this and update 'ground' tiles around player with GameObjects pooling : http://blogs.msdn.com/b/dave_crooks_dev_blog/archive/2014/07/21/object-pooling-for-unity3d.aspx",false)]
 		public void instanciateMap(GameObject mapObject) {
 			
 			if(mapObject == null) {
@@ -98,8 +98,6 @@ namespace TiledMap {
 				
 				string layerName = layer.sortingLayerName;
 				int orderInLayer = layer.orderInLayer;
-				
-				//TODO layer name
 
 				for (int y = 0 ; y < h ; y++) {
 					for (int x = 0 ; x < w ; x++) {

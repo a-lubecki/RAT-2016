@@ -15,7 +15,6 @@ namespace TiledMap {
 		public int y { get; private set; }
 
 		public TileDescriptor tileDescriptor { get; private set; }
-		//public Sprite tileSprite { get; private set; }
 
 		public Tile(long id, int x, int y, TileDescriptor tileDescriptor) {
 
