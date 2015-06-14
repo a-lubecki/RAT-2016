@@ -7,11 +7,15 @@ namespace Level {
 	public class NodeOrientation : BaseNode {
 
 		public enum Orientation {
-			VERTICAL,
-			HORIZONTAL
+			FACE,
+			SIDE
 		}
 
 		public Orientation value { get; private set; }
+		
+		public NodeOrientation() {
+			value = Orientation.FACE;
+		}
 
 		public NodeOrientation(XmlNode node) : base(node) {
 

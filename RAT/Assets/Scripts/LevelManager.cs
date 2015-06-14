@@ -201,6 +201,44 @@ public class LevelManager : MonoBehaviour {
 
 		}
 
+		
+		// load doors
+		int doorCount = currentNodeLevel.getDoorCount();
+		for(int i=0 ; i<doorCount ; i++) {
+			
+			NodeElementDoor nodeElementDoor = currentNodeLevel.getDoor(i);
+			GameObject prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_DOOR, typeof(GameObject)) as GameObject;
+			
+			if(prefabTile == null) {
+				throw new System.InvalidOperationException();
+			}
+			
+			GameObject tileObject = GameObject.Instantiate(
+				prefabTile, 
+				new Vector2(nodeElementDoor.nodePosition.x * Constants.TILE_SIZE, -nodeElementDoor.nodePosition.y * Constants.TILE_SIZE), 
+				Quaternion.identity) as GameObject;
+			
+			tileObject.transform.SetParent(mapObject.transform);
+			
+			tileObject.name = Constants.PREFAB_NAME_TILE_DOOR;
+			
+			//display debug image
+			if(Debug.isDebugBuild) {
+				
+				Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Door.png", typeof(Sprite)) as Sprite;
+				
+				SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
+				
+				spriteRenderer.sprite = sprite;
+				spriteRenderer.sortingLayerName = "objects";
+			}
+			
+			Door door = tileObject.GetComponent<Door>();
+			door.nodeElementDoor = nodeElementDoor;
+			
+		}
+
+
 	}
 
 	private void spawnPlayer() {

@@ -12,6 +12,7 @@ namespace Level {
 
 		private List<BaseNode> hubElements;
 		private List<BaseNode> linkElements;
+		private List<BaseNode> doorElements;
 
 
 		public NodeLevel(XmlNode node) : base (node) {
@@ -20,71 +21,26 @@ namespace Level {
 			
 			hubElements = parseChildren("HUB", typeof(NodeElementHub));
 			linkElements = parseChildren("LINK", typeof(NodeElementLink));
-
-			/*
-			XmlNodeList nodeList = getNodeChildren();
-
-			int i = 0;
-			foreach(XmlNode n in nodeList) {
-
-				string label = getText(n);
-
-				if(String.IsNullOrEmpty(label)) {
-					Debug.LogWarning("No label in main node : " + i);
-					continue;
-				}
-
-				if("SPAWN".Equals(label)) {
-
-					if(spawnElement != null) {
-						throw new System.InvalidOperationException("Spawn elment already set");
-					}
-
-					spawnElement = new NodeElementSpawn(n);
-
-				} else if("LINK".Equals(label)) {
-					
-					//linkElements.Add(new NodeElementLink(n));
-
-				} else if("HUB".Equals(label)) {
-					
-					hubElements.Add(new NodeElementHub(n));
-
-				} else if("DOOR".Equals(label)) {
-
-
-				} else if("LEVER".Equals(label)) {
-
-
-				} else if("BUTTON".Equals(label)) {
-
-
-				} else if("LOOT".Equals(label)) {
-
-
-				} else if("CHEST".Equals(label)) {
-
-
-				} else if("NPC".Equals(label)) {
-
-
-				} else if("ENEMY".Equals(label)) {
-
-
-				} else {
-
-					Debug.LogWarning("Label not recognized : " + label);
-				}
-
-				i++;
-			}*/
-
+			doorElements = parseChildren("DOOR", typeof(NodeElementDoor));
+			//leverElements = parseChildren("LEVER", typeof(NodeElementLever));
+			//buttonElements = parseChildren("BUTTON", typeof(NodeElementButton));
+			//lootElements = parseChildren("LOOT", typeof(NodeElementLoot));
+			//chestElements = parseChildren("CHEST", typeof(NodeElementChest));
+			//npcElements = parseChildren("NPC", typeof(NodeElementNpc));
 			
 			//free the xml objects from memory
 			freeXmlObjects();
 			
 		}
 		
+		
+		public int getHubCount() {
+			return hubElements.Count;
+		}
+		
+		public NodeElementHub getHub(int pos) {
+			return hubElements[pos] as NodeElementHub;
+		}
 
 		public int getLinkCount() {
 			return linkElements.Count;
@@ -94,12 +50,12 @@ namespace Level {
 			return linkElements[pos] as NodeElementLink;
 		}
 		
-		public int getHubCount() {
-			return hubElements.Count;
+		public int getDoorCount() {
+			return doorElements.Count;
 		}
 		
-		public NodeElementHub getHub(int pos) {
-			return hubElements[pos] as NodeElementHub;
+		public NodeElementDoor getDoor(int pos) {
+			return doorElements[pos] as NodeElementDoor;
 		}
 
 		
@@ -113,6 +69,9 @@ namespace Level {
 				node.freeXmlObjects();
 			}
 			foreach(BaseNode node in linkElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in doorElements) {
 				node.freeXmlObjects();
 			}
 			

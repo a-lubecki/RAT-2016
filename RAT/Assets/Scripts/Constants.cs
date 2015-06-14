@@ -15,9 +15,13 @@ public class Constants {
 	public static readonly string PATH_RES_ENVIRONMENTS = PATH_RES + "Environments/";
 	public static readonly string PATH_RES_DEBUG = PATH_RES + "Debug/";
 		
-	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround.prefab";
-	public static readonly string PREFAB_NAME_TILE_WALL = "PrefabTileWall.prefab";
-	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink.prefab";
+	
+	private static readonly string PREFAB_EXTENSION = ".prefab";
+
+	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround" + PREFAB_EXTENSION;
+	public static readonly string PREFAB_NAME_TILE_WALL = "PrefabTileWall" + PREFAB_EXTENSION;
+	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink" + PREFAB_EXTENSION;
+	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor" + PREFAB_EXTENSION;
 
 }
 
