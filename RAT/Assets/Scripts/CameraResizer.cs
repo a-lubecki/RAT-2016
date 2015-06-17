@@ -15,7 +15,6 @@ public class CameraResizer : MonoBehaviour {
 	protected bool isPaused { get; private set; }
 
 	void Start () {
-		
 		scaleScene();
 	}
 
@@ -52,7 +51,7 @@ public class CameraResizer : MonoBehaviour {
 			newScreenHeight -= nbSparePixels;
 		}
 		
-		
+
 		Camera cam = GetComponent<Camera>();
 
 		//set the viewport rect to have a pixel perfect calculation of the orthographic size,
@@ -65,8 +64,6 @@ public class CameraResizer : MonoBehaviour {
 		cam.orthographicSize = newScreenHeight / (float)divider;
 
 		//Debug.Log(">>> " + Screen.height + " > " + newScreenHeight + " > " + cam.orthographicSize + " > " + multiplier + " > " + nbSparePixels);
-
-
 	}
 
 	protected void OnApplicationFocus(bool focusStatus) {

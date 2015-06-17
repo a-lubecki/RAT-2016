@@ -23,5 +23,19 @@ public class Constants {
 	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink" + PREFAB_EXTENSION;
 	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor" + PREFAB_EXTENSION;
 
+	
+	public static readonly string GAME_OBJECT_NAME_PLAYER_CONTROLS = "PlayerCollider";
+	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
+	public static readonly string GAME_OBJECT_NAME_CAMERA = "MainCamera";
+	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
+	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
+	
+	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
+	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";
+	public static readonly string SORTING_LAYER_NAME_OBJECTS = "objects";
+
+	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
+	
+
 }
 

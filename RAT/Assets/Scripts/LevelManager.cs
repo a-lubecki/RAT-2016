@@ -7,9 +7,7 @@ using System.IO;
 using Level;
 
 public class LevelManager : MonoBehaviour {
-	
-	private static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
-	
+
 	private static string nextLevelName;//used to keep the information between levels
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 
@@ -28,7 +26,7 @@ public class LevelManager : MonoBehaviour {
 			//TODO load saved game, ex : levelName = loadSavedLevelName();
 			
 			if(levelName == null) {
-				levelName = FIRST_LEVEL_NAME;
+				levelName = Constants.FIRST_LEVEL_NAME;
 			}
 			
 			loadNextLevel(levelName);
@@ -58,14 +56,10 @@ public class LevelManager : MonoBehaviour {
 		
 		lastNodeElementTrigger = null;
 	}
-	
-	private GameObject getMapObject() {
-		return GameObject.Find("Map");
-	}
 
 	private void createLevel() {
-		
-		TextAsset textAssetLevel = getLevelAsset(currentLevelName);
+
+		TextAsset textAssetLevel = GameHelper.Instance.getLevelAsset(currentLevelName);
 		if(textAssetLevel == null) {
 			Debug.LogWarning("Could not load textAssetLevel : " + currentLevelName);
 			return;
@@ -144,7 +138,7 @@ public class LevelManager : MonoBehaviour {
 
 	private void createMap() {
 		
-		TextAsset textAssetMap = getMapAsset(currentLevelName);
+		TextAsset textAssetMap = GameHelper.Instance.getMapAsset(currentLevelName);
 		if(textAssetMap == null) {
 			throw new System.InvalidOperationException("Could not load textAssetMap : " + currentLevelName);
 		}
@@ -153,7 +147,7 @@ public class LevelManager : MonoBehaviour {
 
 		//generate map
 		TiledMap.Map map = new TiledMap.Map(dict);
-		map.instanciateMap(getMapObject());
+		map.instanciateMap(GameHelper.Instance.getMapGameObject());
 
 	}
 
@@ -163,7 +157,7 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		GameObject mapObject = getMapObject();
+		GameObject mapObject = GameHelper.Instance.getMapGameObject();
 
 		// load links
 		int linkCount = currentNodeLevel.getLinkCount();
@@ -193,7 +187,7 @@ public class LevelManager : MonoBehaviour {
 				SpriteRenderer spriteRenderer = tileObject.AddComponent<SpriteRenderer>();
 
 				spriteRenderer.sprite = sprite;
-				spriteRenderer.sortingLayerName = "objects";
+				spriteRenderer.sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 			}
 
 			Link link = tileObject.GetComponent<Link>();
@@ -243,12 +237,6 @@ public class LevelManager : MonoBehaviour {
 
 	private void spawnPlayer() {
 
-		
-		PlayerControls playerControls = FindObjectOfType<PlayerControls>();
-		if(playerControls == null) {
-			throw new System.InvalidOperationException();
-		}
-		
 		BaseNodeElement currentNodeElementTrigger;
 		
 		if(lastNodeElementTrigger != null) {
@@ -269,11 +257,11 @@ public class LevelManager : MonoBehaviour {
 			}
 		}
 		
-		processPlayerLoad(playerControls, currentNodeElementTrigger);
+		processPlayerLoad(currentNodeElementTrigger);
 
 	}
 	
-	private static void loadNextLevel(string levelName) {
+	private void loadNextLevel(string levelName) {
 		
 		if(isAboutToLoadNextLevel()) {
 			//call already done, waiting for level to load
@@ -287,11 +275,11 @@ public class LevelManager : MonoBehaviour {
 		AutoFade.LoadLevel(0, fadeIn ? 0.3f : 0, 0.3f, Color.black);
 	}
 	
-	private static bool isAboutToLoadNextLevel() {
+	private bool isAboutToLoadNextLevel() {
 		return !(string.IsNullOrEmpty(nextLevelName));
 	}
 
-	public static void processPlayerLoad(PlayerControls playerControls, BaseNodeElement nodeElement) {
+	public void processPlayerLoad(BaseNodeElement nodeElement) {
 		//move player in level with SPAWN / HUB / LINK / load from save
 
 		if(nodeElement == null) {
@@ -320,15 +308,15 @@ public class LevelManager : MonoBehaviour {
 			throw new System.NotSupportedException("Not supported yet");
 		}
 
-		playerControls.setInitialPosition(nodePosition, nodeDirection);
+		GameHelper.Instance.getPlayerControls().setInitialPosition(nodePosition, nodeDirection);
 	}
 
-	public static void processPlayerDeath(PlayerControls playerControls) {
+	public void processPlayerDeath() {
 
 		//TODO
 	}
 
-	public static void processLink(PlayerControls playerControls, Collider2D linkCollider) {
+	public void processLink(Collider2D linkCollider) {
 
 		if(isAboutToLoadNextLevel()) {
 			//already processing for next level
@@ -349,7 +337,7 @@ public class LevelManager : MonoBehaviour {
 		if(string.IsNullOrEmpty(requiredLevelName) || requiredLevelName.Equals(currentLevelName)) {
 
 			//move player
-			processPlayerLoad(playerControls, nodeElementLink);
+			processPlayerLoad(nodeElementLink);
 
 		} else {
 
@@ -364,21 +352,5 @@ public class LevelManager : MonoBehaviour {
 	}
 
 
-
-	public static TextAsset getLevelAsset(string levelName) {
-		
-		if(string.IsNullOrEmpty(levelName)) {
-			return null;
-		}
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
-	}
-	
-	public static TextAsset getMapAsset(string levelName) {
-		
-		if(string.IsNullOrEmpty(levelName)) {
-			return null;
-		}
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
-	}
 
 }

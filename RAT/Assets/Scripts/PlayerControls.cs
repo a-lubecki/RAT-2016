@@ -119,7 +119,7 @@ public class PlayerControls : EntityCollider {
 	void OnTriggerEnter2D(Collider2D other) {
 
 		if(Constants.PREFAB_NAME_TILE_LINK.Equals(other.name)) {
-			LevelManager.processLink(this, other);
+			GameHelper.Instance.getLevelManager().processLink(other);
 		}
 
 		//Debug.Log("OnTriggerEnter");
