@@ -118,7 +118,7 @@ namespace TiledMap {
 
 						GameObject prefabTile;
 
-						bool isWall = layerName.Equals("walls");
+						bool isWall = layerName.Equals(Constants.SORTING_LAYER_NAME_WALLS);
 
 						string tileName;
 						if(isWall) {
@@ -127,15 +127,17 @@ namespace TiledMap {
 							tileName = Constants.PREFAB_NAME_TILE_GROUND;
 						}
 
-						prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + tileName, typeof(GameObject)) as GameObject;
+						prefabTile = GameHelper.Instance.loadPrefabAsset(tileName);
 						if(prefabTile == null) {
 							throw new System.InvalidOperationException();
 						}
 
-						Vector2 location = new Vector2(x * Constants.TILE_SIZE, -y * Constants.TILE_SIZE);
-						Quaternion rotation = tile.rotation;
+						GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
+							prefabTile,
+							x, 
+							y, 
+							tile.rotation);
 
-						GameObject tileObject = GameObject.Instantiate(prefabTile, location, rotation) as GameObject;
 						tileObject.transform.SetParent(mapObject.transform);
 
 						tileObject.name = tileName;

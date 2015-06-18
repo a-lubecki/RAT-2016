@@ -12,9 +12,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	public void setPosition(int xGeneration, int yGeneration) {
 
-		GetComponent<Transform>().position = new Vector2(
-			xGeneration * Constants.TILE_SIZE, 
-			- yGeneration * Constants.TILE_SIZE);
+		GetComponent<Transform>().position = GameHelper.Instance.newPositionOnMap(xGeneration, yGeneration);
 	}
 
 	public void setDirection(NodeDirection.Direction direction) {

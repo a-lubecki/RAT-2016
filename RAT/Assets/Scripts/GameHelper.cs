@@ -76,22 +76,43 @@ public class GameHelper {
 
 
 	
-	public TextAsset getLevelAsset(string levelName) {
+	public TextAsset loadLevelAsset(string levelName) {
 		
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-
 		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
 	}
 	
-	public TextAsset getMapAsset(string levelName) {
+	public TextAsset loadMapAsset(string levelName) {
 		
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-
 		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
 	}
+	
+	public GameObject loadPrefabAsset(string prefabName) {
+		
+		if(string.IsNullOrEmpty(prefabName)) {
+			return null;
+		}
+		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + prefabName, typeof(GameObject)) as GameObject;
+	}
 
+
+	public Vector2 newPositionOnMap(int x, int y) {
+		return new Vector2(x * Constants.TILE_SIZE, - y * Constants.TILE_SIZE);
+	}
+	
+	public GameObject newGameObjectFromPrefab(GameObject prefab, int x, int y) {
+		return newGameObjectFromPrefab(prefab, x, y, Quaternion.identity);
+	}
+
+	public GameObject newGameObjectFromPrefab(GameObject prefab, int x, int y, Quaternion rotation) {
+		return GameObject.Instantiate(
+			prefab, 
+			newPositionOnMap(x, y), 
+			rotation) as GameObject;
+	}
 }

@@ -59,7 +59,7 @@ public class LevelManager : MonoBehaviour {
 
 	private void createLevel() {
 
-		TextAsset textAssetLevel = GameHelper.Instance.getLevelAsset(currentLevelName);
+		TextAsset textAssetLevel = GameHelper.Instance.loadLevelAsset(currentLevelName);
 		if(textAssetLevel == null) {
 			Debug.LogWarning("Could not load textAssetLevel : " + currentLevelName);
 			return;
@@ -138,7 +138,7 @@ public class LevelManager : MonoBehaviour {
 
 	private void createMap() {
 		
-		TextAsset textAssetMap = GameHelper.Instance.getMapAsset(currentLevelName);
+		TextAsset textAssetMap = GameHelper.Instance.loadMapAsset(currentLevelName);
 		if(textAssetMap == null) {
 			throw new System.InvalidOperationException("Could not load textAssetMap : " + currentLevelName);
 		}
@@ -164,16 +164,16 @@ public class LevelManager : MonoBehaviour {
 		for(int i=0 ; i<linkCount ; i++) {
 
 			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
-			GameObject prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_LINK, typeof(GameObject)) as GameObject;
+			GameObject prefabTile = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_LINK);
 
 			if(prefabTile == null) {
 				throw new System.InvalidOperationException();
 			}
 			
-			GameObject tileObject = GameObject.Instantiate(
+			GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
 				prefabTile, 
-				new Vector2(nodeElementLink.nodePosition.x * Constants.TILE_SIZE, -nodeElementLink.nodePosition.y * Constants.TILE_SIZE), 
-				Quaternion.identity) as GameObject;
+				nodeElementLink.nodePosition.x, 
+				nodeElementLink.nodePosition.y);
 
 			tileObject.transform.SetParent(mapObject.transform);
 
@@ -201,16 +201,17 @@ public class LevelManager : MonoBehaviour {
 		for(int i=0 ; i<doorCount ; i++) {
 			
 			NodeElementDoor nodeElementDoor = currentNodeLevel.getDoor(i);
-			GameObject prefabTile = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + Constants.PREFAB_NAME_TILE_DOOR, typeof(GameObject)) as GameObject;
-			
+
+			GameObject prefabTile = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_DOOR);
+
 			if(prefabTile == null) {
 				throw new System.InvalidOperationException();
 			}
 			
-			GameObject tileObject = GameObject.Instantiate(
-				prefabTile, 
-				new Vector2(nodeElementDoor.nodePosition.x * Constants.TILE_SIZE, -nodeElementDoor.nodePosition.y * Constants.TILE_SIZE), 
-				Quaternion.identity) as GameObject;
+			GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
+				prefabTile,
+				nodeElementDoor.nodePosition.x,
+				nodeElementDoor.nodePosition.y);
 			
 			tileObject.transform.SetParent(mapObject.transform);
 			
@@ -224,7 +225,7 @@ public class LevelManager : MonoBehaviour {
 				SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
 				
 				spriteRenderer.sprite = sprite;
-				spriteRenderer.sortingLayerName = "objects";
+				spriteRenderer.sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 			}
 			
 			Door door = tileObject.GetComponent<Door>();
