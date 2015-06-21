@@ -27,21 +27,40 @@ public class Door : MonoBehaviour {
 		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imageName);
 
 		//load all sprites
-		int nbSprites = (int)(texture.width / (float)Constants.TILE_SIZE);
-		sprites = new Sprite[nbSprites];
-
-		for(int i=0 ; i<nbSprites ; i++) {
-			sprites[i] = Sprite.Create(texture, 
-			                          new Rect(i * spacing * Constants.TILE_SIZE, 0, spacing * Constants.TILE_SIZE, texture.height),
-			                          new Vector2(0.5f, 0.5f)
-			                          );
-		}
-		
-		//update game object size
 		if(orientation == NodeOrientation.Orientation.FACE) {
-			transform.localScale = new Vector2(spacing * Constants.TILE_SIZE, 2 * Constants.TILE_SIZE);
+			
+			int nbSprites = (int)(texture.width / (float)(spacing * Constants.TILE_SIZE));
+			sprites = new Sprite[nbSprites];
+
+			for(int i=0 ; i<nbSprites ; i++) {
+
+				sprites[i] = Sprite.Create(texture, 
+				                           new Rect(i * spacing * Constants.TILE_SIZE, 0, spacing * Constants.TILE_SIZE, texture.height),
+				                           new Vector2(0.5f + (1 - spacing) * 0.5f / (float)spacing, 0.25f),
+				                           Constants.TILE_SIZE);
+			}
+			
+			BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+			boxCollider.size = new Vector2(spacing, 1.25f);
+			boxCollider.offset = new Vector2((spacing - 1) * 0.5f, 0.5f);
+
 		} else {
-			transform.localScale = new Vector2(Constants.TILE_SIZE, spacing * Constants.TILE_SIZE);
+			
+			int nbSprites = (int)(texture.width / (float)Constants.TILE_SIZE);
+			sprites = new Sprite[nbSprites];
+
+			for(int i=0 ; i<nbSprites ; i++) {
+
+				sprites[i] = Sprite.Create(texture, 
+				                           new Rect(i * Constants.TILE_SIZE, 0, Constants.TILE_SIZE, texture.height),
+				                           new Vector2(0.5f, 0.5f + (1 - spacing) * 0.5f / (float)spacing),
+				                           Constants.TILE_SIZE
+				                           );
+			}
+			
+			BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+			boxCollider.size = new Vector2(0.35f, spacing);
+			boxCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
 		}
 
 	}
@@ -83,15 +102,13 @@ public class Door : MonoBehaviour {
 
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-		int nbSprites = sprites.Length;
-
 		if(percentage < 0) {
 			percentage = 0;
 		} else if(percentage > 1) {
 			percentage = 1;
 		}
 
-		spriteRenderer.sprite = sprites[(int)(percentage / (float)nbSprites)];
+		spriteRenderer.sprite = sprites[(int)(percentage * (sprites.Length - 1))];
 
 	}
 
