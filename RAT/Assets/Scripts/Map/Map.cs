@@ -98,6 +98,19 @@ namespace TiledMap {
 				
 				string layerName = layer.sortingLayerName;
 				int orderInLayer = layer.orderInLayer;
+				
+				GameObject prefabTileGround = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_GROUND);
+				if(prefabTileGround == null) {
+					throw new System.InvalidOperationException();
+				}
+				GameObject prefabTileWall = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_WALL);
+				if(prefabTileWall == null) {
+					throw new System.InvalidOperationException();
+				}
+
+				
+				WallCreator wallCreator = new WallCreator();
+				GroundCreator groundCreator = new GroundCreator();
 
 				for (int y = 0 ; y < h ; y++) {
 					for (int x = 0 ; x < w ; x++) {
@@ -109,47 +122,13 @@ namespace TiledMap {
 							continue;
 						}
 
-						TileDescriptor tileDescriptor = tile.tileDescriptor;
-						if(tileDescriptor == null) {
-							throw new System.InvalidOperationException();
-						}
-
-						Sprite sprite = tileDescriptor.tileSprite;
-
-						GameObject prefabTile;
-
 						bool isWall = layerName.Equals(Constants.SORTING_LAYER_NAME_WALLS);
-
-						string tileName;
 						if(isWall) {
-							tileName = Constants.PREFAB_NAME_TILE_WALL;
+							wallCreator.createNewGameObject(x, y, tile);
 						} else {
-							tileName = Constants.PREFAB_NAME_TILE_GROUND;
+							groundCreator.createNewGameObject(x, y, tile, orderInLayer);
 						}
 
-						prefabTile = GameHelper.Instance.loadPrefabAsset(tileName);
-						if(prefabTile == null) {
-							throw new System.InvalidOperationException();
-						}
-
-						GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
-							prefabTile,
-							x, 
-							y, 
-							tile.rotation);
-
-						tileObject.transform.SetParent(mapObject.transform);
-
-						tileObject.name = tileName;
-
-						//walls are not displayed
-						if(!isWall) {
-							SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
-							
-							spriteRenderer.sprite = sprite;
-							spriteRenderer.sortingLayerName = layerName;
-							spriteRenderer.sortingOrder = orderInLayer;
-						}
 					}
 				}
 

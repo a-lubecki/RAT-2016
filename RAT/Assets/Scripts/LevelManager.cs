@@ -157,82 +157,24 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		GameObject mapObject = GameHelper.Instance.getMapGameObject();
+		// load doors
+		LinkCreator linkCreator = new LinkCreator();
 
-		// load links
 		int linkCount = currentNodeLevel.getLinkCount();
 		for(int i=0 ; i<linkCount ; i++) {
 
-			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
-			GameObject prefabTile = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_LINK);
-
-			if(prefabTile == null) {
-				throw new System.InvalidOperationException();
-			}
-			
-			GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
-				prefabTile, 
-				nodeElementLink.nodePosition.x, 
-				nodeElementLink.nodePosition.y);
-
-			tileObject.transform.SetParent(mapObject.transform);
-
-			tileObject.name = Constants.PREFAB_NAME_TILE_LINK;
-
-			//display debug image
-			if(Debug.isDebugBuild) {
-
-				Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Link.png", typeof(Sprite)) as Sprite;
-				
-				SpriteRenderer spriteRenderer = tileObject.AddComponent<SpriteRenderer>();
-
-				spriteRenderer.sprite = sprite;
-				spriteRenderer.sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-			}
-
-			Link link = tileObject.GetComponent<Link>();
-			link.nodeElementLink = nodeElementLink;
-
+			linkCreator.createNewGameObject(currentNodeLevel.getLink(i));
 		}
 
 		
 		// load doors
+		DoorCreator doorCreator = new DoorCreator();
+
 		int doorCount = currentNodeLevel.getDoorCount();
 		for(int i=0 ; i<doorCount ; i++) {
 			
-			NodeElementDoor nodeElementDoor = currentNodeLevel.getDoor(i);
-
-			GameObject prefabTile = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_TILE_DOOR);
-
-			if(prefabTile == null) {
-				throw new System.InvalidOperationException();
-			}
-			
-			GameObject tileObject = GameHelper.Instance.newGameObjectFromPrefab(
-				prefabTile,
-				nodeElementDoor.nodePosition.x,
-				nodeElementDoor.nodePosition.y);
-			
-			tileObject.transform.SetParent(mapObject.transform);
-			
-			tileObject.name = Constants.PREFAB_NAME_TILE_DOOR;
-			
-			//display debug image
-			if(Debug.isDebugBuild) {
-				
-				Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Door.png", typeof(Sprite)) as Sprite;
-				
-				SpriteRenderer spriteRenderer = tileObject.GetComponent<SpriteRenderer>();
-				
-				spriteRenderer.sprite = sprite;
-				spriteRenderer.sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-			}
-			
-			Door door = tileObject.GetComponent<Door>();
-			door.nodeElementDoor = nodeElementDoor;
-			
+			doorCreator.createNewGameObject(currentNodeLevel.getDoor(i));
 		}
-
 
 	}
 
