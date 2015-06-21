@@ -259,7 +259,7 @@ public class LevelManager : MonoBehaviour {
 		//TODO
 	}
 
-	public void processLink(Collider2D linkCollider) {
+	public void processLink(Link link) {
 
 		if(isAboutToLoadNextLevel()) {
 			//already processing for next level
@@ -268,7 +268,6 @@ public class LevelManager : MonoBehaviour {
 
 		//move player in current level or load next level with LINK
 
-		Link link = linkCollider.GetComponent<Link>();
 		NodeElementLink nodeElementLink = link.nodeElementLink;
 
 		string requiredLevelName = null;

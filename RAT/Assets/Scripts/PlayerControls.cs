@@ -116,22 +116,5 @@ public class PlayerControls : EntityCollider {
 		return true;
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-
-		if(Constants.PREFAB_NAME_TILE_LINK.Equals(other.name)) {
-			GameHelper.Instance.getLevelManager().processLink(other);
-		}
-
-		//Debug.Log("OnTriggerEnter");
-	} 
-	/*
-	void OnTriggerExit2D(Collider2D other) {
-		Debug.Log("OnTriggerExit");    
-	} 
-
-	void OnTriggerStay2D(Collider2D other) {
-		Debug.Log("OnTriggerStay");    
-	}*/
-
 }
 

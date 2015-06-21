@@ -17,10 +17,6 @@ public class DoorCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_WALLS;
 	}
 
-	protected override Sprite getDebugSprite() {
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Door.png", typeof(Sprite)) as Sprite;
-	}
-
 	public GameObject createNewGameObject(NodeElementDoor nodeElement) {
 		
 		if(nodeElement == null) {

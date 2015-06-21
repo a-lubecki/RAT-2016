@@ -5,7 +5,9 @@ using Level;
 public class Door : MonoBehaviour {
 	
 	private NodeElementDoor nodeElementDoor;
-	
+
+	private bool isOpened = false;
+
 	private Sprite[] sprites;
 
 
@@ -40,9 +42,10 @@ public class Door : MonoBehaviour {
 				                           Constants.TILE_SIZE);
 			}
 			
-			BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-			boxCollider.size = new Vector2(spacing, 1.25f);
-			boxCollider.offset = new Vector2((spacing - 1) * 0.5f, 0.5f);
+			BoxCollider2D collisionsCollider = GetComponents<BoxCollider2D>()[0];
+			BoxCollider2D triggerCollider = GetComponents<BoxCollider2D>()[1];
+			collisionsCollider.size = triggerCollider.size = new Vector2(spacing, 1.25f);
+			collisionsCollider.offset = triggerCollider.offset = new Vector2((spacing - 1) * 0.5f, 0.5f);
 
 		} else {
 			
@@ -58,14 +61,23 @@ public class Door : MonoBehaviour {
 				                           );
 			}
 			
-			BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-			boxCollider.size = new Vector2(0.35f, spacing);
-			boxCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
+			BoxCollider2D collisionsCollider = GetComponents<BoxCollider2D>()[0];
+			BoxCollider2D triggerCollider = GetComponents<BoxCollider2D>()[1];
+			collisionsCollider.size = triggerCollider.size = new Vector2(0.35f, spacing);
+			collisionsCollider.offset = triggerCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
 		}
 
+
+		//set the door as closed
+		updateCollider(0);
+		updateSprite(0);
 	}
 
 	public void open(bool animated) {
+		
+		if(isOpened) {
+			return;
+		}
 
 		if(animated) {
 
@@ -79,7 +91,11 @@ public class Door : MonoBehaviour {
 	}
 	
 	public void close(bool animated) {
-		
+
+		if(!isOpened) {
+			return;
+		}
+
 		if(animated) {
 			
 			throw new System.NotImplementedException("TODO");
@@ -93,9 +109,11 @@ public class Door : MonoBehaviour {
 
 	private void updateCollider(float percentage) {
 
-		BoxCollider2D collider = GetComponent<BoxCollider2D>();
+		//disable collisions collider
+		BoxCollider2D collider = GetComponents<BoxCollider2D>()[0];
 
-		collider.enabled = (percentage < 1);
+		isOpened = (percentage >= 1);
+		collider.enabled = !isOpened;
 	}
 
 	private void updateSprite(float percentage) {
@@ -109,7 +127,21 @@ public class Door : MonoBehaviour {
 		}
 
 		spriteRenderer.sprite = sprites[(int)(percentage * (sprites.Length - 1))];
-
 	}
 
+	void OnTriggerEnter2D(Collider2D other) {
+		
+		if(Constants.GAME_OBJECT_NAME_PLAYER_CONTROLS.Equals(other.name)) {
+
+			if(!isOpened) {
+
+				open(false);//TODO anim
+
+				//disable trigger collider
+				BoxCollider2D collider = GetComponents<BoxCollider2D>()[1];
+				collider.enabled = false;
+			}
+		}
+		
+	} 
 }
