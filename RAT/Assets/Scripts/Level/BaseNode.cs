@@ -14,7 +14,7 @@ namespace Level {
 		public BaseNode(XmlNode node) {
 
 			if(node == null) {
-				throw new System.InvalidOperationException();
+				throw new System.ArgumentException();
 			}
 			this.node = node;
 
@@ -51,7 +51,7 @@ namespace Level {
 		public static string getAttributeValue(XmlNode node, string attributeName) {
 			
 			if(node == null) {
-				throw new System.InvalidOperationException();
+				throw new System.ArgumentException();
 			}
 			
 			XmlAttributeCollection attributes = node.Attributes;

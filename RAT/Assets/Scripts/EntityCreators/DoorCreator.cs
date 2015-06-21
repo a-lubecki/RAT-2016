@@ -24,19 +24,25 @@ public class DoorCreator : BaseEntityCreator {
 	public GameObject createNewGameObject(NodeElementDoor nodeElement) {
 		
 		if(nodeElement == null) {
-			throw new System.InvalidOperationException();
+			throw new System.ArgumentException();
 		}
-		
+
 		GameObject gameObject = createNewGameObject(
 			nodeElement.nodePosition.x, 
 			nodeElement.nodePosition.y,
 			Quaternion.identity, 
-			null, //TODO
+			null,
 			0
 			);
 		
 		Door door = gameObject.GetComponent<Door>();
-		door.nodeElementDoor = nodeElement;
+		door.setNodeElementDoor(nodeElement);
+
+		if(nodeElement.nodeDoorStatus.value == NodeDoorStatus.DoorStatus.OPENED) {
+			door.open(false);
+		} else {
+			door.close(false);
+		}
 		
 		return gameObject;
 	}

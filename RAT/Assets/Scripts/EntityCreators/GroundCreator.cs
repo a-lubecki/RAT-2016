@@ -21,7 +21,7 @@ public class GroundCreator : BaseEntityCreator {
 	public GameObject createNewGameObject(int x, int y, Tile tile, int orderInLayer) {
 
 		if(tile == null) {
-			throw new System.InvalidOperationException();
+			throw new System.ArgumentException();
 		}
 
 		TileDescriptor tileDescriptor = tile.tileDescriptor;

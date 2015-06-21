@@ -226,7 +226,7 @@ public class LevelManager : MonoBehaviour {
 		//move player in level with SPAWN / HUB / LINK / load from save
 
 		if(nodeElement == null) {
-			throw new System.InvalidOperationException();
+			throw new System.ArgumentException();
 		}
 
 		NodePosition nodePosition = null;

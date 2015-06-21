@@ -75,7 +75,18 @@ public class GameHelper {
 	}
 
 
-	
+	public Texture2D loadTexture2DAsset(string imagePath) {
+
+		Texture2D texture = UnityEditor.AssetDatabase.LoadAssetAtPath(imagePath, typeof(Texture2D)) as Texture2D;
+		if(texture == null) {
+			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
+		}
+
+		texture.filterMode = FilterMode.Point;
+
+		return texture;
+	}
+
 	public TextAsset loadLevelAsset(string levelName) {
 		
 		if(string.IsNullOrEmpty(levelName)) {

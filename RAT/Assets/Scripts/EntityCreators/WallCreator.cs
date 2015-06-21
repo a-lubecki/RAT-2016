@@ -15,7 +15,11 @@ public class WallCreator : BaseEntityCreator {
 	}
 
 	public GameObject createNewGameObject(int x, int y, Tile tile) {
-		
+
+		if(tile == null) {
+			throw new System.ArgumentException();
+		}
+
 		TileDescriptor tileDescriptor = tile.tileDescriptor;
 		if(tileDescriptor == null) {
 			throw new System.InvalidOperationException();

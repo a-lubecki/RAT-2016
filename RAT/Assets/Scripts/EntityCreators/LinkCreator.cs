@@ -20,7 +20,7 @@ public class LinkCreator : BaseEntityCreator {
 	public GameObject createNewGameObject(NodeElementLink nodeElement) {
 		
 		if(nodeElement == null) {
-			throw new System.InvalidOperationException();
+			throw new System.ArgumentException();
 		}
 
 		GameObject gameObject = createNewGameObject(

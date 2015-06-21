@@ -88,7 +88,7 @@ namespace TiledMap {
 		public void instanciateMap(GameObject mapObject) {
 			
 			if(mapObject == null) {
-				throw new System.InvalidOperationException();
+				throw new System.ArgumentException();
 			}
 
 			foreach (Layer layer in layers) {
