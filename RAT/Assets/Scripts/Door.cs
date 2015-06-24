@@ -7,6 +7,7 @@ public class Door : MonoBehaviour {
 	private NodeElementDoor nodeElementDoor;
 
 	private bool isOpened = false;
+	private bool isAnimatingDoor = false;
 
 	private Sprite[] sprites;
 
@@ -80,13 +81,13 @@ public class Door : MonoBehaviour {
 		}
 
 		if(animated) {
-
-			throw new System.NotImplementedException("TODO");
+			
+			StartCoroutine(animateDoor(true, 0.25f));
 		
 		} else {
 			
-			updateCollider(1);
-			updateSprite(1);
+			updateCollider(sprites.Length);
+			updateSprite(sprites.Length);
 		}
 	}
 	
@@ -97,8 +98,8 @@ public class Door : MonoBehaviour {
 		}
 
 		if(animated) {
-			
-			throw new System.NotImplementedException("TODO");
+
+			StartCoroutine(animateDoor(false, 0.25f));
 			
 		} else {
 			
@@ -107,26 +108,62 @@ public class Door : MonoBehaviour {
 		}
 	}
 
-	private void updateCollider(float percentage) {
+	IEnumerator animateDoor(bool actionOpen, float totalTime) {
+
+		if(isAnimatingDoor) {
+			return false;
+		}
+
+		isAnimatingDoor = true;
+
+		int frame = 1;
+		float deltaTime = totalTime / (float)sprites.Length;
+
+		while(frame < sprites.Length) {
+
+			int currentFrame = frame;
+			if(!actionOpen) {
+				currentFrame = sprites.Length - frame - 1;
+			}
+
+			updateCollider(currentFrame);
+			updateSprite(currentFrame);
+
+			frame++;
+
+			yield return new WaitForSeconds(deltaTime);
+		}
+
+		if(actionOpen) {
+			open(false);
+		} else {
+			close(false);
+		}
+
+		isAnimatingDoor = false;
+
+	}
+	
+	private void updateCollider(int frame) {
 
 		//disable collisions collider
 		BoxCollider2D collider = GetComponents<BoxCollider2D>()[0];
 
-		isOpened = (percentage >= 1);
+		isOpened = (frame >= sprites.Length - 1);
 		collider.enabled = !isOpened;
 	}
 
-	private void updateSprite(float percentage) {
+	private void updateSprite(int frame) {
 
 		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
 
-		if(percentage < 0) {
-			percentage = 0;
-		} else if(percentage > 1) {
-			percentage = 1;
+		if(frame < 0) {
+			frame = 0;
+		} else if(frame >= sprites.Length) {
+			frame = sprites.Length - 1;
 		}
 
-		spriteRenderer.sprite = sprites[(int)(percentage * (sprites.Length - 1))];
+		spriteRenderer.sprite = sprites[frame];
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
@@ -135,7 +172,7 @@ public class Door : MonoBehaviour {
 
 			if(!isOpened) {
 
-				open(false);//TODO anim
+				open(true);
 
 				//disable trigger collider
 				BoxCollider2D collider = GetComponents<BoxCollider2D>()[1];
