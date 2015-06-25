@@ -172,11 +172,33 @@ public class Door : MonoBehaviour {
 
 			if(!isOpened) {
 
+				//check if the player has to be in the right side to open the door
+				if(nodeElementDoor.nodeUnlockSide != null) {
+				
+					NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
+
+					float x = transform.position.x;
+					float y = transform.position.y;
+					float xOther = other.transform.position.x;
+					float yOther = other.transform.position.y;
+
+					if((unlockSide == NodeDirection.Direction.UP && y > yOther) ||
+					   (unlockSide == NodeDirection.Direction.DOWN && y < yOther) ||
+					   (unlockSide == NodeDirection.Direction.LEFT && x < xOther) ||
+					   (unlockSide == NodeDirection.Direction.RIGHT && x > xOther)) {
+
+						MessageDisplayer.Instance.displayMessage("La porte ne peut pas etre ouverte de ce coté.");
+						return;
+					}
+				}
+
+
 				open(true);
 
 				//disable trigger collider
 				BoxCollider2D collider = GetComponents<BoxCollider2D>()[1];
 				collider.enabled = false;
+
 			}
 		}
 		
