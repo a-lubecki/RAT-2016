@@ -8,10 +8,10 @@ namespace Level {
 
 		public NodeDirection nodeDirection { get ; private set; }
 		
-		public NodeElementSpawn () : base() {
+		public NodeElementSpawn() : base() {
 		}
 
-		public NodeElementSpawn (XmlNode node) : base(node) {
+		public NodeElementSpawn(XmlNode node) : base(node) {
 
 			nodeDirection = parseChild("direction", typeof(NodeDirection), true) as NodeDirection;
 			 

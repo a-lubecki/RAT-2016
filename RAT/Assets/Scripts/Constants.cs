@@ -20,6 +20,7 @@ public class Constants {
 
 	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround" + PREFAB_EXTENSION;
 	public static readonly string PREFAB_NAME_TILE_WALL = "PrefabTileWall" + PREFAB_EXTENSION;
+	public static readonly string PREFAB_NAME_TILE_HUB = "PrefabTileHub" + PREFAB_EXTENSION;
 	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink" + PREFAB_EXTENSION;
 	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor" + PREFAB_EXTENSION;
 

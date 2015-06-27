@@ -1,7 +1,55 @@
-<map version="0.9.0">
+<map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
-<node TEXT="Nouvelle Carte" ID="ID_1065600223" CREATED="1432401341672" MODIFIED="1432471277481">
-<hook NAME="MapStyle" max_node_width="600"/>
+<node TEXT="Nouvelle Carte" ID="ID_1065600223" CREATED="1432401341672" MODIFIED="1432471277481"><hook NAME="MapStyle">
+    <properties show_note_icons="true"/>
+
+<map_styles>
+<stylenode LOCALIZED_TEXT="styles.root_node">
+<stylenode LOCALIZED_TEXT="styles.predefined" POSITION="right">
+<stylenode LOCALIZED_TEXT="default" MAX_WIDTH="600" COLOR="#000000" STYLE="as_parent">
+<font NAME="SansSerif" SIZE="10" BOLD="false" ITALIC="false"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="defaultstyle.details"/>
+<stylenode LOCALIZED_TEXT="defaultstyle.note"/>
+<stylenode LOCALIZED_TEXT="defaultstyle.floating">
+<edge STYLE="hide_edge"/>
+<cloud COLOR="#f0f0f0" SHAPE="ROUND_RECT"/>
+</stylenode>
+</stylenode>
+<stylenode LOCALIZED_TEXT="styles.user-defined" POSITION="right">
+<stylenode LOCALIZED_TEXT="styles.topic" COLOR="#18898b" STYLE="fork">
+<font NAME="Liberation Sans" SIZE="10" BOLD="true"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="styles.subtopic" COLOR="#cc3300" STYLE="fork">
+<font NAME="Liberation Sans" SIZE="10" BOLD="true"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="styles.subsubtopic" COLOR="#669900">
+<font NAME="Liberation Sans" SIZE="10" BOLD="true"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="styles.important">
+<icon BUILTIN="yes"/>
+</stylenode>
+</stylenode>
+<stylenode LOCALIZED_TEXT="styles.AutomaticLayout" POSITION="right">
+<stylenode LOCALIZED_TEXT="AutomaticLayout.level.root" COLOR="#000000">
+<font SIZE="18"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="AutomaticLayout.level,1" COLOR="#0033ff">
+<font SIZE="16"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="AutomaticLayout.level,2" COLOR="#00b439">
+<font SIZE="14"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="AutomaticLayout.level,3" COLOR="#990000">
+<font SIZE="12"/>
+</stylenode>
+<stylenode LOCALIZED_TEXT="AutomaticLayout.level,4" COLOR="#111111">
+<font SIZE="10"/>
+</stylenode>
+</stylenode>
+</stylenode>
+</map_styles>
+</hook>
 <node TEXT="DOOR" POSITION="right" ID="ID_1358563165" CREATED="1432407091758" MODIFIED="1432407096796">
 <node TEXT="orientation" ID="ID_589203658" CREATED="1432408015429" MODIFIED="1432470857511">
 <node TEXT="VERTICAL" ID="ID_1348888883" CREATED="1432408034051" MODIFIED="1432470774104"/>
@@ -114,8 +162,8 @@
 <node TEXT="5" ID="ID_740606793" CREATED="1432472531098" MODIFIED="1432472543738"/>
 </node>
 </node>
-<node TEXT="pos" POSITION="left" ID="ID_1589537481" CREATED="1432587589642" MODIFIED="1432587618036">
-<richcontent TYPE="NOTE">
+<node TEXT="pos" POSITION="left" ID="ID_1589537481" CREATED="1432587589642" MODIFIED="1432587618036"><richcontent TYPE="NOTE">
+
 <html>
   <head>
     
@@ -125,12 +173,13 @@
       test !!!
     </p>
   </body>
-</html></richcontent>
+</html>
+</richcontent>
 <node TEXT="42" ID="ID_1484142215" CREATED="1432587593572" MODIFIED="1432587597624"/>
 <node TEXT="17" ID="ID_1483934397" CREATED="1432587598872" MODIFIED="1432587600644"/>
 </node>
-<node TEXT="level" POSITION="left" ID="ID_24789762" CREATED="1432587589642" MODIFIED="1432675125055">
-<richcontent TYPE="NOTE">
+<node TEXT="level" POSITION="left" ID="ID_24789762" CREATED="1432587589642" MODIFIED="1432675125055"><richcontent TYPE="NOTE">
+
 <html>
   <head>
     
@@ -140,11 +189,12 @@
       test !!!
     </p>
   </body>
-</html></richcontent>
+</html>
+</richcontent>
 <node TEXT="888" ID="ID_1984279691" CREATED="1432587593572" MODIFIED="1432675130486"/>
 </node>
-<node TEXT="name" POSITION="left" ID="ID_398853734" CREATED="1432587589642" MODIFIED="1432675137767">
-<richcontent TYPE="NOTE">
+<node TEXT="name" POSITION="left" ID="ID_398853734" CREATED="1432587589642" MODIFIED="1432675137767"><richcontent TYPE="NOTE">
+
 <html>
   <head>
     
@@ -154,11 +204,12 @@
       test !!!
     </p>
   </body>
-</html></richcontent>
+</html>
+</richcontent>
 <node TEXT="&quot;AAA&quot;" ID="ID_501492401" CREATED="1432587593572" MODIFIED="1432675145867"/>
 </node>
-<node TEXT="label" POSITION="left" ID="ID_1240152669" CREATED="1432587589642" MODIFIED="1432675153148">
-<richcontent TYPE="NOTE">
+<node TEXT="label" POSITION="left" ID="ID_1240152669" CREATED="1432587589642" MODIFIED="1432675153148"><richcontent TYPE="NOTE">
+
 <html>
   <head>
     
@@ -168,7 +219,8 @@
       test !!!
     </p>
   </body>
-</html></richcontent>
+</html>
+</richcontent>
 <node TEXT="MY_LABEL" ID="ID_794200166" CREATED="1432587593572" MODIFIED="1432675215934"/>
 </node>
 <node TEXT="SPAWN" POSITION="left" ID="ID_937269768" CREATED="1432470553574" MODIFIED="1432470561282">
@@ -185,7 +237,7 @@
 <node TEXT="6" ID="ID_236808048" CREATED="1432404889628" MODIFIED="1432407879131"/>
 <node TEXT="9" ID="ID_782007176" CREATED="1432407018573" MODIFIED="1432407881474"/>
 </node>
-<node TEXT="direction" ID="ID_1836946458" CREATED="1432406847591" MODIFIED="1432470842002">
+<node TEXT="spawnDirection" ID="ID_1836946458" CREATED="1432406847591" MODIFIED="1435422254152">
 <node TEXT="UP" ID="ID_1709074855" CREATED="1432406874820" MODIFIED="1432406878666"/>
 </node>
 </node>

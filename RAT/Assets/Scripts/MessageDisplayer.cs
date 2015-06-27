@@ -38,5 +38,13 @@ public class MessageDisplayer {
 		Debug.Log("displayMessage : " + message.text);
 
 	}
+
+	public void displayBigMessage(string text) {
+
+		text = text.ToUpper();
+		
+		Debug.Log("displayBigMessage : " + text);
+	}
+
 }
 

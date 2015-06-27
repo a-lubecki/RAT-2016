@@ -157,7 +157,18 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		// load doors
+		
+		// load hubs
+		HubCreator hubCreator = new HubCreator();
+		
+		int hubCount = currentNodeLevel.getHubCount();
+		for(int i=0 ; i<hubCount ; i++) {
+			
+			hubCreator.createNewGameObject(currentNodeLevel.getHub(i));
+		}
+
+
+		// load links
 		LinkCreator linkCreator = new LinkCreator();
 
 		int linkCount = currentNodeLevel.getLinkCount();

@@ -10,7 +10,7 @@ namespace Level {
 		public NodePosition nodeNextPosition { get ; private set; }
 		public NodeDirection nodeNextDirection { get ; private set; }
 
-		public NodeElementLink (XmlNode node) : base(node) {
+		public NodeElementLink(XmlNode node) : base(node) {
 			
 			nodeNextMap = parseChild("nextMap", typeof(NodeString)) as NodeString;
 			nodeNextPosition = parseChild("nextPos", typeof(NodePosition), true) as NodePosition;

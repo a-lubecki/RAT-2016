@@ -13,7 +13,7 @@ namespace Level {
 		public NodeDoorStatus nodeDoorStatus { get ; private set; }
 		public NodeLabel nodeRequire { get ; private set; }
 
-		public NodeElementDoor () : base() {
+		public NodeElementDoor() : base() {
 		}
 
 		public NodeElementDoor (XmlNode node) : base(node) {
