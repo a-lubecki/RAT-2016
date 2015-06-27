@@ -28,6 +28,9 @@ public class Door : MonoBehaviour {
 		string imageName = "Door.Laboratory." + spacing + "." + orientation.ToString() + ".png";
 
 		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imageName);
+		
+		BoxCollider2D collisionsCollider = getCollisionsCollider();
+		BoxCollider2D triggerCollider = getTriggerCollider();
 
 		//load all sprites
 		if(orientation == NodeOrientation.Orientation.FACE) {
@@ -42,9 +45,7 @@ public class Door : MonoBehaviour {
 				                           new Vector2(0.5f + (1 - spacing) * 0.5f / (float)spacing, 0.25f),
 				                           Constants.TILE_SIZE);
 			}
-			
-			BoxCollider2D collisionsCollider = GetComponents<BoxCollider2D>()[0];
-			BoxCollider2D triggerCollider = GetComponents<BoxCollider2D>()[1];
+
 			collisionsCollider.size = triggerCollider.size = new Vector2(spacing, 1.25f);
 			collisionsCollider.offset = triggerCollider.offset = new Vector2((spacing - 1) * 0.5f, 0.5f);
 
@@ -61,13 +62,10 @@ public class Door : MonoBehaviour {
 				                           Constants.TILE_SIZE
 				                           );
 			}
-			
-			BoxCollider2D collisionsCollider = GetComponents<BoxCollider2D>()[0];
-			BoxCollider2D triggerCollider = GetComponents<BoxCollider2D>()[1];
+
 			collisionsCollider.size = triggerCollider.size = new Vector2(0.35f, spacing);
 			collisionsCollider.offset = triggerCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
 		}
-
 
 		//set the door as closed
 		updateCollider(0);
@@ -147,7 +145,7 @@ public class Door : MonoBehaviour {
 	private void updateCollider(int frame) {
 
 		//disable collisions collider
-		BoxCollider2D collider = GetComponents<BoxCollider2D>()[0];
+		BoxCollider2D collider = getCollisionsCollider();
 
 		isOpened = (frame >= sprites.Length - 1);
 		collider.enabled = !isOpened;
@@ -177,6 +175,11 @@ public class Door : MonoBehaviour {
 				
 					NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
 
+					if(unlockSide == NodeDirection.Direction.NONE) {
+						MessageDisplayer.Instance.displayMessage("La porte ne s'ouvre pas.");
+						return;
+					}
+
 					float x = transform.position.x;
 					float y = transform.position.y;
 					float xOther = other.transform.position.x;
@@ -187,20 +190,32 @@ public class Door : MonoBehaviour {
 					   (unlockSide == NodeDirection.Direction.LEFT && x < xOther) ||
 					   (unlockSide == NodeDirection.Direction.RIGHT && x > xOther)) {
 
-						MessageDisplayer.Instance.displayMessage("La porte ne peut pas etre ouverte de ce coté.");
+						MessageDisplayer.Instance.displayMessage("La porte ne peut pas être ouverte de ce coté.");
 						return;
 					}
 				}
 
+				if(nodeElementDoor.nodeRequire != null) {
+					//TODO item
+					MessageDisplayer.Instance.displayMessage("La porte est verouillée.");
+					return;
+				}
 
 				open(true);
 
 				//disable trigger collider
-				BoxCollider2D collider = GetComponents<BoxCollider2D>()[1];
-				collider.enabled = false;
+				getTriggerCollider().enabled = false;
 
 			}
 		}
 		
 	} 
+
+	private BoxCollider2D getCollisionsCollider() {
+		return GetComponents<BoxCollider2D>()[0];
+	}
+
+	private BoxCollider2D getTriggerCollider() {
+		return GetComponents<BoxCollider2D>()[1];
+	}
 }

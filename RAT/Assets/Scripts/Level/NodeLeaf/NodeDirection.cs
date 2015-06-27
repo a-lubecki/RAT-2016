@@ -7,6 +7,7 @@ namespace Level {
 	public class NodeDirection : BaseNode {
 
 		public enum Direction {
+			NONE,
 			UP,
 			DOWN,
 			LEFT,
