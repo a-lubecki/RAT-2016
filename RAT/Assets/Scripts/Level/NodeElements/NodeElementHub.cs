@@ -3,8 +3,11 @@ using System.Xml;
 
 namespace Level {
 	
-	public class NodeElementHub : NodeElementSpawn {
+	public class NodeElementHub : BaseNodeElement {
 		
+		public static readonly string LISTENER_CALL_onHubActivated = "onHubActivated";
+		public static readonly string LISTENER_CALL_onHubDeactivated = "onHubDeactivated";
+
 		public NodeDirection nodeSpawnDirection { get ; private set; }
 		
 		public NodeElementHub() : base() {
@@ -14,8 +17,7 @@ namespace Level {
 
 			nodeSpawnDirection = parseChild("spawnDirection", typeof(NodeDirection), false) as NodeDirection;
 
-		}
-		
+		}		
 		
 		public override void freeXmlObjects() {
 			

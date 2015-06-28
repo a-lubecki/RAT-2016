@@ -14,7 +14,6 @@ public class LevelManager : MonoBehaviour {
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
 
-
 	void Start () {
 
 		if(currentLevelName == null) {
@@ -305,5 +304,8 @@ public class LevelManager : MonoBehaviour {
 	}
 
 
+	public string getCurrentLevelName() {
+		return currentLevelName;
+	}
 
 }

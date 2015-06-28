@@ -4,7 +4,7 @@ using Level;
 
 public class Door : MonoBehaviour {
 	
-	private NodeElementDoor nodeElementDoor;
+	public NodeElementDoor nodeElementDoor { get; private set; }
 	
 	private bool isOpened = false;
 	private bool isAnimatingDoor = false;

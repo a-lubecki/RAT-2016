@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using System.Text.RegularExpressions;
 
 public class GameHelper {
 	
@@ -126,4 +126,35 @@ public class GameHelper {
 			newPositionOnMap(x, y), 
 			rotation) as GameObject;
 	}
+
+	
+	public MonoBehaviour getCurrentMapListener() {
+
+		LevelManager levelManager = getLevelManager();
+
+		MonoBehaviour mapListener = levelManager.GetComponent<IMapListener>() as MonoBehaviour;
+
+		if(mapListener == null) {
+			//create the listener class for this map
+			string levelName = levelManager.getCurrentLevelName();
+			if(string.IsNullOrEmpty(levelName)) {
+				Debug.LogWarning("Level name is or empty");
+				return null;
+			}
+
+			string className = "MapListener_" + Regex.Replace(levelName, "\\.", "_");
+
+			Type listenerClassType = Type.GetType(className, false, false);
+
+			if(listenerClassType == null) {
+				Debug.LogWarning("Class was not loaded : " + className);
+				return null;
+			}
+
+			//add it
+			mapListener = levelManager.gameObject.AddComponent(listenerClassType) as MonoBehaviour;
+		}
+
+		return mapListener;
+	} 
 }

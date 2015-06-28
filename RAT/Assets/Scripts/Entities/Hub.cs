@@ -5,7 +5,7 @@ public class Hub : MonoBehaviour {
 	
 	public bool isActivated { get; private set; }
 
-	private NodeElementHub nodeElementHub;
+	public NodeElementHub nodeElementHub { get; private set; }
 	
 	private Sprite spriteDeactivated;
 	private Sprite spriteActivated;
@@ -43,8 +43,11 @@ public class Hub : MonoBehaviour {
 
 				MessageDisplayer.Instance.displayBigMessage("Hub activé");
 
+				//TODO delegate open doors in first level
+
 			} else {
 				//propose to manage experience / teleport
+				//TODO
 			}
 
 		}
@@ -54,13 +57,29 @@ public class Hub : MonoBehaviour {
 
 	public void setActivated(bool activated) {
 
+		bool hasChanged = (this.isActivated != activated);
+		
+		this.isActivated = activated;
+
 		if(activated) {
+
 			GetComponent<SpriteRenderer>().sprite = spriteActivated;
+
+			//notify lister
+			if(hasChanged) {
+				this.nodeElementHub.trigger(NodeElementHub.LISTENER_CALL_onHubActivated);
+			}
+
 		} else {
+
 			GetComponent<SpriteRenderer>().sprite = spriteDeactivated;
+			
+			//notify lister
+			if(hasChanged) {
+				this.nodeElementHub.trigger(NodeElementHub.LISTENER_CALL_onHubDeactivated);
+			}
 		}
 
-		this.isActivated = activated;
 	}
 
 
