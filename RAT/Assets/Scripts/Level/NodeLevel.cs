@@ -13,6 +13,11 @@ namespace Level {
 		private List<BaseNode> hubElements;
 		private List<BaseNode> linkElements;
 		private List<BaseNode> doorElements;
+		//private List<BaseNode> leverElements;
+		//private List<BaseNode> buttonElements;
+		//private List<BaseNode> lootElements;
+		//private List<BaseNode> chestElements;
+		private List<BaseNode> npcElements;
 
 
 		public NodeLevel(XmlNode node) : base (node) {
@@ -26,7 +31,7 @@ namespace Level {
 			//buttonElements = parseChildren("BUTTON", typeof(NodeElementButton));
 			//lootElements = parseChildren("LOOT", typeof(NodeElementLoot));
 			//chestElements = parseChildren("CHEST", typeof(NodeElementChest));
-			//npcElements = parseChildren("NPC", typeof(NodeElementNpc));
+			npcElements = parseChildren("NPC", typeof(NodeElementNpc));
 			
 			//free the xml objects from memory
 			freeXmlObjects();
@@ -57,8 +62,49 @@ namespace Level {
 		public NodeElementDoor getDoor(int pos) {
 			return doorElements[pos] as NodeElementDoor;
 		}
-
+		/*
+		public int getLeverCount() {
+			return leverElements.Count;
+		}
 		
+		public NodeElementLever getLever(int pos) {
+			return leverElements[pos] as NodeElementLever;
+		}
+		
+		public int getButtonCount() {
+			return buttonElements.Count;
+		}
+		
+		public NodeElementButton getButton(int pos) {
+			return buttonElements[pos] as NodeElementButton;
+		}
+		
+		public int getLootCount() {
+			return lootElements.Count;
+		}
+		
+		public NodeElementLoot getLoot(int pos) {
+			return lootElements[pos] as NodeElementLoot;
+		}
+		
+		public int getChestCount() {
+			return chestElements.Count;
+		}
+		
+		public NodeElementChest getDoor(int pos) {
+			return chestElements[pos] as NodeElementChest;
+		}
+		*/
+		
+		public int getNpcCount() {
+			return npcElements.Count;
+		}
+		
+		public NodeElementNpc getNpc(int pos) {
+			return npcElements[pos] as NodeElementNpc;
+		}
+
+
 		public override void freeXmlObjects() {
 
 			if(spawnElement != null) {
@@ -74,7 +120,24 @@ namespace Level {
 			foreach(BaseNode node in doorElements) {
 				node.freeXmlObjects();
 			}
-			
+			/*
+			foreach(BaseNode node in leverElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in buttonElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in lootElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in chestElements) {
+				node.freeXmlObjects();
+			}
+			*/
+			foreach(BaseNode node in npcElements) {
+				node.freeXmlObjects();
+			}
+
 			base.freeXmlObjects();
 		}
 

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterRenderer : MonoBehaviour {
+public class EntityRenderer : MonoBehaviour {
 
 	public EntityCollider entityCollider;
 

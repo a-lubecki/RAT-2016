@@ -179,11 +179,20 @@ public class LevelManager : MonoBehaviour {
 		
 		// load doors
 		DoorCreator doorCreator = new DoorCreator();
-
+		
 		int doorCount = currentNodeLevel.getDoorCount();
 		for(int i=0 ; i<doorCount ; i++) {
 			
 			doorCreator.createNewGameObject(currentNodeLevel.getDoor(i));
+		}
+
+		// load NPCs
+		NpcCreator npcCreator = new NpcCreator();
+		
+		int npcCount = currentNodeLevel.getNpcCount();
+		for(int i=0 ; i<npcCount ; i++) {
+			
+			npcCreator.createNewGameObject(currentNodeLevel.getNpc(i));
 		}
 
 	}

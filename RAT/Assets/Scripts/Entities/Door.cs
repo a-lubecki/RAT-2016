@@ -166,7 +166,7 @@ public class Door : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other) {
 		
-		if(Constants.GAME_OBJECT_NAME_PLAYER_CONTROLS.Equals(other.name)) {
+		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
 			
 			if(!isOpened) {
 				

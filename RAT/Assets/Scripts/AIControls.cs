@@ -4,8 +4,6 @@ using System.Collections;
 
 public class AIControls : EntityCollider { 
 
-	public EntityCollider playerCharacterCollider;
-
 	public float moveSpeed = 1;
 	
 	protected override Vector2 getNewMoveVector() {

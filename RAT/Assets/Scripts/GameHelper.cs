@@ -21,7 +21,7 @@ public class GameHelper {
 	
 	public PlayerControls getPlayerControls() {
 
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_CONTROLS);
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
@@ -34,14 +34,14 @@ public class GameHelper {
 		return component;
 	}
 	
-	public CharacterRenderer getPlayerRenderer() {
+	public EntityRenderer getPlayerRenderer() {
 		
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_RENDERER);
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
 		
-		CharacterRenderer component = gameObject.GetComponent<CharacterRenderer>();
+		EntityRenderer component = gameObject.GetComponent<EntityRenderer>();
 		if(component == null) {
 			throw new System.InvalidOperationException();
 		}
@@ -121,6 +121,11 @@ public class GameHelper {
 	}
 
 	public GameObject newGameObjectFromPrefab(GameObject prefab, int x, int y, Quaternion rotation) {
+
+		if(prefab == null) {
+			throw new System.ArgumentException();
+		}
+
 		return GameObject.Instantiate(
 			prefab, 
 			newPositionOnMap(x, y), 
