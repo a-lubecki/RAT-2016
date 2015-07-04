@@ -50,7 +50,9 @@ public class CameraResizer : MonoBehaviour {
 		if(nbSparePixels > 0) {
 			newScreenHeight -= nbSparePixels;
 		}
-		
+
+		int newScreenWidth = Screen.width;
+		newScreenWidth -= newScreenWidth % 2;//remove extra pixel that can lead to glitches
 
 		Camera cam = GetComponent<Camera>();
 
@@ -58,11 +60,12 @@ public class CameraResizer : MonoBehaviour {
 		// it must be a multiplier of the pixel size,
 		// ex : if the pixel size is 5, if the cam height is 524 => new height will be 520, spare pixels will be 4
 		//spare pixels will be on top of the hud (not a big deal)
-		cam.pixelRect = new Rect(0, 0, Screen.width, newScreenHeight);
+		cam.pixelRect = new Rect(0, 0, newScreenWidth, newScreenHeight);
 
 		//set the orthographic size to scale the scene with the multiplier
 		cam.orthographicSize = newScreenHeight / (float)divider;
 
+		//Debug.Log(">>> " + Screen.width + " > " + newScreenWidth);
 		//Debug.Log(">>> " + Screen.height + " > " + newScreenHeight + " > " + cam.orthographicSize + " > " + multiplier + " > " + nbSparePixels);
 	}
 
