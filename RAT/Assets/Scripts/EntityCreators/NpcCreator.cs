@@ -34,6 +34,7 @@ public class NpcCreator : BaseEntityCreator {
 			GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_NPC_RENDERER), 
 			x, 
 			y); 
+		gameObjectRenderer.name = Constants.PREFAB_NAME_NPC_RENDERER;
 
 		EntityCollider npcCollider = gameObjectCollider.GetComponent<EntityCollider>();
 		EntityRenderer npcRenderer = gameObjectRenderer.GetComponent<EntityRenderer>();
@@ -47,6 +48,10 @@ public class NpcCreator : BaseEntityCreator {
 			new Rect(0, 0, Constants.TILE_SIZE, Constants.TILE_SIZE),
 			new Vector2(0.5f, 0.5f),
 			Constants.TILE_SIZE);
+
+
+		Npc npc = gameObjectCollider.GetComponent<Npc>();
+		npc.init();
 
 		return gameObjectCollider;
 	}

@@ -18,7 +18,7 @@ public class CameraResizer : MonoBehaviour {
 		scaleScene();
 	}
 
-	void Update () {
+	void FixedUpdate () {
 		scaleScene();
 	}
 

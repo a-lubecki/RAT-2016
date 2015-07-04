@@ -18,20 +18,15 @@ public class GameHelper {
 		}
 	}
 
-	
-	public PlayerControls getPlayerControls() {
+
+	public GameObject getPlayerGameObject() {
 
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
 
-		PlayerControls component = gameObject.GetComponent<PlayerControls>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return component;
+		return gameObject;
 	}
 	
 	public EntityRenderer getPlayerRenderer() {

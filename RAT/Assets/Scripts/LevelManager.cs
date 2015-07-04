@@ -270,7 +270,15 @@ public class LevelManager : MonoBehaviour {
 			throw new System.NotSupportedException("Not supported yet");
 		}
 
-		GameHelper.Instance.getPlayerControls().setInitialPosition(nodePosition, nodeDirection);
+
+		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
+		
+		PlayerControls playerControls = playerGameObject.GetComponent<PlayerControls>();
+		playerControls.setInitialPosition(nodePosition, nodeDirection);
+
+		Player player = playerGameObject.GetComponent<Player>();
+		player.init();
+
 	}
 
 	public void processPlayerDeath() {
