@@ -30,28 +30,17 @@ public class NpcCreator : BaseEntityCreator {
 			x, 
 			y);
 
-		GameObject gameObjectRenderer = GameHelper.Instance.newGameObjectFromPrefab(
-			GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_NPC_RENDERER), 
-			x, 
-			y); 
-		gameObjectRenderer.name = Constants.PREFAB_NAME_NPC_RENDERER;
+		GameObject gameObjectRenderer = new NpcRendererCreator().createNewGameObject(nodeElement);
 
 		EntityCollider npcCollider = gameObjectCollider.GetComponent<EntityCollider>();
 		EntityRenderer npcRenderer = gameObjectRenderer.GetComponent<EntityRenderer>();
 		npcRenderer.entityCollider = npcCollider;
 
-		//TODO create npc object
-		SpriteRenderer spriteRenderer = npcRenderer.GetComponent<SpriteRenderer>();
-		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_CHARACTERS + "Enemy.Insect.png");
-		spriteRenderer.sprite = Sprite.Create(
-			texture, 
-			new Rect(0, 0, Constants.TILE_SIZE, Constants.TILE_SIZE),
-			new Vector2(0.5f, 0.5f),
-			Constants.TILE_SIZE);
-
+		GameObject gameObjectNpcBar = new NpcBarCreator().createNewGameObject(nodeElement);
+		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
 		Npc npc = gameObjectCollider.GetComponent<Npc>();
-		npc.init();
+		npc.init(npcRenderer, npcBar);
 
 		return gameObjectCollider;
 	}
