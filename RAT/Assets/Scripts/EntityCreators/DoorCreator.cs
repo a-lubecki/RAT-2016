@@ -10,7 +10,7 @@ public class DoorCreator : BaseEntityCreator {
 	}
 		
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_TILE_DOOR;
+		return Constants.GAME_OBJECT_NAME_DOOR;
 	}
 	
 	protected override string getSortingLayerName() {

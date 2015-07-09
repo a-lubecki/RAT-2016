@@ -10,7 +10,7 @@ public class LinkCreator : BaseEntityCreator {
 	}
 		
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_TILE_LINK;
+		return Constants.GAME_OBJECT_NAME_LINK;
 	}
 		
 	protected override Sprite getDebugSprite() {

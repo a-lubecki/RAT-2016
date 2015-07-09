@@ -11,7 +11,7 @@ public class WallCreator : BaseEntityCreator {
 	}
 		
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_TILE_WALL;
+		return Constants.GAME_OBJECT_NAME_WALL;
 	}
 
 	public GameObject createNewGameObject(int x, int y, Tile tile) {

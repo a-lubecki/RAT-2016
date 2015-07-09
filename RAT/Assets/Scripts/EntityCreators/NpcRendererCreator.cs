@@ -10,7 +10,7 @@ public class NpcRendererCreator : BaseEntityCreator {
 	}
 
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_NPC_RENDERER;
+		return Constants.GAME_OBJECT_NAME_NPC_RENDERER;
 	}
 	
 	protected override string getSortingLayerName() {

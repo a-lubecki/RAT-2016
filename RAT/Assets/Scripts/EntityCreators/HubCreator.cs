@@ -10,7 +10,7 @@ public class HubCreator : BaseEntityCreator {
 	}
 		
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_TILE_HUB;
+		return Constants.GAME_OBJECT_NAME_HUB;
 	}
 	
 	protected override string getSortingLayerName() {

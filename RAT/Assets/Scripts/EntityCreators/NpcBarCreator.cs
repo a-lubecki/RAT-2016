@@ -10,7 +10,7 @@ public class NpcBarCreator : BaseEntityCreator {
 	}
 
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_NPC_BAR;
+		return Constants.GAME_OBJECT_NAME_NPC_BAR;
 	}
 	
 	protected override string getSortingLayerName() {

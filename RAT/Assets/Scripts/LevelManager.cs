@@ -281,7 +281,9 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	public void processPlayerDeath() {
+	public void processPlayerRespawn() {
+
+		Debug.Log("TODO processPlayerRespawn");
 
 		//TODO
 	}

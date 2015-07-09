@@ -11,7 +11,7 @@ public class GroundCreator : BaseEntityCreator {
 	}
 
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_TILE_GROUND;
+		return Constants.GAME_OBJECT_NAME_GROUND;
 	}
 
 	protected override string getSortingLayerName() {

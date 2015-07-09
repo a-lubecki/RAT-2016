@@ -36,7 +36,6 @@ public class NpcBar : Bar {
 
 		yield return new WaitForSeconds(1f);
 
-		Debug.Log(">>> VISIBLE false");
 		setVisible(false);
 
 	}

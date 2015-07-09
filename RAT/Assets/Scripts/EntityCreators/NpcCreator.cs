@@ -10,7 +10,7 @@ public class NpcCreator : BaseEntityCreator {
 	}
 
 	protected override string getGameObjectName() {
-		return Constants.PREFAB_NAME_NPC_COLLIDER;
+		return Constants.GAME_OBJECT_NAME_NPC_COLLIDER;
 	}
 	
 	protected override string getSortingLayerName() {
