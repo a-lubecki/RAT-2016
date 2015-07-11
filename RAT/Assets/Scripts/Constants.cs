@@ -29,10 +29,10 @@ public class Constants {
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer" + PREFAB_EXTENSION;
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar" + PREFAB_EXTENSION;
 
-
+	
+	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_COLLIDER = "PlayerCollider";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
-	public static readonly string GAME_OBJECT_NAME_CAMERA = "MainCamera";
 	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
 	public static readonly string GAME_OBJECT_NAME_GROUND = "PrefabTileGround";
@@ -43,6 +43,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_NPC_COLLIDER = "NpcCollider";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
+
 	
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
 	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";

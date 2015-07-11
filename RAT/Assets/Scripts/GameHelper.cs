@@ -19,6 +19,16 @@ public class GameHelper {
 	}
 
 
+	public GameObject getMainCamera() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MAIN_CAMERA);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return gameObject;
+	}
+
 	public GameObject getPlayerGameObject() {
 
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
