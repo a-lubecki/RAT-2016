@@ -11,8 +11,11 @@ public class CameraResizer : MonoBehaviour {
 	
 	[Tooltip("Nb min of visible tiles in the screen, may be ignored if too big, can't be 0")]
 	public int nbVisibleTiles;
-	
-	protected bool isPaused { get; private set; }
+	public int pixelSize { get; private set; }
+
+	private Vector2 lastScreenSize = new Vector2();
+	private int lastNbVisibleTiles = -1;
+
 
 	void Start () {
 		scaleScene();
@@ -23,8 +26,18 @@ public class CameraResizer : MonoBehaviour {
 	}
 
 	private void scaleScene() {
+		
+		int screenWidth = Screen.width;
+		int screenHeight = Screen.height;
 
-		if(isPaused) {
+		bool mustResize = (lastNbVisibleTiles != nbVisibleTiles) ||
+			(screenWidth != lastScreenSize.x || screenHeight != lastScreenSize.y);
+
+		lastNbVisibleTiles = nbVisibleTiles;
+		lastScreenSize = new Vector2(screenWidth, screenHeight);
+
+		//optimize resizing by
+		if(!mustResize) {
 			return;
 		}
 
@@ -35,23 +48,23 @@ public class CameraResizer : MonoBehaviour {
 
 		int minHeightToDisplay = nbVisibleTiles * Constants.TILE_SIZE;
 
-		float ratio = Screen.height / (float)minHeightToDisplay;
+		float ratio = screenHeight / (float)minHeightToDisplay;
 
-		int multiplier = (int)Mathf.Floor(ratio);
-		if(multiplier <= 0) {
-			multiplier = 1;
+		pixelSize = (int)Mathf.Floor(ratio);
+		if(pixelSize <= 0) {
+			pixelSize = 1;
 		}
 
-		int newScreenHeight = Screen.height;
+		int newScreenHeight = screenHeight;
 
-		int divider = 2 * multiplier;
+		int divider = 2 * pixelSize;
 
-		int nbSparePixels = Screen.height % divider;
+		int nbSparePixels = screenHeight % divider;
 		if(nbSparePixels > 0) {
 			newScreenHeight -= nbSparePixels;
 		}
 
-		int newScreenWidth = Screen.width;
+		int newScreenWidth = screenWidth;
 		newScreenWidth -= newScreenWidth % 2;//remove extra pixel that can lead to glitches
 
 		Camera cam = GetComponent<Camera>();
@@ -62,15 +75,12 @@ public class CameraResizer : MonoBehaviour {
 		//spare pixels will be on top of the hud (not a big deal)
 		cam.pixelRect = new Rect(0, 0, newScreenWidth, newScreenHeight);
 
-		//set the orthographic size to scale the scene with the multiplier
+		//set the orthographic size to scale the scene with the pixelSize
 		cam.orthographicSize = newScreenHeight / (float)divider;
 
 		//Debug.Log(">>> " + Screen.width + " > " + newScreenWidth);
 		//Debug.Log(">>> " + Screen.height + " > " + newScreenHeight + " > " + cam.orthographicSize + " > " + multiplier + " > " + nbSparePixels);
 	}
 
-	protected void OnApplicationFocus(bool focusStatus) {
-		this.isPaused = !focusStatus;
-	}
 
 }
