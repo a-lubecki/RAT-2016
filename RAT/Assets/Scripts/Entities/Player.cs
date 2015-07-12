@@ -3,24 +3,39 @@ using System.Collections;
 using Level;
 
 public class Player : Character {
-
-	private static readonly int MAX_PLAYER_HEALTH_FOR_BAR = 1500;
+	
+	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
+	
+	public int stamina { get; protected set; }
+	public int maxStamina { get; protected set; }
 
 	public override void init() {
 
 		this.life = 30;
 		this.maxLife = 100;
+		
+		this.stamina = 80;
+		this.maxStamina = 90;
 
 		updateViews();
 	}
 	
 	protected override void updateViews() {
 
-		HUDBar hudBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
+		//update health bar
+		HUDBar healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
+		
+		if(healthBar != null) {
+			healthBar.setBarSize(maxLife / (float) MAX_PLAYER_VALUE_FOR_BARS);
+			healthBar.setValues(life, maxLife);
+		}
 
-		if(hudBar != null) {
-			hudBar.setBarSize(maxLife / (float) MAX_PLAYER_HEALTH_FOR_BAR);
-			hudBar.setValues(life, maxLife);
+		//update stamina bar
+		HUDBar staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
+		
+		if(staminaBar != null) {
+			staminaBar.setBarSize(maxStamina / (float) MAX_PLAYER_VALUE_FOR_BARS);
+			staminaBar.setValues(stamina, maxStamina);
 		}
 	}
 	
