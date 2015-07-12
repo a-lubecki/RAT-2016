@@ -31,6 +31,9 @@ public class Constants {
 
 	
 	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
+	public static readonly string GAME_OBJECT_NAME_HUD = "HUD";
+	public static readonly string GAME_OBJECT_NAME_HUD_HEALTH_BAR = "HUDBarHealth";
+	public static readonly string GAME_OBJECT_NAME_HUD_STAMINA_BAR = "HUDBarStamina";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_COLLIDER = "PlayerCollider";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
 	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";

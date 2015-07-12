@@ -4,17 +4,24 @@ using Level;
 
 public class Player : Character {
 
+	private static readonly int MAX_PLAYER_HEALTH_FOR_BAR = 1500;
+
 	public override void init() {
 
-		this.life = 3;
-		this.maxLife = 10;
+		this.life = 30;
+		this.maxLife = 100;
 
 		updateViews();
 	}
 	
 	protected override void updateViews() {
-		
-		//TODO set bar
+
+		HUDBar hudBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
+
+		if(hudBar != null) {
+			hudBar.setBarSize(maxLife / (float) MAX_PLAYER_HEALTH_FOR_BAR);
+			hudBar.setValues(life, maxLife);
+		}
 	}
 	
 	protected override void die() {

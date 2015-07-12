@@ -3,11 +3,28 @@ using UnityEngine;
 
 public class Bar : MonoBehaviour {
 	
-	private static readonly string OBJECT_NAME_MIDDLE = "Middle"; 
-	private static readonly string OBJECT_NAME_PROGRESS = "Progress"; 
+	public static readonly string BAR_PART_MIDDLE = "Middle"; 
+	public static readonly string BAR_PART_END = "End";
+	public static readonly string BAR_PART_PROGRESS = "Progress"; 
 
-	private float percentage = -1;
-	
+	private float percentage = 0;
+
+
+	protected virtual void FixedUpdate() {
+
+		float middleWidth = transform.Find(BAR_PART_MIDDLE).localScale.x;
+
+		int width = Mathf.FloorToInt(middleWidth * percentage);
+
+		//align on the pixel size
+		width -= (width % Constants.TILE_SIZE);
+
+		Transform progress = transform.Find(BAR_PART_PROGRESS);
+		Vector2 scale = progress.localScale;
+		scale.x = width;
+		progress.localScale = scale;
+	}
+
 	public float getPercentage() {
 		return percentage;
 	}
@@ -26,16 +43,6 @@ public class Bar : MonoBehaviour {
 		} else {
 			this.percentage = percentage;
 		}
-
-		//update :
-		float middleWidth = transform.Find(OBJECT_NAME_MIDDLE).localScale.x;
-		
-		int width = Mathf.FloorToInt(middleWidth * this.percentage);
-		
-		Transform progress = transform.Find(OBJECT_NAME_PROGRESS);
-		Vector2 scale = progress.localScale;
-		scale.x = width;
-		progress.localScale = scale;
 
 	}
 

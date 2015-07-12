@@ -29,6 +29,41 @@ public class GameHelper {
 		return gameObject;
 	}
 
+	public CameraResizer getMainCameraResizer() {
+
+		return getMainCamera().GetComponent<CameraResizer>();
+	}
+
+	public GameObject getHUD() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_HUD);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return gameObject;
+	}
+
+	public GameObject getHUDHealthBar() {
+		
+		Transform transform = getHUD().transform.Find(Constants.GAME_OBJECT_NAME_HUD_HEALTH_BAR);
+		if(transform == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return transform.gameObject;
+	}
+	
+	public GameObject getHUDStaminaBar() {
+		
+		Transform transform = getHUD().transform.Find(Constants.GAME_OBJECT_NAME_HUD_STAMINA_BAR);
+		if(transform == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return transform.gameObject;
+	}
+
 	public GameObject getPlayerGameObject() {
 
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);

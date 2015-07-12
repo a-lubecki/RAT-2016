@@ -15,17 +15,16 @@ public class CameraResizer : MonoBehaviour {
 
 	private Vector2 lastScreenSize = new Vector2();
 	private int lastNbVisibleTiles = -1;
-
-
-	void Start () {
+	
+	void Start() {
 		scaleScene();
 	}
 
-	void FixedUpdate () {
+	void FixedUpdate() {
 		scaleScene();
 	}
 
-	private void scaleScene() {
+	public void scaleScene() {
 		
 		int screenWidth = Screen.width;
 		int screenHeight = Screen.height;

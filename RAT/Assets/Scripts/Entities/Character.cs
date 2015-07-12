@@ -21,6 +21,16 @@ public abstract class Character : MonoBehaviour {
 		return (life <= 0);
 	}
 
+	public void setMaxLife(int maxLife) {
+
+		if(maxLife <= 0) {
+			this.maxLife = 1;
+		} else {
+			this.maxLife = maxLife;
+		}
+
+		updateViews();
+	}
 
 	public void takeDamages(int damages) {
 
