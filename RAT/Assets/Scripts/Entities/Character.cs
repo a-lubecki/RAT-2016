@@ -3,16 +3,16 @@ using System.Collections;
 using Level;
 
 public abstract class Character : MonoBehaviour {
-
-	public int life { get; protected set; }
+	
 	public int maxLife { get; protected set; }
+	public int life { get; protected set; }
 
 	private bool isTemporaryInvulnerable = false;
 
 	public virtual void init() {
-
-		this.life = 1;
+		
 		this.maxLife = 1;
+		this.life = 1;
 		
 		updateViews();
 	}

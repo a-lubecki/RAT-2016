@@ -6,16 +6,29 @@ public class Player : Character {
 	
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	
-	public int stamina { get; protected set; }
 	public int maxStamina { get; protected set; }
+	public int stamina { get; protected set; }
+
+	public string levelNameForlastHub;
+	
+	public void reinit() {
+
+		this.maxLife = 100;
+		this.life = maxLife;
+
+		this.maxStamina = 90;
+		this.stamina = maxStamina;
+		
+		updateViews();
+	}
 
 	public override void init() {
 
-		this.life = 30;
 		this.maxLife = 100;
-		
-		this.stamina = 80;
+		this.life = 3;
+
 		this.maxStamina = 90;
+		this.stamina = 80;
 
 		updateViews();
 	}

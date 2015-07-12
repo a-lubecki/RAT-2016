@@ -7,10 +7,10 @@ namespace Level {
 
 	public class NodeLevel : BaseNode {
 
-
+		
 		public NodeElementSpawn spawnElement { get; private set; } //can be null
+		public NodeElementHub hubElement { get; private set; } //can be null
 
-		private List<BaseNode> hubElements;
 		private List<BaseNode> linkElements;
 		private List<BaseNode> doorElements;
 		//private List<BaseNode> leverElements;
@@ -23,8 +23,8 @@ namespace Level {
 		public NodeLevel(XmlNode node) : base (node) {
 			
 			spawnElement = parseChild("SPAWN", typeof(NodeElementSpawn)) as NodeElementSpawn;
-			
-			hubElements = parseChildren("HUB", typeof(NodeElementHub));
+			hubElement = parseChild("HUB", typeof(NodeElementHub)) as NodeElementHub;
+
 			linkElements = parseChildren("LINK", typeof(NodeElementLink));
 			doorElements = parseChildren("DOOR", typeof(NodeElementDoor));
 			//leverElements = parseChildren("LEVER", typeof(NodeElementLever));
@@ -37,15 +37,7 @@ namespace Level {
 			freeXmlObjects();
 			
 		}
-		
-		
-		public int getHubCount() {
-			return hubElements.Count;
-		}
-		
-		public NodeElementHub getHub(int pos) {
-			return hubElements[pos] as NodeElementHub;
-		}
+
 
 		public int getLinkCount() {
 			return linkElements.Count;
@@ -106,14 +98,14 @@ namespace Level {
 
 
 		public override void freeXmlObjects() {
-
+			
 			if(spawnElement != null) {
 				spawnElement.freeXmlObjects();
 			}
-			
-			foreach(BaseNode node in hubElements) {
-				node.freeXmlObjects();
+			if(hubElement != null) {
+				hubElement.freeXmlObjects();
 			}
+
 			foreach(BaseNode node in linkElements) {
 				node.freeXmlObjects();
 			}

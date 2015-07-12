@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour {
 
 	private static string nextLevelName;//used to keep the information between levels
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
+	private static bool mustSpawnPlayerAtHub = false;
 
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
@@ -52,8 +53,10 @@ public class LevelManager : MonoBehaviour {
 		createGameElements();
 
 		spawnPlayer();
-		
+
+		//free for further level load
 		lastNodeElementTrigger = null;
+		mustSpawnPlayerAtHub = false;
 	}
 
 	private void createLevel() {
@@ -156,16 +159,11 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		
-		// load hubs
-		HubCreator hubCreator = new HubCreator();
-		
-		int hubCount = currentNodeLevel.getHubCount();
-		for(int i=0 ; i<hubCount ; i++) {
-			
-			hubCreator.createNewGameObject(currentNodeLevel.getHub(i));
+		// load hub if there is one
+		if(currentNodeLevel.hubElement != null) {
+			HubCreator hubCreator = new HubCreator();
+			hubCreator.createNewGameObject(currentNodeLevel.hubElement);
 		}
-
 
 		// load links
 		LinkCreator linkCreator = new LinkCreator();
@@ -175,8 +173,7 @@ public class LevelManager : MonoBehaviour {
 
 			linkCreator.createNewGameObject(currentNodeLevel.getLink(i));
 		}
-
-		
+				
 		// load doors
 		DoorCreator doorCreator = new DoorCreator();
 		
@@ -200,8 +197,12 @@ public class LevelManager : MonoBehaviour {
 	private void spawnPlayer() {
 
 		BaseNodeElement currentNodeElementTrigger;
-		
-		if(lastNodeElementTrigger != null) {
+
+		if(mustSpawnPlayerAtHub) {
+			//the player has died, the current node is the player
+			currentNodeElementTrigger = currentNodeLevel.hubElement;
+
+		} else if(lastNodeElementTrigger != null) {
 			//something has triggered the load level (can be a link or a spawn)
 			currentNodeElementTrigger = lastNodeElementTrigger;
 			
@@ -229,7 +230,11 @@ public class LevelManager : MonoBehaviour {
 			//call already done, waiting for level to load
 			return;
 		}
+
 		
+		//TODO save scene elements (player, dead enemies...)
+
+
 		nextLevelName = levelName;
 
 		bool fadeIn = !string.IsNullOrEmpty(currentLevelName);//no fadein if level is the first
@@ -264,7 +269,14 @@ public class LevelManager : MonoBehaviour {
 			
 			nodePosition = nodeElementLink.nodeNextPosition;
 			nodeDirection = nodeElementLink.nodeNextDirection;
+			
+		} else if(nodeElement is NodeElementHub) {
 
+			NodeElementHub nodeElementHub = nodeElement as NodeElementHub;
+			
+			nodePosition = nodeElementHub.nodePosition;
+			nodeDirection = nodeElementHub.nodeSpawnDirection;
+			
 		} else {
 
 			throw new System.NotSupportedException("Not supported yet");
@@ -277,15 +289,35 @@ public class LevelManager : MonoBehaviour {
 		playerControls.setInitialPosition(nodePosition, nodeDirection);
 
 		Player player = playerGameObject.GetComponent<Player>();
-		player.init();
+		
+		if(mustSpawnPlayerAtHub) {
+			player.reinit();
+		} else {
+			player.init();
+		}
 
 	}
 
 	public void processPlayerRespawn() {
+		
+		if(isAboutToLoadNextLevel()) {
+			//already processing for next level
+			return;
+		}
 
-		Debug.Log("TODO processPlayerRespawn");
+		//load next level with HUB
 
-		//TODO
+		string requiredLevelName = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>().levelNameForlastHub;
+
+		if(string.IsNullOrEmpty(requiredLevelName)) {
+			throw new System.InvalidOperationException("levelNameForlastHub is empty");
+		}
+
+		mustSpawnPlayerAtHub = true;
+
+		//load level
+		loadNextLevel(requiredLevelName);
+
 	}
 
 	public void processLink(Link link) {
@@ -295,7 +327,7 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		//move player in current level or load next level with LINK
+		//load next level with LINK
 
 		NodeElementLink nodeElementLink = link.nodeElementLink;
 
@@ -303,22 +335,18 @@ public class LevelManager : MonoBehaviour {
 		NodeString nodeNextMap = nodeElementLink.nodeNextMap;
 		if(nodeNextMap != null) {
 			requiredLevelName = nodeNextMap.value;
-		}
-
-		if(string.IsNullOrEmpty(requiredLevelName) || requiredLevelName.Equals(currentLevelName)) {
-
-			//move player
-			processPlayerLoad(nodeElementLink);
-
 		} else {
-
-			//TODO save scene elements (player, dead enemies...)
-			
-			lastNodeElementTrigger = nodeElementLink;
-
-			//load level
-			loadNextLevel(requiredLevelName);
+			requiredLevelName = currentLevelName;
 		}
+
+		if(string.IsNullOrEmpty(requiredLevelName)) {
+			throw new System.InvalidOperationException("The requiredLevelName is empty");
+		}
+
+		lastNodeElementTrigger = nodeElementLink;
+
+		//load level
+		loadNextLevel(requiredLevelName);
 
 	}
 

@@ -38,22 +38,50 @@ public class Hub : MonoBehaviour {
 		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
 
 			if(!isActivated) {
-				//propose to activate
-				setActivated(true);//TODO test
-
-				MessageDisplayer.Instance.displayBigMessage("Hub activé");
-
-				//TODO delegate open doors in first level
-
+				proposeActivating();
 			} else {
-				//propose to manage experience / teleport
-				//TODO
+				proposeUsing();
 			}
 
 		}
 		
 	} 
+	
+	private void proposeActivating() {
+		
+		//TODO TEST
+		activate();
+	}
 
+	private void proposeUsing() {
+		
+		//TODO TEST
+		use();
+	}
+
+	private void activate() {
+		
+		//propose to activate
+		setActivated(true);
+		
+		//save level to respawn
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		
+		MessageDisplayer.Instance.displayBigMessage("Hub activé");
+
+	}
+
+	private void use() {
+		
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		player.reinit();
+		
+		//TODO respawn all enemies
+		
+		//TODO propose to manage experience / teleport
+
+	}
 
 	public void setActivated(bool activated) {
 

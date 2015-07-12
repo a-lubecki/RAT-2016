@@ -15,9 +15,9 @@ public class Npc : Character {
 
 		this.entityRenderer = entityRenderer;
 		this.npcBar = npcBar;
-
-		this.life = 25;
+		
 		this.maxLife = 100;
+		this.life = 25;
 
 		updateViews();
 	}
