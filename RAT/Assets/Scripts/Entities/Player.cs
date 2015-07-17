@@ -1,11 +1,16 @@
 using UnityEngine;
 using System.Collections;
 using Level;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Player : Character {
 	
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	
+	public int skillPointHealth { get; protected set; }
+	public int skillPointEnergy { get; protected set; }
+
 	public int maxStamina { get; protected set; }
 	public int stamina { get; protected set; }
 
@@ -13,24 +18,34 @@ public class Player : Character {
 	
 	public void reinit() {
 
-		this.maxLife = 100;
-		this.life = maxLife;
+		this.skillPointHealth = 5;
+		this.skillPointEnergy = 1;
 
-		this.maxStamina = 90;
+		computeStats();
+
+		this.life = maxLife;
 		this.stamina = maxStamina;
 		
 		updateViews();
 	}
 
 	public override void init() {
+		
+		this.skillPointHealth = 2;
+		this.skillPointEnergy = 1;
+		
+		computeStats();
 
 		this.maxLife = 100;
 		this.life = 3;
 
-		this.maxStamina = 90;
-		this.stamina = 80;
-
 		updateViews();
+	}
+
+	private void computeStats() {
+
+		maxLife = 50 + 5 * skillPointHealth + 2 * skillPointEnergy;
+		maxStamina = 80 + 5 * skillPointEnergy;
 	}
 	
 	protected override void updateViews() {
@@ -95,6 +110,21 @@ public class Player : Character {
 			}
 			
 		}
+	}
+
+	
+	public virtual void serialize(BinaryFormatter bf, FileStream f) {
+		bf.Serialize(f, skillPointHealth);
+		bf.Serialize(f, skillPointEnergy);
+		bf.Serialize(f, life);
+		bf.Serialize(f, levelNameForlastHub);
+	}
+	
+	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
+		skillPointHealth = (int) bf.Deserialize(f);
+		skillPointEnergy = (int) bf.Deserialize(f);
+		life = (int) bf.Deserialize(f);
+		levelNameForlastHub = (string) bf.Deserialize(f);
 	}
 
 }

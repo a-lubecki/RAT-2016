@@ -14,8 +14,6 @@ public class HUD : MonoBehaviour {
 			return;
 		}
 
-		int nbVisibleTiles = cameraResizer.nbVisibleTiles;
-		
 		Transform background = transform.Find("HUDBackground");
 		
 		Vector2 position = camera.transform.position;

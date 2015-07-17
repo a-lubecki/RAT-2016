@@ -85,6 +85,7 @@ public abstract class Character : MonoBehaviour {
 	
 	protected abstract void updateViews();
 
+
 }
 
 

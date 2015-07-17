@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections;
 using Level;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Npc : Character {
 	
@@ -68,6 +70,14 @@ public class Npc : Character {
 			}
 			
 		}
+	}
+	
+	public virtual void serialize(BinaryFormatter bf, FileStream f) {
+		bf.Serialize(f, life);
+	}
+	
+	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
+		life = (int) bf.Deserialize(f);
 	}
 
 }

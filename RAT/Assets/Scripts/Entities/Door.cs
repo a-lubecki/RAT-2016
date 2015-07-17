@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Level;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 public class Door : MonoBehaviour {
 	
@@ -218,5 +220,15 @@ public class Door : MonoBehaviour {
 	private BoxCollider2D getTriggerCollider() {
 		return GetComponents<BoxCollider2D>()[1];
 	}
+
+	
+	public virtual void serialize(BinaryFormatter bf, FileStream f) {
+		bf.Serialize(f, isOpened);
+	}
+	
+	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
+		isOpened = (bool) bf.Deserialize(f);
+	}
+
 }
 
