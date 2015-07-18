@@ -12,23 +12,44 @@ public abstract class GameElementSaver {
 	public abstract int getVersion();
 	
 	public abstract string getFileName();
+	
+	public abstract bool isLevelSpecific();
+	
+	public abstract GameElementSaver newPreviousGameElementSaver();//if the current is saver v2, give saver v1
 
+
+	private string getBaseFilePath() {
+
+		string levelDirectoryName = "";
+
+		if(isLevelSpecific()) {
+			levelDirectoryName = GameHelper.Instance.getLevelManager().getCurrentLevelName() + "/";
+		}
+
+		return Application.persistentDataPath + "/" + levelDirectoryName + getFileName();
+	}
 
 	public bool loadData() {
 
-		string filePath = Application.persistentDataPath + "/" + getFileName();
+		string filePath = getBaseFilePath();
 
 		if(File.Exists(filePath)) {
 			return loadData(filePath);
 		}
 
-		string filePathBackup = Application.persistentDataPath + "/" + getFileName() + FILE_NAME_EXTENSION_BACKUP;
+		string filePathBackup = filePath + FILE_NAME_EXTENSION_BACKUP;
 
 		if(File.Exists(filePathBackup)) {
 
 			if(loadData(filePathBackup)) {
+
 				//if load complete copy the backup to the current file
-				FileUtil.CopyFileOrDirectory(filePathBackup, filePath);
+				try {
+					FileUtil.ReplaceFile(filePathBackup, filePath);
+				} catch(Exception e) {
+					Debug.LogException(e);
+				}
+
 				return true;
 			}
 		}
@@ -48,18 +69,19 @@ public abstract class GameElementSaver {
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream f = File.Open(filePath, FileMode.Open);
 
+		int version = 0;
+
 		try {
 			//unserialize version
-			int version = (int) bf.Deserialize(f);
+			version = (int) bf.Deserialize(f);
 
-			if(version != getVersion()) {
-				return false;
+			if(version == getVersion()) {
+
+				//unserialize element
+				unserializeElement(bf, f);
+				
+				return (f.Position == f.Length);
 			}
-
-			//unserialize element
-			unserializeElement(bf, f);
-			
-			return (f.Position == f.Length);
 
 		} catch(Exception e) {
 
@@ -70,6 +92,24 @@ public abstract class GameElementSaver {
 			f.Close();
 		}
 
+		//version is incorrect, try with previous unserializer
+		GameElementSaver previousSaver = newPreviousGameElementSaver();
+		while(previousSaver != null) {
+
+			if(previousSaver.getVersion() == version) {
+				//found the right one
+				if(loadData()) {
+					//save data with the current version
+					saveData();
+					return true;
+				}
+				return false;
+			}
+
+			previousSaver = previousSaver.newPreviousGameElementSaver();//get the previous of the previous
+		}
+
+		return false;
 	}
 	
 	protected abstract void unserializeElement(BinaryFormatter bf, FileStream f);
@@ -77,26 +117,58 @@ public abstract class GameElementSaver {
 
 	public bool saveData() {
 		
+		string filePath = getBaseFilePath();
+
 		//save game in tmp file
-		string filePathTmp = Application.persistentDataPath + "/" + getFileName() + FILE_NAME_EXTENSION_TMP;
+		string filePathTmp = filePath + FILE_NAME_EXTENSION_TMP;
 		if(!saveData(filePathTmp)) {
 			
 			//delete tmp file
-			FileUtil.DeleteFileOrDirectory(filePathTmp);
-
+			try {
+				FileUtil.DeleteFileOrDirectory(filePathTmp);
+			} catch(Exception e) {
+				Debug.LogException(e);
+			}
 			return false;
 		}
-		
-		string filePath = Application.persistentDataPath + "/" + getFileName();
-		string filePathBackup = Application.persistentDataPath + "/" + getFileName() + FILE_NAME_EXTENSION_BACKUP;
+
+		string filePathBackup = filePath + FILE_NAME_EXTENSION_BACKUP;
 
 		//if succeeded, replace backup file with current file, replace current file by tmp file
-		FileUtil.CopyFileOrDirectory(filePath, filePathBackup);
-		FileUtil.CopyFileOrDirectory(filePathTmp, filePath);
+		bool hadFilePath = File.Exists(filePath);
+
+		if(hadFilePath) {
+			//if previous file exist, copy to the backup
+			try {
+				FileUtil.ReplaceFile(filePath, filePathBackup);
+			} catch(Exception e) {
+				Debug.LogException(e);
+			}
+		}
+
+		//save
+		try {
+			FileUtil.ReplaceFile(filePathTmp, filePath);
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}
+
+		if(!hadFilePath) {
+			//copy new file to the backup
+			try {
+				FileUtil.ReplaceFile(filePath, filePathBackup);
+			} catch(Exception e) {
+				Debug.LogException(e);
+			}
+		}
 
 		//delete tmp file
-		FileUtil.DeleteFileOrDirectory(filePathTmp);
-		
+		try {
+			FileUtil.DeleteFileOrDirectory(filePathTmp);
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}
+
 		return true;
 
 	}

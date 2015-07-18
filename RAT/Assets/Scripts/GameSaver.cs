@@ -6,69 +6,43 @@ using UnityEditor;
 
 public class GameSaver {
 
+	private static GameSaver instance;
+	
+	private GameSaver() {}
+	
+	public static GameSaver Instance {
+		
+		get {
+			if (instance == null) {
+				instance = new GameSaver();
+			}
+			return instance;
+		}
+	}
 
-	public bool loadCompleteGame() {
 
-		bool ok = true;
-
-		ok = ok && loadPlayer();
-		//ok = ok && loadNpcs();
-		//ok = ok && loadHubs();
-		//ok = ok && loadDoors();
-
-		return ok;
+	public GameElementSaver getSaverCurrentLevel() {
+		return new SaverCurrentLevelV1();
 	}
 	
-	public bool saveCompleteGame() {
-		
-		bool ok = true;
-		
-		ok = ok && savePlayer();
-		//ok = ok && saveNpcs();
-		//ok = ok && saveHubs();
-		//ok = ok && saveDoors();
-		
-		return ok;
+	public GameElementSaver getSaverPlayerStats() {
+		return new SaverPlayerStatsV1();
 	}
 
-
-	public bool loadPlayer() {
-
-		return new SaverPlayer().loadData();
-	}
-	
-	public bool savePlayer() {
-		
-		return new SaverPlayer().saveData();
+	public GameElementSaver getSaverPlayerPosition() {
+		return new SaverPlayerPositionV1();
 	}
 
-
-	public bool loadNpcs() {
-		
-		return false;
-	}
-	
-	public void saveNpcs() {
-		
+	public GameElementSaver getSaverNcps() {
+		return null;//TODO
 	}
 
-	
-	public bool loadHubs() {
-		return false;
-	}
-	
-	public void saveHubs() {
-		
+	public GameElementSaver getSaverHubs() {
+		return null;//TODO
 	}
 
-
-	public bool loadDoors() {
-		
-		return false;
-	}
-	
-	public void saveDoors() {
-		
+	public GameElementSaver getSaverDoors() {
+		return null;//TODO
 	}
 
 

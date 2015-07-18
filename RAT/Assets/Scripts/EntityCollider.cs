@@ -4,7 +4,7 @@ using Level;
 
 public abstract class EntityCollider : MonoBehaviour {
 
-	public float angleDegrees { get; private set; }
+	public float angleDegrees { get; protected set; }
 	public bool isMoving { get; private set; }
 	
 	protected bool isPaused { get; private set; }

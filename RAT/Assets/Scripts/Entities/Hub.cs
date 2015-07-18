@@ -77,7 +77,7 @@ public class Hub : MonoBehaviour {
 	private void use() {
 		
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
-		player.reinit();
+		player.reinitLifeAndStamina();
 		
 		//TODO respawn all enemies
 		

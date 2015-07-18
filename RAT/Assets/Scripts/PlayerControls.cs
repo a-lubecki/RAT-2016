@@ -25,6 +25,13 @@ public class PlayerControls : EntityCollider {
 	public float moveSpeed = 1;
 
 
+	public void setInitialPosition(int x, int y, int angleDegrees) {
+
+		setPosition(x, y);
+
+		this.angleDegrees = angleDegrees;
+	}
+
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
 		if(nodePosition != null) {

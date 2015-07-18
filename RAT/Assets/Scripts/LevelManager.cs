@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
 	private static string nextLevelName;//used to keep the information between levels
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 	private static bool mustSpawnPlayerAtHub = false;
+	private static bool levelLoadedFromSave = false;
 
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
@@ -21,15 +22,13 @@ public class LevelManager : MonoBehaviour {
 
 			//load a level
 			
-			string levelName = null;
-			
-			//TODO load saved game, ex : levelName = loadSavedLevelName();
-			
-			if(levelName == null) {
-				levelName = Constants.FIRST_LEVEL_NAME;
+			if(GameSaver.Instance.getSaverCurrentLevel().loadData()) {
+				levelLoadedFromSave = true;
+			} else {
+				//if no saved data, load the very first level				
+				loadNextLevel(Constants.FIRST_LEVEL_NAME);
 			}
-			
-			loadNextLevel(levelName);
+
 		}
 
 	}
@@ -53,10 +52,16 @@ public class LevelManager : MonoBehaviour {
 		createGameElements();
 
 		spawnPlayer();
+		initPlayer();
 
 		//free for further level load
 		lastNodeElementTrigger = null;
 		mustSpawnPlayerAtHub = false;
+		levelLoadedFromSave = false;
+
+		//save data to keep state if the game is quited just after
+		GameSaver.Instance.getSaverCurrentLevel().saveData();
+		GameSaver.Instance.getSaverPlayerPosition().saveData();
 	}
 
 	private void createLevel() {
@@ -205,41 +210,53 @@ public class LevelManager : MonoBehaviour {
 		} else if(lastNodeElementTrigger != null) {
 			//something has triggered the load level (can be a link or a spawn)
 			currentNodeElementTrigger = lastNodeElementTrigger;
+
+		} else { 
 			
-		} else if(currentNodeLevel == null) {
-			//no level file provided : replace by default spawn element
-			currentNodeElementTrigger = new NodeElementSpawn();
-			
-		} else {
-			
-			//get spawn element of the level
-			currentNodeElementTrigger = currentNodeLevel.spawnElement;
-			if(currentNodeElementTrigger == null) {
-				//replace by default spawn element
+			//load saved player pos
+			if(levelLoadedFromSave) {
+				if(GameSaver.Instance.getSaverPlayerPosition().loadData()) {
+					return;//done
+				}
+			}
+
+			if(currentNodeLevel == null) {
+				//no level file provided : replace by default spawn element
 				currentNodeElementTrigger = new NodeElementSpawn();
+				
+			} else {
+				
+				//get spawn element of the level
+				currentNodeElementTrigger = currentNodeLevel.spawnElement;
+				if(currentNodeElementTrigger == null) {
+					//replace by default spawn element
+					currentNodeElementTrigger = new NodeElementSpawn();
+				}
 			}
 		}
-		
+
 		processPlayerLoad(currentNodeElementTrigger);
 
 	}
 	
-	private void loadNextLevel(string levelName) {
+	public void loadNextLevel(string levelName) {
 		
 		if(isAboutToLoadNextLevel()) {
 			//call already done, waiting for level to load
 			return;
 		}
 
-		
-		//TODO save scene elements (player, dead enemies...)
+		bool hasCurrentLevel = !string.IsNullOrEmpty(currentLevelName);
 
+		if(hasCurrentLevel) {
+			//if the current level is not currently loading, save player before loading a new level
+			GameSaver.Instance.getSaverPlayerStats().saveData();
+		}
 
 		nextLevelName = levelName;
 
-		bool fadeIn = !string.IsNullOrEmpty(currentLevelName);//no fadein if level is the first
-
-		AutoFade.LoadLevel(0, fadeIn ? 0.3f : 0, 0.3f, Color.black);
+		//no fadein if level is the first
+		AutoFade.LoadLevel(0, hasCurrentLevel ? 0.3f : 0, 0.3f, Color.black);
 	}
 	
 	private bool isAboutToLoadNextLevel() {
@@ -288,15 +305,25 @@ public class LevelManager : MonoBehaviour {
 		PlayerControls playerControls = playerGameObject.GetComponent<PlayerControls>();
 		playerControls.setInitialPosition(nodePosition, nodeDirection);
 
-		Player player = playerGameObject.GetComponent<Player>();
+	}
+
+	private void initPlayer() {
 		
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+
+		//load player stats
+		if(!GameSaver.Instance.getSaverPlayerStats().loadData()) {
+			//very first init of the player stats
+			player.firstGameInit();
+		}
+
 		if(mustSpawnPlayerAtHub) {
-			player.reinit();
-		} else {
-			player.init();
+
+			player.reinitLifeAndStamina();
 		}
 
 	}
+
 
 	public void processPlayerRespawn() {
 		

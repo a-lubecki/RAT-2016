@@ -16,29 +16,34 @@ public class Player : Character {
 
 	public string levelNameForlastHub;
 	
-	public void reinit() {
-
+	public void firstGameInit() {
+		
 		this.skillPointHealth = 5;
-		this.skillPointEnergy = 1;
-
+		this.skillPointEnergy = 5;
+		
 		computeStats();
+		
+		reinitLifeAndStamina();
+	}
 
-		this.life = maxLife;
-		this.stamina = maxStamina;
+	public void init(int skillPointHealth, int skillPointEnergy, int life, int stamina) {
+		
+		this.skillPointHealth = skillPointHealth;
+		this.skillPointEnergy = skillPointEnergy;
+		
+		computeStats();
+		
+		this.life = life;
+		this.stamina = stamina;
 		
 		updateViews();
 	}
 
-	public override void init() {
+	public void reinitLifeAndStamina() {
 		
-		this.skillPointHealth = 2;
-		this.skillPointEnergy = 1;
+		this.life = maxLife;
+		this.stamina = maxStamina;
 		
-		computeStats();
-
-		this.maxLife = 100;
-		this.life = 3;
-
 		updateViews();
 	}
 
@@ -112,20 +117,6 @@ public class Player : Character {
 		}
 	}
 
-	
-	public virtual void serialize(BinaryFormatter bf, FileStream f) {
-		bf.Serialize(f, skillPointHealth);
-		bf.Serialize(f, skillPointEnergy);
-		bf.Serialize(f, life);
-		bf.Serialize(f, levelNameForlastHub);
-	}
-	
-	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
-		skillPointHealth = (int) bf.Deserialize(f);
-		skillPointEnergy = (int) bf.Deserialize(f);
-		life = (int) bf.Deserialize(f);
-		levelNameForlastHub = (string) bf.Deserialize(f);
-	}
 
 }
 

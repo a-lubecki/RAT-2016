@@ -9,14 +9,6 @@ public abstract class Character : MonoBehaviour {
 
 	private bool isTemporaryInvulnerable = false;
 
-	public virtual void init() {
-		
-		this.maxLife = 1;
-		this.life = 1;
-		
-		updateViews();
-	}
-
 	public bool isDead() {
 		return (life <= 0);
 	}
