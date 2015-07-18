@@ -17,7 +17,10 @@ public class HUDBar : Bar {
 		}
 
 		int barWidth = (int)((Screen.width / (float)pixelSize) * percentageMax * MAX_PERCENTAGE_AVERAGE);
-		
+		if(barWidth < 5) {
+			barWidth = 5;
+		}
+
 		//change size of bar parts
 		Transform transformMiddle = transform.Find(BAR_PART_MIDDLE);
 		Transform transformEnd = transform.Find(BAR_PART_END);
