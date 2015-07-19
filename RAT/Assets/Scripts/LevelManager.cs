@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour {
 
 			//load a level
 			
-			if(GameSaver.Instance.getSaverCurrentLevel().loadData()) {
+			if(GameSaver.Instance.loadCurrentLevel()) {
 				levelLoadedFromSave = true;
 			} else {
 				//if no saved data, load the very first level				
@@ -61,8 +61,8 @@ public class LevelManager : MonoBehaviour {
 		levelLoadedFromSave = false;
 
 		//save data to keep state as the player is in another changed level
-		GameSaver.Instance.getSaverCurrentLevel().saveData();
-		GameSaver.Instance.getSaverPlayerPosition().saveData();
+		GameSaver.Instance.saveCurrentLevel();
+		GameSaver.Instance.savePlayerPosition();
 	}
 
 	private void createLevel() {
@@ -172,7 +172,7 @@ public class LevelManager : MonoBehaviour {
 			hubCreator.createNewGameObject(currentNodeLevel.hubElement);
 
 			//init
-			GameSaver.Instance.getSaverHub().loadData();
+			GameSaver.Instance.loadHub();
 		}
 
 
@@ -223,7 +223,7 @@ public class LevelManager : MonoBehaviour {
 			
 			//load saved player pos
 			if(levelLoadedFromSave) {
-				if(GameSaver.Instance.getSaverPlayerPosition().loadData()) {
+				if(GameSaver.Instance.loadPlayerPosition()) {
 					return;//done
 				}
 			}
@@ -258,7 +258,7 @@ public class LevelManager : MonoBehaviour {
 
 		if(hasCurrentLevel) {
 			//if the current level is not currently loading, save player before loading a new level
-			GameSaver.Instance.getSaverPlayerStats().saveData();
+			GameSaver.Instance.savePlayerStats();
 		}
 
 		nextLevelName = levelName;
@@ -320,7 +320,7 @@ public class LevelManager : MonoBehaviour {
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
 
 		//load player stats
-		if(!GameSaver.Instance.getSaverPlayerStats().loadData()) {
+		if(!GameSaver.Instance.loadPlayerStats()) {
 			//very first init of the player stats
 			player.firstGameInit();
 		
