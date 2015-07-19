@@ -22,17 +22,23 @@ public class SaverPlayerPositionV1 : GameElementSaver {
 		return null;
 	}
 
-	
+
+	private PlayerPositionData unserializedPlayerPositionData;
+
 	protected override void unserializeElement(BinaryFormatter bf, FileStream f) {
 
-		PlayerPositionData playerPositionData = (PlayerPositionData) bf.Deserialize(f);
+		unserializedPlayerPositionData = (PlayerPositionData) bf.Deserialize(f);
+	}
+
+	protected override void assignUnserializedElement() {
 		
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
-
-		playerPositionData.assign(
-		    playerGameObject.GetComponent<PlayerControls>());
+		
+		unserializedPlayerPositionData.assign(
+			playerGameObject.GetComponent<PlayerControls>());
 	}
-	
+
+
 	protected override void serializeElement(BinaryFormatter bf, FileStream f) {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();

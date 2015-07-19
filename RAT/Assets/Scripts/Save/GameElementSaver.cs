@@ -3,6 +3,8 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
+using System.Security.Cryptography;
+using System.Text;
 
 public abstract class GameElementSaver {
 
@@ -79,8 +81,33 @@ public abstract class GameElementSaver {
 
 				//unserialize element
 				unserializeElement(bf, f);
-				
-				return (f.Position == f.Length);
+
+				//check the last editing and the checksum
+				long oldEditingDateTime = (long) bf.Deserialize(f);
+				long currentEditingDateTime = getFileLastWriteTime(filePath);
+				if(currentEditingDateTime != oldEditingDateTime) {
+					Debug.LogError("Unserialize problem, date difference, file was modified outside of the game : " +
+					               currentEditingDateTime + " / " + oldEditingDateTime + ")");
+					return false;
+				}
+
+				int currentDataPosition = (int)f.Position;
+				string oldChecksum = (string) bf.Deserialize(f);
+				string currentChecksum = getCheckSum(f, currentDataPosition);
+				if(!currentChecksum.Equals(oldChecksum)) {
+					Debug.LogError("Unserialize problem, checksum difference, file was modified outside of the game : " + currentChecksum + " / " + oldChecksum);
+					return false;
+				}
+
+				//check if the unserializing is correct
+				if(f.Position != f.Length) {
+					Debug.LogError("Unserialize problem, end of file not reached : " + f.Position + " / " + f.Length);
+					return false;
+				}
+
+				assignUnserializedElement();
+
+				return true;
 			}
 
 		} catch(Exception e) {
@@ -114,6 +141,7 @@ public abstract class GameElementSaver {
 	
 	protected abstract void unserializeElement(BinaryFormatter bf, FileStream f);
 
+	protected abstract void assignUnserializedElement();
 
 	public bool saveData() {
 		
@@ -185,6 +213,7 @@ public abstract class GameElementSaver {
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream f = File.Create(filePath);
 
+		long editingDateTime = 0;
 		try {
 			//serialize version
 			bf.Serialize(f, getVersion());
@@ -192,7 +221,10 @@ public abstract class GameElementSaver {
 			//serialize element
 			serializeElement(bf, f);
 
-			return true;
+			//save edition date + hash to avoid editing the files
+			editingDateTime = getFileLastWriteTime(filePath);
+			bf.Serialize(f, editingDateTime);
+			bf.Serialize(f, getCheckSum(f, (int)f.Position));
 
 		} catch(Exception e) {
 			
@@ -203,9 +235,52 @@ public abstract class GameElementSaver {
 			f.Close();
 		}
 
+		long currentEditingDateTime = getFileLastWriteTime(filePath);
+		if(editingDateTime != currentEditingDateTime) {
+			Debug.LogError("Serialize problem, date difference : " +
+			               currentEditingDateTime + " / " + editingDateTime + ")");
+			return false;
+		}
+
+		return true;
 	}
 
 	protected abstract void serializeElement(BinaryFormatter bf, FileStream f);
+
+
+	private static long getFileLastWriteTime(string filePath) {
+
+		DateTime dateTime = File.GetLastWriteTime(filePath);
+
+		//truncate to avoid save problems
+		return (long)Math.Floor((double)dateTime.Ticks / 10000000d);
+	}
+
+	public static DateTime truncateDateTime(DateTime dateTime, TimeSpan timeSpan) {
+		if (timeSpan == TimeSpan.Zero) {
+			return dateTime;
+		}
+		return dateTime.AddTicks(-(dateTime.Ticks % timeSpan.Ticks));
+	}
+
+
+	private static string getCheckSum(FileStream f, int length) {
+
+		BinaryReader br = new BinaryReader(f);
+		byte[] bytes = br.ReadBytes(length);
+
+		SHA1 sha1 = SHA1.Create();
+		byte[] hashBytes = sha1.ComputeHash(bytes);
+
+		StringBuilder checksum = new StringBuilder();
+		//convert hash bytes to string
+		foreach (byte b in hashBytes) {
+			string hex = b.ToString("x2");
+			checksum.Append(hex);
+		}
+
+		return checksum.ToString();
+	}
 
 }
 

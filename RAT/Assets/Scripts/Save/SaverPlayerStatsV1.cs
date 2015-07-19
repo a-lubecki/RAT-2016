@@ -22,17 +22,23 @@ public class SaverPlayerStatsV1 : GameElementSaver {
 		return null;
 	}
 
-	
+
+	private PlayerStatsData unserializedPlayerStatsData;
+
 	protected override void unserializeElement(BinaryFormatter bf, FileStream f) {
 
-		PlayerStatsData playerStatsData = (PlayerStatsData) bf.Deserialize(f);
-		
-		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
-
-		playerStatsData.assign(
-			playerGameObject.GetComponent<Player>());
+		unserializedPlayerStatsData = (PlayerStatsData) bf.Deserialize(f);
 	}
 	
+	protected override void assignUnserializedElement() {
+		
+		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
+		
+		unserializedPlayerStatsData.assign(
+			playerGameObject.GetComponent<Player>());
+	}
+
+
 	protected override void serializeElement(BinaryFormatter bf, FileStream f) {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();

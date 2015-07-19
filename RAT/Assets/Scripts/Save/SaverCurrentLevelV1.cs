@@ -22,15 +22,20 @@ public class SaverCurrentLevelV1 : GameElementSaver {
 		return null;
 	}
 
-	
+
+	private CurrentLevelData unserializedCurrentLevelData;
+
 	protected override void unserializeElement(BinaryFormatter bf, FileStream f) {
 
-		CurrentLevelData currentLevelData = (CurrentLevelData) bf.Deserialize(f);
-
-		currentLevelData.assign(GameHelper.Instance.getLevelManager());
-
+		unserializedCurrentLevelData = (CurrentLevelData) bf.Deserialize(f);
 	}
-	
+
+	protected override void assignUnserializedElement() {
+		
+		unserializedCurrentLevelData.assign(GameHelper.Instance.getLevelManager());
+	}
+
+
 	protected override void serializeElement(BinaryFormatter bf, FileStream f) {
 
 		CurrentLevelData currentLevelData = new CurrentLevelData(
