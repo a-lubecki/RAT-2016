@@ -24,6 +24,7 @@ public class HUDBar : Bar {
 		//change size of bar parts
 		Transform transformMiddle = transform.Find(BAR_PART_MIDDLE);
 		Transform transformEnd = transform.Find(BAR_PART_END);
+		Transform transformProgressEnd = transform.Find(BAR_PART_PROGRESS_END);
 		
 		Vector2 middleScale = transformMiddle.localScale;
 		middleScale.x = barWidth * Constants.TILE_SIZE;
@@ -32,7 +33,11 @@ public class HUDBar : Bar {
 		Vector2 endPos = transformEnd.position;
 		endPos.x = transformMiddle.position.x + barWidth;
 		transformEnd.position = endPos;
-		
+
+		Vector2 progressEndPos = transformProgressEnd.position;
+		progressEndPos.x = transformMiddle.position.x + barWidth;
+		transformProgressEnd.position = progressEndPos;
+
 		//update progress part
 		base.FixedUpdate();
 

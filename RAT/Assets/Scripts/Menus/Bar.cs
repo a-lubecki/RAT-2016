@@ -7,6 +7,7 @@ public class Bar : MonoBehaviour {
 	public static readonly string BAR_PART_END = "End";
 	public static readonly string BAR_PART_PROGRESS_BEGIN = "ProgressBegin"; 
 	public static readonly string BAR_PART_PROGRESS = "Progress"; 
+	public static readonly string BAR_PART_PROGRESS_END = "ProgressEnd";
 
 	private float percentage = 0;
 
@@ -25,11 +26,15 @@ public class Bar : MonoBehaviour {
 		Vector2 scale = progress.localScale;
 		scale.x = width;
 		progress.localScale = scale;
-
+		
 		//hide the progress begin part if no more life
 		Transform progressBegin = transform.Find(BAR_PART_PROGRESS_BEGIN);
 		progressBegin.gameObject.SetActive(isVisible && percentage > 0);
-	
+		
+		//show the progress end part if life is 100%
+		Transform progressEnd = transform.Find(BAR_PART_PROGRESS_END);
+		progressEnd.gameObject.SetActive(isVisible && percentage >= 1);
+
 	}
 	
 	public void setVisible(bool visible) {
