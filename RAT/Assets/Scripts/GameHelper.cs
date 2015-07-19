@@ -110,8 +110,18 @@ public class GameHelper {
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
-
+		
 		return gameObject;
+	}
+	
+	public Hub getHub() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_HUB);
+		if(gameObject == null) {
+			return null;//no hub
+		}
+		
+		return gameObject.GetComponent<Hub>();
 	}
 
 

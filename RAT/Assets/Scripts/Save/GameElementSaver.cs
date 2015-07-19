@@ -22,13 +22,17 @@ public abstract class GameElementSaver {
 
 	private string getBaseFilePath() {
 
-		string levelDirectoryName = "";
-
-		if(isLevelSpecific()) {
-			levelDirectoryName = GameHelper.Instance.getLevelManager().getCurrentLevelName() + "/";
+		if(!isLevelSpecific()) {
+			return Application.persistentDataPath + "/" + getFileName();
 		}
 
-		return Application.persistentDataPath + "/" + levelDirectoryName + getFileName();
+		string path = Application.persistentDataPath + "/" + GameHelper.Instance.getLevelManager().getCurrentLevelName();
+
+		if(!Directory.Exists(path)) {
+			Directory.CreateDirectory(path);
+		}
+
+		return path + "/" + getFileName();
 	}
 
 	public bool loadData() {
@@ -219,7 +223,10 @@ public abstract class GameElementSaver {
 			bf.Serialize(f, getVersion());
 			
 			//serialize element
-			serializeElement(bf, f);
+			if(!serializeElement(bf, f)) {
+				//the serialization has been stopped by the subclass
+				return false;
+			}
 
 			//save edition date + hash to avoid editing the files
 			editingDateTime = getFileLastWriteTime(filePath);
@@ -245,7 +252,7 @@ public abstract class GameElementSaver {
 		return true;
 	}
 
-	protected abstract void serializeElement(BinaryFormatter bf, FileStream f);
+	protected abstract bool serializeElement(BinaryFormatter bf, FileStream f);
 
 
 	private static long getFileLastWriteTime(string filePath) {

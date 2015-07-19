@@ -33,15 +33,15 @@ public class GameSaver {
 		return new SaverPlayerPositionV1();
 	}
 
-	public GameElementSaver getSaverNcps() {
-		return null;//TODO
-	}
-
-	public GameElementSaver getSaverHubs() {
-		return null;//TODO
+	public GameElementSaver getSaverHub() {
+		return new SaverHubV1();
 	}
 
 	public GameElementSaver getSaverDoors() {
+		return null;//TODO
+	}
+	
+	public GameElementSaver getSaverNcps() {
 		return null;//TODO
 	}
 

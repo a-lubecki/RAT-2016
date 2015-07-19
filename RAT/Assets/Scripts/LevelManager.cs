@@ -52,14 +52,15 @@ public class LevelManager : MonoBehaviour {
 		createGameElements();
 
 		spawnPlayer();
-		initPlayer();
+		initPlayerStats();
+
 
 		//free for further level load
 		lastNodeElementTrigger = null;
 		mustSpawnPlayerAtHub = false;
 		levelLoadedFromSave = false;
 
-		//save data to keep state if the game is quited just after
+		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.getSaverCurrentLevel().saveData();
 		GameSaver.Instance.getSaverPlayerPosition().saveData();
 	}
@@ -166,9 +167,14 @@ public class LevelManager : MonoBehaviour {
 
 		// load hub if there is one
 		if(currentNodeLevel.hubElement != null) {
+
 			HubCreator hubCreator = new HubCreator();
 			hubCreator.createNewGameObject(currentNodeLevel.hubElement);
+
+			//init
+			GameSaver.Instance.getSaverHub().loadData();
 		}
+
 
 		// load links
 		LinkCreator linkCreator = new LinkCreator();
@@ -178,7 +184,8 @@ public class LevelManager : MonoBehaviour {
 
 			linkCreator.createNewGameObject(currentNodeLevel.getLink(i));
 		}
-				
+
+
 		// load doors
 		DoorCreator doorCreator = new DoorCreator();
 		
@@ -187,6 +194,7 @@ public class LevelManager : MonoBehaviour {
 			
 			doorCreator.createNewGameObject(currentNodeLevel.getDoor(i));
 		}
+
 
 		// load NPCs
 		NpcCreator npcCreator = new NpcCreator();
@@ -307,7 +315,7 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	private void initPlayer() {
+	private void initPlayerStats() {
 		
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
 
@@ -315,9 +323,8 @@ public class LevelManager : MonoBehaviour {
 		if(!GameSaver.Instance.getSaverPlayerStats().loadData()) {
 			//very first init of the player stats
 			player.firstGameInit();
-		}
-
-		if(mustSpawnPlayerAtHub) {
+		
+		} else if(mustSpawnPlayerAtHub) {
 
 			player.reinitLifeAndStamina();
 		}

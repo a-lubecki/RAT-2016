@@ -35,6 +35,17 @@ public class Hub : MonoBehaviour {
 
 	}
 	
+	public void init(bool activated) {
+		
+		this.isActivated = activated;
+		
+		if(activated) {
+			GetComponent<SpriteRenderer>().sprite = spriteActivated;
+		} else {
+			GetComponent<SpriteRenderer>().sprite = spriteDeactivated;
+		}
+	}
+
 	void OnTriggerEnter2D(Collider2D other) {
 		
 		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
@@ -66,10 +77,13 @@ public class Hub : MonoBehaviour {
 		//propose to activate
 		setActivated(true);
 		
-		//save level to respawn
+		//keep level to respawn after
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
 		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
 		
+		GameSaver.Instance.getSaverHub().saveData();
+		GameSaver.Instance.getSaverPlayerStats().saveData();
+
 		MessageDisplayer.Instance.displayBigMessage("Hub activé");
 
 	}
@@ -83,6 +97,13 @@ public class Hub : MonoBehaviour {
 		
 		//TODO propose to manage experience / teleport
 
+		
+		//keep level to respawn after
+		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		
+		GameSaver.Instance.getSaverPlayerStats().saveData();
+		GameSaver.Instance.getSaverPlayerPosition().saveData();
+	
 	}
 
 	public void setActivated(bool activated) {

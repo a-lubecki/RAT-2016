@@ -36,13 +36,14 @@ public class SaverCurrentLevelV1 : GameElementSaver {
 	}
 
 
-	protected override void serializeElement(BinaryFormatter bf, FileStream f) {
+	protected override bool serializeElement(BinaryFormatter bf, FileStream f) {
 
 		CurrentLevelData currentLevelData = new CurrentLevelData(
 			GameHelper.Instance.getLevelManager());
 
 		bf.Serialize(f, currentLevelData);
 
+		return true;
 	}
 
 }

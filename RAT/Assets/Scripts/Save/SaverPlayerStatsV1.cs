@@ -39,7 +39,7 @@ public class SaverPlayerStatsV1 : GameElementSaver {
 	}
 
 
-	protected override void serializeElement(BinaryFormatter bf, FileStream f) {
+	protected override bool serializeElement(BinaryFormatter bf, FileStream f) {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 
@@ -47,7 +47,8 @@ public class SaverPlayerStatsV1 : GameElementSaver {
 			playerGameObject.GetComponent<Player>());
 
 		bf.Serialize(f, playerStatsData);
-
+		
+		return true;
 	}
 
 }
