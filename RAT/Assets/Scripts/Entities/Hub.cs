@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using Level;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
 public class Hub : MonoBehaviour {
 	
@@ -131,15 +129,6 @@ public class Hub : MonoBehaviour {
 			}
 		}
 
-	}
-
-	
-	public virtual void serialize(BinaryFormatter bf, FileStream f) {
-		bf.Serialize(f, isActivated);
-	}
-	
-	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
-		isActivated = (bool) bf.Deserialize(f);
 	}
 
 }

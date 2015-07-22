@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Level;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
 public class Door : MonoBehaviour {
 	
 	public NodeElementDoor nodeElementDoor { get; private set; }
 	
-	private bool isOpened = false;
+	public bool isOpened { get; private set; }
 	private bool isAnimatingDoor = false;
 	
 	private Sprite[] sprites;
@@ -74,6 +72,15 @@ public class Door : MonoBehaviour {
 		updateSprite(0);
 	}
 	
+	public void init(bool opened) {
+
+		if(opened) {
+			open(false);
+		} else {
+			close(false);
+		}
+	}
+
 	public void open(bool animated) {
 		
 		if(isOpened) {
@@ -219,15 +226,6 @@ public class Door : MonoBehaviour {
 	
 	private BoxCollider2D getTriggerCollider() {
 		return GetComponents<BoxCollider2D>()[1];
-	}
-
-	
-	public virtual void serialize(BinaryFormatter bf, FileStream f) {
-		bf.Serialize(f, isOpened);
-	}
-	
-	public virtual void unserialize(BinaryFormatter bf, FileStream f) {
-		isOpened = (bool) bf.Deserialize(f);
 	}
 
 }

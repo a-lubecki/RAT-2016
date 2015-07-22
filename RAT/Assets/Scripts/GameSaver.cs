@@ -113,7 +113,7 @@ public class GameSaver {
 	}
 
 	private GameElementSaver newSaverDoors() {
-		return null;//TODO
+		return new SaverDoorsV1();
 	}
 	
 	private GameElementSaver newSaverNcps() {

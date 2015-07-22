@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using Level;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
 public class Player : Character {
 	

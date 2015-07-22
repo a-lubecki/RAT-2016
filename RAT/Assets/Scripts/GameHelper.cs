@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameHelper {
 	
@@ -122,6 +124,11 @@ public class GameHelper {
 		}
 		
 		return gameObject.GetComponent<Hub>();
+	}
+
+	public Door[] getDoors() {
+
+		return GameObject.FindObjectsOfType<Door>();
 	}
 
 

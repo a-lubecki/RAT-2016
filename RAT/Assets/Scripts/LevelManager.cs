@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using Level;
+using System;
 
 public class LevelManager : MonoBehaviour {
 
@@ -15,6 +16,9 @@ public class LevelManager : MonoBehaviour {
 
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
+
+	private bool isRunningSaverLoop = false;
+	private Coroutine coroutineSaveLoop;
 
 	void Start () {
 
@@ -63,6 +67,8 @@ public class LevelManager : MonoBehaviour {
 		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.saveCurrentLevel();
 		GameSaver.Instance.savePlayerPosition();
+
+		startSaverCoroutine();
 	}
 
 	private void createLevel() {
@@ -194,6 +200,8 @@ public class LevelManager : MonoBehaviour {
 			
 			doorCreator.createNewGameObject(currentNodeLevel.getDoor(i));
 		}
+		//init
+		GameSaver.Instance.loadDoors();
 
 
 		// load NPCs
@@ -253,6 +261,10 @@ public class LevelManager : MonoBehaviour {
 			//call already done, waiting for level to load
 			return;
 		}
+		
+		nextLevelName = levelName;
+
+		stopSaverCoroutine();
 
 		bool hasCurrentLevel = !string.IsNullOrEmpty(currentLevelName);
 
@@ -260,8 +272,6 @@ public class LevelManager : MonoBehaviour {
 			//if the current level is not currently loading, save player before loading a new level
 			GameSaver.Instance.savePlayerStats();
 		}
-
-		nextLevelName = levelName;
 
 		//no fadein if level is the first
 		AutoFade.LoadLevel(0, hasCurrentLevel ? 0.3f : 0, 0.3f, Color.black);
@@ -387,6 +397,38 @@ public class LevelManager : MonoBehaviour {
 
 	public string getCurrentLevelName() {
 		return currentLevelName;
+	}
+	
+	private void startSaverCoroutine() {
+		
+		stopSaverCoroutine();
+		
+		coroutineSaveLoop = StartCoroutine(runSaverLoop());
+	}
+	
+	private void stopSaverCoroutine() {
+		
+		if(coroutineSaveLoop != null) {
+			StopCoroutine(coroutineSaveLoop);
+		}
+	}
+	
+	//save the game every x seconds
+	private IEnumerator runSaverLoop() {
+		
+		isRunningSaverLoop = true;
+		
+		while(isRunningSaverLoop) {
+			
+			yield return new WaitForSeconds(10);
+			
+			GameSaver.Instance.savePlayerPosition();
+			GameSaver.Instance.savePlayerStats();
+			GameSaver.Instance.saveDoors();
+			
+			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
+		}
+		
 	}
 
 }

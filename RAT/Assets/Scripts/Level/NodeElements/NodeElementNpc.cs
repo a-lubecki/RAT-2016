@@ -4,11 +4,8 @@ using UnityEngine;
 
 namespace Level {
 	
-	public class NodeElementNpc : BaseNodeElement {
-				
-		public NodeElementNpc() : base() {
-		}
-		
+	public class NodeElementNpc : BaseIdentifiableNodeElement {
+
 		public NodeElementNpc(XmlNode node) : base(node) {
 
 		}

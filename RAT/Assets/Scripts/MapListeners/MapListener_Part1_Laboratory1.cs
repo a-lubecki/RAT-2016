@@ -18,9 +18,9 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 
 		//find the 3 doors
 		HashSet<string> doorsIds = new HashSet<string>();
-		doorsIds.Add("door1");
-		doorsIds.Add("door2");
-		doorsIds.Add("door3");
+		doorsIds.Add("door11");
+		doorsIds.Add("door12");
+		doorsIds.Add("door13");
 
 		List<Door> selectedDoors = new List<Door>();
 
