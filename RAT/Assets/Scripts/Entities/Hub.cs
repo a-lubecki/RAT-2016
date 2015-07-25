@@ -80,7 +80,7 @@ public class Hub : MonoBehaviour {
 		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
 		
 		GameSaver.Instance.saveHub();
-		GameSaver.Instance.savePlayerStats();
+		GameSaver.Instance.savePlayer();
 
 		MessageDisplayer.Instance.displayBigMessage("Hub activé");
 
@@ -98,10 +98,17 @@ public class Hub : MonoBehaviour {
 		
 		//keep level to respawn after
 		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
-		
-		GameSaver.Instance.savePlayerStats();
-		GameSaver.Instance.savePlayerPosition();
+
+		GameSaver.Instance.savePlayer();
 	
+
+		onPlayerStatsChanged();//TODO test call
+
+	}
+
+	public void onPlayerStatsChanged() {
+		
+		GameSaver.Instance.savePlayer();
 	}
 
 	public void setActivated(bool activated) {

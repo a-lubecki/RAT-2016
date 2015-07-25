@@ -13,24 +13,28 @@ public class Player : Character {
 	public int stamina { get; protected set; }
 
 	public string levelNameForlastHub;
-	
-	public void firstGameInit() {
-		
-		this.skillPointHealth = 5;
-		this.skillPointEnergy = 5;
-		
+
+	public void initStats(int skillPointHealth, int skillPointEnergy) {
+
+		if(skillPointHealth < 1) {
+			this.skillPointHealth = 1;
+		} else {
+			this.skillPointHealth = skillPointHealth;
+		}
+
+		if(skillPointEnergy < 1) {
+			this.skillPointEnergy = 1;
+		} else {
+			this.skillPointEnergy = skillPointEnergy;
+		}
+
 		computeStats();
-		
+
 		reinitLifeAndStamina();
 	}
+		
+	public void init(int life, int stamina) {
 
-	public void init(int skillPointHealth, int skillPointEnergy, int life, int stamina) {
-		
-		this.skillPointHealth = skillPointHealth;
-		this.skillPointEnergy = skillPointEnergy;
-		
-		computeStats();
-		
 		this.life = life;
 		this.stamina = stamina;
 		

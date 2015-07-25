@@ -59,11 +59,6 @@ class PlayerStatsData {
 	private int skillPointHealth;
 	private int skillPointEnergy;
 
-	private int currentLife;
-	private int currentStamina;
-	
-	private string levelNameForlastHub;
-
 	public PlayerStatsData(Player player) {
 
 		if(player == null) {
@@ -72,11 +67,6 @@ class PlayerStatsData {
 		
 		skillPointHealth = player.skillPointHealth;
 		skillPointEnergy = player.skillPointEnergy;
-
-		currentLife = player.life;
-		currentStamina = player.stamina;
-
-		levelNameForlastHub = player.levelNameForlastHub;
 	}
 	
 	public void assign(Player player) {
@@ -85,9 +75,7 @@ class PlayerStatsData {
 			throw new System.ArgumentException();
 		}
 
-		player.init(skillPointHealth, skillPointEnergy, currentLife, currentStamina);
-
-		player.levelNameForlastHub = levelNameForlastHub;
+		player.initStats(skillPointHealth, skillPointEnergy);
 	}
 
 }

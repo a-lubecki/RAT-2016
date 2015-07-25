@@ -4,7 +4,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEditor;
 
-public class SaverPlayerPositionV1 : GameElementSaver {
+public class SaverPlayerV1 : GameElementSaver {
 
 	public override int getVersion() {
 		return 1;
@@ -23,11 +23,11 @@ public class SaverPlayerPositionV1 : GameElementSaver {
 	}
 
 
-	private PlayerPositionData unserializedPlayerPositionData;
+	private PlayerData unserializedPlayerPositionData;
 
 	protected override void unserializeElement(BinaryFormatter bf, FileStream f) {
 
-		unserializedPlayerPositionData = (PlayerPositionData) bf.Deserialize(f);
+		unserializedPlayerPositionData = (PlayerData) bf.Deserialize(f);
 	}
 
 	protected override void assignUnserializedElement() {
@@ -35,6 +35,7 @@ public class SaverPlayerPositionV1 : GameElementSaver {
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
 		unserializedPlayerPositionData.assign(
+			playerGameObject.GetComponent<Player>(),
 			playerGameObject.GetComponent<PlayerControls>());
 	}
 
@@ -43,7 +44,8 @@ public class SaverPlayerPositionV1 : GameElementSaver {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 
-		PlayerPositionData playerPositionData = new PlayerPositionData(
+		PlayerData playerPositionData = new PlayerData(
+			playerGameObject.GetComponent<Player>(),
 			playerGameObject.GetComponent<PlayerControls>());
 
 		bf.Serialize(f, playerPositionData);
@@ -54,14 +56,22 @@ public class SaverPlayerPositionV1 : GameElementSaver {
 }
 
 [Serializable]
-class PlayerPositionData {
+class PlayerData {
 
 	private int currentPosX;
 	private int currentPosY;
 	private int currentAngleDegrees;
+	
+	private int currentLife;
+	private int currentStamina;
+	
+	private string levelNameForlastHub;
 
-	public PlayerPositionData(PlayerControls playerControls) {
-
+	public PlayerData(Player player, PlayerControls playerControls) {
+		
+		if(player == null) {
+			throw new System.ArgumentException();
+		}
 		if(playerControls == null) {
 			throw new System.ArgumentException();
 		}
@@ -69,15 +79,26 @@ class PlayerPositionData {
 		currentPosX = (int)(playerControls.transform.position.x);
 		currentPosY = (int)(playerControls.transform.position.y);
 		currentAngleDegrees = (int)playerControls.angleDegrees;
+		
+		currentLife = player.life;
+		currentStamina = player.stamina;
+		
+		levelNameForlastHub = player.levelNameForlastHub;
 	}
 	
-	public void assign(PlayerControls playerControls) {
-
+	public void assign(Player player, PlayerControls playerControls) {
+		
+		if(player == null) {
+			throw new System.ArgumentException();
+		}
 		if(playerControls == null) {
 			throw new System.ArgumentException();
 		}
 
 		playerControls.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
+		
+		player.init(currentLife, currentStamina);
+		player.levelNameForlastHub = levelNameForlastHub;
 	}
 
 }

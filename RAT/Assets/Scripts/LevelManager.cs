@@ -55,9 +55,8 @@ public class LevelManager : MonoBehaviour {
 		createMap();
 		createGameElements();
 
-		spawnPlayer();
 		initPlayerStats();
-
+		spawnPlayer();
 
 		//free for further level load
 		lastNodeElementTrigger = null;
@@ -66,7 +65,7 @@ public class LevelManager : MonoBehaviour {
 
 		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.saveCurrentLevel();
-		GameSaver.Instance.savePlayerPosition();
+		GameSaver.Instance.savePlayer();
 
 		//load listener events after all other loaded elements
 		GameSaver.Instance.loadListenerEvents();
@@ -234,7 +233,7 @@ public class LevelManager : MonoBehaviour {
 			
 			//load saved player pos
 			if(levelLoadedFromSave) {
-				if(GameSaver.Instance.loadPlayerPosition()) {
+				if(GameSaver.Instance.loadPlayer()) {
 					return;//done
 				}
 			}
@@ -273,7 +272,7 @@ public class LevelManager : MonoBehaviour {
 
 		if(hasCurrentLevel) {
 			//if the current level is not currently loading, save player before loading a new level
-			GameSaver.Instance.savePlayerStats();
+			GameSaver.Instance.savePlayer();
 		}
 
 		//no fadein if level is the first
@@ -335,7 +334,7 @@ public class LevelManager : MonoBehaviour {
 		//load player stats
 		if(!GameSaver.Instance.loadPlayerStats()) {
 			//very first init of the player stats
-			player.firstGameInit();
+			player.initStats(5, 5);
 		
 		} else if(mustSpawnPlayerAtHub) {
 
@@ -425,8 +424,7 @@ public class LevelManager : MonoBehaviour {
 			
 			yield return new WaitForSeconds(10);
 			
-			GameSaver.Instance.savePlayerPosition();
-			GameSaver.Instance.savePlayerStats();
+			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveDoors();
 			
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");

@@ -64,12 +64,12 @@ public class GameSaver {
 		return newSaverPlayerStats().loadData();
 	}
 	
-	public void savePlayerPosition() {
-		addToQueue(newSaverPlayerPosition());
+	public void savePlayer() {
+		addToQueue(newSaverPlayer());
 	}
 	
-	public bool loadPlayerPosition() {
-		return newSaverPlayerPosition().loadData();
+	public bool loadPlayer() {
+		return newSaverPlayer().loadData();
 	}
 	
 	public void saveHub() {
@@ -114,8 +114,8 @@ public class GameSaver {
 		return new SaverPlayerStatsV1();
 	}
 	
-	private GameElementSaver newSaverPlayerPosition() {
-		return new SaverPlayerPositionV1();
+	private GameElementSaver newSaverPlayer() {
+		return new SaverPlayerV1();
 	}
 	
 	private GameElementSaver newSaverHub() {
