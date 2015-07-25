@@ -9,8 +9,13 @@ public abstract class EntityCollider : MonoBehaviour {
 	
 	protected bool isPaused { get; private set; }
 
+	
+	public void setRealPosition(int xGeneration, int yGeneration) {
+	
+		GetComponent<Transform>().position = new Vector2(xGeneration, yGeneration);
+	}
 
-	public void setPosition(int xGeneration, int yGeneration) {
+	public void setMapPosition(int xGeneration, int yGeneration) {
 
 		GetComponent<Transform>().position = GameHelper.Instance.newPositionOnMap(xGeneration, yGeneration);
 	}

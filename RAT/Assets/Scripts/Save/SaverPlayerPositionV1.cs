@@ -66,8 +66,8 @@ class PlayerPositionData {
 			throw new System.ArgumentException();
 		}
 
-		currentPosX = (int)(playerControls.transform.position.x / (float) Constants.TILE_SIZE);
-		currentPosY = - (int)(playerControls.transform.position.y / (float) Constants.TILE_SIZE);
+		currentPosX = (int)(playerControls.transform.position.x);
+		currentPosY = (int)(playerControls.transform.position.y);
 		currentAngleDegrees = (int)playerControls.angleDegrees;
 	}
 	

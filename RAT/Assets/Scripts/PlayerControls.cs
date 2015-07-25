@@ -27,7 +27,7 @@ public class PlayerControls : EntityCollider {
 
 	public void setInitialPosition(int x, int y, int angleDegrees) {
 
-		setPosition(x, y);
+		setRealPosition(x, y);
 
 		this.angleDegrees = angleDegrees;
 	}
@@ -35,9 +35,9 @@ public class PlayerControls : EntityCollider {
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
 		if(nodePosition != null) {
-			setPosition(nodePosition.x, nodePosition.y);
+			setMapPosition(nodePosition.x, nodePosition.y);
 		} else {
-			setPosition(0, 0);
+			setMapPosition(0, 0);
 		}
 
 		if(nodeDirection != null) {
