@@ -38,7 +38,7 @@ namespace Level {
 				return;
 			}
 
-			MonoBehaviour mapListener = GameHelper.Instance.getCurrentMapListener();
+			MonoBehaviour mapListener = GameHelper.Instance.getCurrentMapListenerBehaviour();
 			if(mapListener == null) {
 				// no listener class has been created for this map
 				Debug.LogWarning("No listener class has been created for this map, in : " + inCallName);

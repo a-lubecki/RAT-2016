@@ -46,7 +46,8 @@ public class GameSaver {
 		//process
 		saver.saveData();
 	}
-	
+
+
 	public void saveCurrentLevel() {
 		addToQueue(newSaverCurrentLevel());
 	}
@@ -95,7 +96,16 @@ public class GameSaver {
 		return newSaverNcps().loadData();
 	}
 
+	public void saveListenerEvents() {
+		addToQueue(newSaverListenerEvents());
+	}
+	
+	public bool loadListenerEvents() {
+		return newSaverListenerEvents().loadData();
+	}
 
+
+	
 	private GameElementSaver newSaverCurrentLevel() {
 		return new SaverCurrentLevelV1();
 	}
@@ -103,15 +113,15 @@ public class GameSaver {
 	private GameElementSaver newSaverPlayerStats() {
 		return new SaverPlayerStatsV1();
 	}
-
+	
 	private GameElementSaver newSaverPlayerPosition() {
 		return new SaverPlayerPositionV1();
 	}
-
+	
 	private GameElementSaver newSaverHub() {
 		return new SaverHubV1();
 	}
-
+	
 	private GameElementSaver newSaverDoors() {
 		return new SaverDoorsV1();
 	}
@@ -120,6 +130,8 @@ public class GameSaver {
 		return null;//TODO
 	}
 
-
+	private GameElementSaver newSaverListenerEvents() {
+		return new SaverListenerEventsV1();
+	}
 }
 

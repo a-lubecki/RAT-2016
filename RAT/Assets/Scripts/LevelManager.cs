@@ -68,6 +68,9 @@ public class LevelManager : MonoBehaviour {
 		GameSaver.Instance.saveCurrentLevel();
 		GameSaver.Instance.savePlayerPosition();
 
+		//load listener events after all other loaded elements
+		GameSaver.Instance.loadListenerEvents();
+
 		startSaverCoroutine();
 	}
 

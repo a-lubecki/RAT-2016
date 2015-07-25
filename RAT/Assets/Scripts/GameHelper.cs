@@ -190,7 +190,18 @@ public class GameHelper {
 	}
 
 	
-	public MonoBehaviour getCurrentMapListener() {
+	public IMapListener getCurrentMapListener() {
+
+		MonoBehaviour mapListenerBehaviour = getCurrentMapListenerBehaviour();
+
+		if(mapListenerBehaviour is IMapListener) {
+			return (IMapListener) mapListenerBehaviour;
+		}
+
+		return null;
+	}
+	
+	public MonoBehaviour getCurrentMapListenerBehaviour() {
 
 		LevelManager levelManager = getLevelManager();
 
