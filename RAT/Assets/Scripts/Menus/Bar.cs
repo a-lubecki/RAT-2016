@@ -27,25 +27,38 @@ public class Bar : MonoBehaviour {
 		scale.x = width;
 		progress.localScale = scale;
 		
-		//hide the progress begin part if no more life
-		Transform progressBegin = transform.Find(BAR_PART_PROGRESS_BEGIN);
-		progressBegin.gameObject.SetActive(isVisible && percentage > 0);
-		
-		//show the progress end part if life is 100%
-		Transform progressEnd = transform.Find(BAR_PART_PROGRESS_END);
-		progressEnd.gameObject.SetActive(isVisible && percentage >= 1);
-
+		updateViewsVisibility();
 	}
-	
-	public void setVisible(bool visible) {
+
+	public void setVisible(bool isVisible) {
 		
-		isVisible = visible;
-		
+		this.isVisible = isVisible;
+
+		updateViewsVisibility();
+	}
+
+	private void updateViewsVisibility() {
+
+		Transform progressBegin = transform.Find(BAR_PART_PROGRESS_BEGIN);
+		Transform progressEnd = transform.Find(BAR_PART_PROGRESS_END);
+
 		for(int i = 0 ; i < transform.childCount ; i++) {
-			transform.GetChild(i).gameObject.SetActive(visible);
+			
+			Transform childTransform = transform.GetChild(i);
+			
+			bool childVisible = isVisible;
+			if(childTransform == progressBegin) {
+				//hide the progress begin part if no more life
+				childVisible = (isVisible && percentage > 0);
+			} else if(childTransform == progressEnd) {
+				//show the progress end part if life is 100%
+				childVisible = (isVisible && percentage >= 1);
+			}
+			
+			childTransform.gameObject.SetActive(childVisible);
 		}
 	}
-
+	 
 	public float getPercentage() {
 		return percentage;
 	}
