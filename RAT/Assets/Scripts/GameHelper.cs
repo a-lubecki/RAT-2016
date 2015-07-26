@@ -127,10 +127,12 @@ public class GameHelper {
 	}
 
 	public Door[] getDoors() {
-
 		return GameObject.FindObjectsOfType<Door>();
 	}
 
+	public Npc[] getNpcs() {
+		return GameObject.FindObjectsOfType<Npc>();
+	}
 
 	public Texture2D loadTexture2DAsset(string imagePath) {
 

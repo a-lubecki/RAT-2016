@@ -127,7 +127,7 @@ public class GameSaver {
 	}
 	
 	private GameElementSaver newSaverNcps() {
-		return null;//TODO
+		return new SaverNpcsV1();
 	}
 
 	private GameElementSaver newSaverListenerEvents() {

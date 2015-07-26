@@ -214,6 +214,8 @@ public class LevelManager : MonoBehaviour {
 			
 			npcCreator.createNewGameObject(currentNodeLevel.getNpc(i));
 		}
+		//init
+		GameSaver.Instance.loadNpcs();
 
 	}
 
@@ -426,6 +428,7 @@ public class LevelManager : MonoBehaviour {
 			
 			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveDoors();
+			GameSaver.Instance.saveNpcs();
 			
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
 		}

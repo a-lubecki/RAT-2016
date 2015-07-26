@@ -11,7 +11,7 @@ public class SaverPlayerV1 : GameElementSaver {
 	}
 
 	public override string getFileName() {
-		return "playerPos";
+		return "player";
 	}
 	
 	public override bool isLevelSpecific() {
@@ -23,18 +23,18 @@ public class SaverPlayerV1 : GameElementSaver {
 	}
 
 
-	private PlayerData unserializedPlayerPositionData;
+	private PlayerData unserializedPlayerData;
 
 	protected override void unserializeElement(BinaryFormatter bf, FileStream f) {
 
-		unserializedPlayerPositionData = (PlayerData) bf.Deserialize(f);
+		unserializedPlayerData = (PlayerData) bf.Deserialize(f);
 	}
 
 	protected override void assignUnserializedElement() {
 		
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
-		unserializedPlayerPositionData.assign(
+		unserializedPlayerData.assign(
 			playerGameObject.GetComponent<Player>(),
 			playerGameObject.GetComponent<PlayerControls>());
 	}
@@ -44,11 +44,11 @@ public class SaverPlayerV1 : GameElementSaver {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 
-		PlayerData playerPositionData = new PlayerData(
+		PlayerData playerData = new PlayerData(
 			playerGameObject.GetComponent<Player>(),
 			playerGameObject.GetComponent<PlayerControls>());
 
-		bf.Serialize(f, playerPositionData);
+		bf.Serialize(f, playerData);
 		
 		return true;
 	}

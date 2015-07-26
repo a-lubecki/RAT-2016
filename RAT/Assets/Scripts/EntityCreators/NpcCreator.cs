@@ -40,7 +40,7 @@ public class NpcCreator : BaseEntityCreator {
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
 		Npc npc = gameObjectCollider.GetComponent<Npc>();
-		npc.init(npcRenderer, npcBar);
+		npc.init(nodeElement, npcRenderer, npcBar);
 
 		return gameObjectCollider;
 	}

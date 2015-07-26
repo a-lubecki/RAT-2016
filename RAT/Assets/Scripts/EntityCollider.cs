@@ -8,11 +8,12 @@ public abstract class EntityCollider : MonoBehaviour {
 	public bool isMoving { get; private set; }
 	
 	protected bool isPaused { get; private set; }
-
 	
-	public void setRealPosition(int xGeneration, int yGeneration) {
-	
-		GetComponent<Transform>().position = new Vector2(xGeneration, yGeneration);
+	public void setInitialPosition(int x, int y, int angleDegrees) {
+		
+		GetComponent<Transform>().position = new Vector2(x, y);
+		
+		this.angleDegrees = angleDegrees;
 	}
 
 	public void setMapPosition(int xGeneration, int yGeneration) {
