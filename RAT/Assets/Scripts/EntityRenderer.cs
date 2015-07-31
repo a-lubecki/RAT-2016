@@ -5,6 +5,7 @@ public class EntityRenderer : MonoBehaviour {
 
 	public EntityCollider entityCollider;
 
+	public string currentSpritePrefix;
 
 	void FixedUpdate () {
 	
@@ -17,6 +18,7 @@ public class EntityRenderer : MonoBehaviour {
 		//Debug.Log(">>> " + transform.position.x + " - " + transform.position.y);
 
 		//TODO update "ground" tiles around player with GameObjects pooling : http://blogs.msdn.com/b/dave_crooks_dev_blog/archive/2014/07/21/object-pooling-for-unity3d.aspx
+
 	}
 
 	private static Vector2 snapToGrid(Vector2 vector) {
@@ -31,4 +33,18 @@ public class EntityRenderer : MonoBehaviour {
 		return value - diff; // 385.7 - 0.7 = 385.7
 	}
 
+	public void updateSprite() {
+
+		if(entityCollider.currentCharacterAnimation == null) {
+			return;
+		}
+
+		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
+			Constants.PATH_RES_CHARACTERS + entityCollider.currentCharacterAnimation.textureName,
+			entityCollider.currentCharacterAnimationKey + "." + entityCollider.currentDirection.ToString());
+
+		GetComponent<SpriteRenderer>().sprite = sprite;
+
+	}
+	
 }

@@ -118,7 +118,7 @@ public class Door : MonoBehaviour {
 	IEnumerator animateDoor(bool actionOpen, float totalTime) {
 		
 		if(isAnimatingDoor) {
-			return false;
+			yield return false;
 		}
 		
 		isAnimatingDoor = true;

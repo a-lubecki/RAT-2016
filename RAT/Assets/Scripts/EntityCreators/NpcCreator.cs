@@ -35,6 +35,7 @@ public class NpcCreator : BaseEntityCreator {
 		EntityCollider npcCollider = gameObjectCollider.GetComponent<EntityCollider>();
 		EntityRenderer npcRenderer = gameObjectRenderer.GetComponent<EntityRenderer>();
 		npcRenderer.entityCollider = npcCollider;
+		npcCollider.entityRenderer = npcRenderer;
 
 		GameObject gameObjectNpcBar = new NpcBarCreator().createNewGameObject(nodeElement);
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();

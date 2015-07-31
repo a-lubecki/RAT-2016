@@ -41,6 +41,10 @@ public class PlayerControls : EntityCollider {
 
 	protected override Vector2 getNewMoveVector() {
 
+		if(!isControlsEnabled) {
+			return new Vector2();
+		}
+
 		float angleDegrees = 0;
 		bool isPressingAnyDirection = false;
 
@@ -90,6 +94,9 @@ public class PlayerControls : EntityCollider {
 	
 	
 	private bool isKeyPressed(KeyCode key) {
+		if(!isControlsEnabled) {
+			return false;
+		}
 		return Input.GetKey(key);
 	}
 	
@@ -113,6 +120,38 @@ public class PlayerControls : EntityCollider {
 		}
 		
 		return true;
+	}
+	
+	protected override CharacterAnimation getCurrentCharacterAnimation() {
+
+		string textureName = "Character.Rat.Wait.png";
+
+		switch(currentState) {
+
+		case CharacterState.WALK:
+			return new CharacterAnimation(
+				false, 
+				textureName,
+				new CharacterAnimationKey(0.2f),
+				new CharacterAnimationKey(0.2f));//TODO TEST
+		}
+
+		//wait
+		return new CharacterAnimation(
+			false, 
+			textureName,
+			new CharacterAnimationKey(0.75f),
+			new CharacterAnimationKey(0.75f));
+
+	}
+	
+	protected override CharacterState getNextState() {
+		
+		if(currentState == CharacterState.WALK) {
+			return CharacterState.WALK;
+		}
+
+		return CharacterState.WAIT;
 	}
 
 }

@@ -29,15 +29,11 @@ public class NpcRendererCreator : BaseEntityCreator {
 		GameObject gameObject = createNewGameObject(
 			x, 
 			y);
-		
-		SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_CHARACTERS + "Enemy.Insect.png");
-		spriteRenderer.sprite = Sprite.Create(
-			texture, 
-			new Rect(0, 0, Constants.TILE_SIZE, Constants.TILE_SIZE),
-			new Vector2(0.5f, 0.5f),
-			Constants.TILE_SIZE);
 
+		EntityRenderer npcRenderer = gameObject.GetComponent<EntityRenderer>();
+
+		npcRenderer.currentSpritePrefix = "Enemy.Insect";//TODO test
+		//npcRenderer.currentSpritePrefix = nodeElement.;//TODO
 
 		return gameObject;
 	}

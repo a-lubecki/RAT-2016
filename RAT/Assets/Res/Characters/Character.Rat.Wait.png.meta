@@ -1,17 +1,17 @@
 fileFormatVersion: 2
 guid: 9112b16bbeb90d745ad7f478afb0e1ce
-timeCreated: 1437938797
+timeCreated: 1438260942
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Character.Rat.Waiting_0_0
-    21300002: Character.Rat.Waiting_1_0
-    21300004: Character.Rat.Waiting_0_1
-    21300006: Character.Rat.Waiting_0_2
-    21300008: Character.Rat.Waiting_0_3
-    21300010: Character.Rat.Waiting_1_3
-    21300012: Character.Rat.Waiting_1_2
-    21300014: Character.Rat.Waiting_1_1
+    21300000: 0.DOWN
+    21300002: 1.DOWN
+    21300004: 0.LEFT
+    21300006: 0.RIGHT
+    21300008: 0.UP
+    21300010: 1.UP
+    21300012: 1.RIGHT
+    21300014: 1.LEFT
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -57,57 +57,57 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Character.Rat.Waiting_0_0
+    - name: 0.DOWN
       rect:
         serializedVersion: 2
         x: 0
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_1_0
+    - name: 1.DOWN
       rect:
         serializedVersion: 2
         x: 32
         y: 96
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_0_1
+    - name: 0.LEFT
       rect:
         serializedVersion: 2
         x: 0
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_0_2
+    - name: 0.RIGHT
       rect:
         serializedVersion: 2
         x: 0
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_0_3
+    - name: 0.UP
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_1_3
+    - name: 1.UP
       rect:
         serializedVersion: 2
         x: 32
@@ -117,25 +117,25 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_1_2
+    - name: 1.RIGHT
       rect:
         serializedVersion: 2
         x: 32
         y: 32
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Character.Rat.Waiting_1_1
+    - name: 1.LEFT
       rect:
         serializedVersion: 2
         x: 32
         y: 64
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: .5, y: 0}
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

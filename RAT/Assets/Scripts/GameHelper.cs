@@ -135,6 +135,10 @@ public class GameHelper {
 	}
 
 	public Texture2D loadTexture2DAsset(string imagePath) {
+		
+		if(string.IsNullOrEmpty(imagePath)) {
+			return null;
+		}
 
 		Texture2D texture = UnityEditor.AssetDatabase.LoadAssetAtPath(imagePath, typeof(Texture2D)) as Texture2D;
 		if(texture == null) {
@@ -144,6 +148,29 @@ public class GameHelper {
 		texture.filterMode = FilterMode.Point;
 
 		return texture;
+	}
+
+	public Sprite loadMultiSpriteAsset(string imagePath, string spriteName) {
+		
+		if(string.IsNullOrEmpty(imagePath)) {
+			return null;
+		}
+		if(string.IsNullOrEmpty(spriteName)) {
+			return null;
+		}
+
+		UnityEngine.Object[] sprites = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(imagePath);
+		if(sprites == null || sprites.Length <= 0) {
+			throw new System.InvalidOperationException("Could not load multi image asset : " + imagePath);
+		}
+
+		foreach(Sprite s in sprites) {
+			if(spriteName.Equals(s.name)) {
+				return s;
+			}
+		}
+
+		throw new System.InvalidOperationException("Could not load image asset : " + imagePath + " => " + spriteName);
 	}
 
 	public TextAsset loadLevelAsset(string levelName) {
