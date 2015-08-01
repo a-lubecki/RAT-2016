@@ -187,7 +187,7 @@ public abstract class EntityCollider : MonoBehaviour {
 			StopCoroutine(coroutineStateAnimation);
 		}
 
-		Debug.Log(">>> STATE " + currentState + " => " + state);
+		//Debug.Log(">>> STATE " + currentState + " => " + state);
 
 		currentState = state;
 

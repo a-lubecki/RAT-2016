@@ -1,23 +1,24 @@
 ﻿using UnityEngine; 
 using System.Collections;
 using Level;
+using InControl;
 
 
 public class PlayerControls : EntityCollider { 
-	
-	public KeyCode[] KEYS_RIGHT = new KeyCode[] {
+
+	private readonly KeyCode[] KEYS_DIRECTION_RIGHT = new KeyCode[] {
 		KeyCode.RightArrow,
 		KeyCode.D
 	};
-	public KeyCode[] KEYS_LEFT = new KeyCode[] {
+	private readonly KeyCode[] KEYS_DIRECTION_LEFT = new KeyCode[] {
 		KeyCode.LeftArrow,
 		KeyCode.Q
 	};
-	public KeyCode[] KEYS_UP = new KeyCode[] {
+	private readonly KeyCode[] KEYS_DIRECTION_UP = new KeyCode[] {
 		KeyCode.UpArrow,
 		KeyCode.Z
 	};
-	public KeyCode[] KEYS_DOWN = new KeyCode[] {
+	private readonly KeyCode[] KEYS_DIRECTION_DOWN = new KeyCode[] {
 		KeyCode.DownArrow,
 		KeyCode.S
 	};
@@ -48,26 +49,46 @@ public class PlayerControls : EntityCollider {
 		float angleDegrees = 0;
 		bool isPressingAnyDirection = false;
 
+		// analogic directions
+		if(!isPressingAnyDirection) {
+			
+			InputDevice activeDevice = InputManager.ActiveDevice;
 
-		//TODO analogic directions here
+			float dx = - activeDevice.LeftStickX.Value;
+			float dy = activeDevice.LeftStickY.Value;
+			
+			if(dx > 1) {
+				dx = 1;
+			}
+			if(dy > 1) {
+				dy = 1;
+			}
 
+			if(dx != 0 || dy != 0) {
+				
+				isPressingAnyDirection = true;
+				
+				angleDegrees = vectorToAngle(dx, dy) + 90;
+			}
+		}
 
+		//keyboard
 		if(!isPressingAnyDirection) {
 
 			int dx = 0;
 			int dy = 0;
 
-			if(isAnyKeyPressed(KEYS_RIGHT)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_RIGHT)) {
 				dx += -1;
 			}
-			if(isAnyKeyPressed(KEYS_LEFT)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_LEFT)) {
 				dx += 1;
 			}
 
-			if(isAnyKeyPressed(KEYS_UP)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_UP)) {
 				dy += 1;
 			}
-			if(isAnyKeyPressed(KEYS_DOWN)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_DOWN)) {
 				dy += -1;
 			}
 
