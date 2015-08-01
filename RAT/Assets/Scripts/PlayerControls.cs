@@ -145,24 +145,24 @@ public class PlayerControls : EntityCollider {
 	
 	protected override CharacterAnimation getCurrentCharacterAnimation() {
 
-		string textureName = "Character.Rat.Wait.png";
+		string textureName = "Character.Rat.";
 
 		switch(currentState) {
 
 		case CharacterState.WALK:
 			return new CharacterAnimation(
 				false, 
-				textureName,
-				new CharacterAnimationKey(0.2f),
-				new CharacterAnimationKey(0.2f));//TODO TEST
+				textureName + "Walk.png",
+				new CharacterAnimationKey(0.15f),
+				new CharacterAnimationKey(0.15f));
 		}
 
 		//wait
 		return new CharacterAnimation(
 			false, 
-			textureName,
-			new CharacterAnimationKey(0.75f),
-			new CharacterAnimationKey(0.75f));
+			textureName + "Wait.png",
+			new CharacterAnimationKey(1.4f),
+			new CharacterAnimationKey(0.4f));
 
 	}
 	

@@ -1,11 +1,17 @@
 fileFormatVersion: 2
 guid: 2edb5216308d2bd4d9b540bf4e22885a
-timeCreated: 1438260875
+timeCreated: 1438460692
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: 0.DOWN
     21300002: 1.DOWN
+    21300004: 0.LEFT
+    21300006: 1.LEFT
+    21300008: 1.RIGHT
+    21300010: 0.RIGHT
+    21300012: 0.UP
+    21300014: 1.UP
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,6 +72,66 @@ TextureImporter:
         serializedVersion: 2
         x: 32
         y: 96
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 0.LEFT
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 1.LEFT
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 1.RIGHT
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 0.RIGHT
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 0.UP
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: 1.UP
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
         width: 32
         height: 32
       alignment: 0
