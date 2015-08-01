@@ -89,7 +89,7 @@ public abstract class GameElementSaver {
 				//check the last editing and the checksum
 				long oldEditingDateTime = (long) bf.Deserialize(f);
 				long currentEditingDateTime = getFileLastWriteTime(filePath);
-				if(currentEditingDateTime != oldEditingDateTime) {
+				if(oldEditingDateTime != currentEditingDateTime && oldEditingDateTime != currentEditingDateTime - 1) {
 					Debug.LogError("Unserialize problem, date difference, file was modified outside of the game : " +
 					               currentEditingDateTime + " / " + oldEditingDateTime + ")");
 					return false;
@@ -243,7 +243,7 @@ public abstract class GameElementSaver {
 		}
 
 		long currentEditingDateTime = getFileLastWriteTime(filePath);
-		if(editingDateTime != currentEditingDateTime) {
+		if(editingDateTime != currentEditingDateTime && editingDateTime != currentEditingDateTime - 1) {
 			Debug.LogError("Serialize problem, date difference : " +
 			               currentEditingDateTime + " / " + editingDateTime + ")");
 			return false;
