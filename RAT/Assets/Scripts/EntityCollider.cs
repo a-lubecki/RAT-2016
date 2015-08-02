@@ -33,7 +33,7 @@ public abstract class EntityCollider : MonoBehaviour {
 		
 		GetComponent<Transform>().position = new Vector2(x, y);
 		
-		this.angleDegrees = angleDegrees;
+		setAngleDegrees(angleDegrees);
 
 		updateState();
 	}
@@ -52,11 +52,20 @@ public abstract class EntityCollider : MonoBehaviour {
 		} else if(direction == NodeDirection.Direction.DOWN) {
 			angleDegrees = 180;
 		} else if(direction == NodeDirection.Direction.LEFT) {
-			angleDegrees = -90;
+			angleDegrees = 270;
 		}
 		
 		updateState();
  	}
+
+	private void setAngleDegrees(float angleDegrees) {
+
+		this.angleDegrees = angleDegrees % 360;
+
+		if(this.angleDegrees < 0) {
+			this.angleDegrees += 360;
+		}
+	}
 
 	void FixedUpdate() {
 
@@ -76,7 +85,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 		if(isMoving) {
 
-			angleDegrees = vectorToAngle(newVector.x, newVector.y);
+			setAngleDegrees(vectorToAngle(newVector.x, newVector.y));
 
 			Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
 
@@ -87,8 +96,6 @@ public abstract class EntityCollider : MonoBehaviour {
 					rigidBody.position.y + dy * Time.deltaTime
 				)
 			);
-			
-			angleDegrees = (angleDegrees + 360) % 360;
 
 			updateState();
 		}
