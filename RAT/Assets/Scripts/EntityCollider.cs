@@ -34,6 +34,8 @@ public abstract class EntityCollider : MonoBehaviour {
 		GetComponent<Transform>().position = new Vector2(x, y);
 		
 		this.angleDegrees = angleDegrees;
+
+		updateState();
 	}
 
 	public void setMapPosition(int xGeneration, int yGeneration) {
@@ -52,6 +54,8 @@ public abstract class EntityCollider : MonoBehaviour {
 		} else if(direction == NodeDirection.Direction.LEFT) {
 			angleDegrees = -90;
 		}
+		
+		updateState();
  	}
 
 	void FixedUpdate() {
@@ -86,15 +90,7 @@ public abstract class EntityCollider : MonoBehaviour {
 			
 			angleDegrees = (angleDegrees + 360) % 360;
 
-
-			CharacterDirection tempDirection = getCharacterDirection(55);
-			if(currentDirection != tempDirection) {
-
-				currentDirection = tempDirection;
-
-				//update state
-				setState(currentState);
-			}
+			updateState();
 		}
 
 		//update state
@@ -105,6 +101,18 @@ public abstract class EntityCollider : MonoBehaviour {
 			setState(CharacterState.WAIT);
 		}
 
+	}
+
+	private void updateState() {
+		
+		CharacterDirection tempDirection = getCharacterDirection(55);
+		if(currentDirection != tempDirection) {
+			
+			currentDirection = tempDirection;
+			
+			//update state
+			setState(currentState);
+		}
 	}
 
 	private CharacterDirection getCharacterDirection(int halfAngle) {
