@@ -162,7 +162,7 @@ public class PlayerControls : EntityCollider {
 			false, 
 			textureName + "Wait.png",
 			new CharacterAnimationKey(1.4f),
-			new CharacterAnimationKey(0.4f));
+			new CharacterAnimationKey(0.6f));
 
 	}
 	

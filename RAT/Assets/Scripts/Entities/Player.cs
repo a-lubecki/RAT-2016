@@ -12,7 +12,7 @@ public class Player : Character {
 	public int maxStamina { get; protected set; }
 	public int stamina { get; protected set; }
 
-	public string levelNameForlastHub;
+	public string levelNameForLastHub;
 
 	public void initStats(int skillPointHealth, int skillPointEnergy) {
 
@@ -89,6 +89,8 @@ public class Player : Character {
 	}
 
 	IEnumerator processRespawn() {
+		
+		GameHelper.Instance.getPlayerControls().disableControls();
 
 		yield return new WaitForSeconds(2f);
 

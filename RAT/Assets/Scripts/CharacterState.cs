@@ -9,5 +9,6 @@ public enum CharacterState {
 	HEAVY_ATACK,
 	DEFENSE,
 	OBJECT_USE,
+	HURT,
 	DEATH
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Level;
 
 public class Hub : MonoBehaviour {
@@ -77,10 +77,11 @@ public class Hub : MonoBehaviour {
 		
 		//keep level to respawn after
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
-		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
 		
 		GameSaver.Instance.saveHub();
 		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.savePlayerStats();
 
 		MessageDisplayer.Instance.displayBigMessage("Hub activé");
 
@@ -97,9 +98,10 @@ public class Hub : MonoBehaviour {
 
 		
 		//keep level to respawn after
-		player.levelNameForlastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
 
 		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.savePlayerStats();
 	
 
 		onPlayerStatsChanged();//TODO test call
@@ -108,7 +110,7 @@ public class Hub : MonoBehaviour {
 
 	public void onPlayerStatsChanged() {
 		
-		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.savePlayerStats();
 	}
 
 	public void setActivated(bool activated) {

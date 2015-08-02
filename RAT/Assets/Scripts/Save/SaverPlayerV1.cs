@@ -64,8 +64,6 @@ class PlayerData {
 	
 	private int currentLife;
 	private int currentStamina;
-	
-	private string levelNameForlastHub;
 
 	public PlayerData(Player player, PlayerControls playerControls) {
 		
@@ -82,8 +80,6 @@ class PlayerData {
 		
 		currentLife = player.life;
 		currentStamina = player.stamina;
-		
-		levelNameForlastHub = player.levelNameForlastHub;
 	}
 	
 	public void assign(Player player, PlayerControls playerControls) {
@@ -98,7 +94,6 @@ class PlayerData {
 		playerControls.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
 		
 		player.init(currentLife, currentStamina);
-		player.levelNameForlastHub = levelNameForlastHub;
 	}
 
 }

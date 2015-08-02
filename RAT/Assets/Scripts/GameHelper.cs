@@ -91,6 +91,21 @@ public class GameHelper {
 		return component;
 	}
 	
+	public PlayerControls getPlayerControls() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		PlayerControls component = gameObject.GetComponent<PlayerControls>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return component;
+	}
+
 	public LevelManager getLevelManager() {
 		
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_LEVEL_MANAGER);

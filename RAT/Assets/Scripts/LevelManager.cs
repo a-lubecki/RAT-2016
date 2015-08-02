@@ -273,6 +273,9 @@ public class LevelManager : MonoBehaviour {
 		bool hasCurrentLevel = !string.IsNullOrEmpty(currentLevelName);
 
 		if(hasCurrentLevel) {
+
+			GameHelper.Instance.getPlayerControls().disableControls();
+
 			//if the current level is not currently loading, save player before loading a new level
 			GameSaver.Instance.savePlayer();
 		}
@@ -355,7 +358,7 @@ public class LevelManager : MonoBehaviour {
 
 		//load next level with HUB
 
-		string requiredLevelName = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>().levelNameForlastHub;
+		string requiredLevelName = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>().levelNameForLastHub;
 
 		if(string.IsNullOrEmpty(requiredLevelName)) {
 			throw new System.InvalidOperationException("levelNameForlastHub is empty");

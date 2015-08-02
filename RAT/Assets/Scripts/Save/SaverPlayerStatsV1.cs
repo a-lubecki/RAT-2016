@@ -58,6 +58,8 @@ class PlayerStatsData {
 	
 	private int skillPointHealth;
 	private int skillPointEnergy;
+	
+	private string levelNameForlastHub;
 
 	public PlayerStatsData(Player player) {
 
@@ -67,6 +69,8 @@ class PlayerStatsData {
 		
 		skillPointHealth = player.skillPointHealth;
 		skillPointEnergy = player.skillPointEnergy;
+		
+		levelNameForlastHub = player.levelNameForLastHub;
 	}
 	
 	public void assign(Player player) {
@@ -76,6 +80,8 @@ class PlayerStatsData {
 		}
 
 		player.initStats(skillPointHealth, skillPointEnergy);
+
+		player.levelNameForLastHub = levelNameForlastHub;
 	}
 
 }
