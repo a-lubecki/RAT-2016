@@ -73,11 +73,20 @@ public class Player : Character {
 			staminaBar.setValues(stamina, maxStamina);
 		}
 	}
-	
+
+	protected override void respawn() {
+
+		base.respawn();
+		
+		//set as a character
+		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
+
+	}
+
 	protected override void die() {
 
 		base.die();
-
+		
 		//set as an object
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 

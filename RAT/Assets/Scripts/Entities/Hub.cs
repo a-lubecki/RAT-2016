@@ -92,8 +92,12 @@ public class Hub : MonoBehaviour {
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
 		player.reinitLifeAndStamina();
 		
-		//TODO respawn all enemies
-		
+		//respawn all enemies
+		Npc[] npcs = GameHelper.Instance.getNpcs();
+		foreach(Npc npc in npcs) {
+			npc.reinitLifeAndPosition();
+		}
+
 		//TODO propose to manage experience / teleport
 
 		
@@ -102,6 +106,7 @@ public class Hub : MonoBehaviour {
 
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
+		GameSaver.Instance.saveNpcs();
 	
 
 		onPlayerStatsChanged();//TODO test call

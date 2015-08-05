@@ -14,7 +14,7 @@ public class NpcRendererCreator : BaseEntityCreator {
 	}
 	
 	protected override string getSortingLayerName() {
-		return Constants.SORTING_LAYER_NAME_OBJECTS;
+		return Constants.SORTING_LAYER_NAME_CHARACTERS;
 	}
 
 	public GameObject createNewGameObject(NodeElementNpc nodeElement) {

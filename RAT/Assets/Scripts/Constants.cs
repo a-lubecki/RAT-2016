@@ -51,6 +51,7 @@ public class Constants {
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
 	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";
 	public static readonly string SORTING_LAYER_NAME_OBJECTS = "objects";
+	public static readonly string SORTING_LAYER_NAME_CHARACTERS = "characters";
 	public static readonly string SORTING_LAYER_NAME_HUB = "hub";
 
 	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level

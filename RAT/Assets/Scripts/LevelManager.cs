@@ -66,6 +66,7 @@ public class LevelManager : MonoBehaviour {
 		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.saveCurrentLevel();
 		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.saveNpcs();
 
 		//load listener events after all other loaded elements
 		GameSaver.Instance.loadListenerEvents();
@@ -227,30 +228,38 @@ public class LevelManager : MonoBehaviour {
 			//the player has died, the current node is the player
 			currentNodeElementTrigger = currentNodeLevel.hubElement;
 
-		} else if(lastNodeElementTrigger != null) {
-			//something has triggered the load level (can be a link or a spawn)
-			currentNodeElementTrigger = lastNodeElementTrigger;
-
 		} else { 
-			
-			//load saved player pos
-			if(levelLoadedFromSave) {
-				if(GameSaver.Instance.loadPlayer()) {
-					return;//done
-				}
+
+			bool hasLoadedPlayer = false;
+
+			//load saved player
+			if(GameSaver.Instance.loadPlayer()) {
+				hasLoadedPlayer = true;
 			}
 
-			if(currentNodeLevel == null) {
-				//no level file provided : replace by default spawn element
-				currentNodeElementTrigger = new NodeElementSpawn();
-				
-			} else {
-				
-				//get spawn element of the level
-				currentNodeElementTrigger = currentNodeLevel.spawnElement;
-				if(currentNodeElementTrigger == null) {
-					//replace by default spawn element
+			if(lastNodeElementTrigger != null) {
+				//something has triggered the load level (can be a link or a spawn)
+				currentNodeElementTrigger = lastNodeElementTrigger;
+
+			} else { 
+
+				if(hasLoadedPlayer) {
+					//done
+					return;
+				}
+
+				if(currentNodeLevel == null) {
+					//no level file provided : replace by default spawn element
 					currentNodeElementTrigger = new NodeElementSpawn();
+					
+				} else {
+					
+					//get spawn element of the level
+					currentNodeElementTrigger = currentNodeLevel.spawnElement;
+					if(currentNodeElementTrigger == null) {
+						//replace by default spawn element
+						currentNodeElementTrigger = new NodeElementSpawn();
+					}
 				}
 			}
 		}
@@ -273,11 +282,12 @@ public class LevelManager : MonoBehaviour {
 		bool hasCurrentLevel = !string.IsNullOrEmpty(currentLevelName);
 
 		if(hasCurrentLevel) {
+			//the current level is not currently loading
 
 			GameHelper.Instance.getPlayerControls().disableControls();
-
-			//if the current level is not currently loading, save player before loading a new level
+			
 			GameSaver.Instance.savePlayer();
+			GameSaver.Instance.saveNpcs();
 		}
 
 		//no fadein if level is the first
@@ -430,8 +440,8 @@ public class LevelManager : MonoBehaviour {
 			yield return new WaitForSeconds(10);
 			
 			GameSaver.Instance.savePlayer();
-			GameSaver.Instance.saveDoors();
 			GameSaver.Instance.saveNpcs();
+			GameSaver.Instance.saveDoors();
 			
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
 		}

@@ -24,11 +24,8 @@ public class Npc : Character {
 		this.nodeElementNpc = nodeElementNpc;
 		this.entityRenderer = entityRenderer;
 		this.npcBar = npcBar;
-		
-		this.maxLife = 100;//TODO set with nodeElementNpc
-		this.life = 25;//TODO this.life = maxLife;
 
-		updateViews();
+		reinitLife();
 	}
 	
 	public void init(int life) {
@@ -43,7 +40,29 @@ public class Npc : Character {
 
 		if(life <= 0) {
 			die();
+		} else {
+			respawn();
 		}
+
+		updateViews();
+	}
+	
+	public void reinitLifeAndPosition() {
+		
+		entityRenderer.entityCollider.setInitialPosition(
+			nodeElementNpc.nodePosition.x * Constants.TILE_SIZE,
+			- nodeElementNpc.nodePosition.y * Constants.TILE_SIZE,
+			0);//TODO angle from nodeElementNpc
+
+		reinitLife();
+	}
+
+	public void reinitLife() {
+		
+		this.maxLife = 100;//TODO set with nodeElementNpc
+		this.life = 25;//TODO this.life = maxLife;
+
+		respawn();
 
 		updateViews();
 	}
@@ -65,11 +84,22 @@ public class Npc : Character {
 		}
 	}
 	
+	protected override void respawn() {
+		
+		base.respawn();
+		
+		//set as a character
+		entityRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
+		
+	}
+
 	protected override void die() {
 		
 		base.die();
 		
 		//set as an object
+		entityRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
+
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
@@ -90,7 +120,7 @@ public class Npc : Character {
 			
 			if(!player.isDead()) {
 				//TODO TEST remove player life
-				takeDamages(1);
+				takeDamages(10);
 			}
 			
 		}
