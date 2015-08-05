@@ -103,10 +103,10 @@ public class Hub : MonoBehaviour {
 		
 		//keep level to respawn after
 		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
-
+		
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
-		GameSaver.Instance.saveNpcs();
+		GameSaver.Instance.deleteNpcs();
 	
 
 		onPlayerStatsChanged();//TODO test call

@@ -71,6 +71,10 @@ public class GameSaver {
 	public bool loadPlayer() {
 		return newSaverPlayer().loadData();
 	}
+
+	public void deletePlayer() {
+		newSaverPlayer().deleteData();
+	}
 	
 	public void saveHub() {
 		addToQueue(newSaverHub());
@@ -94,6 +98,10 @@ public class GameSaver {
 	
 	public bool loadNpcs() {
 		return newSaverNcps().loadData();
+	}
+
+	public void deleteNpcs() {
+		newSaverNcps().deleteData();
 	}
 
 	public void saveListenerEvents() {

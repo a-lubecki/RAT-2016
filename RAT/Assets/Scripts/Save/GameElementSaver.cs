@@ -35,6 +35,46 @@ public abstract class GameElementSaver {
 		return path + "/" + getFileName();
 	}
 
+	public void deleteData() {
+
+		if(!isLevelSpecific()) {
+
+			//delete one file
+			deleteData(getBaseFilePath());
+
+		} else {
+
+			//delete all files
+			DirectoryInfo info = new DirectoryInfo(Application.persistentDataPath);
+			DirectoryInfo[] dirsInfos = info.GetDirectories();
+
+			foreach(DirectoryInfo dirInfo in dirsInfos) {
+				deleteData(dirInfo.FullName + "/" + getFileName());
+			}
+
+		}
+
+	}
+
+	private void deleteData(string filePath) {
+		
+		string filePathBackup = filePath + FILE_NAME_EXTENSION_BACKUP;
+		
+		//delete backup file
+		try {
+			FileUtil.DeleteFileOrDirectory(filePathBackup);
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}
+		//delete save file
+		try {
+			FileUtil.DeleteFileOrDirectory(filePath);
+		} catch(Exception e) {
+			Debug.LogException(e);
+		}
+
+	}
+
 	public bool loadData() {
 
 		string filePath = getBaseFilePath();

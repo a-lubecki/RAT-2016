@@ -12,7 +12,6 @@ public class LevelManager : MonoBehaviour {
 	private static string nextLevelName;//used to keep the information between levels
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 	private static bool mustSpawnPlayerAtHub = false;
-	private static bool levelLoadedFromSave = false;
 
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
@@ -26,9 +25,7 @@ public class LevelManager : MonoBehaviour {
 
 			//load a level
 			
-			if(GameSaver.Instance.loadCurrentLevel()) {
-				levelLoadedFromSave = true;
-			} else {
+			if(!GameSaver.Instance.loadCurrentLevel()) {
 				//if no saved data, load the very first level				
 				loadNextLevel(Constants.FIRST_LEVEL_NAME);
 			}
@@ -61,7 +58,6 @@ public class LevelManager : MonoBehaviour {
 		//free for further level load
 		lastNodeElementTrigger = null;
 		mustSpawnPlayerAtHub = false;
-		levelLoadedFromSave = false;
 
 		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.saveCurrentLevel();
@@ -375,6 +371,10 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		mustSpawnPlayerAtHub = true;
+
+		//these data are now obsolete
+		GameSaver.Instance.deletePlayer();
+		GameSaver.Instance.deleteNpcs();
 
 		//load level
 		loadNextLevel(requiredLevelName);
