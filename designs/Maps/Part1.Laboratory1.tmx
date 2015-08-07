@@ -15,7 +15,7 @@
  </layer>
  <layer name="ground_1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2G0KwyAMBuD8aH/264Y7yo7iUXa0KUwoMjWuxnThfUDoqrOGRqkSwVUbkTt8WX0J19rjARhlUnzuTPQ63wu/ayXXfkrqpPj14TniOSlOfL7Ng9vfohBHyzvixnIMeu/RL3nGiWVN+g3/qeS7+7Qj5vxwV2I4j6tUrzU/AAAAACyy8m2lsfeQsA/ee0ixkleW1c5L4p4u7htbz0tye8Uv48jW3c3ccB5Soj0/esWhve72iiO37nLPCltLmvNW8qqk5SwR7m3THkAni3D/ac5LzYFdolMFVvIKAAAA/tsbvoJDRA==
+   eJzt2G0KwyAMBuD8aH/ajxvsaDvKjuJRdrRZmFBkalwb04b3AWGbzhoaSw0RHOWI/BraFFr4/NBeD0Avg+J1R6L3/rfte63lxg9Jn5SZ6NXjOilOfGHMkzufU4ij5R5xY1k73ffonzzjxDIl827/qeS7/44j5v7wR2LYr6vUr7U/AAAAACyy8m6lcfaQsHQ+e0ixkleW1eol8UwXz42t9ZLcWfHHOrJ9VzM21ENKtPfHWXFoP3fPiiP33OXWCltbmvNW8qqkpZYI1zZrL+AkTnj+NOel9sAiMakCK3kFAAAA9/YBR81CwA==
   </data>
  </layer>
  <layer name="ground_2" width="50" height="50">
