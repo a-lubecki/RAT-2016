@@ -100,6 +100,7 @@ public abstract class BaseEntityCreator {
 				spriteRenderer.sortingLayerName = sortingLayerName;
 			}
 
+			spriteRenderer.sortingOrder = orderInLayer;
 		}
 
 		//display debug image
