@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour {
 
 	void OnLevelWasLoaded(int level) {
 
-		if(string.IsNullOrEmpty(nextLevelName)) {
+		if(!isAboutToLoadNextLevel()) {
 			return;
 		}
 
@@ -268,6 +268,10 @@ public class LevelManager : MonoBehaviour {
 		
 		if(isAboutToLoadNextLevel()) {
 			//call already done, waiting for level to load
+			return;
+		}
+		if (AutoFade.Fading) {
+			//already loading
 			return;
 		}
 		
