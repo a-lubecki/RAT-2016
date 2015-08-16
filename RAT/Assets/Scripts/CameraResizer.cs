@@ -77,6 +77,13 @@ public class CameraResizer : MonoBehaviour {
 		//set the orthographic size to scale the scene with the pixelSize
 		cam.orthographicSize = newScreenHeight / (float)divider;
 
+
+		//resize texts : 
+		Canvas[] canvasArray = FindObjectsOfType<Canvas>();
+		foreach(Canvas c in canvasArray) {
+			c.scaleFactor = 10 * pixelSize;
+		}
+
 		//Debug.Log(">>> " + Screen.width + " > " + newScreenWidth);
 		//Debug.Log(">>> " + Screen.height + " > " + newScreenHeight + " > " + cam.orthographicSize + " > " + multiplier + " > " + nbSparePixels);
 	}
