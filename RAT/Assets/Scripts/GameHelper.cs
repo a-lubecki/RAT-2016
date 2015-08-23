@@ -120,7 +120,22 @@ public class GameHelper {
 		
 		return component;
 	}
-	
+
+	public MessageDisplayer getMessageDisplayer() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MESSAGE_DISPLAYER);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		MessageDisplayer component = gameObject.GetComponent<MessageDisplayer>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return component;
+	}
+
 	public GameObject getMapGameObject() {
 		
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MAP);

@@ -46,6 +46,9 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_NPC_COLLIDER = "NpcCollider";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
+	public static readonly string GAME_OBJECT_NAME_MESSAGE_DISPLAYER = "MessageDisplayer";
+	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_BIG = "TextMessageBig";
+	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL = "TextMessageNormal";
 
 	
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
