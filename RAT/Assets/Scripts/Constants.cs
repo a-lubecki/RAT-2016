@@ -31,7 +31,7 @@ public class Constants {
 
 	
 	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
-	public static readonly string GAME_OBJECT_NAME_HUD = "HUD";
+	public static readonly string GAME_OBJECT_NAME_HUD = "CanvasHUD";
 	public static readonly string GAME_OBJECT_NAME_HUD_HEALTH_BAR = "HUDBarHealth";
 	public static readonly string GAME_OBJECT_NAME_HUD_STAMINA_BAR = "HUDBarStamina";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_COLLIDER = "PlayerCollider";
@@ -48,7 +48,9 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
 	public static readonly string GAME_OBJECT_NAME_MESSAGE_DISPLAYER = "MessageDisplayer";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_BIG = "TextMessageBig";
+	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_BIG = "BackgroundMessageBig";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL = "TextMessageNormal";
+	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL = "BackgroundMessageNormal";
 
 	
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";

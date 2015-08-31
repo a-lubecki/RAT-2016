@@ -9,56 +9,12 @@ public class Bar : MonoBehaviour {
 	public static readonly string BAR_PART_PROGRESS = "Progress"; 
 	public static readonly string BAR_PART_PROGRESS_END = "ProgressEnd";
 
-	private float percentage = 0;
-
+	protected float percentage = 0;
+	
+	
 	private bool isVisible = true;
 
-	protected virtual void FixedUpdate() {
-
-		float middleWidth = transform.Find(BAR_PART_MIDDLE).localScale.x;
-
-		int width = Mathf.FloorToInt(middleWidth * percentage);
-
-		//align on the pixel size
-		width -= (width % Constants.TILE_SIZE);
-
-		Transform progress = transform.Find(BAR_PART_PROGRESS);
-		Vector2 scale = progress.localScale;
-		scale.x = width;
-		progress.localScale = scale;
-		
-		updateViewsVisibility();
-	}
-
-	public void setVisible(bool isVisible) {
-		
-		this.isVisible = isVisible;
-
-		updateViewsVisibility();
-	}
-
-	private void updateViewsVisibility() {
-
-		Transform progressBegin = transform.Find(BAR_PART_PROGRESS_BEGIN);
-		Transform progressEnd = transform.Find(BAR_PART_PROGRESS_END);
-
-		for(int i = 0 ; i < transform.childCount ; i++) {
-			
-			Transform childTransform = transform.GetChild(i);
-			
-			bool childVisible = isVisible;
-			if(childTransform == progressBegin) {
-				//hide the progress begin part if no more life
-				childVisible = (isVisible && percentage > 0);
-			} else if(childTransform == progressEnd) {
-				//show the progress end part if life is 100%
-				childVisible = (isVisible && percentage >= 1);
-			}
-			
-			childTransform.gameObject.SetActive(childVisible);
-		}
-	}
-	 
+	
 	public float getPercentage() {
 		return percentage;
 	}
@@ -78,6 +34,35 @@ public class Bar : MonoBehaviour {
 			this.percentage = percentage;
 		}
 
+	}
+	
+	public void setVisible(bool isVisible) {
+		
+		this.isVisible = isVisible;
+		
+		updateViewsVisibility();
+	}
+
+	protected void updateViewsVisibility() {
+		
+		Transform progressBegin = transform.Find(BAR_PART_PROGRESS_BEGIN);
+		Transform progressEnd = transform.Find(BAR_PART_PROGRESS_END);
+		
+		for(int i = 0 ; i < transform.childCount ; i++) {
+			
+			Transform childTransform = transform.GetChild(i);
+			
+			bool childVisible = isVisible;
+			if(childTransform == progressBegin) {
+				//hide the progress begin part if no more life
+				childVisible = (isVisible && percentage > 0);
+			} else if(childTransform == progressEnd) {
+				//show the progress end part if life is 100%
+				childVisible = (isVisible && percentage >= 1);
+			}
+			
+			childTransform.gameObject.SetActive(childVisible);
+		}
 	}
 
 

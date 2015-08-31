@@ -83,7 +83,7 @@ public class Hub : MonoBehaviour {
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
 
-		MessageDisplayer.Instance.displayBigMessage("Hub activé");
+		MessageDisplayer.Instance.displayBigMessage("Hub activé", true);
 
 	}
 

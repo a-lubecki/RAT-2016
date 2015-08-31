@@ -6,9 +6,28 @@ public class NpcBar : Bar {
 
 	private Coroutine coroutineRevealBar;
 
+
 	void Start() {
 	
 		setVisible(false);
+	}
+	
+	
+	protected virtual void FixedUpdate() {
+		
+		float middleWidth = transform.Find(BAR_PART_MIDDLE).localScale.x;
+		
+		int width = Mathf.FloorToInt(middleWidth * percentage);
+		
+		//align on the pixel size
+		width -= (width % Constants.TILE_SIZE);
+		
+		Transform progress = transform.Find(BAR_PART_PROGRESS);
+		Vector2 scale = progress.localScale;
+		scale.x = width;
+		progress.localScale = scale;
+		
+		updateViewsVisibility();
 	}
 	
 	public override void setPercentage(float percentage) {
@@ -39,6 +58,7 @@ public class NpcBar : Bar {
 		setVisible(false);
 
 	}
+
 
 }
 

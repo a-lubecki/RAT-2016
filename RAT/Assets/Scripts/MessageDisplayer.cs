@@ -84,14 +84,14 @@ public class MessageDisplayer : MonoBehaviour {
 		displayNextMessage();
 	}
 
-	public void displayBigMessage(string text) {
+	public void displayBigMessage(string text, bool isPositive) {
 
 		text = text.ToUpper();
 
 		if(coroutineShowBigMessage != null) {
 			StopCoroutine(coroutineShowBigMessage);
 		}
-		coroutineShowBigMessage = StartCoroutine(showBigMessage(text));
+		coroutineShowBigMessage = StartCoroutine(showBigMessage(text, isPositive));
 	
 	}
 	
@@ -99,33 +99,51 @@ public class MessageDisplayer : MonoBehaviour {
 	IEnumerator showNormalMessage(Message message) {
 		
 		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL);
-		
-		Text textObject = messageObject.GetComponent<Text>();
+		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL);
+
+		Text textComponent = messageObject.GetComponent<Text>();
+		Image imageComponent = backgroundObject.GetComponent<Image>();
 
 		string text = message.text;
 
-		textObject.enabled = true;
-		textObject.text = text;
+		textComponent.enabled = true;
+		imageComponent.enabled = true;
+
+		textComponent.text = text;
 		
 		yield return new WaitForSeconds(1f);
+		
+		textComponent.text = "";
 
-		textObject.enabled = false;	
+		textComponent.enabled = false;
+		imageComponent.enabled = false;
 		
 	}
 
-	IEnumerator showBigMessage(string text) {
+	IEnumerator showBigMessage(string text, bool isPositive) {
 
 		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_BIG);
+		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_BIG);
 
-		Text textObject = messageObject.GetComponent<Text>();
+		Text textComponent = messageObject.GetComponent<Text>();
+		Image imageComponent = backgroundObject.GetComponent<Image>();
 
-		textObject.enabled = true;
-		textObject.text = text;
+		textComponent.enabled = true;
+		imageComponent.enabled = true;
 
-		yield return new WaitForSeconds(2f);
+		textComponent.text = text;
+		if(isPositive) {
+			textComponent.color = Color.green;
+		} else {
+			textComponent.color = Color.red;
+		}
 
-		textObject.text = "";
-		textObject.enabled = false;	
+		yield return new WaitForSeconds(4f);
+
+		textComponent.text = "";
+
+		textComponent.enabled = false;	
+		imageComponent.enabled = false;
 
 	}
 
