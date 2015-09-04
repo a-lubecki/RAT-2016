@@ -20,8 +20,7 @@ public class MessageDisplayer : MonoBehaviour {
 	private List<Message> queue = new List<Message>();
 
 	private Message currentMessage;
-	
-	private Coroutine coroutineShowNormalMessage;//TODO TEST
+
 	private Coroutine coroutineShowBigMessage;
 
 
@@ -60,11 +59,15 @@ public class MessageDisplayer : MonoBehaviour {
 			queue.AddRange(messages);
 		}
 
-		displayNextMessage();
+		if(currentMessage == null) {
+			displayNextMessage();
+		}
 
 	}
 
-	private void displayNextMessage() {
+	public void displayNextMessage() {
+
+		hideNormalMessage();
 
 		if(queue.Count <= 0) {
 			return;
@@ -73,15 +76,7 @@ public class MessageDisplayer : MonoBehaviour {
 		Message message = queue[0];
 		queue.RemoveAt(0);
 
-		//TODO TEST
-		if(coroutineShowNormalMessage != null) {
-			StopCoroutine(coroutineShowNormalMessage);
-		}
-		coroutineShowNormalMessage = StartCoroutine(showNormalMessage(message));
-		//TODO TEST
-
-
-		displayNextMessage();
+		showNormalMessage(message);
 	}
 
 	public void displayBigMessage(string text, bool isPositive) {
@@ -94,31 +89,49 @@ public class MessageDisplayer : MonoBehaviour {
 		coroutineShowBigMessage = StartCoroutine(showBigMessage(text, isPositive));
 	
 	}
-	
-	//TODO TEST
-	IEnumerator showNormalMessage(Message message) {
-		
+
+	private void showNormalMessage(Message message) {
+
+		currentMessage = message;
+
 		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL);
+		GameObject messageActionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
 		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL);
 
 		Text textComponent = messageObject.GetComponent<Text>();
+		Text textActionComponent = messageActionObject.GetComponent<Text>();
 		Image imageComponent = backgroundObject.GetComponent<Image>();
 
 		string text = message.text;
 
 		textComponent.enabled = true;
+		textActionComponent.enabled = true;
 		imageComponent.enabled = true;
 
 		textComponent.text = text;
-		
-		yield return new WaitForSeconds(1f);
-		
-		textComponent.text = "";
-
-		textComponent.enabled = false;
-		imageComponent.enabled = false;
-		
+		textActionComponent.text = "Valider";
 	}
+
+	private void hideNormalMessage() {
+
+		currentMessage = null;
+
+		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL);
+		GameObject messageActionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
+		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL);
+		
+		Text textComponent = messageObject.GetComponent<Text>();
+		Text textActionComponent = messageActionObject.GetComponent<Text>();
+		Image imageComponent = backgroundObject.GetComponent<Image>();
+
+		textComponent.text = "";
+		textActionComponent.text = "";
+		
+		textComponent.enabled = false;
+		textActionComponent.enabled = false;
+		imageComponent.enabled = false;
+	}
+
 
 	IEnumerator showBigMessage(string text, bool isPositive) {
 

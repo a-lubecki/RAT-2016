@@ -67,7 +67,7 @@ public abstract class EntityCollider : MonoBehaviour {
 		}
 	}
 
-	void FixedUpdate() {
+	protected virtual void FixedUpdate() {
 
 		if(isPaused) {
 			return;

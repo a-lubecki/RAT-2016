@@ -22,6 +22,13 @@ public class PlayerControls : EntityCollider {
 		KeyCode.DownArrow,
 		KeyCode.S
 	};
+	private readonly KeyCode[] KEYS_ACTION = new KeyCode[] {
+		KeyCode.Space
+	};
+	private readonly string[] BUTTONS_ACTION = new string[] {
+		"Action1"
+	};
+
 
 	public float moveSpeed = 1;
 
@@ -39,6 +46,22 @@ public class PlayerControls : EntityCollider {
 			setDirection(NodeDirection.Direction.UP);
 		}
 	}
+	
+	protected override void FixedUpdate() {
+
+		base.FixedUpdate();
+
+		if(isPaused) {
+			return;
+		}
+
+		if(isAnyKeyPressed(KEYS_ACTION) || isAnyButtonPressed(BUTTONS_ACTION)) {
+			//hide current message
+			MessageDisplayer.Instance.displayNextMessage();
+		}
+
+	}
+
 
 	protected override Vector2 getNewMoveVector() {
 
@@ -132,7 +155,7 @@ public class PlayerControls : EntityCollider {
 		return false;
 	}
 	
-	private bool isAllKeyPressed(KeyCode[] keys) {
+	private bool isAllKeysPressed(KeyCode[] keys) {
 		
 		foreach (KeyCode k in keys) {
 			if(!isKeyPressed(k)) {
@@ -143,6 +166,40 @@ public class PlayerControls : EntityCollider {
 		return true;
 	}
 	
+	private bool isButtonPressed(InputControl ic) {
+		if(!isControlsEnabled) {
+			return false;
+		}
+		return (ic.IsButton && ic.IsPressed && ic.WasPressed);
+	}
+	
+	private bool isButtonPressed(string inputControlName) {
+		return isButtonPressed(InputManager.ActiveDevice.GetControlByName(inputControlName));
+	}
+
+	private bool isAnyButtonPressed(string[] inputControlNames) {
+		
+		foreach (string name in inputControlNames) {
+			if(isButtonPressed(name)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private bool isAllButtonsPressed(string[] inputControlNames) {
+		
+		foreach (string name in inputControlNames) {
+			if(!isButtonPressed(name)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+
 	protected override CharacterAnimation getCurrentCharacterAnimation() {
 
 		string textureName = "Character.Rat.";
