@@ -2,7 +2,7 @@
 using System.Collections;
 using Level;
 
-public class Door : MonoBehaviour {
+public class Door : MonoBehaviour, IActionnable {
 	
 	public NodeElementDoor nodeElementDoor { get; private set; }
 	
@@ -172,60 +172,84 @@ public class Door : MonoBehaviour {
 		
 		spriteRenderer.sprite = sprites[frame];
 	}
-	
-	void OnTriggerEnter2D(Collider2D other) {
+
+	void OnCollisionEnter2D(Collision2D other) {
 		
-		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
-			
-			if(!isOpened) {
-				
-				//check if the player has to be in the right side to open the door
-				if(nodeElementDoor.nodeUnlockSide != null) {
-					
-					NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
-					
-					if(unlockSide == NodeDirection.Direction.NONE) {
-						MessageDisplayer.Instance.displayMessage("La porte ne s'ouvre pas.");
-						return;
-					}
-					
-					float x = transform.position.x;
-					float y = transform.position.y;
-					float xOther = other.transform.position.x;
-					float yOther = other.transform.position.y;
-					
-					if((unlockSide == NodeDirection.Direction.UP && y > yOther) ||
-					   (unlockSide == NodeDirection.Direction.DOWN && y < yOther) ||
-					   (unlockSide == NodeDirection.Direction.LEFT && x < xOther) ||
-					   (unlockSide == NodeDirection.Direction.RIGHT && x > xOther)) {
-						
-						MessageDisplayer.Instance.displayMessage("La porte ne peut pas être ouverte de ce coté.");
-						return;
-					}
-				}
-				
-				if(nodeElementDoor.nodeRequire != null) {
-					//TODO item
-					MessageDisplayer.Instance.displayMessage("La porte est verouillée.");
-					return;
-				}
-				
-				open(true);
-				
-				//disable trigger collider
-				getTriggerCollider().enabled = false;
-				
-			}
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.collider.name)) {
+			return;
+		}
+
+		if(isOpened) {
+			return;
+		}
+
+		PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
+
+	} 
+
+	void OnCollisionExit2D(Collision2D other) {
+
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.collider.name)) {
+			return;
 		}
 		
-	} 
-	
+		if(isOpened) {
+			return;
+		}
+		
+		PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+
+	}
+
 	private BoxCollider2D getCollisionsCollider() {
 		return GetComponents<BoxCollider2D>()[0];
 	}
 	
 	private BoxCollider2D getTriggerCollider() {
 		return GetComponents<BoxCollider2D>()[1];
+	}
+
+	void IActionnable.notifyAction() {
+		
+		//check if the player has to be in the right side to open the door
+		if(nodeElementDoor.nodeUnlockSide != null) {
+			
+			NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
+			
+			if(unlockSide == NodeDirection.Direction.NONE) {
+				MessageDisplayer.Instance.displayMessage("La porte ne s'ouvre pas.");
+				return;
+			}
+
+			GameObject playerGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
+
+			float x = transform.position.x;
+			float y = transform.position.y;
+			float xPlayer = playerGameObject.transform.position.x;
+			float yPlayer = playerGameObject.transform.position.y;
+			
+			if((unlockSide == NodeDirection.Direction.UP && y > yPlayer) ||
+			   (unlockSide == NodeDirection.Direction.DOWN && y < yPlayer) ||
+			   (unlockSide == NodeDirection.Direction.LEFT && x < xPlayer) ||
+			   (unlockSide == NodeDirection.Direction.RIGHT && x > xPlayer)) {
+				
+				MessageDisplayer.Instance.displayMessage("La porte ne peut pas être ouverte de ce coté.");
+				return;
+			}
+		}
+		
+		if(nodeElementDoor.nodeRequire != null) {
+			//TODO item
+			MessageDisplayer.Instance.displayMessage("La porte est verouillée.");
+			return;
+		}
+		
+		open(true);
+		
+		//disable trigger collider
+		getTriggerCollider().enabled = false;
+
+
 	}
 
 }

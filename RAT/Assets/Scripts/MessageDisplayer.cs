@@ -89,27 +89,25 @@ public class MessageDisplayer : MonoBehaviour {
 		coroutineShowBigMessage = StartCoroutine(showBigMessage(text, isPositive));
 	
 	}
+	
+	public bool isShowingMessage() {
+		return (currentMessage != null);
+	}
 
 	private void showNormalMessage(Message message) {
 
 		currentMessage = message;
 
 		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL);
-		GameObject messageActionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
 		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL);
 
 		Text textComponent = messageObject.GetComponent<Text>();
-		Text textActionComponent = messageActionObject.GetComponent<Text>();
 		Image imageComponent = backgroundObject.GetComponent<Image>();
 
-		string text = message.text;
-
 		textComponent.enabled = true;
-		textActionComponent.enabled = true;
 		imageComponent.enabled = true;
 
-		textComponent.text = text;
-		textActionComponent.text = "Valider";
+		textComponent.text = message.text;
 	}
 
 	private void hideNormalMessage() {
@@ -117,18 +115,14 @@ public class MessageDisplayer : MonoBehaviour {
 		currentMessage = null;
 
 		GameObject messageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL);
-		GameObject messageActionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
 		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL);
 		
 		Text textComponent = messageObject.GetComponent<Text>();
-		Text textActionComponent = messageActionObject.GetComponent<Text>();
 		Image imageComponent = backgroundObject.GetComponent<Image>();
 
 		textComponent.text = "";
-		textActionComponent.text = "";
 		
 		textComponent.enabled = false;
-		textActionComponent.enabled = false;
 		imageComponent.enabled = false;
 	}
 

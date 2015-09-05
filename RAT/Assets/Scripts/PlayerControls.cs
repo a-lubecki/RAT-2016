@@ -23,7 +23,9 @@ public class PlayerControls : EntityCollider {
 		KeyCode.S
 	};
 	private readonly KeyCode[] KEYS_ACTION = new KeyCode[] {
-		KeyCode.Space
+		KeyCode.Space,
+		KeyCode.Return,
+		KeyCode.KeypadEnter
 	};
 	private readonly string[] BUTTONS_ACTION = new string[] {
 		"Action1"
@@ -55,9 +57,13 @@ public class PlayerControls : EntityCollider {
 			return;
 		}
 
-		if(isAnyKeyPressed(KEYS_ACTION) || isAnyButtonPressed(BUTTONS_ACTION)) {
-			//hide current message
-			MessageDisplayer.Instance.displayNextMessage();
+		if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
+			//execute current action
+			bool done = PlayerActionsManager.Instance.executeShownAction();
+			if(!done) {
+				//hide current message
+				MessageDisplayer.Instance.displayNextMessage();
+			}
 		}
 
 	}
@@ -101,17 +107,17 @@ public class PlayerControls : EntityCollider {
 			int dx = 0;
 			int dy = 0;
 
-			if(isAnyKeyPressed(KEYS_DIRECTION_RIGHT)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_RIGHT, true)) {
 				dx += -1;
 			}
-			if(isAnyKeyPressed(KEYS_DIRECTION_LEFT)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_LEFT, true)) {
 				dx += 1;
 			}
 
-			if(isAnyKeyPressed(KEYS_DIRECTION_UP)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_UP, true)) {
 				dy += 1;
 			}
-			if(isAnyKeyPressed(KEYS_DIRECTION_DOWN)) {
+			if(isAnyKeyPressed(KEYS_DIRECTION_DOWN, true)) {
 				dy += -1;
 			}
 
@@ -137,17 +143,20 @@ public class PlayerControls : EntityCollider {
 	}
 	
 	
-	private bool isKeyPressed(KeyCode key) {
+	private bool isKeyPressed(KeyCode key, bool longPress) {
 		if(!isControlsEnabled) {
 			return false;
 		}
-		return Input.GetKey(key);
+		if(longPress) {
+			return Input.GetKey(key);
+		}
+		return Input.GetKeyDown(key);
 	}
 	
-	private bool isAnyKeyPressed(KeyCode[] keys) {
+	private bool isAnyKeyPressed(KeyCode[] keys, bool longPress) {
 
 		foreach (KeyCode k in keys) {
-			if(isKeyPressed(k)) {
+			if(isKeyPressed(k, longPress)) {
 				return true;
 			}
 		}
@@ -155,10 +164,10 @@ public class PlayerControls : EntityCollider {
 		return false;
 	}
 	
-	private bool isAllKeysPressed(KeyCode[] keys) {
+	private bool isAllKeysPressed(KeyCode[] keys, bool longPress) {
 		
 		foreach (KeyCode k in keys) {
-			if(!isKeyPressed(k)) {
+			if(!isKeyPressed(k, longPress)) {
 				return false;
 			}
 		}
@@ -166,21 +175,24 @@ public class PlayerControls : EntityCollider {
 		return true;
 	}
 	
-	private bool isButtonPressed(InputControl ic) {
+	private bool isButtonPressed(InputControl ic, bool longPress) {
 		if(!isControlsEnabled) {
 			return false;
+		}
+		if(longPress) {
+			return (ic.IsButton && ic.IsPressed);
 		}
 		return (ic.IsButton && ic.IsPressed && ic.WasPressed);
 	}
 	
-	private bool isButtonPressed(string inputControlName) {
-		return isButtonPressed(InputManager.ActiveDevice.GetControlByName(inputControlName));
+	private bool isButtonPressed(string inputControlName, bool longPress) {
+		return isButtonPressed(InputManager.ActiveDevice.GetControlByName(inputControlName), longPress);
 	}
 
-	private bool isAnyButtonPressed(string[] inputControlNames) {
+	private bool isAnyButtonPressed(string[] inputControlNames, bool longPress) {
 		
 		foreach (string name in inputControlNames) {
-			if(isButtonPressed(name)) {
+			if(isButtonPressed(name, longPress)) {
 				return true;
 			}
 		}
@@ -188,10 +200,10 @@ public class PlayerControls : EntityCollider {
 		return false;
 	}
 	
-	private bool isAllButtonsPressed(string[] inputControlNames) {
+	private bool isAllButtonsPressed(string[] inputControlNames, bool longPress) {
 		
 		foreach (string name in inputControlNames) {
-			if(!isButtonPressed(name)) {
+			if(!isButtonPressed(name, longPress)) {
 				return false;
 			}
 		}
