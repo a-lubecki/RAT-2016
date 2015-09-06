@@ -238,6 +238,10 @@ public abstract class EntityCollider : MonoBehaviour {
 	protected abstract CharacterState getNextState();
 
 	protected abstract CharacterAnimation getCurrentCharacterAnimation();
+	
+	public void enableControls() {
+		isControlsEnabled = true;
+	}
 
 	public void disableControls() {
 		isControlsEnabled = false;

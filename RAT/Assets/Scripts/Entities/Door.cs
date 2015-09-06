@@ -12,6 +12,18 @@ public class Door : MonoBehaviour, IActionnable {
 	private Sprite[] sprites;
 	
 	
+	private BoxCollider2D getCollisionsCollider() {
+		return GetComponents<BoxCollider2D>()[0];
+	}
+	
+	private BoxCollider2D getTriggerCollider() {
+		return GetComponents<BoxCollider2D>()[1];
+	}
+	
+	private CircleCollider2D getTriggerOutCollider() {
+		return GetComponent<CircleCollider2D>();
+	}
+
 	public void setNodeElementDoor(NodeElementDoor nodeElementDoor) {
 		
 		if(nodeElementDoor == null) {
@@ -153,11 +165,13 @@ public class Door : MonoBehaviour, IActionnable {
 	
 	private void updateCollider(int frame) {
 		
-		//disable collisions collider
-		BoxCollider2D collider = getCollisionsCollider();
-		
+		//disable all collider
 		isOpened = (frame >= sprites.Length - 1);
-		collider.enabled = !isOpened;
+
+		Collider2D[] colliders = GetComponents<Collider2D>();
+		foreach(Collider2D c in colliders) {
+			c.enabled = !isOpened;
+		}
 	}
 	
 	private void updateSprite(int frame) {
@@ -211,17 +225,6 @@ public class Door : MonoBehaviour, IActionnable {
 
 	}
 
-	private BoxCollider2D getCollisionsCollider() {
-		return GetComponents<BoxCollider2D>()[0];
-	}
-	
-	private BoxCollider2D getTriggerCollider() {
-		return GetComponents<BoxCollider2D>()[1];
-	}
-
-	private CircleCollider2D getTriggerOutCollider() {
-		return GetComponent<CircleCollider2D>();
-	}
 
 	void IActionnable.notifyAction(BaseAction action) {
 		

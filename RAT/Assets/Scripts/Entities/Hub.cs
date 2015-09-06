@@ -1,7 +1,8 @@
 using UnityEngine;
 using Level;
+using System.Collections;
 
-public class Hub : MonoBehaviour {
+public class Hub : MonoBehaviour, IActionnable {
 	
 	public bool isActivated { get; private set; }
 
@@ -10,6 +11,10 @@ public class Hub : MonoBehaviour {
 	private Sprite spriteDeactivated;
 	private Sprite spriteActivated;
 	
+	private CircleCollider2D getTriggerCollider() {
+		return GetComponent<CircleCollider2D>();
+	}
+
 	public void setNodeElementHub(NodeElementHub nodeElementHub) {
 		
 		if(nodeElementHub == null) {
@@ -44,32 +49,39 @@ public class Hub : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
+	void OnTriggerStay2D(Collider2D collider) {
 		
-		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
-
-			if(!isActivated) {
-				proposeActivating();
-			} else {
-				proposeUsing();
-			}
-
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+			return;
 		}
 		
-	} 
+		if(!isActivated) {
+			PlayerActionsManager.Instance.showAction(new ActionActivateHub(this));
+		} else {
+			PlayerActionsManager.Instance.showAction(new ActionUseHub(this));
+		}
+	}
 	
-	private void proposeActivating() {
+	void OnTriggerExit2D(Collider2D collider) {
 		
-		//TODO TEST
-		activate();
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+			return;
+		}
+		
+		PlayerActionsManager.Instance.hideAction(new ActionActivateHub(this));
+		PlayerActionsManager.Instance.hideAction(new ActionUseHub(this));
+
 	}
 
-	private void proposeUsing() {
-		
-		//TODO TEST
-		use();
-	}
+	void IActionnable.notifyAction(BaseAction action) {
 
+		if(!isActivated) {
+			activate();
+		} else {
+			use();
+		}
+	}
+		
 	private void activate() {
 		
 		//propose to activate
@@ -84,6 +96,21 @@ public class Hub : MonoBehaviour {
 		GameSaver.Instance.savePlayerStats();
 
 		MessageDisplayer.Instance.displayBigMessage("Hub activé", true);
+
+		StartCoroutine(delayPlayerAfterActivation());
+	}
+	
+	private IEnumerator delayPlayerAfterActivation() {
+		
+		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
+
+		playerControls.disableControls();
+		getTriggerCollider().enabled = false;
+
+		yield return new WaitForSeconds(1f);
+		
+		getTriggerCollider().enabled = true;
+		playerControls.enableControls();
 
 	}
 

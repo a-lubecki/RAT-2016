@@ -48,6 +48,7 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 
 		//display a message to notify the player
 		MessageDisplayer.Instance.displayMessages(new Message("Les portes se sont ouvertes"));
+
 	}
 
 
