@@ -1,4 +1,5 @@
 using System;
+using SmartLocalization;
 
 public class Constants {
 	
@@ -62,7 +63,10 @@ public class Constants {
 	public static readonly string SORTING_LAYER_NAME_HUB = "hub";
 
 	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
-	
 
+	
+	public static string tr(string key) {
+		return LanguageManager.Instance.GetTextValue(key);
+	}
 }
 

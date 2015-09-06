@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActionOpenDoor : BaseAction {
 
-	public ActionOpenDoor(Door door) : base(door, "Ouvrir la porte") {
+	public ActionOpenDoor(Door door) : base(door, Constants.tr("Actions.OpenDoor")) {
 
 	}
 

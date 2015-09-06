@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActionActivateHub : BaseAction {
 
-	public ActionActivateHub(Hub hub) : base(hub, "Activer") {
+	public ActionActivateHub(Hub hub) : base(hub, Constants.tr("Actions.ActivateHub")) {
 
 	}
 

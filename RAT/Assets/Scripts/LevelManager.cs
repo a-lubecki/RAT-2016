@@ -6,6 +6,8 @@ using System.Xml;
 using System.IO;
 using Level;
 using System;
+using SmartLocalization;
+
 
 public class LevelManager : MonoBehaviour {
 
@@ -18,14 +20,31 @@ public class LevelManager : MonoBehaviour {
 
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
+	
+	public string chosenLocalization = "en-US";
+
 
 	void Start () {
+
+		//set the language
+		List<SmartCultureInfo> supportedLanguages = LanguageManager.Instance.GetSupportedLanguages();
+		
+		SmartCultureInfo chosenSmartCultureInfo = supportedLanguages[0];
+		foreach (SmartCultureInfo info in supportedLanguages) {
+			if(chosenLocalization.Equals(info.languageCode)) {
+				chosenSmartCultureInfo = info;
+				break;
+			}
+		}
+		
+		LanguageManager.Instance.ChangeLanguage(chosenSmartCultureInfo);
+
 
 		if(currentLevelName == null) {
 
 			//load a level
-			
 			if(!GameSaver.Instance.loadCurrentLevel()) {
+
 				//if no saved data, load the very first level				
 				loadNextLevel(Constants.FIRST_LEVEL_NAME);
 			}
