@@ -172,32 +172,42 @@ public class Door : MonoBehaviour, IActionnable {
 		
 		spriteRenderer.sprite = sprites[frame];
 	}
+	
 
-	void OnCollisionEnter2D(Collision2D other) {
-		
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.collider.name)) {
+	void OnTriggerStay2D(Collider2D collider) {
+
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
 			return;
 		}
 
 		if(isOpened) {
 			return;
 		}
+	
+		if(getTriggerCollider().IsTouching(collider)) {
+			PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
+		}
 
-		PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
+	}
 
-	} 
+	void OnTriggerExit2D(Collider2D collider) {
 
-	void OnCollisionExit2D(Collision2D other) {
-
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.collider.name)) {
+		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
 			return;
 		}
 		
 		if(isOpened) {
 			return;
 		}
-		
-		PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+
+		if(!getTriggerCollider().IsTouching(collider)) {
+			PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+		}
+
+		if(!getTriggerOutCollider().IsTouching(collider)) {
+			//remove messages if player is exiting the larger zone
+			MessageDisplayer.Instance.removeAllMessagesFrom(this);
+		}
 
 	}
 
@@ -209,7 +219,11 @@ public class Door : MonoBehaviour, IActionnable {
 		return GetComponents<BoxCollider2D>()[1];
 	}
 
-	void IActionnable.notifyAction() {
+	private CircleCollider2D getTriggerOutCollider() {
+		return GetComponent<CircleCollider2D>();
+	}
+
+	void IActionnable.notifyAction(BaseAction action) {
 		
 		//check if the player has to be in the right side to open the door
 		if(nodeElementDoor.nodeUnlockSide != null) {
@@ -217,7 +231,7 @@ public class Door : MonoBehaviour, IActionnable {
 			NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
 			
 			if(unlockSide == NodeDirection.Direction.NONE) {
-				MessageDisplayer.Instance.displayMessage("La porte ne s'ouvre pas.");
+				MessageDisplayer.Instance.displayMessages(new Message(this, "La porte ne s'ouvre pas."));
 				return;
 			}
 
@@ -233,14 +247,14 @@ public class Door : MonoBehaviour, IActionnable {
 			   (unlockSide == NodeDirection.Direction.LEFT && x < xPlayer) ||
 			   (unlockSide == NodeDirection.Direction.RIGHT && x > xPlayer)) {
 				
-				MessageDisplayer.Instance.displayMessage("La porte ne peut pas être ouverte de ce coté.");
+				MessageDisplayer.Instance.displayMessages(new Message(this, "La porte ne peut pas être ouverte de ce coté."));
 				return;
 			}
 		}
 		
 		if(nodeElementDoor.nodeRequire != null) {
 			//TODO item
-			MessageDisplayer.Instance.displayMessage("La porte est verouillée.");
+			MessageDisplayer.Instance.displayMessages(new Message(this, "La porte est verouillée."));
 			return;
 		}
 		

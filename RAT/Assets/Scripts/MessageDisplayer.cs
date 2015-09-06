@@ -24,15 +24,6 @@ public class MessageDisplayer : MonoBehaviour {
 	private Coroutine coroutineShowBigMessage;
 
 
-	
-	public void displayMessage(string text) {
-		displayMessages(new Message(text));
-	}
-
-	public void displayMessage(Message message) {
-		displayMessages(message);
-	}
-
 	public void displayMessages(params Message[] messages) {
 		displayMessages(false, messages);
 	}
@@ -64,6 +55,10 @@ public class MessageDisplayer : MonoBehaviour {
 		}
 
 	}
+	
+	public bool isShowingMessage() {
+		return (currentMessage != null);
+	}
 
 	public void displayNextMessage() {
 
@@ -79,6 +74,21 @@ public class MessageDisplayer : MonoBehaviour {
 		showNormalMessage(message);
 	}
 
+
+	public void removeAllMessagesFrom(object caller) {
+
+		//enqueue current message
+		if(currentMessage != null) {
+			queue.Add(currentMessage);
+		}
+
+		hideNormalMessage();
+
+		queue.RemoveAll(message => (message.caller == caller));
+
+		displayNextMessage();
+	}
+
 	public void displayBigMessage(string text, bool isPositive) {
 
 		text = text.ToUpper();
@@ -88,10 +98,6 @@ public class MessageDisplayer : MonoBehaviour {
 		}
 		coroutineShowBigMessage = StartCoroutine(showBigMessage(text, isPositive));
 	
-	}
-	
-	public bool isShowingMessage() {
-		return (currentMessage != null);
 	}
 
 	private void showNormalMessage(Message message) {

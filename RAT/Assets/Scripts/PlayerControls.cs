@@ -49,9 +49,7 @@ public class PlayerControls : EntityCollider {
 		}
 	}
 	
-	protected override void FixedUpdate() {
-
-		base.FixedUpdate();
+	protected void Update() {
 
 		if(isPaused) {
 			return;
@@ -152,7 +150,8 @@ public class PlayerControls : EntityCollider {
 		}
 		return Input.GetKeyDown(key);
 	}
-	
+
+
 	private bool isAnyKeyPressed(KeyCode[] keys, bool longPress) {
 
 		foreach (KeyCode k in keys) {

@@ -2,7 +2,7 @@ using System;
 
 public interface IActionnable {
 
-	void notifyAction();
+	void notifyAction(BaseAction action);
 
 }
 

@@ -21,7 +21,7 @@ public abstract class BaseAction {
 
 	public virtual void notifyAction() {
 
-		objectToNotify.notifyAction();
+		objectToNotify.notifyAction(this);
 	}
 
 
