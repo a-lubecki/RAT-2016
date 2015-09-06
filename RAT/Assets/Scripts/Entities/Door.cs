@@ -176,7 +176,7 @@ public class Door : MonoBehaviour, IActionnable {
 		foreach(Collider2D c in colliders) {
 			c.enabled = !isOpened;
 		}
-		Debug.Log("updateCollider => " + getTriggerCollider().enabled);
+
 	}
 	
 	private void updateSprite(int frame) {
@@ -204,7 +204,6 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 	
 		if(getTriggerCollider().IsTouching(collider)) {
-			Debug.Log("getTriggerCollider().enabled => " + getTriggerCollider().enabled);
 			PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
 		}
 
@@ -282,14 +281,12 @@ public class Door : MonoBehaviour, IActionnable {
 		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
 		
 		playerControls.disableControls();
-		Debug.Log("delayPlayerAfterAction : false");
 		getTriggerCollider().enabled = false;
 		getTriggerOutCollider().enabled = false;
 		
 		yield return new WaitForSeconds(0.75f);
 
 		if(!isOpened) {
-			Debug.Log("delayPlayerAfterAction : true");
 			getTriggerCollider().enabled = true;
 			getTriggerOutCollider().enabled = true;
 		}
