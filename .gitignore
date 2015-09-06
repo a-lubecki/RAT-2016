@@ -28,3 +28,6 @@ sysinfo.txt
 /SyncFilesProject/nbproject/private/
 /ResourcesSynchronizer/nbproject/private/
 /ResourcesSynchronizer/dist/
+
+# Personal
+*.password
