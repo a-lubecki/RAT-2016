@@ -36,11 +36,6 @@ public class PlayerActionsManager {
 			return;
 		}
 
-		if(MessageDisplayer.Instance.isShowingMessage()) {
-			//can't show an action when a message is displayed
-			return;
-		}
-
 		this.action = action;
 
 		//show

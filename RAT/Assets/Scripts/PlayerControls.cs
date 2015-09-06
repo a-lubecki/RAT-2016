@@ -56,12 +56,16 @@ public class PlayerControls : EntityCollider {
 		}
 
 		if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
-			//execute current action
-			bool done = PlayerActionsManager.Instance.executeShownAction();
-			if(!done) {
+
+			bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
+			if(hasMessage) {
 				//hide current message
 				MessageDisplayer.Instance.displayNextMessage();
+			} else {
+				//execute current action
+				PlayerActionsManager.Instance.executeShownAction();
 			}
+
 		}
 
 	}
