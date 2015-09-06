@@ -74,6 +74,7 @@ public class PlayerControls : EntityCollider {
 		}
 
 		float angleDegrees = 0;
+		float analogicFactor = 1;
 		bool isPressingAnyDirection = false;
 
 		// analogic directions
@@ -83,7 +84,7 @@ public class PlayerControls : EntityCollider {
 
 			float dx = - activeDevice.LeftStickX.Value;
 			float dy = activeDevice.LeftStickY.Value;
-			
+
 			if(dx > 1) {
 				dx = 1;
 			}
@@ -94,7 +95,8 @@ public class PlayerControls : EntityCollider {
 			if(dx != 0 || dy != 0) {
 				
 				isPressingAnyDirection = true;
-				
+
+				analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
 				angleDegrees = vectorToAngle(dx, dy) + 90;
 			}
 		}
@@ -133,8 +135,14 @@ public class PlayerControls : EntityCollider {
 			return Vector2.zero;
 		}
 
-		float x = moveSpeed * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
-		float y = moveSpeed * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
+		if(analogicFactor < 0) {
+			analogicFactor = 0;
+		} else if(analogicFactor > 1) {
+			analogicFactor = 1;
+		} 
+
+		float x = analogicFactor * moveSpeed * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
+		float y = analogicFactor * moveSpeed * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
 
 		return new Vector2(x, y);
 
