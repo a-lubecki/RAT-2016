@@ -80,7 +80,7 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 		
 		//set the door as closed
-		updateCollider(0);
+		updateCollider(false);
 		updateSprite(0);
 	}
 	
@@ -105,7 +105,7 @@ public class Door : MonoBehaviour, IActionnable {
 			
 		} else {
 			
-			updateCollider(sprites.Length);
+			updateCollider(true);
 			updateSprite(sprites.Length);
 		}
 	}
@@ -122,7 +122,7 @@ public class Door : MonoBehaviour, IActionnable {
 			
 		} else {
 			
-			updateCollider(0);
+			updateCollider(false);
 			updateSprite(0);
 		}
 	}
@@ -134,7 +134,12 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 		
 		isAnimatingDoor = true;
-		
+
+		if(!actionOpen) {
+			//the player can't go through the door during the closing animation
+			updateCollider(false);
+		}
+
 		int frame = 1;
 		float deltaTime = totalTime / (float)sprites.Length;
 		
@@ -144,8 +149,7 @@ public class Door : MonoBehaviour, IActionnable {
 			if(!actionOpen) {
 				currentFrame = sprites.Length - frame - 1;
 			}
-			
-			updateCollider(currentFrame);
+
 			updateSprite(currentFrame);
 			
 			frame++;
@@ -163,15 +167,16 @@ public class Door : MonoBehaviour, IActionnable {
 		
 	}
 	
-	private void updateCollider(int frame) {
+	private void updateCollider(bool isOpened) {
 		
 		//disable all collider
-		isOpened = (frame >= sprites.Length - 1);
+		this.isOpened = isOpened;
 
 		Collider2D[] colliders = GetComponents<Collider2D>();
 		foreach(Collider2D c in colliders) {
 			c.enabled = !isOpened;
 		}
+		Debug.Log("updateCollider => " + getTriggerCollider().enabled);
 	}
 	
 	private void updateSprite(int frame) {
@@ -199,6 +204,7 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 	
 		if(getTriggerCollider().IsTouching(collider)) {
+			Debug.Log("getTriggerCollider().enabled => " + getTriggerCollider().enabled);
 			PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
 		}
 
@@ -227,7 +233,13 @@ public class Door : MonoBehaviour, IActionnable {
 
 
 	void IActionnable.notifyAction(BaseAction action) {
-		
+
+		if(isOpened) {
+			return;
+		}
+
+		StartCoroutine(delayPlayerAfterAction());
+
 		//check if the player has to be in the right side to open the door
 		if(nodeElementDoor.nodeUnlockSide != null) {
 			
@@ -262,11 +274,27 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 		
 		open(true);
+
+	}
+	
+	private IEnumerator delayPlayerAfterAction() {
 		
-		//disable trigger collider
+		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
+		
+		playerControls.disableControls();
+		Debug.Log("delayPlayerAfterAction : false");
 		getTriggerCollider().enabled = false;
+		getTriggerOutCollider().enabled = false;
+		
+		yield return new WaitForSeconds(0.75f);
 
+		if(!isOpened) {
+			Debug.Log("delayPlayerAfterAction : true");
+			getTriggerCollider().enabled = true;
+			getTriggerOutCollider().enabled = true;
+		}
 
+		playerControls.enableControls();
 	}
 
 }

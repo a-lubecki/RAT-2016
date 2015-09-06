@@ -97,10 +97,10 @@ public class Hub : MonoBehaviour, IActionnable {
 
 		MessageDisplayer.Instance.displayBigMessage("Hub activé", true);
 
-		StartCoroutine(delayPlayerAfterActivation());
+		StartCoroutine(delayPlayerAfterAction());
 	}
 	
-	private IEnumerator delayPlayerAfterActivation() {
+	private IEnumerator delayPlayerAfterAction() {
 		
 		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
 
@@ -125,8 +125,6 @@ public class Hub : MonoBehaviour, IActionnable {
 			npc.reinitLifeAndPosition();
 		}
 
-		//TODO propose to manage experience / teleport
-
 		
 		//keep level to respawn after
 		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
@@ -134,10 +132,27 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
 		GameSaver.Instance.deleteNpcs();
-	
+
+		openHubMenu();
+
+	}
+
+	private void openHubMenu() {
+		
+		//disable controls when editing
+		GameHelper.Instance.getPlayerControls().disableControls();//TODO disable move controls
+		getTriggerCollider().enabled = false;
+
+		//TODO propose to manage experience / teleport
 
 		onPlayerStatsChanged();//TODO test call
 
+		closeHubMenu();//TODO test call
+	}
+	
+	private void closeHubMenu() {
+		
+		StartCoroutine(delayPlayerAfterAction());
 	}
 
 	public void onPlayerStatsChanged() {
