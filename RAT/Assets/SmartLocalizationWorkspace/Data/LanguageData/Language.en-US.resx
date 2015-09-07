@@ -116,13 +116,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="Actions.ActivateHub" xml:space="preserve">
+	<data name="Action.ActivateHub" xml:space="preserve">
 		<value>Activate</value>
 	</data>
-	<data name="Actions.OpenDoor" xml:space="preserve">
+	<data name="Action.OpenDoor" xml:space="preserve">
 		<value>Open the door</value>
 	</data>
-	<data name="Actions.UseHub" xml:space="preserve">
+	<data name="Action.UseHub" xml:space="preserve">
 		<value>Use hub</value>
+	</data>
+	<data name="BigMessage.HubActivated" xml:space="preserve">
+		<value />
+	</data>
+	<data name="BigMessage.PlayerDead" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Message.Door.Blocked" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Message.Door.Locked" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Message.Door.WrongSide" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Message.Event.DoorsOpened" xml:space="preserve">
+		<value />
 	</data>
 </root>

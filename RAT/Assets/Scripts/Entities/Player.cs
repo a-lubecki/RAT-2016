@@ -90,7 +90,7 @@ public class Player : Character {
 		//set as an object
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 
-		MessageDisplayer.Instance.displayBigMessage("Vous êtes mort", false);
+		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.PlayerDead"), false);
 
 		//TODO disable keyboard / controller
 

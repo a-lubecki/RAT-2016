@@ -95,7 +95,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
 
-		MessageDisplayer.Instance.displayBigMessage("Hub activé", true);
+		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.HubActivated"), true);
 
 		StartCoroutine(delayPlayerAfterAction());
 	}

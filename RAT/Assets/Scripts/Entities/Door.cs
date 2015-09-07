@@ -245,7 +245,7 @@ public class Door : MonoBehaviour, IActionnable {
 			NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
 			
 			if(unlockSide == NodeDirection.Direction.NONE) {
-				MessageDisplayer.Instance.displayMessages(new Message(this, "La porte ne s'ouvre pas."));
+				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Blocked")));
 				return;
 			}
 
@@ -261,14 +261,14 @@ public class Door : MonoBehaviour, IActionnable {
 			   (unlockSide == NodeDirection.Direction.LEFT && x < xPlayer) ||
 			   (unlockSide == NodeDirection.Direction.RIGHT && x > xPlayer)) {
 				
-				MessageDisplayer.Instance.displayMessages(new Message(this, "La porte ne peut pas être ouverte de ce coté."));
+				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.WrongSide")));
 				return;
 			}
 		}
 		
 		if(nodeElementDoor.nodeRequire != null) {
 			//TODO item
-			MessageDisplayer.Instance.displayMessages(new Message(this, "La porte est verouillée."));
+			MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Locked")));
 			return;
 		}
 		
