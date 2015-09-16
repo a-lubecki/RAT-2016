@@ -14,7 +14,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	protected bool isPaused { get; private set; }
 
-	public CharacterState currentState { get; private set; }
+	public BaseCharacterState currentState { get; private set; }
 	public CharacterDirection currentDirection { get; private set; }
 	
 	public CharacterAnimation currentCharacterAnimation { get; private set; }
@@ -26,7 +26,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 		isControlsEnabled = true;
 
-		setState(CharacterState.WAIT);
+		changeState(BaseCharacterState.WAIT);
 	}
 
 	public void setInitialPosition(int x, int y, int angleDegrees) {
@@ -35,7 +35,7 @@ public abstract class EntityCollider : MonoBehaviour {
 		
 		setAngleDegrees(angleDegrees);
 
-		updateState();
+		updateStateWithDirection();
 	}
 
 	public void setMapPosition(int xGeneration, int yGeneration) {
@@ -55,7 +55,7 @@ public abstract class EntityCollider : MonoBehaviour {
 			angleDegrees = 270;
 		}
 		
-		updateState();
+		updateStateWithDirection();
  	}
 
 	private void setAngleDegrees(float angleDegrees) {
@@ -97,20 +97,17 @@ public abstract class EntityCollider : MonoBehaviour {
 				)
 			);
 
-			updateState();
-		}
+			updateStateWithDirection();
 
-		//update state
-		if(!wasMoving && isMoving && currentState != CharacterState.WALK){
-			setState(CharacterState.WALK);
-		}
-		if(wasMoving && !isMoving && currentState != CharacterState.WAIT){
-			setState(CharacterState.WAIT);
+			//update state
+			if(!wasMoving && currentState != BaseCharacterState.WALK){
+				changeState(BaseCharacterState.WALK);
+			}
 		}
 
 	}
 
-	private void updateState() {
+	private void updateStateWithDirection() {
 		
 		CharacterDirection tempDirection = getCharacterDirection(55);
 		if(currentDirection != tempDirection) {
@@ -118,7 +115,7 @@ public abstract class EntityCollider : MonoBehaviour {
 			currentDirection = tempDirection;
 			
 			//update state
-			setState(currentState);
+			updateState(currentState);
 		}
 	}
 
@@ -191,23 +188,38 @@ public abstract class EntityCollider : MonoBehaviour {
 		return Mathf.Atan2(x, y) * Mathf.Rad2Deg;
 	}
 
+	public static Vector2 angleToVector(float angleDegrees, int force) {
 
-	private void setState(CharacterState state) {
+		float angleRad = angleDegrees * Mathf.Deg2Rad;
 
-		if(state == CharacterState.UNDEFINED) {
+		return new Vector2(Mathf.Sin(angleRad) * force, Mathf.Cos(angleRad) * force);
+	}
+
+	protected void changeState(BaseCharacterState state) {
+		
+		if(state == BaseCharacterState.UNDEFINED) {
 			return;
 		}
+
+		if(state == currentState) {
+			return;
+		}
+
+		updateState(state);
+	}
+
+	protected void updateState(BaseCharacterState state) {
 
 		if(coroutineStateAnimation != null) {
 			StopCoroutine(coroutineStateAnimation);
 		}
 
-		//Debug.Log(">>> STATE " + currentState + " => " + state);
-
 		currentState = state;
-
-		coroutineStateAnimation = StartCoroutine(animateCharacter());
-
+		
+		if(state != BaseCharacterState.UNDEFINED) {
+			coroutineStateAnimation = StartCoroutine(animateCharacter());
+		}
+	
 	}
 
 	private IEnumerator animateCharacter() {
@@ -232,10 +244,10 @@ public abstract class EntityCollider : MonoBehaviour {
 
 		isControlsEnabled = true;
 
-		setState(getNextState());
+		updateState(getNextState());
 	}
 	
-	protected abstract CharacterState getNextState();
+	protected abstract BaseCharacterState getNextState();
 
 	protected abstract CharacterAnimation getCurrentCharacterAnimation();
 	
@@ -246,5 +258,6 @@ public abstract class EntityCollider : MonoBehaviour {
 	public void disableControls() {
 		isControlsEnabled = false;
 	}
+
 }
 

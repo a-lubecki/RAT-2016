@@ -1,4 +1,4 @@
-﻿using UnityEngine; 
+﻿using UnityEngine;
 using System.Collections;
 using Level;
 using InControl;
@@ -23,12 +23,17 @@ public class PlayerControls : EntityCollider {
 		KeyCode.S
 	};
 	private readonly KeyCode[] KEYS_ACTION = new KeyCode[] {
-		KeyCode.Space,
 		KeyCode.Return,
 		KeyCode.KeypadEnter
 	};
 	private readonly string[] BUTTONS_ACTION = new string[] {
 		"Action1"
+	};
+	private readonly KeyCode[] KEYS_DASH = new KeyCode[] {
+		KeyCode.Space
+	};
+	private readonly string[] BUTTONS_DASH = new string[] {
+		"Action2"
 	};
 
 
@@ -66,6 +71,10 @@ public class PlayerControls : EntityCollider {
 				PlayerActionsManager.Instance.executeShownAction();
 			}
 
+		}
+		
+		if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
+			dash();
 		}
 
 	}
@@ -144,6 +153,9 @@ public class PlayerControls : EntityCollider {
 		} else if(analogicFactor > 1) {
 			analogicFactor = 1;
 		} 
+
+		//change the 0 => 1 constant function to an exponential function
+		analogicFactor = analogicFactor*analogicFactor;
 
 		float x = analogicFactor * moveSpeed * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
 		float y = analogicFactor * moveSpeed * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
@@ -227,14 +239,20 @@ public class PlayerControls : EntityCollider {
 
 		string textureName = "Character.Rat.";
 
-		switch(currentState) {
-
-		case CharacterState.WALK:
+		if(currentState == BaseCharacterState.WALK) {
 			return new CharacterAnimation(
 				false, 
 				textureName + "Walk.png",
 				new CharacterAnimationKey(0.15f),
 				new CharacterAnimationKey(0.15f));
+		}
+		
+		if(currentState == PlayerState.DASH) {
+			return new CharacterAnimation(
+				true, 
+				textureName + "Wait.png",//TODO test
+				new CharacterAnimationKey(0.001f),//TODO test
+				new CharacterAnimationKey(0.5f));
 		}
 
 		//wait
@@ -246,13 +264,56 @@ public class PlayerControls : EntityCollider {
 
 	}
 	
-	protected override CharacterState getNextState() {
-		
-		if(currentState == CharacterState.WALK) {
-			return CharacterState.WALK;
+	protected override BaseCharacterState getNextState() {
+
+		if(currentState == BaseCharacterState.WALK && isMoving) {
+			return BaseCharacterState.WALK;
 		}
 
-		return CharacterState.WAIT;
+		return BaseCharacterState.WAIT;
+	}
+
+
+	protected void dash() {
+		
+		float angle;
+
+		if(isMoving) {
+
+			angle = angleDegrees;
+
+		} else {
+			
+			//snap the angle using the character direction
+			if(currentDirection == CharacterDirection.RIGHT) {
+				angle = 90;
+			} else if(currentDirection == CharacterDirection.LEFT) {
+				angle = -90;
+			} else if(currentDirection == CharacterDirection.UP) {
+				angle = 0;
+			} else {
+				angle = 180;
+			}
+
+			//dash opposite
+			angle += 180;
+
+		}
+
+		Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
+		
+		Vector2 newForce = angleToVector(angle, 50000);
+
+		//update transform with int vector to move with the grid
+		rigidBody.AddForce(
+			new Vector2(
+			newForce.x, 
+			newForce.y
+			)
+		);
+		
+		updateState(PlayerState.DASH);
+		
 	}
 
 }

@@ -23,8 +23,8 @@ public class AIControls : EntityCollider {
 		
 	}
 	
-	protected override CharacterState getNextState() {
-		return CharacterState.WAIT;
+	protected override BaseCharacterState getNextState() {
+		return BaseCharacterState.WAIT;
 	}
 
 }
