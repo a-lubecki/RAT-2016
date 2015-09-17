@@ -74,7 +74,12 @@ public class PlayerControls : EntityCollider {
 		}
 		
 		if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
-			dash();
+
+			Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+			if(player.stamina > 0) {
+				//can't dash if no stamina
+				dash();
+			}
 		}
 
 	}
@@ -311,7 +316,11 @@ public class PlayerControls : EntityCollider {
 			newForce.y
 			)
 		);
-		
+
+		//remove stamina
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		player.stamina -= 20;//TODO test value
+
 		updateState(PlayerState.DASH);
 		
 	}

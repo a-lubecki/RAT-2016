@@ -6,27 +6,72 @@ public class Player : Character {
 	
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	
-	public int skillPointHealth { get; protected set; }
-	public int skillPointEnergy { get; protected set; }
+	private int _skillPointHealth;
+	public int skillPointHealth { 
+		get {
+			return _skillPointHealth;
+		}
+		set {
+			if(value < 1) {
+				_skillPointHealth = 1;
+			} else {
+				_skillPointHealth = value;
+			}
+		}
+	}
+	
+	private int _skillPointEnergy;
+	public int skillPointEnergy { 
+		get {
+			return _skillPointEnergy;
+		}
+		set {
+			if(value < 1) {
+				_skillPointEnergy = 1;
+			} else {
+				_skillPointEnergy = value;
+			}
+		}
+	}
 
-	public int maxStamina { get; protected set; }
-	public int stamina { get; protected set; }
+	private int _maxStamina;
+	public int maxStamina { 
+		get {
+			return _maxStamina;
+		}
+		set {
+			if(value <= 0) {
+				_maxStamina = 0;
+			} else {
+				_maxStamina = value;
+			}
+			updateViews();
+		}
+	}
+
+	private int _stamina;
+	public int stamina { 
+		get {
+			return _stamina;
+		}
+		set {
+			if(value <= 0) {
+				_stamina = 0;
+			} else if(value > _maxStamina) {
+				_stamina = _maxStamina;
+			} else {
+				_stamina = value;
+			}
+			updateViews();
+		}
+	}
 
 	public string levelNameForLastHub;
 
 	public void initStats(int skillPointHealth, int skillPointEnergy) {
-
-		if(skillPointHealth < 1) {
-			this.skillPointHealth = 1;
-		} else {
-			this.skillPointHealth = skillPointHealth;
-		}
-
-		if(skillPointEnergy < 1) {
-			this.skillPointEnergy = 1;
-		} else {
-			this.skillPointEnergy = skillPointEnergy;
-		}
+		
+		this.skillPointHealth = skillPointHealth;
+		this.skillPointEnergy = skillPointEnergy;
 
 		computeStats();
 
@@ -37,16 +82,12 @@ public class Player : Character {
 
 		this.life = life;
 		this.stamina = stamina;
-		
-		updateViews();
 	}
 
 	public void reinitLifeAndStamina() {
 		
 		this.life = maxLife;
 		this.stamina = maxStamina;
-		
-		updateViews();
 	}
 
 	private void computeStats() {
@@ -91,8 +132,6 @@ public class Player : Character {
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 
 		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.PlayerDead"), false);
-
-		//TODO disable keyboard / controller
 
 		StartCoroutine(processRespawn());
 	}

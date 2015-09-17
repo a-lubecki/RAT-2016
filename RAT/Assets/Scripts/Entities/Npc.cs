@@ -29,14 +29,8 @@ public class Npc : Character {
 	}
 	
 	public void init(int life) {
-
-		if(life < 0) {
-			this.life = 0;
-		} else if(life > maxLife) {
-			this.life = maxLife;
-		} else {
-			this.life = life;
-		}
+		
+		this.life = life;
 
 		if(life <= 0) {
 			die();

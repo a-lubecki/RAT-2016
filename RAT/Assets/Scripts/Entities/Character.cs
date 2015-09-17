@@ -4,24 +4,42 @@ using Level;
 
 public abstract class Character : MonoBehaviour {
 	
-	public int maxLife { get; protected set; }
-	public int life { get; protected set; }
+	private int _maxLife;
+	public int maxLife { 
+		get {
+			return _maxLife;
+		}
+		set {
+			if(value <= 0) {
+				_maxLife = 0;
+			} else {
+				_maxLife = value;
+			}
+			updateViews();
+		}
+	}
+	
+	private int _life;
+	public int life { 
+		get {
+			return _life;
+		}
+		set {
+			if(value <= 0) {
+				_life = 0;
+			} else if(value > _maxLife) {
+				_life = _maxLife;
+			} else {
+				_life = value;
+			}
+			updateViews();
+		}
+	}
 
 	private bool isTemporaryInvulnerable = false;
 
 	public bool isDead() {
 		return (life <= 0);
-	}
-
-	public void setMaxLife(int maxLife) {
-
-		if(maxLife <= 0) {
-			this.maxLife = 1;
-		} else {
-			this.maxLife = maxLife;
-		}
-
-		updateViews();
 	}
 
 	public void takeDamages(int damages) {
@@ -32,20 +50,13 @@ public abstract class Character : MonoBehaviour {
 		}
 
 		if(damages == 0) {
+			//not a heal or a damage
 			return;
 		}
 
 		if(!isTemporaryInvulnerable) {
 
 			life -= damages;
-
-			if(life < 0) {
-				life = 0;
-			} else if(life > maxLife) {
-				life = maxLife;
-			}
-
-			updateViews();
 
 			//set invulnerable to avoid taking all life in few milliseconds
 			StartCoroutine(setTemporaryInvulnerable());
