@@ -21,7 +21,7 @@ public class LevelManager : MonoBehaviour {
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
 	
-	public string chosenLocalization = "en-US";
+	public string chosenLocalization = "fr";//"en-US";
 
 
 	void Start () {
