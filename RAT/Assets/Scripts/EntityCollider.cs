@@ -22,7 +22,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	private Coroutine coroutineStateAnimation;
 
-	void Start() {
+	protected virtual void Start() {
 
 		isControlsEnabled = true;
 

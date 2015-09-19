@@ -29,6 +29,11 @@ public class PlayerControls : EntityCollider {
 	private readonly string[] BUTTONS_ACTION = new string[] {
 		"Action1"
 	};
+	private readonly KeyCode[] KEYS_RUN = new KeyCode[] {//only for keyboard, not controller or mobile
+		KeyCode.RightAlt,
+		KeyCode.LeftControl,
+		KeyCode.RightControl
+	};
 	private readonly KeyCode[] KEYS_DASH = new KeyCode[] {
 		KeyCode.Space
 	};
@@ -38,6 +43,10 @@ public class PlayerControls : EntityCollider {
 
 
 	public float moveSpeed = 1;
+
+	private bool isPressingAnyDirection = false;
+	private bool isRunning = false;
+	private Coroutine coroutineRun;
 
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
@@ -53,7 +62,14 @@ public class PlayerControls : EntityCollider {
 			setDirection(NodeDirection.Direction.UP);
 		}
 	}
+
+	protected override void Start() {
+		base.Start();
+
+		InvokeRepeating("manageStamina", Player.STAMINA_CONSUMPTION_FREQUENCY_S, Player.STAMINA_CONSUMPTION_FREQUENCY_S);
 	
+	}
+
 	protected void Update() {
 
 		if(isPaused) {
@@ -83,6 +99,11 @@ public class PlayerControls : EntityCollider {
 		}
 
 	}
+	
+	protected void OnDisable() {
+
+		stopRunning();
+	}
 
 
 	protected override Vector2 getNewMoveVector() {
@@ -93,7 +114,9 @@ public class PlayerControls : EntityCollider {
 
 		float angleDegrees = 0;
 		float analogicFactor = 1;
-		bool isPressingAnyDirection = false;
+		bool hasStartedRunning = false;
+		
+		isPressingAnyDirection = false;
 
 		// analogic directions
 		if(!isPressingAnyDirection) {
@@ -116,6 +139,11 @@ public class PlayerControls : EntityCollider {
 
 				analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
 				angleDegrees = vectorToAngle(dx, dy) + 90;
+
+				if(analogicFactor >= 0.99) {
+					startRunning(1.4f);
+					hasStartedRunning = true;
+				}
 			}
 		}
 
@@ -144,23 +172,39 @@ public class PlayerControls : EntityCollider {
 				isPressingAnyDirection = true;
 
 				angleDegrees = vectorToAngle(dx, dy) + 90;
+
+				if(isAnyKeyPressed(KEYS_RUN, true)) {
+					startRunning(0.4f);
+					hasStartedRunning = true;
+				}
 			}
 
 		}
 
 
+		if(!hasStartedRunning) {
+			stopRunning();
+		}
+
 		if(!isPressingAnyDirection) {
 			return Vector2.zero;
 		}
 
-		if(analogicFactor < 0) {
-			analogicFactor = 0;
-		} else if(analogicFactor > 1) {
-			analogicFactor = 1;
-		} 
+		if(isRunning) {
 
-		//change the 0 => 1 constant function to an exponential function
-		analogicFactor = analogicFactor*analogicFactor;
+			analogicFactor = 1.7f;
+
+		} else {
+
+			if(analogicFactor < 0) {
+				analogicFactor = 0;
+			} else if(analogicFactor > 1) {
+				analogicFactor = 1;
+			}
+			
+			//change the 0 => 1 constant function to an exponential function
+			analogicFactor = analogicFactor*analogicFactor;
+		}
 
 		float x = analogicFactor * moveSpeed * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
 		float y = analogicFactor * moveSpeed * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
@@ -319,10 +363,68 @@ public class PlayerControls : EntityCollider {
 
 		//remove stamina
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
-		player.stamina -= 20;//TODO test value
+		player.stamina -= Player.STAMINA_CONSUMPTION_DASH;
+
+		//after a dash, the player can't continue the same running
+		stopRunning();
 
 		updateState(PlayerState.DASH);
 		
+	}
+
+	private void startRunning(float delay) {
+
+		if(isRunning) {
+			return;
+		}
+
+		if(coroutineRun == null) {
+			coroutineRun = StartCoroutine(runAfterDelay(delay));
+		}
+	}
+
+	private void stopRunning() {
+
+		if(coroutineRun != null) {
+			StopCoroutine(coroutineRun);
+			coroutineRun = null;
+		}
+
+		isRunning = false;
+
+	}
+
+	private IEnumerator runAfterDelay(float delay) {
+
+		if(delay > 0) {
+			yield return new WaitForSeconds(delay);
+		}
+
+		if(!isPressingAnyDirection) {
+			//no need to run if no direction pressed
+			yield break;
+		}
+
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		if(player.stamina <= 0) {
+			//can't run if no stamina
+			yield break;
+		}
+
+		isRunning = true;
+	}
+
+	private void manageStamina() {
+
+		if(isRunning) {
+			Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+			player.stamina -= Player.STAMINA_CONSUMPTION_RUN;
+
+			//can't run any more
+			if(player.stamina <= 0) {
+				stopRunning();
+			}
+		}
 	}
 
 }

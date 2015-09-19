@@ -4,6 +4,11 @@ using Level;
 
 public class Player : Character {
 	
+	public static readonly float STAMINA_CONSUMPTION_FREQUENCY_S = 0.1f;
+	public static readonly int STAMINA_EARN_REST = 1;
+	public static readonly int STAMINA_CONSUMPTION_RUN = 2;
+	public static readonly int STAMINA_CONSUMPTION_DASH = 20;
+
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	
 	private int _skillPointHealth;
