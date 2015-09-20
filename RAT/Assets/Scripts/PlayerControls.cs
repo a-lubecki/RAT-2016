@@ -42,11 +42,9 @@ public class PlayerControls : EntityCollider {
 	};
 
 
-	public float moveSpeed = 1;
+	public float MOVE_SPEED = 1;
 
 	private bool isPressingAnyDirection = false;
-	private bool isRunning = false;
-	private Coroutine coroutineRun;
 
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
@@ -196,7 +194,7 @@ public class PlayerControls : EntityCollider {
 
 		} else {
 
-			if(analogicFactor < 0) {
+			if(analogicFactor < 0.2) {
 				analogicFactor = 0;
 			} else if(analogicFactor > 1) {
 				analogicFactor = 1;
@@ -206,8 +204,8 @@ public class PlayerControls : EntityCollider {
 			analogicFactor = analogicFactor*analogicFactor;
 		}
 
-		float x = analogicFactor * moveSpeed * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
-		float y = analogicFactor * moveSpeed * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
+		float x = analogicFactor * MOVE_SPEED * Mathf.Cos(angleDegrees * Mathf.Deg2Rad);
+		float y = analogicFactor * MOVE_SPEED * Mathf.Sin(angleDegrees * Mathf.Deg2Rad);
 
 		return new Vector2(x, y);
 
@@ -292,8 +290,16 @@ public class PlayerControls : EntityCollider {
 			return new CharacterAnimation(
 				false, 
 				textureName + "Walk.png",
-				new CharacterAnimationKey(0.15f),
-				new CharacterAnimationKey(0.15f));
+				new CharacterAnimationKey(0.20f),
+				new CharacterAnimationKey(0.20f));
+		}
+
+		if(currentState == BaseCharacterState.RUN) {
+			return new CharacterAnimation(
+				false, 
+				textureName + "Walk.png",
+				new CharacterAnimationKey(0.1f),
+				new CharacterAnimationKey(0.1f));
 		}
 		
 		if(currentState == PlayerState.DASH) {
@@ -314,9 +320,14 @@ public class PlayerControls : EntityCollider {
 	}
 	
 	protected override BaseCharacterState getNextState() {
-
-		if(currentState == BaseCharacterState.WALK && isMoving) {
-			return BaseCharacterState.WALK;
+		
+		if(isMoving) { 
+			if(currentState == BaseCharacterState.WALK) {
+				return BaseCharacterState.WALK;
+			}
+			if(currentState == BaseCharacterState.RUN) {
+				return BaseCharacterState.RUN;
+			}
 		}
 
 		return BaseCharacterState.WAIT;
@@ -369,49 +380,22 @@ public class PlayerControls : EntityCollider {
 		stopRunning();
 
 		updateState(PlayerState.DASH);
-		
 	}
 
-	private void startRunning(float delay) {
-
-		if(isRunning) {
-			return;
-		}
-
-		if(coroutineRun == null) {
-			coroutineRun = StartCoroutine(runAfterDelay(delay));
-		}
-	}
-
-	private void stopRunning() {
-
-		if(coroutineRun != null) {
-			StopCoroutine(coroutineRun);
-			coroutineRun = null;
-		}
-
-		isRunning = false;
-
-	}
-
-	private IEnumerator runAfterDelay(float delay) {
-
-		if(delay > 0) {
-			yield return new WaitForSeconds(delay);
-		}
+	protected override bool canRun() {
 
 		if(!isPressingAnyDirection) {
 			//no need to run if no direction pressed
-			yield break;
+			return false;
 		}
-
+		
 		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
 		if(player.stamina <= 0) {
 			//can't run if no stamina
-			yield break;
+			return false;
 		}
 
-		isRunning = true;
+		return true;
 	}
 
 	private void manageStamina() {

@@ -11,6 +11,10 @@ public class AIControls : EntityCollider {
 		return new Vector2(0, 0);//TODO
 	}
 	
+	protected override bool canRun() {
+		return true;
+	}
+
 	protected override CharacterAnimation getCurrentCharacterAnimation() {
 		
 		string textureName = "Enemy.Insect.Wait.png";

@@ -7,8 +7,10 @@ public abstract class EntityCollider : MonoBehaviour {
 	public EntityRenderer entityRenderer;
 
 	public float angleDegrees { get; protected set; }
-	public bool isMoving { get; private set; }
 
+	public bool isMoving { get; private set; }
+	public bool isRunning { get; protected set; }
+	private Coroutine coroutineRun;
 	
 	protected bool isControlsEnabled { get; private set; }
 
@@ -99,13 +101,55 @@ public abstract class EntityCollider : MonoBehaviour {
 
 			updateStateWithDirection();
 
-			//update state
-			if(!wasMoving && currentState != BaseCharacterState.WALK){
+			//trigger walk/run state
+			if(!wasMoving && currentState != BaseCharacterState.WALK) {
 				changeState(BaseCharacterState.WALK);
+			} else if(isRunning && currentState != BaseCharacterState.RUN) {
+				changeState(BaseCharacterState.RUN);
 			}
+
 		}
 
 	}
+
+	
+	protected void startRunning(float delay) {
+		
+		if(isRunning) {
+			return;
+		}
+		
+		if(coroutineRun == null) {
+			coroutineRun = StartCoroutine(runAfterDelay(delay));
+		}
+	}
+	
+	protected void stopRunning() {
+		
+		if(coroutineRun != null) {
+			StopCoroutine(coroutineRun);
+			coroutineRun = null;
+		}
+		
+		isRunning = false;
+		
+	}
+	
+	private IEnumerator runAfterDelay(float delay) {
+		
+		if(delay > 0) {
+			yield return new WaitForSeconds(delay);
+		}
+		
+		if(!canRun()) {
+			yield break;
+		}
+		
+		isRunning = true;
+	}
+	
+	protected abstract bool canRun();
+
 
 	private void updateStateWithDirection() {
 		
