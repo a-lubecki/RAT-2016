@@ -107,6 +107,10 @@ public class Door : MonoBehaviour, IActionnable {
 			
 			updateCollider(true);
 			updateSprite(sprites.Length);
+
+			PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+
+			MessageDisplayer.Instance.removeAllMessagesFrom(this);
 		}
 	}
 	

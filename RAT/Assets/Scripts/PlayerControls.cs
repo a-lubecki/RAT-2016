@@ -384,7 +384,7 @@ public class PlayerControls : EntityCollider {
 				return BaseCharacterState.WALK;
 			}
 			if(currentState == BaseCharacterState.RUN) {
-				return BaseCharacterState.RUN;
+				return BaseCharacterState.WALK;
 			}
 		}
 
