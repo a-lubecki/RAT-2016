@@ -113,7 +113,7 @@ public abstract class EntityCollider : MonoBehaviour {
 	}
 
 	
-	protected void startRunning(float delay) {
+	protected void startRunningAfterDelay(float delay) {
 		
 		if(isRunning) {
 			return;
@@ -132,7 +132,8 @@ public abstract class EntityCollider : MonoBehaviour {
 		}
 		
 		isRunning = false;
-		
+
+		didStopRunning();
 	}
 	
 	private IEnumerator runAfterDelay(float delay) {
@@ -146,9 +147,19 @@ public abstract class EntityCollider : MonoBehaviour {
 		}
 		
 		isRunning = true;
+
+		didStartRunning();
 	}
 	
 	protected abstract bool canRun();
+
+	protected virtual void didStartRunning() {
+		//override this
+	}
+
+	protected virtual void didStopRunning() {
+		//override this
+	}
 
 
 	private void updateStateWithDirection() {

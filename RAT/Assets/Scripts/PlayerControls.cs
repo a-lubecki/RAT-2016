@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Level;
 using InControl;
 
@@ -34,6 +35,9 @@ public class PlayerControls : EntityCollider {
 		KeyCode.LeftControl,
 		KeyCode.RightControl
 	};
+	private readonly string[] BUTTONS_RUN = new string[] {
+		"Action2"
+	};
 	private readonly KeyCode[] KEYS_DASH = new KeyCode[] {
 		KeyCode.Space
 	};
@@ -43,8 +47,14 @@ public class PlayerControls : EntityCollider {
 
 
 	public float MOVE_SPEED = 1;
+	
+	private static readonly int MAX_BUTTON_LONG_PRESS_ITERATIONS = 30;
+	private Dictionary<string, int> buttonPressIterations = new Dictionary<string, int>();
 
 	private bool isPressingAnyDirection = false;
+
+	private bool isRegainingStamina = false;
+	private Coroutine coroutineRegainingStamina;
 
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 
@@ -64,8 +74,10 @@ public class PlayerControls : EntityCollider {
 	protected override void Start() {
 		base.Start();
 
-		InvokeRepeating("manageStamina", Player.STAMINA_CONSUMPTION_FREQUENCY_S, Player.STAMINA_CONSUMPTION_FREQUENCY_S);
-	
+		InvokeRepeating("manageStamina", Player.STAMINA_UPDATE_FREQUENCY_S, Player.STAMINA_UPDATE_FREQUENCY_S);
+
+		//if coming from a save when the player has not full stamina, regain it
+		startRegainingStaminaAfterDelay();
 	}
 
 	protected void Update() {
@@ -137,11 +149,14 @@ public class PlayerControls : EntityCollider {
 
 				analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
 				angleDegrees = vectorToAngle(dx, dy) + 90;
-
-				if(analogicFactor >= 0.99) {
-					startRunning(1.4f);
+				
+				if(isAnyButtonPressed(BUTTONS_RUN, true)) {
+					startRunningAfterDelay(0.4f);
 					hasStartedRunning = true;
-				}
+				}/* else if(analogicFactor >= 0.99) {
+					startRunningAfterDelay(2f);
+					hasStartedRunning = true;
+				}*/
 			}
 		}
 
@@ -172,7 +187,7 @@ public class PlayerControls : EntityCollider {
 				angleDegrees = vectorToAngle(dx, dy) + 90;
 
 				if(isAnyKeyPressed(KEYS_RUN, true)) {
-					startRunning(0.4f);
+					startRunningAfterDelay(0.4f);
 					hasStartedRunning = true;
 				}
 			}
@@ -190,7 +205,7 @@ public class PlayerControls : EntityCollider {
 
 		if(isRunning) {
 
-			analogicFactor = 1.7f;
+			analogicFactor = 1.6f;
 
 		} else {
 
@@ -244,19 +259,63 @@ public class PlayerControls : EntityCollider {
 		
 		return true;
 	}
-	
-	private bool isButtonPressed(InputControl ic, bool longPress) {
+
+	private bool isButtonPressed(string inputControlName, bool longPress) {
+		
+		/*{
+			InputControl ic = InputManager.ActiveDevice.GetControlByName(inputControlName);
+			if(ic.Equals(InputManager.ActiveDevice.Action2) && 
+			   (ic.IsPressed || ic.WasPressed || ic.WasReleased || ic.HasChanged || ic.LastState)) {
+				Debug.Log(">>> IsPressed(" + ic.IsPressed + ") WasPressed(" + ic.WasPressed +
+				          ") WasReleased(" + ic.WasReleased + ") LastValue(" + ic.LastValue + ") Value(" + ic.Value +
+				          ") LastState(" + ic.LastState + ") State(" + ic.State +
+				          ") HasChanged(" + ic.HasChanged);
+			}
+		}*/
+
 		if(!isControlsEnabled) {
 			return false;
 		}
-		if(longPress) {
-			return (ic.IsButton && ic.IsPressed);
+
+		InputControl ic = InputManager.ActiveDevice.GetControlByName(inputControlName);
+			
+		if(!buttonPressIterations.ContainsKey(inputControlName)) {
+			//register button if missing
+			buttonPressIterations.Add(inputControlName, 0);
 		}
-		return (ic.IsButton && ic.IsPressed && ic.WasPressed);
-	}
-	
-	private bool isButtonPressed(string inputControlName, bool longPress) {
-		return isButtonPressed(InputManager.ActiveDevice.GetControlByName(inputControlName), longPress);
+		
+		int iterationsCount = buttonPressIterations[inputControlName];
+
+		if(!ic.State) {
+
+			if(!ic.HasChanged) {
+				//not pressing the button
+				return false;
+			}
+
+			//user has just stopped pressing the button
+			buttonPressIterations[inputControlName] = 0;
+
+		} else {
+
+			//user is still pressing the button
+			buttonPressIterations[inputControlName]++;
+		}
+
+		
+		if(longPress) {
+			//long press only if there were too many iterations
+			return (iterationsCount >= MAX_BUTTON_LONG_PRESS_ITERATIONS);
+		}
+
+		//check short press
+
+		if(iterationsCount < MAX_BUTTON_LONG_PRESS_ITERATIONS && !ic.State) {
+			//short press only if the max of iterations was not reached when releasing the button
+			return true;
+		}
+
+		return false;
 	}
 
 	private bool isAnyButtonPressed(string[] inputControlNames, bool longPress) {
@@ -305,8 +364,7 @@ public class PlayerControls : EntityCollider {
 		if(currentState == PlayerState.DASH) {
 			return new CharacterAnimation(
 				true, 
-				textureName + "Wait.png",//TODO test
-				new CharacterAnimationKey(0.001f),//TODO test
+				textureName + "Walk.png",
 				new CharacterAnimationKey(0.5f));
 		}
 
@@ -378,8 +436,12 @@ public class PlayerControls : EntityCollider {
 
 		//after a dash, the player can't continue the same running
 		stopRunning();
+		stopRegainingStamina();
 
 		updateState(PlayerState.DASH);
+
+		startRegainingStaminaAfterDelay();
+
 	}
 
 	protected override bool canRun() {
@@ -397,18 +459,67 @@ public class PlayerControls : EntityCollider {
 
 		return true;
 	}
+	
+	protected override void didStartRunning() {
+		stopRegainingStamina();
+	}
+
+	protected override void didStopRunning() {
+		startRegainingStaminaAfterDelay();
+	}
+
+	protected void startRegainingStaminaAfterDelay() {
+		
+		if(isRegainingStamina) {
+			return;
+		}
+		
+		if(coroutineRegainingStamina == null) {
+			coroutineRegainingStamina = StartCoroutine(regainStaminaAfterDelay(1f));
+		}
+	}
+	
+	protected void stopRegainingStamina() {
+		
+		if(coroutineRegainingStamina != null) {
+			StopCoroutine(coroutineRegainingStamina);
+			coroutineRegainingStamina = null;
+		}
+		
+		isRegainingStamina = false;
+	}
+	
+	private IEnumerator regainStaminaAfterDelay(float delay) {
+		
+		if(delay > 0) {
+			yield return new WaitForSeconds(delay);
+		}
+		
+		isRegainingStamina = true;
+	}
 
 	private void manageStamina() {
 
+		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+
 		if(isRunning) {
-			Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+
 			player.stamina -= Player.STAMINA_CONSUMPTION_RUN;
 
 			//can't run any more
 			if(player.stamina <= 0) {
 				stopRunning();
 			}
+
+		} else if(isRegainingStamina) {
+
+			player.stamina += Player.STAMINA_REGAIN_REST;
+
+			if(player.stamina >= player.maxStamina) {
+				stopRegainingStamina();
+			}
 		}
+
 	}
 
 }
