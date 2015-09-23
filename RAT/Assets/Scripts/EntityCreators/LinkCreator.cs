@@ -28,6 +28,27 @@ public class LinkCreator : BaseEntityCreator {
 			nodeElement.nodePosition.y
 			);
 
+		//change scale :
+		Transform transform = gameObject.transform;
+
+		Vector2 localScale = transform.localScale;
+		Vector2 pos = transform.position;
+		
+		if(nodeElement.nodeWidth != null) {
+			float scale = nodeElement.nodeWidth.value * Constants.TILE_SIZE;
+			localScale.x = scale;
+			pos.x += scale / 2f - 0.5f * Constants.TILE_SIZE; 
+		}
+		if(nodeElement.nodeHeight != null) {
+			float scale = nodeElement.nodeHeight.value * Constants.TILE_SIZE;
+			localScale.y = scale;
+			pos.y += scale / 2f - 0.5f * Constants.TILE_SIZE;
+		}
+		
+		transform.localScale = localScale;
+		transform.localPosition = pos;
+
+
 		Link link = gameObject.GetComponent<Link>();
 		link.nodeElementLink = nodeElement;
 
