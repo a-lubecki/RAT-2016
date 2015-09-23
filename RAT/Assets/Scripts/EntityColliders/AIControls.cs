@@ -14,17 +14,9 @@ public class AIControls : EntityCollider {
 	protected override bool canRun() {
 		return true;
 	}
-
-	protected override CharacterAnimation getCurrentCharacterAnimation() {
-		
-		string textureName = "Enemy.Insect.Wait.png";
-
-		//wait
-		return new CharacterAnimation(
-			false, 
-			textureName,
-			new CharacterAnimationKey(100f));
-		
+	
+	protected override CharacterAction getCurrentCharacterAction() {
+		return new CharacterAction(false, 100);
 	}
 	
 	protected override BaseCharacterState getNextState() {

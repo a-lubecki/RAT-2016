@@ -18,9 +18,6 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	public BaseCharacterState currentState { get; private set; }
 	public CharacterDirection currentDirection { get; private set; }
-	
-	public CharacterAnimation currentCharacterAnimation { get; private set; }
-	public int currentCharacterAnimationKey { get; private set; }
 
 	private Coroutine coroutineStateAnimation;
 
@@ -279,32 +276,24 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	private IEnumerator animateCharacter() {
 
-		currentCharacterAnimation = getCurrentCharacterAnimation();
+		CharacterAction characterAction = getCurrentCharacterAction();
 
-		if(currentCharacterAnimation.isBlocking) {
+		if(characterAction.isBlocking) {
 			isControlsEnabled = false;
 		}
 
-		currentCharacterAnimationKey = 0;
-		foreach(CharacterAnimationKey key in currentCharacterAnimation.keys) {
+		entityRenderer.animate(currentState, characterAction);
 
-			entityRenderer.updateSprite();
-
-			yield return new WaitForSeconds(key.duration);
-
-			currentCharacterAnimationKey++;
-		}
-
-		currentCharacterAnimation = null;
+		yield return new WaitForSeconds(characterAction.durationSec);
 
 		isControlsEnabled = true;
 
 		updateState(getNextState());
 	}
 	
-	protected abstract BaseCharacterState getNextState();
+	protected abstract CharacterAction getCurrentCharacterAction();
 
-	protected abstract CharacterAnimation getCurrentCharacterAnimation();
+	protected abstract BaseCharacterState getNextState();
 	
 	public void enableControls() {
 		isControlsEnabled = true;

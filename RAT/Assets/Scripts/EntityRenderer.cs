@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.ObjectModel;
 
-public class EntityRenderer : MonoBehaviour {
+public abstract class EntityRenderer : MonoBehaviour {
 
 	public EntityCollider entityCollider;
 
 	public string currentSpritePrefix;
+
+	private Coroutine coroutineUpdateSprite;
 
 	void FixedUpdate () {
 	
@@ -32,19 +35,66 @@ public class EntityRenderer : MonoBehaviour {
 		float diff = value % Constants.PIXEL_SIZE; // for PIXEL_SIZE == 1, diff : 385.7 % 1 = 0.7
 		return value - diff; // 385.7 - 0.7 = 385.7
 	}
-
-	public void updateSprite() {
-
-		if(entityCollider.currentCharacterAnimation == null) {
+	
+	public void animate(BaseCharacterState characterState, CharacterAction characterAction) {
+		
+		if(characterAction == null) {
 			return;
 		}
 
-		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
-			Constants.PATH_RES_CHARACTERS + entityCollider.currentCharacterAnimation.textureName,
-			entityCollider.currentCharacterAnimationKey + "." + entityCollider.currentDirection.ToString());
+		if(!isActiveAndEnabled) {
+			return;
+		}
 
+		CharacterAnimation characterAnimation = getCurrentCharacterAnimation(characterState);
+		if(characterAnimation == null) {
+			return;
+		}
+
+		if(coroutineUpdateSprite != null) {
+			StopCoroutine(coroutineUpdateSprite);
+		}
+
+		coroutineUpdateSprite = StartCoroutine(updateSprite(characterAction, characterAnimation));
+	}
+
+	private IEnumerator updateSprite(CharacterAction characterAction, CharacterAnimation characterAnimation) {
+
+		ReadOnlyCollection<CharacterAnimationKey> sortedKeys = characterAnimation.sortedKeys;
+
+		CharacterAnimationKey lastKey = sortedKeys[0];
+		
+		setCurrentSprite(characterAnimation, lastKey);
+
+		float totalTime = characterAction.durationSec;
+		float elapsedTime = 0;
+
+		for(int i=1;i<sortedKeys.Count;i++) {
+
+			CharacterAnimationKey currentKey = sortedKeys[i];
+
+			float currentTime = currentKey.percentage * totalTime;
+			
+			yield return new WaitForSeconds(currentTime - elapsedTime);
+			
+			setCurrentSprite(characterAnimation, currentKey);
+
+			lastKey = currentKey;
+			elapsedTime = currentTime;
+		}
+
+	}
+
+	private void setCurrentSprite(CharacterAnimation characterAnimation, CharacterAnimationKey key) {
+		
+		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
+			Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
+			key.imagePos + "." + entityCollider.currentDirection.ToString());
+		
 		GetComponent<SpriteRenderer>().sprite = sprite;
 
 	}
-	
+
+	protected abstract CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState);
+
 }

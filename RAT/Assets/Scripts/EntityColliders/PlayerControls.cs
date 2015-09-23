@@ -339,44 +339,26 @@ public class PlayerControls : EntityCollider {
 		
 		return true;
 	}
-
-
-	protected override CharacterAnimation getCurrentCharacterAnimation() {
-
-		string textureName = "Character.Rat.";
-
+	
+	protected override CharacterAction getCurrentCharacterAction() {
+		
 		if(currentState == BaseCharacterState.WALK) {
-			return new CharacterAnimation(
-				false, 
-				textureName + "Walk.png",
-				new CharacterAnimationKey(0.20f),
-				new CharacterAnimationKey(0.20f));
+			return new CharacterAction(false, 0.4f);
 		}
-
+		
 		if(currentState == BaseCharacterState.RUN) {
-			return new CharacterAnimation(
-				false, 
-				textureName + "Walk.png",
-				new CharacterAnimationKey(0.1f),
-				new CharacterAnimationKey(0.1f));
+			return new CharacterAction(false, 0.2f);
 		}
 		
 		if(currentState == PlayerState.DASH) {
-			return new CharacterAnimation(
-				true, 
-				textureName + "Walk.png",
-				new CharacterAnimationKey(0.5f));
+			return new CharacterAction(true, 0.5f);
 		}
-
+		
 		//wait
-		return new CharacterAnimation(
-			false, 
-			textureName + "Wait.png",
-			new CharacterAnimationKey(1.4f),
-			new CharacterAnimationKey(0.6f));
+		return new CharacterAction(false, 2);
 
 	}
-	
+
 	protected override BaseCharacterState getNextState() {
 		
 		if(isMoving) { 
