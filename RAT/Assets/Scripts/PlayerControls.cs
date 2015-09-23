@@ -473,6 +473,10 @@ public class PlayerControls : EntityCollider {
 		if(isRegainingStamina) {
 			return;
 		}
+
+		if(!isActiveAndEnabled) {
+			return;
+		}
 		
 		if(coroutineRegainingStamina == null) {
 			coroutineRegainingStamina = StartCoroutine(regainStaminaAfterDelay(1f));
