@@ -33,7 +33,7 @@ public class Npc : Character {
 		this.life = life;
 
 		if(life <= 0) {
-			die();
+			setAsDead();
 		} else {
 			respawn();
 		}
@@ -88,9 +88,14 @@ public class Npc : Character {
 	}
 
 	protected override void die() {
-		
 		base.die();
-		
+
+		GameHelper.Instance.getPlayer().earnXp(500);//TODO test
+	}
+	
+	protected override void setAsDead() {
+		base.setAsDead();
+
 		//set as an object
 		entityRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 
@@ -110,7 +115,7 @@ public class Npc : Character {
 		
 		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
 			
-			Player player = other.gameObject.GetComponent<Player>();
+			Player player = GameHelper.Instance.getPlayer();
 			
 			if(!player.isDead()) {
 				//TODO TEST remove player life

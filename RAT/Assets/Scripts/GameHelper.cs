@@ -90,15 +90,20 @@ public class GameHelper {
 		
 		return component;
 	}
-	
-	public PlayerControls getPlayerControls() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
-		if(gameObject == null) {
+
+	public Player getPlayer() {
+
+		Player component = getPlayerGameObject().GetComponent<Player>();
+		if(component == null) {
 			throw new System.InvalidOperationException();
 		}
 		
-		PlayerControls component = gameObject.GetComponent<PlayerControls>();
+		return component;
+	}
+
+	public PlayerControls getPlayerControls() {
+
+		PlayerControls component = getPlayerGameObject().GetComponent<PlayerControls>();
 		if(component == null) {
 			throw new System.InvalidOperationException();
 		}
@@ -162,6 +167,16 @@ public class GameHelper {
 
 	public Npc[] getNpcs() {
 		return GameObject.FindObjectsOfType<Npc>();
+	}
+
+	public XpDisplayManager getXpDisplayManager() {
+				
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_XP_DISPLAY_MANAGER);
+		if(gameObject == null) {
+			return null;
+		}
+		
+		return gameObject.GetComponent<XpDisplayManager>();
 	}
 
 	public Texture2D loadTexture2DAsset(string imagePath) {

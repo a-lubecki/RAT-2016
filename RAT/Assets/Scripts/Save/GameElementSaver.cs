@@ -105,7 +105,7 @@ public abstract class GameElementSaver {
 		
 	protected bool loadData(string filePath) {
 
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 
 		if(player == null) {
 			Debug.LogWarning("Player is null");
@@ -247,8 +247,8 @@ public abstract class GameElementSaver {
 	
 	private bool saveData(string filePath) {
 
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
-		
+		Player player = GameHelper.Instance.getPlayer();
+
 		if(player == null) {
 			Debug.LogWarning("Player is null");
 			return false;

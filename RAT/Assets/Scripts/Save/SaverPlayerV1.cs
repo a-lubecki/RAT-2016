@@ -64,6 +64,7 @@ class PlayerData {
 	
 	private int currentLife;
 	private int currentStamina;
+	private int currentXp;
 
 	public PlayerData(Player player, PlayerControls playerControls) {
 		
@@ -80,6 +81,7 @@ class PlayerData {
 		
 		currentLife = player.life;
 		currentStamina = player.stamina;
+		currentXp = player.xp;
 	}
 	
 	public void assign(Player player, PlayerControls playerControls) {
@@ -93,7 +95,7 @@ class PlayerData {
 
 		playerControls.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
 		
-		player.init(currentLife, currentStamina);
+		player.init(currentLife, currentStamina, currentXp);
 	}
 
 }

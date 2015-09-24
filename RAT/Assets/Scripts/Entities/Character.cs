@@ -87,12 +87,16 @@ public abstract class Character : MonoBehaviour {
 	}
 
 	protected virtual void die() {
+
+		setAsDead();
+	}
+	
+	protected virtual void setAsDead() {
 		
 		//remove all colliders
 		foreach(Collider2D collider in GetComponents<Collider2D>()) {
 			collider.enabled = false;
 		}
-
 	}
 	
 	protected abstract void updateViews();

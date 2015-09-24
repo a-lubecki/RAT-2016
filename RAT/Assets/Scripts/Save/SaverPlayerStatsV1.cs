@@ -31,20 +31,20 @@ public class SaverPlayerStatsV1 : GameElementSaver {
 	}
 	
 	protected override void assignUnserializedElement() {
-		
-		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
-		
+
+		Player player = GameHelper.Instance.getPlayer();
+
 		unserializedPlayerStatsData.assign(
-			playerGameObject.GetComponent<Player>());
+			player);
 	}
 
 
 	protected override bool serializeElement(BinaryFormatter bf, FileStream f) {
 
-		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
+		Player player = GameHelper.Instance.getPlayer();
 
 		PlayerStatsData playerStatsData = new PlayerStatsData(
-			playerGameObject.GetComponent<Player>());
+			player);
 
 		bf.Serialize(f, playerStatsData);
 		

@@ -70,6 +70,20 @@ public class Player : Character {
 			updateViews();
 		}
 	}
+	
+	private int _xp;
+	public int xp { 
+		get {
+			return _xp;
+		}
+		set {
+			if(value <= 0) {
+				_xp = 0;
+			} else {
+				_xp = value;
+			}
+		}
+	}
 
 	public string levelNameForLastHub;
 
@@ -83,10 +97,13 @@ public class Player : Character {
 		reinitLifeAndStamina();
 	}
 		
-	public void init(int life, int stamina) {
+	public void init(int life, int stamina, int xp) {
 
 		this.life = life;
 		this.stamina = stamina;
+
+		this.xp = xp;
+		GameHelper.Instance.getXpDisplayManager().setTotalXp(xp);
 	}
 
 	public void reinitLifeAndStamina() {
@@ -99,6 +116,12 @@ public class Player : Character {
 
 		maxLife = 50 + 5 * skillPointHealth + 2 * skillPointEnergy;
 		maxStamina = 80 + 5 * skillPointEnergy;
+	}
+
+	public void earnXp(int newXp) {
+		int lastXp = xp;
+		xp += newXp;
+		GameHelper.Instance.getXpDisplayManager().earnXp(lastXp, xp - lastXp);
 	}
 	
 	protected override void updateViews() {
@@ -133,11 +156,20 @@ public class Player : Character {
 
 		base.die();
 		
+		//TODO set xp on body then save
+		xp = 0;
+		GameHelper.Instance.getXpDisplayManager().setTotalXp(0);
+
+	}
+	
+	protected override void setAsDead() {
+		base.setAsDead();
+				
 		//set as an object
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-
+		
 		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.PlayerDead"), false);
-
+				
 		StartCoroutine(processRespawn());
 	}
 
@@ -168,7 +200,7 @@ public class Player : Character {
 			
 			if(!npc.isDead()) {
 				//TODO TEST remove player life
-				takeDamages(1);
+				takeDamages(100);
 			}
 			
 		}

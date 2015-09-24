@@ -101,7 +101,7 @@ public class PlayerControls : EntityCollider {
 		
 		if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
 
-			Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+			Player player = GameHelper.Instance.getPlayer();
 			if(player.stamina > 0) {
 				//can't dash if no stamina
 				dash();
@@ -413,7 +413,7 @@ public class PlayerControls : EntityCollider {
 		);
 
 		//remove stamina
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 		player.stamina -= Player.STAMINA_CONSUMPTION_DASH;
 
 		//after a dash, the player can't continue the same running
@@ -433,7 +433,7 @@ public class PlayerControls : EntityCollider {
 			return false;
 		}
 		
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 		if(player.stamina <= 0) {
 			//can't run if no stamina
 			return false;
@@ -486,7 +486,7 @@ public class PlayerControls : EntityCollider {
 
 	private void manageStamina() {
 
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 
 		if(isRunning) {
 

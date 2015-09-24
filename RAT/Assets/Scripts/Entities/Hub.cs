@@ -88,7 +88,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		setActivated(true);
 		
 		//keep level to respawn after
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
 		
 		GameSaver.Instance.saveHub();
@@ -116,7 +116,7 @@ public class Hub : MonoBehaviour, IActionnable {
 
 	private void use() {
 		
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 		player.reinitLifeAndStamina();
 		
 		//respawn all enemies

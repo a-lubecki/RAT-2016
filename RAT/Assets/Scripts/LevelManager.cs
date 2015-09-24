@@ -363,7 +363,7 @@ public class LevelManager : MonoBehaviour {
 
 	private void initPlayerStats() {
 		
-		Player player = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>();
+		Player player = GameHelper.Instance.getPlayer();
 
 		//load player stats
 		if(!GameSaver.Instance.loadPlayerStats()) {
@@ -387,7 +387,7 @@ public class LevelManager : MonoBehaviour {
 
 		//load next level with HUB
 
-		string requiredLevelName = GameHelper.Instance.getPlayerGameObject().GetComponent<Player>().levelNameForLastHub;
+		string requiredLevelName = GameHelper.Instance.getPlayer().levelNameForLastHub;
 
 		if(string.IsNullOrEmpty(requiredLevelName)) {
 			throw new System.InvalidOperationException("levelNameForlastHub is empty");
