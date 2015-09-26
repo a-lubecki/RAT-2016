@@ -92,7 +92,9 @@ public abstract class Character : MonoBehaviour {
 	}
 	
 	protected virtual void setAsDead() {
-		
+
+		life = 0;
+
 		//remove all colliders
 		foreach(Collider2D collider in GetComponents<Collider2D>()) {
 			collider.enabled = false;

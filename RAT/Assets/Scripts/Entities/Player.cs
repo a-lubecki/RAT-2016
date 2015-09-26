@@ -155,7 +155,7 @@ public class Player : Character {
 	protected override void die() {
 
 		base.die();
-		
+
 		//TODO set xp on body then save
 		xp = 0;
 		GameHelper.Instance.getXpDisplayManager().setTotalXp(0);
@@ -164,7 +164,7 @@ public class Player : Character {
 	
 	protected override void setAsDead() {
 		base.setAsDead();
-				
+
 		//set as an object
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 		

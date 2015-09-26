@@ -488,6 +488,11 @@ public class PlayerControls : EntityCollider {
 
 		Player player = GameHelper.Instance.getPlayer();
 
+		if(player.isDead()) {
+			stopRegainingStamina();
+			return;
+		}
+
 		if(isRunning) {
 
 			player.stamina -= Player.STAMINA_CONSUMPTION_RUN;
