@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class GameSaveData {
-	
+class GameSaveDataV1 {
+
 	public CurrentLevelSaveData currentLevelSaveData;
 	public PlayerStatsSaveData playerStatsSaveData;
 	public PlayerSaveData playerSaveData;
