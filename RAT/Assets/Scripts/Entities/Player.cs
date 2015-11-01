@@ -104,6 +104,11 @@ public class Player : Character {
 
 		this.xp = xp;
 		GameHelper.Instance.getXpDisplayManager().setTotalXp(xp);
+
+		if(isDead()) {
+			//respawn if the player was loaded and directly dead 
+			die();
+		}
 	}
 
 	public void reinitLifeAndStamina() {
@@ -159,27 +164,32 @@ public class Player : Character {
 		//TODO set xp on body then save
 		xp = 0;
 		GameHelper.Instance.getXpDisplayManager().setTotalXp(0);
-
+		
+		StartCoroutine(processRespawn());
 	}
 	
 	protected override void setAsDead() {
 		base.setAsDead();
 
+		stamina = 0;
+
 		//set as an object
 		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-		
-		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.PlayerDead"), false);
-				
-		StartCoroutine(processRespawn());
+
 	}
 
 	IEnumerator processRespawn() {
+
+		LevelManager levelManager = GameHelper.Instance.getLevelManager();
+		levelManager.preparePlayerToRespawn();
 		
 		GameHelper.Instance.getPlayerControls().disableControls();
+		
+		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.PlayerDead"), false);
 
 		yield return new WaitForSeconds(2f);
 
-		GameHelper.Instance.getLevelManager().processPlayerRespawn();
+		levelManager.processPlayerRespawn();
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

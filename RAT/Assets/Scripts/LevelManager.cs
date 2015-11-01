@@ -42,7 +42,7 @@ public class LevelManager : MonoBehaviour {
 
 		if(currentLevelName == null) {
 
-			//load a level
+			//load the current level
 			if(!GameSaver.Instance.loadCurrentLevel()) {
 
 				//if no saved data, load the very first level				
@@ -82,6 +82,7 @@ public class LevelManager : MonoBehaviour {
 		GameSaver.Instance.saveCurrentLevel();
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.saveNpcs();
+		GameSaver.Instance.saveAllToFile();
 
 		//load listener events after all other loaded elements
 		GameSaver.Instance.loadListenerEvents();
@@ -307,6 +308,7 @@ public class LevelManager : MonoBehaviour {
 			
 			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveNpcs();
+			GameSaver.Instance.saveAllToFile();
 		}
 
 		//no fadein if level is the first
@@ -377,27 +379,37 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-
-	public void processPlayerRespawn() {
+	
+	public void preparePlayerToRespawn() {
 		
 		if(isAboutToLoadNextLevel()) {
 			//already processing for next level
 			return;
 		}
 
+		stopSaverCoroutine();
+
+		//save player so that when the player quit and restart the game, the player respawns
+		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.saveAllToFile();
+	}
+
+	public void processPlayerRespawn() {
+		
+		if(isAboutToLoadNextLevel()) {
+			//not processing for next level
+			return;
+		}
+		
 		//load next level with HUB
-
+		
 		string requiredLevelName = GameHelper.Instance.getPlayer().levelNameForLastHub;
-
+		
 		if(string.IsNullOrEmpty(requiredLevelName)) {
 			throw new System.InvalidOperationException("levelNameForlastHub is empty");
 		}
-
+		
 		mustSpawnPlayerAtHub = true;
-
-		//these data are now obsolete
-		GameSaver.Instance.deletePlayer();
-		GameSaver.Instance.deleteNpcs();
 
 		//load level
 		loadNextLevel(requiredLevelName);
@@ -465,7 +477,8 @@ public class LevelManager : MonoBehaviour {
 			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveNpcs();
 			GameSaver.Instance.saveDoors();
-			
+			GameSaver.Instance.saveAllToFile();
+
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
 		}
 		

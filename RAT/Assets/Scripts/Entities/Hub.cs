@@ -94,6 +94,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameSaver.Instance.saveHub();
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
+		GameSaver.Instance.saveAllToFile();
 
 		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.HubActivated"), true);
 
@@ -132,6 +133,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();
 		GameSaver.Instance.deleteNpcs();
+		GameSaver.Instance.saveAllToFile();
 
 		openHubMenu();
 
@@ -158,6 +160,7 @@ public class Hub : MonoBehaviour, IActionnable {
 	public void onPlayerStatsChanged() {
 		
 		GameSaver.Instance.savePlayerStats();
+		GameSaver.Instance.saveAllToFile();
 	}
 
 	public void setActivated(bool activated) {

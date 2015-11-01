@@ -40,6 +40,7 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 		achievedEvents[EVENT_HUB_ACTIVATED] = true;
 
 		GameSaver.Instance.saveListenerEvents();
+		GameSaver.Instance.saveAllToFile();
 
 		//wait to let the 'hub activated' message disappear
 		yield return new WaitForSeconds(3f);
