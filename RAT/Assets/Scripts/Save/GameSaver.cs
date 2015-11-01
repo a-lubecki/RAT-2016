@@ -31,8 +31,9 @@ public class GameSaver {
 	private string getFilePath() {
 		return Application.persistentDataPath + "/save_v" + CURRENT_VERSION;
 	}
-
-	private static byte[] encryptionKey = ASCIIEncoding.ASCII.GetBytes ("45f8" + SystemInfo.deviceUniqueIdentifier.Substring (0, 8));
+	
+	private static readonly byte[] ENCRYPTION_KEY = ASCIIEncoding.ASCII.GetBytes("d78fmlz9");
+	private static readonly byte[] ENCRYPTION_IV = ASCIIEncoding.ASCII.GetBytes("65f8" + SystemInfo.deviceUniqueIdentifier.Substring (0, 8));
 
 	public void loadAllFromFile() {
 		
@@ -43,7 +44,6 @@ public class GameSaver {
 		bool exists = File.Exists(filePath);
 
 		if(!exists) {
-			gameSaveData = new GameSaveDataV1();
 			return;
 		}
 
@@ -51,12 +51,31 @@ public class GameSaver {
 		FileStream fs = File.OpenRead(filePath);
 
 		DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
-		CryptoStream cs = new CryptoStream(fs, cryptoProvider.CreateDecryptor(encryptionKey, encryptionKey), CryptoStreamMode.Read);
+		CryptoStream cs = null;
 
-		unserializeGame(bf, cs);
-		
-		cs.Close();
-		fs.Close();
+		bool hasProblemOnSaveFile = false;
+		try {
+			cs = new CryptoStream(fs, cryptoProvider.CreateDecryptor(ENCRYPTION_KEY, ENCRYPTION_IV), CryptoStreamMode.Read);
+
+			unserializeGame(bf, cs);
+			
+		} catch(Exception e) {
+			
+			Debug.LogWarning(e);
+			hasProblemOnSaveFile = true;
+
+		} finally {
+
+			if(cs != null) {
+				cs.Close();
+			}
+
+			fs.Close();
+		}
+
+		if(hasProblemOnSaveFile) {	
+			deleteSave();
+		}
 
 		Debug.Log("[LOAD end : " + DateTime.Now + "]");
 	}
@@ -71,53 +90,56 @@ public class GameSaver {
 		FileStream fs = File.Open(filePath, FileMode.OpenOrCreate);
 
 		DESCryptoServiceProvider cryptoProvider = new DESCryptoServiceProvider();
-		CryptoStream cs = new CryptoStream(fs, cryptoProvider.CreateEncryptor(encryptionKey, encryptionKey), CryptoStreamMode.Write);
+		CryptoStream cs = null;
+		try {
+			cs = new CryptoStream(fs, cryptoProvider.CreateEncryptor(ENCRYPTION_KEY, ENCRYPTION_IV), CryptoStreamMode.Write);
 
-		serializeGame(bf, cs);
-
-		cs.Close();
-		fs.Close();
+			serializeGame(bf, cs);
+			
+		} catch(Exception e) {
+			
+			Debug.LogWarning(e);
+			
+		} finally {
+			
+			if(cs != null) {
+				cs.Close();
+			}
+			
+			fs.Close();
+		}
 		
 		Debug.Log("[SAVE end : " + DateTime.Now + "]");
 	}
 
 	private void serializeGame(BinaryFormatter bf, Stream stream) {
-
-		try {
-			bf.Serialize(stream, CURRENT_VERSION);
-			bf.Serialize(stream, gameSaveData);
-
-		} catch(Exception e) {
-			
-			Debug.LogException(e);
-
-		} finally {
-			stream.Close();
-		}
+		
+		bf.Serialize(stream, CURRENT_VERSION);
+		bf.Serialize(stream, gameSaveData);
 
 	}
 
 	private void unserializeGame(BinaryFormatter bf, Stream stream) {
 		
-		try {
-			int unserializedVersion = (int) bf.Deserialize(stream);
-
-			if(unserializedVersion != CURRENT_VERSION) {
-				throw new Exception("The version of the game save is incorrect : current = " + CURRENT_VERSION + ", unserialized = " + unserializedVersion);
-			}
-
-			gameSaveData = (GameSaveDataV1) bf.Deserialize(stream);
+		int unserializedVersion = (int) bf.Deserialize(stream);
 		
-		} catch(Exception e) {
+		if(unserializedVersion != CURRENT_VERSION) {
+			Debug.LogWarning("The version of the game save is incorrect : current = " + CURRENT_VERSION + ", unserialized = " + unserializedVersion);
+			return;
+		}
+		
+		gameSaveData = (GameSaveDataV1) bf.Deserialize(stream);
 
-			gameSaveData = new GameSaveDataV1();
-			
-			Debug.LogException(e);
-			
-		} finally {
-			stream.Close();
+	}
+
+	private void deleteSave() {
+
+		string path = getFilePath();
+		if(!File.Exists(path)) {
+			return;
 		}
 
+		File.Delete(path);
 	}
 
 	
