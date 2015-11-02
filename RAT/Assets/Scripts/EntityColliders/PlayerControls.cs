@@ -118,7 +118,7 @@ public class PlayerControls : EntityCollider {
 
 	protected override Vector2 getNewMoveVector() {
 
-		if(!isControlsEnabled) {
+		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
 			return new Vector2();
 		}
 
@@ -228,7 +228,8 @@ public class PlayerControls : EntityCollider {
 	
 	
 	private bool isKeyPressed(KeyCode key, bool longPress) {
-		if(!isControlsEnabled) {
+
+		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
 			return false;
 		}
 		if(longPress) {
@@ -273,7 +274,7 @@ public class PlayerControls : EntityCollider {
 			}
 		}*/
 
-		if(!isControlsEnabled) {
+		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

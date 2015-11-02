@@ -13,6 +13,7 @@ public abstract class EntityCollider : MonoBehaviour {
 	private Coroutine coroutineRun;
 	
 	protected bool isControlsEnabled { get; private set; }
+	protected bool isControlsEnabledWhileAnimating { get; private set; }
 
 	protected bool isPaused { get; private set; }
 
@@ -24,6 +25,7 @@ public abstract class EntityCollider : MonoBehaviour {
 	protected virtual void Start() {
 
 		isControlsEnabled = true;
+		isControlsEnabledWhileAnimating = true;
 
 		changeState(BaseCharacterState.WAIT);
 	}
@@ -279,14 +281,14 @@ public abstract class EntityCollider : MonoBehaviour {
 		CharacterAction characterAction = getCurrentCharacterAction();
 
 		if(characterAction.isBlocking) {
-			isControlsEnabled = false;
+			isControlsEnabledWhileAnimating = false;
 		}
 
 		entityRenderer.animate(currentState, characterAction);
 
 		yield return new WaitForSeconds(characterAction.durationSec);
 
-		isControlsEnabled = true;
+		isControlsEnabledWhileAnimating = true;
 
 		updateState(getNextState());
 	}
