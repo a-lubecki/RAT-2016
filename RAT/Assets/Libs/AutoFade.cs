@@ -30,7 +30,7 @@ public class AutoFade : MonoBehaviour
 	{
 		DontDestroyOnLoad(this);
 		m_Instance = this;
-		m_Material = new Material("Shader \"Plane/No zTest\" { SubShader { Pass { Blend SrcAlpha OneMinusSrcAlpha ZWrite Off Cull Off Fog { Mode Off } BindChannels { Bind \"Color\",color } } } }");
+		m_Material = new Material(Shader.Find("Plane/No zTest"));
 	}
 	
 	private void DrawQuad(Color aColor,float aAlpha)
