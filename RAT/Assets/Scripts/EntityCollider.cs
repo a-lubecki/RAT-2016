@@ -22,6 +22,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	private Coroutine coroutineStateAnimation;
 
+
 	protected virtual void Start() {
 
 		isControlsEnabled = true;
@@ -224,6 +225,20 @@ public abstract class EntityCollider : MonoBehaviour {
 	private static bool isCharacterDirectionLeft(float angle, int halfAngle) {
 		return (270 - halfAngle <= angle && angle <= 270 + halfAngle);
 	}
+	
+	public static float directionToAngle(CharacterDirection direction) {
+		
+		if(direction == CharacterDirection.RIGHT) {
+			return 90;
+		} 
+		if(direction == CharacterDirection.LEFT) {
+			return -90;
+		} 
+		if(direction == CharacterDirection.UP) {
+			return 0;
+		}
+		return 180;
+	}
 
 		
 	protected void OnApplicationFocus(bool focusStatus) {
@@ -284,9 +299,20 @@ public abstract class EntityCollider : MonoBehaviour {
 			isControlsEnabledWhileAnimating = false;
 		}
 
+		//call action
+		if(characterAction.delegateAction != null) {
+			characterAction.delegateAction(characterAction);
+		}
+
+		//render
 		entityRenderer.animate(currentState, characterAction);
 
 		yield return new WaitForSeconds(characterAction.durationSec);
+		
+		//call onfinish action
+		if(characterAction.delegateOnFinish != null) {
+			characterAction.delegateOnFinish(characterAction);
+		}
 
 		isControlsEnabledWhileAnimating = true;
 

@@ -4,10 +4,13 @@ using Level;
 
 public class Player : Character {
 	
-	public static readonly float STAMINA_UPDATE_FREQUENCY_S = 0.2f;
+	public static readonly float STAMINA_UPDATE_FREQUENCY_SEC = 0.2f;
+	public static readonly float DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC = 0.5f;
 	public static readonly int STAMINA_REGAIN_REST = 5;
 	public static readonly int STAMINA_CONSUMPTION_RUN = 6;
 	public static readonly int STAMINA_CONSUMPTION_DASH = 30;
+	public static readonly int STAMINA_CONSUMPTION_SHORT_ATTACK = 50;
+	public static readonly int STAMINA_CONSUMPTION_HEAVY_ATTACK = 80;
 
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	

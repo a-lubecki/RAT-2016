@@ -21,7 +21,7 @@ public class CharacterAnimation {
 		}
 
 		this.textureName = textureName;
-		
+
 		Array.Sort(keys, delegate(CharacterAnimationKey key1, CharacterAnimationKey key2) {
 			return (key1.percentage < key2.percentage) ? -1 : ((key1.percentage == key2.percentage) ? 0 : 1);
 		});

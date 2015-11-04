@@ -44,6 +44,18 @@ public class PlayerControls : EntityCollider {
 	private readonly string[] BUTTONS_DASH = new string[] {
 		"Action2"
 	};
+	private readonly KeyCode[] KEYS_SHORT_ATTACK = new KeyCode[] {
+		KeyCode.B
+	};
+	private readonly string[] BUTTONS_SHORT_ATTACK = new string[] {
+		"RightBumper"
+	};
+	private readonly KeyCode[] KEYS_HEAVY_ATTACK = new KeyCode[] {
+		KeyCode.N
+	};
+	private readonly string[] BUTTONS_HEAVY_ATTACK = new string[] {
+		"RightTrigger"
+	};
 
 
 	public float MOVE_SPEED = 1;
@@ -74,10 +86,10 @@ public class PlayerControls : EntityCollider {
 	protected override void Start() {
 		base.Start();
 
-		InvokeRepeating("manageStamina", Player.STAMINA_UPDATE_FREQUENCY_S, Player.STAMINA_UPDATE_FREQUENCY_S);
+		InvokeRepeating("manageStamina", Player.STAMINA_UPDATE_FREQUENCY_SEC, Player.STAMINA_UPDATE_FREQUENCY_SEC);
 
 		//if coming from a save when the player has not full stamina, regain it
-		startRegainingStaminaAfterDelay();
+		startRegainingStaminaAfterDelay(1f);
 	}
 
 	protected void Update() {
@@ -100,12 +112,33 @@ public class PlayerControls : EntityCollider {
 		}
 		
 		if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
+			
+			Player player = GameHelper.Instance.getPlayer();
+			
+			if(player.stamina > 0) {
+				updateState(PlayerState.DASH);
+			}
+
+		}
+		
+		if(isAnyKeyPressed(KEYS_SHORT_ATTACK, false) || isAnyButtonPressed(BUTTONS_SHORT_ATTACK, false)) {
 
 			Player player = GameHelper.Instance.getPlayer();
+			
 			if(player.stamina > 0) {
-				//can't dash if no stamina
-				dash();
+				updateState(PlayerState.SHORT_ATTACK);
 			}
+
+		}
+		
+		if(isAnyKeyPressed(KEYS_HEAVY_ATTACK, false) || isAnyButtonPressed(BUTTONS_HEAVY_ATTACK, false)) {
+			
+			Player player = GameHelper.Instance.getPlayer();
+			
+			if(player.stamina > 0) {
+				updateState(PlayerState.HEAVY_ATTACK);
+			}
+
 		}
 
 	}
@@ -352,7 +385,88 @@ public class PlayerControls : EntityCollider {
 		}
 		
 		if(currentState == PlayerState.DASH) {
-			return new CharacterAction(true, 0.5f);
+			return new CharacterAction(true, 0.5f, delegate(CharacterAction action) {
+				
+				Player player = GameHelper.Instance.getPlayer();
+
+				//remove stamina
+				player.stamina -= Player.STAMINA_CONSUMPTION_DASH;
+				
+				//after a dash, the player can't continue the same running
+				stopRunning();
+				stopRegainingStamina();
+
+				float angle;
+				if(isMoving) {
+					angle = angleDegrees;
+				} else {
+					angle = directionToAngle(currentDirection);
+					
+					//dash opposite
+					angle += 180;
+				}
+
+				StartCoroutine(dashAfterDelay(angle, 50000, 0.1f));
+
+			}, delegate(CharacterAction action) {
+				
+				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+
+			});
+		}
+		
+		if(currentState == PlayerState.SHORT_ATTACK) {
+			return new CharacterAction(true, 0.9f, delegate(CharacterAction action) {
+				
+				Player player = GameHelper.Instance.getPlayer();
+
+				//remove stamina
+				player.stamina -= Player.STAMINA_CONSUMPTION_SHORT_ATTACK;
+				
+				//after a dash, the player can't continue the same running
+				stopRunning();
+				stopRegainingStamina();
+				
+				float angle;				
+				if(isMoving) {
+					angle = angleDegrees;
+				} else {
+					angle = directionToAngle(currentDirection);
+				}
+				StartCoroutine(dashAfterDelay(angle, 20000, 0.2f));
+				
+			}, delegate(CharacterAction action) {
+				
+				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+				
+			});
+		}
+
+		if(currentState == PlayerState.HEAVY_ATTACK) {
+			return new CharacterAction(true, 1.5f, delegate(CharacterAction action) {
+				
+				Player player = GameHelper.Instance.getPlayer();
+
+				//remove stamina
+				player.stamina -= Player.STAMINA_CONSUMPTION_HEAVY_ATTACK;
+				
+				//after a dash, the player can't continue the same running
+				stopRunning();
+				stopRegainingStamina();
+				
+				float angle;				
+				if(isMoving) {
+					angle = angleDegrees;
+				} else {
+					angle = directionToAngle(currentDirection);
+				}
+				StartCoroutine(dashAfterDelay(angle, 30000, 0.5f));
+				
+			}, delegate(CharacterAction action) {
+				
+				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+				
+			});
 		}
 		
 		//wait
@@ -375,57 +489,6 @@ public class PlayerControls : EntityCollider {
 	}
 
 
-	protected void dash() {
-		
-		float angle;
-
-		if(isMoving) {
-
-			angle = angleDegrees;
-
-		} else {
-			
-			//snap the angle using the character direction
-			if(currentDirection == CharacterDirection.RIGHT) {
-				angle = 90;
-			} else if(currentDirection == CharacterDirection.LEFT) {
-				angle = -90;
-			} else if(currentDirection == CharacterDirection.UP) {
-				angle = 0;
-			} else {
-				angle = 180;
-			}
-
-			//dash opposite
-			angle += 180;
-
-		}
-
-		Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
-		
-		Vector2 newForce = angleToVector(angle, 50000);
-
-		//update transform with int vector to move with the grid
-		rigidBody.AddForce(
-			new Vector2(
-			newForce.x, 
-			newForce.y
-			)
-		);
-
-		//remove stamina
-		Player player = GameHelper.Instance.getPlayer();
-		player.stamina -= Player.STAMINA_CONSUMPTION_DASH;
-
-		//after a dash, the player can't continue the same running
-		stopRunning();
-		stopRegainingStamina();
-
-		updateState(PlayerState.DASH);
-
-		startRegainingStaminaAfterDelay();
-
-	}
 
 	protected override bool canRun() {
 
@@ -448,10 +511,28 @@ public class PlayerControls : EntityCollider {
 	}
 
 	protected override void didStopRunning() {
-		startRegainingStaminaAfterDelay();
+		startRegainingStaminaAfterDelay(1f);
+	}
+	
+	protected IEnumerator dashAfterDelay(float angle, int force, float delay) {
+		
+		yield return new WaitForSeconds(delay);
+		
+		Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
+		
+		Vector2 newForce = angleToVector(angle, force);
+		
+		//update transform with int vector to move with the grid
+		rigidBody.AddForce(
+			new Vector2(
+			newForce.x, 
+			newForce.y
+			)
+		);
+		
 	}
 
-	protected void startRegainingStaminaAfterDelay() {
+	protected void startRegainingStaminaAfterDelay(float delay) {
 		
 		if(isRegainingStamina) {
 			return;

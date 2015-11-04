@@ -29,6 +29,20 @@ public class PlayerRenderer : EntityRenderer {
 				new CharacterAnimationKey(0, 1));
 		}
 		
+		if(characterState == PlayerState.SHORT_ATTACK) {
+			return new CharacterAnimation(
+				textureName + "Attack.png",
+				new CharacterAnimationKey(0, 0),
+				new CharacterAnimationKey(0.2f, 1));
+		}
+
+		if(characterState == PlayerState.HEAVY_ATTACK) {
+			return new CharacterAnimation(
+				textureName + "Attack.png",
+				new CharacterAnimationKey(0, 0),
+				new CharacterAnimationKey(0.5f, 1));
+		}
+
 		//wait
 		return new CharacterAnimation(
 			textureName + "Wait.png",
