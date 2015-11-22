@@ -44,17 +44,56 @@ public class PlayerControls : EntityCollider {
 	private readonly string[] BUTTONS_DASH = new string[] {
 		"Action2"
 	};
-	private readonly KeyCode[] KEYS_SHORT_ATTACK = new KeyCode[] {
-		KeyCode.B
-	};
-	private readonly string[] BUTTONS_SHORT_ATTACK = new string[] {
-		"RightBumper"
-	};
-	private readonly KeyCode[] KEYS_HEAVY_ATTACK = new KeyCode[] {
+	private readonly KeyCode[] KEYS_RIGHT_ATTACK = new KeyCode[] {
 		KeyCode.N
 	};
-	private readonly string[] BUTTONS_HEAVY_ATTACK = new string[] {
+	private readonly string[] BUTTONS_RIGHT_ATTACK = new string[] {
+		"RightBumper",
 		"RightTrigger"
+	};
+	private readonly KeyCode[] KEYS_LEFT_ATTACK = new KeyCode[] {
+		KeyCode.B
+	};
+	private readonly string[] BUTTONS_LEFT_ATTACK = new string[] {
+		"RightBumper",
+		"RightTrigger"
+	};
+	private readonly KeyCode[] KEYS_USE_OBJECT = new KeyCode[] {
+		KeyCode.C
+	};
+	private readonly string[] BUTTONS_USE_OBJECT = new string[] {
+		"Action4"
+	};
+	private readonly KeyCode[] KEYS_USE_HEAL = new KeyCode[] {
+		KeyCode.V
+	};
+	private readonly string[] BUTTONS_USE_HEAL = new string[] {
+		"Action3"
+	};
+	
+	private readonly KeyCode[] KEYS_PREVIOUS_OBJECT = new KeyCode[] {
+		KeyCode.Keypad4
+	};
+	private readonly string[] BUTTONS_PREVIOUS_OBJECT = new string[] {
+		"DPadLeft"
+	};
+	private readonly KeyCode[] KEYS_NEXT_OBJECT = new KeyCode[] {
+		KeyCode.Keypad6
+	};
+	private readonly string[] BUTTONS_NEXT_OBJECT = new string[] {
+		"DPadRight"
+	};
+	private readonly KeyCode[] KEYS_PREVIOUS_HEAL = new KeyCode[] {
+		KeyCode.Keypad2
+	};
+	private readonly string[] BUTTONS_PREVIOUS_HEAL = new string[] {
+		"DPadDown"
+	};
+	private readonly KeyCode[] KEYS_NEXT_HEAL = new KeyCode[] {
+		KeyCode.Keypad8
+	};
+	private readonly string[] BUTTONS_NEXT_HEAL = new string[] {
+		"DPadUp"
 	};
 
 
@@ -121,7 +160,7 @@ public class PlayerControls : EntityCollider {
 
 		}
 		
-		if(isAnyKeyPressed(KEYS_SHORT_ATTACK, false) || isAnyButtonPressed(BUTTONS_SHORT_ATTACK, false)) {
+		if(isAnyKeyPressed(KEYS_RIGHT_ATTACK, false) || isAnyButtonPressed(BUTTONS_RIGHT_ATTACK, false)) {
 
 			Player player = GameHelper.Instance.getPlayer();
 			
@@ -130,13 +169,13 @@ public class PlayerControls : EntityCollider {
 			}
 
 		}
-		
-		if(isAnyKeyPressed(KEYS_HEAVY_ATTACK, false) || isAnyButtonPressed(BUTTONS_HEAVY_ATTACK, false)) {
+
+		if(isAnyKeyPressed(KEYS_LEFT_ATTACK, false) || isAnyButtonPressed(BUTTONS_LEFT_ATTACK, false)) {
 			
 			Player player = GameHelper.Instance.getPlayer();
 			
 			if(player.stamina > 0) {
-				updateState(PlayerState.HEAVY_ATTACK);
+				updateState(PlayerState.SHORT_ATTACK);
 			}
 
 		}
@@ -469,6 +508,10 @@ public class PlayerControls : EntityCollider {
 			});
 		}
 		
+		if(currentState == PlayerState.DEFEND) {
+			return new CharacterAction(false, 1);
+		}
+
 		//wait
 		return new CharacterAction(false, 2);
 

@@ -9,8 +9,8 @@ public class Player : Character {
 	public static readonly int STAMINA_REGAIN_REST = 5;
 	public static readonly int STAMINA_CONSUMPTION_RUN = 6;
 	public static readonly int STAMINA_CONSUMPTION_DASH = 30;
-	public static readonly int STAMINA_CONSUMPTION_SHORT_ATTACK = 50;
-	public static readonly int STAMINA_CONSUMPTION_HEAVY_ATTACK = 80;
+	public static readonly int STAMINA_CONSUMPTION_SHORT_ATTACK = 30;
+	public static readonly int STAMINA_CONSUMPTION_HEAVY_ATTACK = 60;
 
 	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 	
