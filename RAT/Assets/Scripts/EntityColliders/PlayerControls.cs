@@ -7,6 +7,7 @@ using InControl;
 
 public class PlayerControls : EntityCollider { 
 
+	// controller buttons mapping : http://www.gallantgames.com/pages/incontrol-standardized-controls
 	private readonly KeyCode[] KEYS_DIRECTION_RIGHT = new KeyCode[] {
 		KeyCode.RightArrow,
 		KeyCode.D
@@ -108,6 +109,15 @@ public class PlayerControls : EntityCollider {
 		"DPadUp"
 	};
 
+	private readonly KeyCode[] KEYS_OPEN_MENU = new KeyCode[] {
+		KeyCode.Tab
+	};
+	private readonly string[] BUTTONS_OPEN_MENU = new string[] {
+		"Start", 
+		"Select",
+		"TouchPadTap"//PS4
+	};
+
 
 	public float MOVE_SPEED = 1;
 	
@@ -181,7 +191,7 @@ public class PlayerControls : EntityCollider {
 			}
 
 		}
-
+		
 		if(isAnyKeyPressed(KEYS_LEFT_ATTACK, false) || isAnyButtonPressed(BUTTONS_LEFT_ATTACK, false)) {
 			
 			Player player = GameHelper.Instance.getPlayer();
@@ -189,7 +199,13 @@ public class PlayerControls : EntityCollider {
 			if(player.stamina > 0) {
 				updateState(PlayerState.SHORT_ATTACK);
 			}
+			
+		}
 
+		if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
+
+			Debug.Log("TODO");
+			
 		}
 
 	}
@@ -346,15 +362,14 @@ public class PlayerControls : EntityCollider {
 	}
 
 	private bool isButtonPressed(string inputControlName, bool longPress) {
-		
-		/*{
-			InputControl ic = InputManager.ActiveDevice.GetControlByName(inputControlName);
-			if(ic.Equals(InputManager.ActiveDevice.Action2) && 
-			   (ic.IsPressed || ic.WasPressed || ic.WasReleased || ic.HasChanged || ic.LastState)) {
-				Debug.Log(">>> IsPressed(" + ic.IsPressed + ") WasPressed(" + ic.WasPressed +
-				          ") WasReleased(" + ic.WasReleased + ") LastValue(" + ic.LastValue + ") Value(" + ic.Value +
-				          ") LastState(" + ic.LastState + ") State(" + ic.State +
-				          ") HasChanged(" + ic.HasChanged);
+		/*
+		foreach(InputControl control in InputManager.ActiveDevice.Controls) {
+			if(control != null && control.IsPressed) {
+				Debug.Log(">>> CMD(" + control.Target + ") Handle(" + control.Handle + 
+				          ") IsPressed(" + control.IsPressed + ") WasPressed(" + control.WasPressed +
+				          ") WasReleased(" + control.WasReleased + ") LastValue(" + control.LastValue + ") Value(" + control.Value +
+				          ") LastState(" + control.LastState + ") State(" + control.State +
+				          ") HasChanged(" + control.HasChanged + ")");
 			}
 		}*/
 
