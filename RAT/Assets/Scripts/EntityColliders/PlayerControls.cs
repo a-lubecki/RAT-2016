@@ -75,32 +75,36 @@ public class PlayerControls : EntityCollider {
 		"Action3"
 	};
 	
-	private readonly KeyCode[] KEYS_PREVIOUS_OBJECT = new KeyCode[] {
+	private readonly KeyCode[] KEYS_NEXT_LEFT_WEAPON = new KeyCode[] {
 		KeyCode.Keypad4,
-		KeyCode.Alpha1
+		KeyCode.Alpha1,
+		KeyCode.C
 	};
-	private readonly string[] BUTTONS_PREVIOUS_OBJECT = new string[] {
+	private readonly string[] BUTTONS_NEXT_LEFT_WEAPON = new string[] {
 		"DPadLeft"
 	};
-	private readonly KeyCode[] KEYS_NEXT_OBJECT = new KeyCode[] {
+	private readonly KeyCode[] KEYS_NEXT_RIGHT_WEAPON = new KeyCode[] {
 		KeyCode.Keypad6,
-		KeyCode.Alpha2
+		KeyCode.Alpha2,
+		KeyCode.V
 	};
-	private readonly string[] BUTTONS_NEXT_OBJECT = new string[] {
+	private readonly string[] BUTTONS_NEXT_RIGHT_WEAPON = new string[] {
 		"DPadRight"
 	};
-	private readonly KeyCode[] KEYS_PREVIOUS_HEAL = new KeyCode[] {
-		KeyCode.Keypad8,
-		KeyCode.Alpha3
-	};
-	private readonly string[] BUTTONS_PREVIOUS_HEAL = new string[] {
-		"DPadDown"
-	};
 	private readonly KeyCode[] KEYS_NEXT_HEAL = new KeyCode[] {
-		KeyCode.Keypad2,
-		KeyCode.Alpha4
+		KeyCode.Keypad8,
+		KeyCode.Alpha3,
+		KeyCode.R
 	};
 	private readonly string[] BUTTONS_NEXT_HEAL = new string[] {
+		"DPadDown"
+	};
+	private readonly KeyCode[] KEYS_NEXT_OBJECT = new KeyCode[] {
+		KeyCode.Keypad2,
+		KeyCode.Alpha4,
+		KeyCode.F
+	};
+	private readonly string[] BUTTONS_NEXT_OBJECT = new string[] {
 		"DPadUp"
 	};
 
