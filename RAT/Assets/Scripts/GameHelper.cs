@@ -150,6 +150,27 @@ public class GameHelper {
 		
 		return gameObject;
 	}
+
+	public GameObject getMenuGameObject() {
+
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MENU);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return gameObject;
+	}
+
+	public Menu getMenu() {
+		
+		Menu component = getMenuGameObject().GetComponent<Menu>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return component;
+	}
+
 	
 	public Hub getHub() {
 		

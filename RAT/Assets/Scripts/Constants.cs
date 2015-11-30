@@ -39,6 +39,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
 	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
+	public static readonly string GAME_OBJECT_NAME_MENU = "Menu";
 	public static readonly string GAME_OBJECT_NAME_GROUND = "PrefabTileGround";
 	public static readonly string GAME_OBJECT_NAME_WALL = "PrefabTileWall";
 	public static readonly string GAME_OBJECT_NAME_HUB = "PrefabTileHub";

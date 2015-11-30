@@ -159,53 +159,72 @@ public class PlayerControls : EntityCollider {
 			return;
 		}
 
-		if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
-
-			bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
-			if(hasMessage) {
-				//hide current message
-				MessageDisplayer.Instance.displayNextMessage();
-			} else {
-				//execute current action
-				PlayerActionsManager.Instance.executeShownAction();
-			}
-
-		}
+		Menu menu = GameHelper.Instance.getMenu();
 		
-		if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
-			
-			Player player = GameHelper.Instance.getPlayer();
-			
-			if(player.stamina > 0) {
-				updateState(PlayerState.DASH);
-			}
+		if(!menu.isAnimating()) {
 
+			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
+
+				if(menu.isOpened()) {
+					menu.close();
+				} else {
+					menu.open();
+				}
+
+				return;
+			}
 		}
+
+
+		if(!menu.isAnimating() && menu.isOpened()) {
+
+			//TODO handle menu
+
+		} else {
+
+			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
+
+				bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
+				if(hasMessage) {
+					//hide current message
+					MessageDisplayer.Instance.displayNextMessage();
+				} else {
+					//execute current action
+					PlayerActionsManager.Instance.executeShownAction();
+				}
+
+			}
+			
+			if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
+				
+				Player player = GameHelper.Instance.getPlayer();
+				
+				if(player.stamina > 0) {
+					updateState(PlayerState.DASH);
+				}
+
+			}
+			
+			if(isAnyKeyPressed(KEYS_RIGHT_ATTACK, false) || isAnyButtonPressed(BUTTONS_RIGHT_ATTACK, false)) {
+
+				Player player = GameHelper.Instance.getPlayer();
+				
+				if(player.stamina > 0) {
+					updateState(PlayerState.SHORT_ATTACK);
+				}
+
+			}
+			
+			if(isAnyKeyPressed(KEYS_LEFT_ATTACK, false) || isAnyButtonPressed(BUTTONS_LEFT_ATTACK, false)) {
+				
+				Player player = GameHelper.Instance.getPlayer();
+				
+				if(player.stamina > 0) {
+					updateState(PlayerState.SHORT_ATTACK);
+				}
+				
+			}
 		
-		if(isAnyKeyPressed(KEYS_RIGHT_ATTACK, false) || isAnyButtonPressed(BUTTONS_RIGHT_ATTACK, false)) {
-
-			Player player = GameHelper.Instance.getPlayer();
-			
-			if(player.stamina > 0) {
-				updateState(PlayerState.SHORT_ATTACK);
-			}
-
-		}
-		
-		if(isAnyKeyPressed(KEYS_LEFT_ATTACK, false) || isAnyButtonPressed(BUTTONS_LEFT_ATTACK, false)) {
-			
-			Player player = GameHelper.Instance.getPlayer();
-			
-			if(player.stamina > 0) {
-				updateState(PlayerState.SHORT_ATTACK);
-			}
-			
-		}
-
-		if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
-
-			Debug.Log("TODO");
-			
 		}
 
 	}
