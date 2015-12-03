@@ -145,6 +145,10 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameHelper.Instance.getPlayerControls().disableControls();//TODO disable move controls
 		getTriggerCollider().enabled = false;
 
+
+		GameHelper.Instance.getMenu().open();
+
+
 		//TODO propose to manage experience / teleport
 
 		onPlayerStatsChanged();//TODO test call

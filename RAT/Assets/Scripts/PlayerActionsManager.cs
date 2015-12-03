@@ -20,7 +20,19 @@ public class PlayerActionsManager {
 
 
 	private BaseAction action;
-	
+
+	private bool enabled = true;
+
+	public void setEnabled(bool enabled) {
+
+		if(!enabled) {
+			hideAnyAction();
+		}
+		
+		this.enabled = enabled;
+
+	}
+
 	public bool isShowingAction() {
 		return (action != null);
 	}
@@ -29,6 +41,10 @@ public class PlayerActionsManager {
 
 		if(action == null) {
 			throw new System.ArgumentException();
+		}
+
+		if(!enabled) {
+			return;
 		}
 
 		if(this.action != null) {
@@ -57,18 +73,27 @@ public class PlayerActionsManager {
 		if(action == null) {
 			return;
 		}
-
+		
 		//check to avoid concurrency
 		if(!action.Equals(this.action)) {
 			return;
 		}
 
-		this.action = null;
+		hideAnyAction();
+	}
+	
+	public void hideAnyAction() {
+		
+		if(!enabled) {
+			return;
+		}
 
+		this.action = null;
+		
 		//hide
 		GameObject actionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
 		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION);
-
+		
 		Text textComponent = actionObject.GetComponent<Text>();
 		Image imageComponent = backgroundObject.GetComponent<Image>();
 		
@@ -78,9 +103,12 @@ public class PlayerActionsManager {
 		imageComponent.enabled = false;
 	}
 
-
 	public bool executeShownAction() {
 		
+		if(!enabled) {
+			return false;
+		}
+
 		if(action == null) {
 			return false;
 		}

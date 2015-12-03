@@ -49,6 +49,8 @@ public class Menu : MonoBehaviour {
 		}
 
 		coroutineOpening = null;
+		
+		PlayerActionsManager.Instance.setEnabled(false);
 	}
 
 	public void close() {
@@ -76,6 +78,8 @@ public class Menu : MonoBehaviour {
 		}
 		
 		coroutineOpening = null;
+		
+		PlayerActionsManager.Instance.setEnabled(true);
 	}
 
 

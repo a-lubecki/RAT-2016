@@ -243,6 +243,35 @@ public class Door : MonoBehaviour, IActionnable {
 
 		StartCoroutine(delayPlayerAfterAction());
 
+	}
+	
+	private IEnumerator delayPlayerAfterAction() {
+		
+		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
+		
+		playerControls.disableControls();
+		getTriggerCollider().enabled = false;
+		getTriggerOutCollider().enabled = false;
+
+		
+		yield return new WaitForSeconds(0.75f);
+
+		manageDoorOpening();
+		
+		playerControls.enableControls();
+
+
+		yield return new WaitForSeconds(1f);
+
+		if(!isOpened) {
+			getTriggerCollider().enabled = true;
+			getTriggerOutCollider().enabled = true;
+		}
+
+	}
+
+	private void manageDoorOpening() {
+		
 		//check if the player has to be in the right side to open the door
 		if(nodeElementDoor.nodeUnlockSide != null) {
 			
@@ -252,9 +281,9 @@ public class Door : MonoBehaviour, IActionnable {
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Blocked")));
 				return;
 			}
-
+			
 			GameObject playerGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
-
+			
 			float x = transform.position.x;
 			float y = transform.position.y;
 			float xPlayer = playerGameObject.transform.position.x;
@@ -279,24 +308,5 @@ public class Door : MonoBehaviour, IActionnable {
 		open(true);
 
 	}
-	
-	private IEnumerator delayPlayerAfterAction() {
-		
-		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
-		
-		playerControls.disableControls();
-		getTriggerCollider().enabled = false;
-		getTriggerOutCollider().enabled = false;
-		
-		yield return new WaitForSeconds(0.75f);
-
-		if(!isOpened) {
-			getTriggerCollider().enabled = true;
-			getTriggerOutCollider().enabled = true;
-		}
-
-		playerControls.enableControls();
-	}
-
 }
 

@@ -161,29 +161,46 @@ public class PlayerControls : EntityCollider {
 
 		Menu menu = GameHelper.Instance.getMenu();
 		
-		if(!menu.isAnimating()) {
+		if(menu.isAnimating()) {
+			return;
+		}
 
-			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
-
-				if(menu.isOpened()) {
-					menu.close();
-				} else {
-					menu.open();
-				}
-
-				return;
+		if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
+			
+			if(menu.isOpened()) {
+				menu.close();
+			} else {
+				menu.open();
 			}
+
 		}
 
 
-		if(!menu.isAnimating() && menu.isOpened()) {
-
-			//TODO handle menu
-
-		} else {
+		if(menu.isOpened()) {
 
 			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
+				
+				bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
+				if(hasMessage) {
+					//hide current message
+					MessageDisplayer.Instance.displayNextMessage();
+				} else {
 
+					//TODO handle menu actions
+
+				}
+				
+			}
+
+			
+			//TODO handle menu arrows
+
+
+		} else {
+			
+			
+			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
+				
 				bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
 				if(hasMessage) {
 					//hide current message
@@ -192,7 +209,7 @@ public class PlayerControls : EntityCollider {
 					//execute current action
 					PlayerActionsManager.Instance.executeShownAction();
 				}
-
+				
 			}
 			
 			if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
