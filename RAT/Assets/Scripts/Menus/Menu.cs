@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class Menu : MonoBehaviour {
@@ -7,6 +8,8 @@ public class Menu : MonoBehaviour {
 
 	private Coroutine coroutineOpening;
 	private float percentageOpening = 0;
+
+	private AbstractMenuType currentMenuType;
 
 	// Use this for initialization
 	void Start () {
@@ -24,17 +27,24 @@ public class Menu : MonoBehaviour {
 		return (coroutineOpening != null);
 	}
 
-	public void open() {
-		
-		if(percentageOpening >= 1) {
+	public void open(AbstractMenuType menuType) {
+
+		if(menuType == null) {
+			throw new System.ArgumentException();
+		}
+		if(currentMenuType != null) {
+			//already opened or opening
 			return;
 		}
+		
+		currentMenuType = menuType;
 
 		if(coroutineOpening != null) {
 			StopCoroutine(coroutineOpening);
 		}
-
+		
 		coroutineOpening = StartCoroutine(animateOpening());
+
 	}
 
 	private IEnumerator animateOpening() {
@@ -52,8 +62,23 @@ public class Menu : MonoBehaviour {
 		
 		PlayerActionsManager.Instance.setEnabled(false);
 	}
+	
+	public void close(Type menuTypeClass) {
+		
+		if(menuTypeClass == null) {
+			throw new System.ArgumentException();
+		}
+		if(currentMenuType == null) {
+			return;
+		}
+		if(!currentMenuType.GetType().Equals(menuTypeClass)) {
+			return;
+		}
 
-	public void close() {
+		closeAny();
+	}
+
+	public void closeAny() {
 		
 		if(percentageOpening <= 0) {
 			return;
@@ -78,7 +103,8 @@ public class Menu : MonoBehaviour {
 		}
 		
 		coroutineOpening = null;
-		
+		currentMenuType = null;
+
 		PlayerActionsManager.Instance.setEnabled(true);
 	}
 

@@ -165,18 +165,14 @@ public class PlayerControls : EntityCollider {
 			return;
 		}
 
-		if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
-			
-			if(menu.isOpened()) {
-				menu.close();
-			} else {
-				menu.open();
-			}
-
-		}
-
 
 		if(menu.isOpened()) {
+			
+			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
+
+				menu.closeAny();
+
+			}
 
 			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
 				
@@ -198,6 +194,11 @@ public class PlayerControls : EntityCollider {
 
 		} else {
 			
+			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
+
+				menu.open(new MenuTypeInventory());
+
+			}
 			
 			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
 				

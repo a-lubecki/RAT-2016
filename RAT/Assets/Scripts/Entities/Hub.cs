@@ -70,7 +70,8 @@ public class Hub : MonoBehaviour, IActionnable {
 		
 		PlayerActionsManager.Instance.hideAction(new ActionActivateHub(this));
 		PlayerActionsManager.Instance.hideAction(new ActionUseHub(this));
-
+		
+		GameHelper.Instance.getMenu().close(typeof(MenuTypeHub));
 	}
 
 	void IActionnable.notifyAction(BaseAction action) {
@@ -142,24 +143,20 @@ public class Hub : MonoBehaviour, IActionnable {
 	private void openHubMenu() {
 		
 		//disable controls when editing
-		GameHelper.Instance.getPlayerControls().disableControls();//TODO disable move controls
+		GameHelper.Instance.getPlayerControls().disableControls();
 		getTriggerCollider().enabled = false;
 
-
-		GameHelper.Instance.getMenu().open();
+		GameHelper.Instance.getMenu().open(new MenuTypeHub(this));
+		
+		StartCoroutine(delayPlayerAfterAction());
 
 
 		//TODO propose to manage experience / teleport
 
 		onPlayerStatsChanged();//TODO test call
 
-		closeHubMenu();//TODO test call
 	}
-	
-	private void closeHubMenu() {
-		
-		StartCoroutine(delayPlayerAfterAction());
-	}
+
 
 	public void onPlayerStatsChanged() {
 		
