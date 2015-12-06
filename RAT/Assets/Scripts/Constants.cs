@@ -39,7 +39,6 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
 	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
-	public static readonly string GAME_OBJECT_NAME_MENU = "Menu";
 	public static readonly string GAME_OBJECT_NAME_GROUND = "PrefabTileGround";
 	public static readonly string GAME_OBJECT_NAME_WALL = "PrefabTileWall";
 	public static readonly string GAME_OBJECT_NAME_HUB = "PrefabTileHub";
@@ -48,6 +47,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_NPC_COLLIDER = "NpcCollider";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
+
 	public static readonly string GAME_OBJECT_NAME_MESSAGE_DISPLAYER = "MessageDisplayer";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_BIG = "TextMessageBig";
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_BIG = "BackgroundMessageBig";
@@ -58,7 +58,10 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_TOTAL = "TextXpTotal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_EARNED = "TextXpEarned";
 	public static readonly string GAME_OBJECT_NAME_XP_DISPLAY_MANAGER = "XpDisplayManager";
-
+	
+	public static readonly string GAME_OBJECT_NAME_MENU = "Menu";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT = "SubMenuTitleLeft";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT = "SubMenuTitleRight";
 	
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
 	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";
