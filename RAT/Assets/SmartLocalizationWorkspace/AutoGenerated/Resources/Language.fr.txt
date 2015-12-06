@@ -125,11 +125,83 @@
 	<data name="Action.UseHub" xml:space="preserve">
 		<value>Utiliser</value>
 	</data>
+	<data name="AmmoType.BULLET.Name" xml:space="preserve">
+		<value>Balle</value>
+	</data>
+	<data name="AmmoType.ENERGY.Name" xml:space="preserve">
+		<value>Énergie</value>
+	</data>
+	<data name="AmmoType.MISSILE.Name" xml:space="preserve">
+		<value>Missile</value>
+	</data>
 	<data name="BigMessage.HubActivated" xml:space="preserve">
 		<value>Hub activé</value>
 	</data>
 	<data name="BigMessage.PlayerDead" xml:space="preserve">
 		<value>Vous êtes mort</value>
+	</data>
+	<data name="Item.CLAWS.Description" xml:space="preserve">
+		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles ne vous sauveront si vous manquez de munitions.</value>
+	</data>
+	<data name="Item.CLAWS.Name" xml:space="preserve">
+		<value>Griffes</value>
+	</data>
+	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
+		<value>Se concentrer permet de regagner un peu de santé.</value>
+	</data>
+	<data name="Item.HEAL_DEFAULT.Name" xml:space="preserve">
+		<value>Concentration</value>
+	</data>
+	<data name="ItemSubType.EQUIPMENT_ARMS.Name" xml:space="preserve">
+		<value>Bras</value>
+	</data>
+	<data name="ItemSubType.EQUIPMENT_BODY.Name" xml:space="preserve">
+		<value>Corps</value>
+	</data>
+	<data name="ItemSubType.EQUIPMENT_HEAD.Name" xml:space="preserve">
+		<value>Tête</value>
+	</data>
+	<data name="ItemSubType.EQUIPMENT_LEGS.Name" xml:space="preserve">
+		<value>Jambes</value>
+	</data>
+	<data name="ItemSubType.HEAL_INSTANT.Name" xml:space="preserve">
+		<value>Instantané</value>
+	</data>
+	<data name="ItemSubType.HEAL_PERSISTENT.Name" xml:space="preserve">
+		<value>Persistant</value>
+	</data>
+	<data name="ItemSubType.OBJECT_AMMO.Name" xml:space="preserve">
+		<value>Munitions</value>
+	</data>
+	<data name="ItemSubType.OBJECT_BOOST.Name" xml:space="preserve">
+		<value>Boost</value>
+	</data>
+	<data name="ItemSubType.OBJECT_DATA.Name" xml:space="preserve">
+		<value>Données</value>
+	</data>
+	<data name="ItemSubType.OBJECT_OFFENSIVE.Name" xml:space="preserve">
+		<value>Offensif</value>
+	</data>
+	<data name="ItemSubType.WEAPON_CLAWS.Name" xml:space="preserve">
+		<value>Griffes</value>
+	</data>
+	<data name="ItemSubType.WEAPON_DEFENSIVE.Name" xml:space="preserve">
+		<value>Défensif</value>
+	</data>
+	<data name="ItemSubType.WEAPON_OFFENSIVE.Name" xml:space="preserve">
+		<value>Offensif</value>
+	</data>
+	<data name="ItemType.EQUIPMENT.Name" xml:space="preserve">
+		<value>Équipement</value>
+	</data>
+	<data name="ItemType.HEAL.Name" xml:space="preserve">
+		<value>Soins</value>
+	</data>
+	<data name="ItemType.OBJECT.Name" xml:space="preserve">
+		<value>Objets</value>
+	</data>
+	<data name="ItemType.WEAPON.Name" xml:space="preserve">
+		<value>Armes</value>
 	</data>
 	<data name="Message.Door.Blocked" xml:space="preserve">
 		<value>La porte ne s'ouvre pas</value>

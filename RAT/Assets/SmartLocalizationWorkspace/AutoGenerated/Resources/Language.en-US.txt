@@ -125,10 +125,82 @@
 	<data name="Action.UseHub" xml:space="preserve">
 		<value>Use hub</value>
 	</data>
+	<data name="AmmoType.BULLET.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="AmmoType.ENERGY.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="AmmoType.MISSILE.Name" xml:space="preserve">
+		<value />
+	</data>
 	<data name="BigMessage.HubActivated" xml:space="preserve">
 		<value />
 	</data>
 	<data name="BigMessage.PlayerDead" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.CLAWS.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.CLAWS.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.HEAL_DEFAULT.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.EQUIPMENT_ARMS.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.EQUIPMENT_BODY.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.EQUIPMENT_HEAD.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.EQUIPMENT_LEGS.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.HEAL_INSTANT.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.HEAL_PERSISTENT.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.OBJECT_AMMO.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.OBJECT_BOOST.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.OBJECT_DATA.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.OBJECT_OFFENSIVE.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.WEAPON_CLAWS.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.WEAPON_DEFENSIVE.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemSubType.WEAPON_OFFENSIVE.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemType.EQUIPMENT.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemType.HEAL.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemType.OBJECT.Name" xml:space="preserve">
+		<value />
+	</data>
+	<data name="ItemType.WEAPON.Name" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Message.Door.Blocked" xml:space="preserve">
