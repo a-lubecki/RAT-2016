@@ -87,9 +87,11 @@ public class Door : MonoBehaviour, IActionnable {
 	public void init(bool opened) {
 
 		if(opened) {
-			open(false);
+			updateCollider(true);
+			updateSprite(sprites.Length);
 		} else {
-			close(false);
+			updateCollider(false);
+			updateSprite(0);
 		}
 	}
 
@@ -259,13 +261,17 @@ public class Door : MonoBehaviour, IActionnable {
 		manageDoorOpening();
 		
 		playerControls.enableControls();
-
+		
+		if(!isOpened) {
+			getTriggerOutCollider().enabled = true;
+		}
 
 		yield return new WaitForSeconds(1f);
 
+		//enable collider after delay to avoid displaying the action directly
+		//with the message if the door is still closed  
 		if(!isOpened) {
 			getTriggerCollider().enabled = true;
-			getTriggerOutCollider().enabled = true;
 		}
 
 	}
