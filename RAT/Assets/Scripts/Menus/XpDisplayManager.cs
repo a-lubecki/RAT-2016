@@ -19,7 +19,7 @@ public class XpDisplayManager : MonoBehaviour {
 		GameObject objectXpTotal = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_XP_TOTAL);
 		Text textXpTotal = objectXpTotal.GetComponent<Text>();
 		
-		textXpTotal.text = "" + xp;
+		textXpTotal.text = "" + xp + " Mega";
 	}
 
 	private void setEarnedXp(int xp) {
@@ -30,9 +30,9 @@ public class XpDisplayManager : MonoBehaviour {
 		if(xp == 0) {
 			textXpEarned.text = "";
 		} else if(xp > 0) {
-			textXpEarned.text = "+" + xp;
+			textXpEarned.text = "+" + xp + "     ";
 		} else {
-			textXpEarned.text = "" + xp;
+			textXpEarned.text = "" + xp + "     ";
 		}
 	}
 

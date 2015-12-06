@@ -213,7 +213,7 @@ public class Player : Character {
 			
 			if(!npc.isDead()) {
 				//TODO TEST remove player life
-				takeDamages(100);
+				takeDamages(1);
 			}
 			
 		}
