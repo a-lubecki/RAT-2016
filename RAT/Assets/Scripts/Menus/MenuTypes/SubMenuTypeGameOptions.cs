@@ -2,7 +2,7 @@ using System;
 
 public class SubMenuTypeGameOptions : AbstractSubMenuType {
 
-	public SubMenuTypeGameOptions() : base() {
+	public SubMenuTypeGameOptions() : base("GameOptions") {
 
 	}
 	

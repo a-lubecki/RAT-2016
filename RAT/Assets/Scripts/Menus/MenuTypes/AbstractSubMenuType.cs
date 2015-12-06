@@ -1,9 +1,9 @@
 using System;
 
-public abstract class AbstractSubMenuType {
+public abstract class AbstractSubMenuType : Displayable {
 		
 
-	public AbstractSubMenuType() {
+	public AbstractSubMenuType(string trKey) : base("SubMenuType." + trKey) {
 
 	}
 

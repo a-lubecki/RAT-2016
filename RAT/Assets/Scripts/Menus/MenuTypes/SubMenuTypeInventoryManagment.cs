@@ -2,7 +2,7 @@ using System;
 
 public class SubMenuTypeInventoryManagment : AbstractSubMenuType {
 
-	public SubMenuTypeInventoryManagment() : base() {
+	public SubMenuTypeInventoryManagment() : base("InventoryManagment") {
 
 	}
 	

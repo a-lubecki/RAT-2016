@@ -2,7 +2,7 @@ using System;
 
 public class SubMenuTypeLevelUpgrade : AbstractSubMenuType {
 
-	public SubMenuTypeLevelUpgrade() : base() {
+	public SubMenuTypeLevelUpgrade() : base("LevelUpgrade") {
 
 	}
 	

@@ -5,7 +5,9 @@ public class MenuTypeHub : AbstractMenuType {
 	private Hub hub;
 
 	public MenuTypeHub(Hub hub) : base(new AbstractSubMenuType[] { 
-		new SubMenuTypeLevelUpgrade(), 
+		new SubMenuTypeLevelUpgrade(),
+		new SubMenuTypeMerchant(),  
+		new SubMenuTypeItemsChest(), 
 		new SubMenuTypeTeleport() }) {
 		
 		if(hub == null) {

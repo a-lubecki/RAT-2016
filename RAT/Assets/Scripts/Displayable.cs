@@ -14,7 +14,7 @@ public abstract class Displayable {
 	}
 	
 	private string getName() {
-		return Constants.tr(trKey + ".Name");
+		return Constants.tr(trKey);
 	}
 
 }
