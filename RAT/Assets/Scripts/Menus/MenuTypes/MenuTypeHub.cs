@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 
 public class MenuTypeHub : AbstractMenuType {
@@ -8,7 +9,7 @@ public class MenuTypeHub : AbstractMenuType {
 		new SubMenuTypeLevelUpgrade(),
 		new SubMenuTypeMerchant(),  
 		new SubMenuTypeItemsChest(), 
-		new SubMenuTypeTeleport() }) {
+		new SubMenuTypeTeleport() }, new Color(0, 0.3f, 0.4f)) {
 		
 		if(hub == null) {
 			throw new System.ArgumentException();

@@ -13,7 +13,7 @@ public abstract class Displayable {
 		this.trKey = trKey;
 	}
 	
-	private string getName() {
+	public string getName() {
 		return Constants.tr(trKey);
 	}
 

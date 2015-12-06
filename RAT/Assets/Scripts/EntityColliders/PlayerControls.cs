@@ -58,8 +58,8 @@ public class PlayerControls : EntityCollider {
 		KeyCode.O
 	};
 	private readonly string[] BUTTONS_LEFT_ATTACK = new string[] {
-		"RightBumper",
-		"RightTrigger"
+		"LeftBumper",
+		"LeftTrigger"
 	};
 	private readonly KeyCode[] KEYS_USE_OBJECT = new KeyCode[] {
 		KeyCode.Keypad7,
@@ -117,6 +117,22 @@ public class PlayerControls : EntityCollider {
 		"Select",
 		"TouchPadTap"//PS4
 	};
+	private readonly KeyCode[] KEYS_PREVIOUS_SUB_MENU = new KeyCode[] {
+		KeyCode.Keypad3,
+		KeyCode.P
+	};
+	private readonly string[] BUTTONS_PREVIOUS_SUB_MENU = new string[] {
+		"RightBumper",
+		"RightTrigger"
+	};
+	private readonly KeyCode[] KEYS_NEXT_SUB_MENU = new KeyCode[] {
+		KeyCode.Keypad1,
+		KeyCode.O
+	};
+	private readonly string[] BUTTONS_NEXT_SUB_MENU = new string[] {
+		"LeftBumper",
+		"LeftTrigger"
+	};
 
 
 	public float MOVE_SPEED = 1;
@@ -173,6 +189,17 @@ public class PlayerControls : EntityCollider {
 				menu.closeAny();
 
 			}
+			
+			if(isAnyKeyPressed(KEYS_PREVIOUS_SUB_MENU, false) || isAnyButtonPressed(BUTTONS_PREVIOUS_SUB_MENU, false)) {
+
+				menu.selectPreviousSubMenuType();
+			}
+
+			if(isAnyKeyPressed(KEYS_NEXT_SUB_MENU, false) || isAnyButtonPressed(BUTTONS_NEXT_SUB_MENU, false)) {
+				
+				menu.selectNextSubMenuType();
+			}
+
 
 			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
 				

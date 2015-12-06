@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 
 public class MenuTypeInventory : AbstractMenuType {
@@ -7,7 +8,7 @@ public class MenuTypeInventory : AbstractMenuType {
 		new SubMenuTypeInventoryManagment(),
 		new SubMenuTypeStoryItemsList(),
 		new SubMenuTypeGameOptions(),
-		new SubMenuTypeCharacterStatus() }) {
+		new SubMenuTypeCharacterStatus() }, new Color(0.25f, 0, 0)) {
 		
 	}
 	
