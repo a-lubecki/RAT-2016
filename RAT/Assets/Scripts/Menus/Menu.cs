@@ -6,7 +6,7 @@ using System.Collections;
 public class Menu : MonoBehaviour {
 	
 	private readonly float ANIM_LOOP_COUNT_OPEN_CLOSE = 10f;
-	private readonly float ANIM_LOOP_COUNT_SWITCH_SUB = 5f;
+	private readonly float ANIM_LOOP_COUNT_SWITCH_SUB = 8f;
 
 	private Coroutine coroutineOpening;
 	private float percentageOpening = 0;
@@ -214,28 +214,35 @@ public class Menu : MonoBehaviour {
 	
 	private IEnumerator animatePreviousSubMenuSelection(AbstractSubMenuType subMenuType) {
 		
-		PlayerActionsManager.Instance.setEnabled(true);
+		PlayerActionsManager.Instance.setEnabled(false);
 
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
 
-		gameObjectTitleLeft.GetComponent<Text>().text = null;
+		if(string.IsNullOrEmpty(gameObjectTitleLeft.GetComponent<Text>().text)) {
+			gameObjectTitleLeft.GetComponent<Text>().text = gameObjectTitleRight.GetComponent<Text>().text;
+		}
 		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getName();
-
-
+		
+		
 		float percentageRotation = 0;
 		
-		for(int i = (int)(percentageRotation * ANIM_LOOP_COUNT_SWITCH_SUB) ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
+		for(int i = 0 ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
 			
 			percentageRotation = i / ANIM_LOOP_COUNT_SWITCH_SUB;
 			
-			updateTitle(percentageRotation);
+			Vector3 scaleLeft = gameObjectTitleLeft.transform.localScale;
+			scaleLeft.x = (1 - percentageRotation);
+			gameObjectTitleLeft.transform.localScale = scaleLeft;
+			
+			Vector3 scaleRight = gameObjectTitleRight.transform.localScale;
+			scaleRight.x = percentageRotation;
+			gameObjectTitleRight.transform.localScale = scaleRight;
 			
 			yield return new WaitForSeconds(0.01f);
 		}
 		
-		gameObjectTitleLeft.GetComponent<Text>().text = subMenuType.getName();
-		gameObjectTitleRight.GetComponent<Text>().text = null;
+		gameObjectTitleLeft.GetComponent<Text>().text = null;
 
 		PlayerActionsManager.Instance.setEnabled(true);
 		
@@ -244,43 +251,39 @@ public class Menu : MonoBehaviour {
 	
 	private IEnumerator animateNextSubMenuSelection(AbstractSubMenuType subMenuType) {
 		
-		PlayerActionsManager.Instance.setEnabled(true);
+		PlayerActionsManager.Instance.setEnabled(false);
 		
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
 		
+		if(string.IsNullOrEmpty(gameObjectTitleRight.GetComponent<Text>().text)) {
+			gameObjectTitleRight.GetComponent<Text>().text = gameObjectTitleLeft.GetComponent<Text>().text;
+		}
 		gameObjectTitleLeft.GetComponent<Text>().text = subMenuType.getName();
-		gameObjectTitleRight.GetComponent<Text>().text = null;
 		
 		
 		float percentageRotation = 0;
 		
-		for(int i = (int)(percentageRotation * ANIM_LOOP_COUNT_SWITCH_SUB) ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
+		for(int i = 0 ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
 			
 			percentageRotation = i / ANIM_LOOP_COUNT_SWITCH_SUB;
 			
-			updateTitle(percentageRotation);
+			Vector3 scaleLeft = gameObjectTitleLeft.transform.localScale;
+			scaleLeft.x = percentageRotation;
+			gameObjectTitleLeft.transform.localScale = scaleLeft;
+			
+			Vector3 scaleRight = gameObjectTitleRight.transform.localScale;
+			scaleRight.x = (1 - percentageRotation);
+			gameObjectTitleRight.transform.localScale = scaleRight;
 			
 			yield return new WaitForSeconds(0.01f);
 		}
 		
-		gameObjectTitleLeft.GetComponent<Text>().text = null;
-		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getName();
-		
+		gameObjectTitleRight.GetComponent<Text>().text = null;
+
 		PlayerActionsManager.Instance.setEnabled(true);
 		
 		coroutineOpening = null;
-	}
-
-	private void updateTitle(float percentageRotation) {
-		/*
-		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
-		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
-
-		if() {
-
-		}*/
-
 	}
 
 }
