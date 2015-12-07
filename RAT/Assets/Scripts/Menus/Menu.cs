@@ -73,8 +73,6 @@ public class Menu : MonoBehaviour {
 
 			yield return new WaitForSeconds(0.01f);
 		}
-		
-		PlayerActionsManager.Instance.setEnabled(true);
 
 		coroutineOpening = null;
 	}
@@ -112,8 +110,6 @@ public class Menu : MonoBehaviour {
 	}
 	
 	private IEnumerator animateClosing() {
-		
-		PlayerActionsManager.Instance.setEnabled(false);
 
 		for(int i = (int)(percentageOpening * ANIM_LOOP_COUNT_OPEN_CLOSE) ; i >= 0 ; i--) {
 			
@@ -213,8 +209,6 @@ public class Menu : MonoBehaviour {
 	}
 	
 	private IEnumerator animatePreviousSubMenuSelection(AbstractSubMenuType subMenuType) {
-		
-		PlayerActionsManager.Instance.setEnabled(false);
 
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
@@ -244,15 +238,11 @@ public class Menu : MonoBehaviour {
 		
 		gameObjectTitleLeft.GetComponent<Text>().text = null;
 
-		PlayerActionsManager.Instance.setEnabled(true);
-		
 		coroutineOpening = null;
 	}
 	
 	private IEnumerator animateNextSubMenuSelection(AbstractSubMenuType subMenuType) {
-		
-		PlayerActionsManager.Instance.setEnabled(false);
-		
+
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
 		
@@ -281,8 +271,6 @@ public class Menu : MonoBehaviour {
 		
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 
-		PlayerActionsManager.Instance.setEnabled(true);
-		
 		coroutineOpening = null;
 	}
 
