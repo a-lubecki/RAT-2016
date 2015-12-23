@@ -6,5 +6,9 @@ public class SubMenuTypeItemsChest : AbstractSubMenuType {
 
 	}
 	
+	public override string getGameObjectName() {
+		return Constants.GAME_OBJECT_NAME_SUB_MENU_ITEMS_CHEST;
+	}
+
 }
 

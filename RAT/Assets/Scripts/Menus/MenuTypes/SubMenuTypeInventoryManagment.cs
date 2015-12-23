@@ -6,5 +6,9 @@ public class SubMenuTypeInventoryManagment : AbstractSubMenuType {
 
 	}
 	
+	public override string getGameObjectName() {
+		return Constants.GAME_OBJECT_NAME_SUB_MENU_INVENTORY_MANAGEMENT;
+	}
+
 }
 

@@ -66,6 +66,16 @@ public class GameHelper {
 		return transform.gameObject;
 	}
 
+	public GameObject getSubMenuKeeper() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_KEEPER);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return gameObject;
+	}
+
 	public GameObject getPlayerGameObject() {
 
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);

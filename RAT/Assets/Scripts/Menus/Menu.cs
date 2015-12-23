@@ -50,7 +50,7 @@ public class Menu : MonoBehaviour {
 
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
-		gameObjectTitleLeft.GetComponent<Text>().text = getCurrentSubMenuType().getName();//can't be null;
+		gameObjectTitleLeft.GetComponent<Text>().text = getCurrentSubMenuType().getTrName();//can't be null;
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 
 		if(coroutineOpening != null) {
@@ -73,6 +73,8 @@ public class Menu : MonoBehaviour {
 
 			yield return new WaitForSeconds(0.01f);
 		}
+
+		addSubMenu();
 
 		coroutineOpening = null;
 	}
@@ -119,6 +121,8 @@ public class Menu : MonoBehaviour {
 			
 			yield return new WaitForSeconds(0.01f);
 		}
+		
+		removeSubMenu();
 
 		currentMenuType = null;
 
@@ -181,6 +185,8 @@ public class Menu : MonoBehaviour {
 			return;
 		}
 
+		removeSubMenu();
+
 		menuType.selectPreviousSubMenuType();
 
 		//animate
@@ -197,9 +203,11 @@ public class Menu : MonoBehaviour {
 		if(menuType == null) {
 			return;
 		}
-		
+
+		removeSubMenu();
+
 		menuType.selectNextSubMenuType();
-		
+
 		//animate
 		if(coroutineOpening != null) {
 			StopCoroutine(coroutineOpening);
@@ -216,7 +224,7 @@ public class Menu : MonoBehaviour {
 		if(string.IsNullOrEmpty(gameObjectTitleLeft.GetComponent<Text>().text)) {
 			gameObjectTitleLeft.GetComponent<Text>().text = gameObjectTitleRight.GetComponent<Text>().text;
 		}
-		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getName();
+		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getTrName();
 		
 		
 		float percentageRotation = 0;
@@ -237,6 +245,8 @@ public class Menu : MonoBehaviour {
 		}
 		
 		gameObjectTitleLeft.GetComponent<Text>().text = null;
+		
+		addSubMenu();
 
 		coroutineOpening = null;
 	}
@@ -249,7 +259,7 @@ public class Menu : MonoBehaviour {
 		if(string.IsNullOrEmpty(gameObjectTitleRight.GetComponent<Text>().text)) {
 			gameObjectTitleRight.GetComponent<Text>().text = gameObjectTitleLeft.GetComponent<Text>().text;
 		}
-		gameObjectTitleLeft.GetComponent<Text>().text = subMenuType.getName();
+		gameObjectTitleLeft.GetComponent<Text>().text = subMenuType.getTrName();
 		
 		
 		float percentageRotation = 0;
@@ -270,8 +280,61 @@ public class Menu : MonoBehaviour {
 		}
 		
 		gameObjectTitleRight.GetComponent<Text>().text = null;
+		
+		addSubMenu();
 
 		coroutineOpening = null;
+	}
+
+	private void addSubMenu() {
+		
+		if(currentMenuType == null) {
+			return;
+		}
+
+		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
+
+		Transform subMenuGameObject = subMenuKeeper.transform.Find(currentMenuType.getCurrentSubMenuType().getGameObjectName());
+		if(subMenuGameObject == null) {
+			return;
+		}
+		
+		subMenuGameObject.gameObject.SetActive(true);
+
+		subMenuGameObject.SetParent(transform);
+
+		//adjust
+		RectTransform rectTransform = subMenuGameObject.GetComponent<RectTransform>();
+
+		rectTransform.anchorMin = new Vector2(0, 0);
+		rectTransform.anchorMax = new Vector2(1, 1);
+		rectTransform.pivot = new Vector2(0.5f, 0.5f);
+		
+		rectTransform.offsetMin = new Vector2(0, 0);
+		rectTransform.offsetMax = new Vector2(0, -2);
+		rectTransform.rotation = Quaternion.identity;
+		rectTransform.localScale = new Vector3(1, 1, 1);
+
+	}
+	
+	private void removeSubMenu() {
+		
+		if(currentMenuType == null) {
+			return;
+		}
+
+		GameObject subMenuGameObject = currentMenuType.getCurrentSubMenuType().getSubMenuGameObject(this);
+		if(subMenuGameObject == null) {
+			return;
+		}
+		
+		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
+		
+		subMenuGameObject.SetActive(false);
+
+		subMenuGameObject.transform.SetParent(subMenuKeeper.transform);
+
+
 	}
 
 }

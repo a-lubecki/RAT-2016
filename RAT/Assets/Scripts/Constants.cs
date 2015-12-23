@@ -62,7 +62,17 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_MENU = "Menu";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT = "SubMenuTitleLeft";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT = "SubMenuTitleRight";
-	
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_KEEPER = "SubMenuKeeper";
+
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_CHARACTER_STATUS = "SubMenuTypeCharacterStatus";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_GAME_OPTIONS = "SubMenuTypeGameOptions";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_INVENTORY_MANAGEMENT = "SubMenuTypeInventoryManagment";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_ITEMS_CHEST = "SubMenuTypeItemsChest";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_LEVEL_UPGRADE = "SubMenuTypeLevelUpgrade";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_MERCHANT = "SubMenuTypeMerchant";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_STORY_ITEMS_LIST = "SubMenuTypeStoryItemsList";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TELEPORT = "SubMenuTypeTeleport";
+
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
 	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";
 	public static readonly string SORTING_LAYER_NAME_OBJECTS = "objects";

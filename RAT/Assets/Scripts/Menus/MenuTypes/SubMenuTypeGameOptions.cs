@@ -6,5 +6,9 @@ public class SubMenuTypeGameOptions : AbstractSubMenuType {
 
 	}
 	
+	public override string getGameObjectName() {
+		return Constants.GAME_OBJECT_NAME_SUB_MENU_GAME_OPTIONS;
+	}
+
 }
 
