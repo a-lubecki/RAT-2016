@@ -53,6 +53,11 @@ public class Menu : MonoBehaviour {
 		gameObjectTitleLeft.GetComponent<Text>().text = getCurrentSubMenuType().getTrName();//can't be null;
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 
+		Transform transformArrowLeft = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
+		Transform transformArrowRight = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
+		transformArrowLeft.GetComponent<Gif>().startAnimation();
+		transformArrowRight.GetComponent<Gif>().startAnimation();
+
 		if(coroutineOpening != null) {
 			StopCoroutine(coroutineOpening);
 		}
@@ -130,6 +135,11 @@ public class Menu : MonoBehaviour {
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
 		gameObjectTitleLeft.GetComponent<Text>().text = null;
 		gameObjectTitleRight.GetComponent<Text>().text = null;
+		
+		Transform transformArrowLeft = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
+		Transform transformArrowRight = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
+		transformArrowLeft.GetComponent<Gif>().stopAnimation();
+		transformArrowRight.GetComponent<Gif>().stopAnimation();
 
 		PlayerActionsManager.Instance.setEnabled(true);
 
