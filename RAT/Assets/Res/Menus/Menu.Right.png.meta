@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 28a809f2bfb0a7f44b2c45797abe2872
-timeCreated: 1449518900
+timeCreated: 1450908800
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -58,7 +58,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 9
+        width: 12
         height: 9
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -66,9 +66,9 @@ TextureImporter:
     - name: Menu.Right.1
       rect:
         serializedVersion: 2
-        x: 9
+        x: 12
         y: 0
-        width: 9
+        width: 12
         height: 9
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -76,9 +76,9 @@ TextureImporter:
     - name: Menu.Right.2
       rect:
         serializedVersion: 2
-        x: 18
+        x: 24
         y: 0
-        width: 9
+        width: 12
         height: 9
       alignment: 0
       pivot: {x: .5, y: .5}

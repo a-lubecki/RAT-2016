@@ -321,7 +321,7 @@ public class Menu : MonoBehaviour {
 		rectTransform.pivot = new Vector2(0.5f, 0.5f);
 		
 		rectTransform.offsetMin = new Vector2(0, 0);
-		rectTransform.offsetMax = new Vector2(0, -2);
+		rectTransform.offsetMax = new Vector2(0, -3);
 		rectTransform.rotation = Quaternion.identity;
 		rectTransform.localScale = new Vector3(1, 1, 1);
 
