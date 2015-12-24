@@ -53,10 +53,7 @@ public class Menu : MonoBehaviour {
 		gameObjectTitleLeft.GetComponent<Text>().text = getCurrentSubMenuType().getTrName();//can't be null;
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 
-		Transform transformArrowLeft = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
-		Transform transformArrowRight = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
-		transformArrowLeft.GetComponent<Gif>().startAnimation();
-		transformArrowRight.GetComponent<Gif>().startAnimation();
+		animateArrows();
 
 		if(coroutineOpening != null) {
 			StopCoroutine(coroutineOpening);
@@ -136,10 +133,8 @@ public class Menu : MonoBehaviour {
 		gameObjectTitleLeft.GetComponent<Text>().text = null;
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 		
-		Transform transformArrowLeft = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
-		Transform transformArrowRight = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
-		transformArrowLeft.GetComponent<Gif>().stopAnimation();
-		transformArrowRight.GetComponent<Gif>().stopAnimation();
+		animateArrow(true, false, false);
+		animateArrow(false, false, false);
 
 		PlayerActionsManager.Instance.setEnabled(true);
 
@@ -227,42 +222,7 @@ public class Menu : MonoBehaviour {
 	}
 	
 	private IEnumerator animatePreviousSubMenuSelection(AbstractSubMenuType subMenuType) {
-
-		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
-		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
-
-		if(string.IsNullOrEmpty(gameObjectTitleLeft.GetComponent<Text>().text)) {
-			gameObjectTitleLeft.GetComponent<Text>().text = gameObjectTitleRight.GetComponent<Text>().text;
-		}
-		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getTrName();
 		
-		
-		float percentageRotation = 0;
-		
-		for(int i = 0 ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
-			
-			percentageRotation = i / ANIM_LOOP_COUNT_SWITCH_SUB;
-			
-			Vector3 scaleLeft = gameObjectTitleLeft.transform.localScale;
-			scaleLeft.x = (1 - percentageRotation);
-			gameObjectTitleLeft.transform.localScale = scaleLeft;
-			
-			Vector3 scaleRight = gameObjectTitleRight.transform.localScale;
-			scaleRight.x = percentageRotation;
-			gameObjectTitleRight.transform.localScale = scaleRight;
-			
-			yield return new WaitForSeconds(0.01f);
-		}
-		
-		gameObjectTitleLeft.GetComponent<Text>().text = null;
-		
-		addSubMenu();
-
-		coroutineOpening = null;
-	}
-	
-	private IEnumerator animateNextSubMenuSelection(AbstractSubMenuType subMenuType) {
-
 		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
 		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
 		
@@ -270,6 +230,9 @@ public class Menu : MonoBehaviour {
 			gameObjectTitleRight.GetComponent<Text>().text = gameObjectTitleLeft.GetComponent<Text>().text;
 		}
 		gameObjectTitleLeft.GetComponent<Text>().text = subMenuType.getTrName();
+		
+		animateArrow(false, false, false);
+		animateArrow(true, true, true);
 		
 		
 		float percentageRotation = 0;
@@ -291,6 +254,48 @@ public class Menu : MonoBehaviour {
 		
 		gameObjectTitleRight.GetComponent<Text>().text = null;
 		
+		animateArrows();
+		
+		addSubMenu();
+		
+		coroutineOpening = null;
+	}
+
+	private IEnumerator animateNextSubMenuSelection(AbstractSubMenuType subMenuType) {
+
+		GameObject gameObjectTitleLeft = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT);
+		GameObject gameObjectTitleRight = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT);
+
+		if(string.IsNullOrEmpty(gameObjectTitleLeft.GetComponent<Text>().text)) {
+			gameObjectTitleLeft.GetComponent<Text>().text = gameObjectTitleRight.GetComponent<Text>().text;
+		}
+		gameObjectTitleRight.GetComponent<Text>().text = subMenuType.getTrName();
+		
+		animateArrow(false, true, true);
+		animateArrow(true, false, false);
+
+
+		float percentageRotation = 0;
+		
+		for(int i = 0 ; i <= ANIM_LOOP_COUNT_SWITCH_SUB ; i++) {
+			
+			percentageRotation = i / ANIM_LOOP_COUNT_SWITCH_SUB;
+			
+			Vector3 scaleLeft = gameObjectTitleLeft.transform.localScale;
+			scaleLeft.x = (1 - percentageRotation);
+			gameObjectTitleLeft.transform.localScale = scaleLeft;
+			
+			Vector3 scaleRight = gameObjectTitleRight.transform.localScale;
+			scaleRight.x = percentageRotation;
+			gameObjectTitleRight.transform.localScale = scaleRight;
+			
+			yield return new WaitForSeconds(0.01f);
+		}
+		
+		gameObjectTitleLeft.GetComponent<Text>().text = null;
+		
+		animateArrows();
+
 		addSubMenu();
 
 		coroutineOpening = null;
@@ -344,6 +349,39 @@ public class Menu : MonoBehaviour {
 
 		subMenuGameObject.transform.SetParent(subMenuKeeper.transform);
 
+	}
+
+	private void animateArrows() {
+		
+		animateArrow(true, true, false);
+		animateArrow(false, true, false);
+	}
+
+	private void animateArrow(bool isLeft, bool isAnimating, bool isFast) {
+
+		Transform transformArrow;
+		if(isLeft) {
+			transformArrow = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
+		} else {
+			transformArrow = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
+		}
+
+		Gif gif = transformArrow.GetComponent<Gif>();
+
+		if(isAnimating) {
+
+			if(isFast) {
+				gif.durationSec = 0.1f;
+			} else {
+				gif.durationSec = 0.6f;
+			}
+
+			gif.startAnimation();
+
+		} else {
+
+			gif.stopAnimation();
+		}
 
 	}
 

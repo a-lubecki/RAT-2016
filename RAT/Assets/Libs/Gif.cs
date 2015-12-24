@@ -15,9 +15,7 @@ public class Gif : MonoBehaviour {
 
 	public void startAnimation() {
 
-		if(coroutineAnimation != null) {
-			return;
-		}
+		stopAnimation();
 
 		coroutineAnimation = StartCoroutine(animate());
 
@@ -32,6 +30,9 @@ public class Gif : MonoBehaviour {
 		StopCoroutine(coroutineAnimation);
 
 		coroutineAnimation = null;
+		
+		Image image = GetComponent<Image>();
+		image.sprite = sprites[0];
 	}
 
 	private IEnumerator animate() {
@@ -43,6 +44,7 @@ public class Gif : MonoBehaviour {
 
 		if(durationSecTmp <= 0) {
 			coroutineAnimation = null;
+			image.sprite = sprites[0];
 			return false;
 		}
 
@@ -69,8 +71,6 @@ public class Gif : MonoBehaviour {
 				i = -1;
 			}
 		}
-
-		image.sprite = null;
 
 		coroutineAnimation = null;
 	

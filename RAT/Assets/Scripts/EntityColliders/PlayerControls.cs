@@ -118,20 +118,20 @@ public class PlayerControls : EntityCollider {
 		"TouchPadTap"//PS4
 	};
 	private readonly KeyCode[] KEYS_PREVIOUS_SUB_MENU = new KeyCode[] {
-		KeyCode.Keypad3,
-		KeyCode.P
-	};
-	private readonly string[] BUTTONS_PREVIOUS_SUB_MENU = new string[] {
-		"RightBumper",
-		"RightTrigger"
-	};
-	private readonly KeyCode[] KEYS_NEXT_SUB_MENU = new KeyCode[] {
 		KeyCode.Keypad1,
 		KeyCode.O
 	};
-	private readonly string[] BUTTONS_NEXT_SUB_MENU = new string[] {
+	private readonly string[] BUTTONS_PREVIOUS_SUB_MENU = new string[] {
 		"LeftBumper",
 		"LeftTrigger"
+	};
+	private readonly KeyCode[] KEYS_NEXT_SUB_MENU = new KeyCode[] {
+		KeyCode.Keypad3,
+		KeyCode.P
+	};
+	private readonly string[] BUTTONS_NEXT_SUB_MENU = new string[] {
+		"RightBumper",
+		"RightTrigger"
 	};
 
 
