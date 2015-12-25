@@ -225,6 +225,20 @@ public class GameHelper {
 
 		return texture;
 	}
+	
+	public Sprite loadSpriteAsset(string imagePath) {
+
+		if(string.IsNullOrEmpty(imagePath)) {
+			return null;
+		}
+		
+		Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(imagePath, typeof(Sprite)) as Sprite;
+		if(sprite == null) {
+			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
+		}
+
+		return sprite;
+	}
 
 	public Sprite loadMultiSpriteAsset(string imagePath, string spriteName) {
 		
@@ -264,7 +278,7 @@ public class GameHelper {
 		}
 		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
 	}
-	
+
 	public GameObject loadPrefabAsset(string prefabName) {
 		
 		if(string.IsNullOrEmpty(prefabName)) {

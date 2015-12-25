@@ -14,7 +14,7 @@ public class LinkCreator : BaseEntityCreator {
 	}
 		
 	protected override Sprite getDebugSprite() {
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_DEBUG + "Link.png", typeof(Sprite)) as Sprite;
+		return GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_DEBUG + "Link.png");
 	}
 	
 	public GameObject createNewGameObject(NodeElementLink nodeElement) {

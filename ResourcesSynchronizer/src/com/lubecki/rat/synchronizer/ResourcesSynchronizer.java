@@ -39,7 +39,16 @@ public final class ResourcesSynchronizer {
             Set<ExtensionTransform> extensionsTransform = entrySet.getValue();
 
             File in = getDirectory(designsPath + "/" + folderName);
-            File out = getDirectory(resourcesPath + "/" + folderName);
+
+
+            String outPath = resourcesPath + "/" + folderName;
+            //create out dr if doesn't exist
+            File outDir = new File(outPath);
+            if(!outDir.exists()) {
+                outDir.mkdir();
+            }
+
+            File out = getDirectory(outPath);
 
             syncFiles(in, out, extensionsTransform);
         }

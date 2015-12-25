@@ -39,6 +39,7 @@ public class Main {
         foldersToSync.put("Environments", imagesFilter);
         foldersToSync.put("Maps", mapsFilter);
         foldersToSync.put("Menus", imagesFilter);
+        foldersToSync.put("Splashscreen", imagesFilter);
 
         //sync all
         new ResourcesSynchronizer(DESIGNS_PATH, RESOURCES_PATH).sync(foldersToSync);

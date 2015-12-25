@@ -1,5 +1,8 @@
 using System;
 using SmartLocalization;
+using System.Collections;
+using System.Collections.Generic;
+
 
 public class Constants {
 	
@@ -15,10 +18,11 @@ public class Constants {
 	public static readonly string PATH_RES_MAPS = PATH_RES + "Maps/";
 	public static readonly string PATH_RES_ENVIRONMENTS = PATH_RES + "Environments/";
 	public static readonly string PATH_RES_CHARACTERS = PATH_RES + "Characters/";
+	public static readonly string PATH_RES_SPLASHSCREEN = PATH_RES + "Splashscreen/";
 	public static readonly string PATH_RES_SCRIPTS = PATH_RES + "Scripts/";
 	public static readonly string PATH_RES_DEBUG = PATH_RES + "Debug/";
-		
-	
+
+
 	private static readonly string PREFAB_EXTENSION = ".prefab";
 
 	public static readonly string PREFAB_NAME_TILE_GROUND = "PrefabTileGround" + PREFAB_EXTENSION;
@@ -31,6 +35,15 @@ public class Constants {
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar" + PREFAB_EXTENSION;
 
 	
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_BACKGROUND = "SplashScreenBackground";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_FOREGROUND = "SplashScreenForeground";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_SPLAT_TITLE = "SplashScreenSplatTitle";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_SPLAT_CREDITS = "SplashScreenSplatCredits";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_TITLE = "SplashScreenTitle";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_SUBTITLE = "SplashScreenSubTitle";
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_CREDITS = "SplashScreenCredits";
+
+
 	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
 	public static readonly string GAME_OBJECT_NAME_HUD = "CanvasHUD";
 	public static readonly string GAME_OBJECT_NAME_HUD_HEALTH_BAR = "HUDBarHealth";
@@ -83,9 +96,46 @@ public class Constants {
 
 	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
 
+	public enum SceneIndex {
+		SCENE_INDEX_SPLASHSCREEN = 0,
+		SCENE_INDEX_MAIN_MENU = 1,
+		SCENE_INDEX_QUOTE = 2,
+		SCENE_INDEX_LEVEL = 3
+	}
+
 	
+	public static string defaultLocalization = "fr";//"en-US";
+
+	private static bool isTranslatorInitialized = false;
+
+	private static void initTranslator() {
+
+		//set the language
+		List<SmartCultureInfo> supportedLanguages = LanguageManager.Instance.GetSupportedLanguages();
+		
+		SmartCultureInfo chosenSmartCultureInfo = supportedLanguages[0];
+		foreach (SmartCultureInfo info in supportedLanguages) {
+			if(defaultLocalization.Equals(info.languageCode)) {
+				chosenSmartCultureInfo = info;
+				break;
+			}
+		}
+		
+		LanguageManager.Instance.ChangeLanguage(chosenSmartCultureInfo);
+		
+		isTranslatorInitialized = true;
+	}
+
+
 	public static string tr(string key) {
+
+		if(!isTranslatorInitialized) {
+			initTranslator();
+		}
+
 		return LanguageManager.Instance.GetTextValue(key);
 	}
+
 }
+
 

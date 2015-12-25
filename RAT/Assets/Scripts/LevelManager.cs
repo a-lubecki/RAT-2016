@@ -6,7 +6,6 @@ using System.Xml;
 using System.IO;
 using Level;
 using System;
-using SmartLocalization;
 
 
 public class LevelManager : MonoBehaviour {
@@ -20,25 +19,9 @@ public class LevelManager : MonoBehaviour {
 
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
-	
-	public string chosenLocalization = "fr";//"en-US";
 
 
 	void Start () {
-
-		//set the language
-		List<SmartCultureInfo> supportedLanguages = LanguageManager.Instance.GetSupportedLanguages();
-		
-		SmartCultureInfo chosenSmartCultureInfo = supportedLanguages[0];
-		foreach (SmartCultureInfo info in supportedLanguages) {
-			if(chosenLocalization.Equals(info.languageCode)) {
-				chosenSmartCultureInfo = info;
-				break;
-			}
-		}
-		
-		LanguageManager.Instance.ChangeLanguage(chosenSmartCultureInfo);
-
 
 		if(currentLevelName == null) {
 
@@ -312,7 +295,7 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		//no fadein if level is the first
-		AutoFade.LoadLevel(0, hasCurrentLevel ? 0.3f : 0, 0.3f, Color.black);
+		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_LEVEL), hasCurrentLevel ? 0.3f : 0, 0.3f, Color.black);
 	}
 	
 	private bool isAboutToLoadNextLevel() {
