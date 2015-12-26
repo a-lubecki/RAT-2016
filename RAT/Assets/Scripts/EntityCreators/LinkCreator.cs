@@ -14,7 +14,7 @@ public class LinkCreator : BaseEntityCreator {
 	}
 		
 	protected override Sprite getDebugSprite() {
-		return GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_DEBUG + "Link.png");
+		return GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_DEBUG + "Link");
 	}
 	
 	public GameObject createNewGameObject(NodeElementLink nodeElement) {

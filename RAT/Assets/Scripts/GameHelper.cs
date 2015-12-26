@@ -216,7 +216,7 @@ public class GameHelper {
 			return null;
 		}
 
-		Texture2D texture = UnityEditor.AssetDatabase.LoadAssetAtPath(imagePath, typeof(Texture2D)) as Texture2D;
+		Texture2D texture = Resources.Load<Texture2D>(imagePath) as Texture2D;
 		if(texture == null) {
 			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
 		}
@@ -232,7 +232,7 @@ public class GameHelper {
 			return null;
 		}
 		
-		Sprite sprite = UnityEditor.AssetDatabase.LoadAssetAtPath(imagePath, typeof(Sprite)) as Sprite;
+		Sprite sprite = Resources.Load<Sprite>(imagePath) as Sprite;
 		if(sprite == null) {
 			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
 		}
@@ -249,12 +249,18 @@ public class GameHelper {
 			return null;
 		}
 
-		UnityEngine.Object[] sprites = UnityEditor.AssetDatabase.LoadAllAssetRepresentationsAtPath(imagePath);
+		UnityEngine.Object[] sprites = Resources.LoadAll(imagePath);
 		if(sprites == null || sprites.Length <= 0) {
 			throw new System.InvalidOperationException("Could not load multi image asset : " + imagePath);
 		}
 
-		foreach(Sprite s in sprites) {
+		foreach(UnityEngine.Object o in sprites) {
+
+			if(!(o is Sprite)) {
+				continue;
+			}
+
+			Sprite s = o as Sprite;
 			if(spriteName.Equals(s.name)) {
 				return s;
 			}
@@ -268,7 +274,7 @@ public class GameHelper {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".xml", typeof(TextAsset)) as TextAsset;
+		return Resources.Load<TextAsset>(Constants.PATH_RES_MAPS + "Level." + levelName) as TextAsset;
 	}
 	
 	public TextAsset loadMapAsset(string levelName) {
@@ -276,7 +282,7 @@ public class GameHelper {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_RES_MAPS + levelName + ".json", typeof(TextAsset)) as TextAsset;
+		return Resources.Load<TextAsset>(Constants.PATH_RES_MAPS + "Map." + levelName) as TextAsset;
 	}
 
 	public GameObject loadPrefabAsset(string prefabName) {
@@ -284,7 +290,7 @@ public class GameHelper {
 		if(string.IsNullOrEmpty(prefabName)) {
 			return null;
 		}
-		return UnityEditor.AssetDatabase.LoadAssetAtPath(Constants.PATH_PREFABS + prefabName, typeof(GameObject)) as GameObject;
+		return Resources.Load<GameObject>(Constants.PATH_RES_PREFABS + prefabName) as GameObject;
 	}
 
 

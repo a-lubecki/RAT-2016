@@ -31,6 +31,9 @@ namespace TiledMap {
 			int length = imagePath.Length - startIndex;
 			imagePath = imagePath.Substring(startIndex, length);
 
+			//remove the .png extension
+			startIndex = imagePath.LastIndexOf(".png");
+			imagePath = imagePath.Substring(0, startIndex);
 
 			image = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imagePath);
 

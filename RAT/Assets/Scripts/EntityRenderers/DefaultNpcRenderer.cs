@@ -7,7 +7,7 @@ public class DefaultNpcRenderer : EntityRenderer {
 
 	protected override CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState) {
 		
-		string textureName = "Enemy.Insect.Wait.png";
+		string textureName = "Enemy.Insect.Wait";
 		
 		//wait
 		return new CharacterAnimation(

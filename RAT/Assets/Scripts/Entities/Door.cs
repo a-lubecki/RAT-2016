@@ -37,7 +37,7 @@ public class Door : MonoBehaviour, IActionnable {
 		int spacing = nodeElementDoor.nodeSpacing.value;
 		
 		//load th eimage
-		string imageName = "Door.Laboratory." + spacing + "." + orientation.ToString() + ".png";
+		string imageName = "Door.Laboratory." + spacing + "." + orientation.ToString();
 		
 		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imageName);
 		

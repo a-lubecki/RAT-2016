@@ -101,12 +101,12 @@ public class SplashScreenManager : MonoBehaviour {
 		yield return new WaitForSeconds(5.5f);
 
 
-		background.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_SPLASHSCREEN + "SplashScreenBgAfter.png");
+		background.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_SPLASHSCREEN + "SplashScreenBgAfter");
 
 		
-		for(int i = 0 ; i <= 3 ; i++) {
+		for(int i = 0 ; i <= 5 ; i++) {
 			
-			setAlpha(foreground, (float)i / 3f);
+			setAlpha(foreground, (float)i / 5f);
 			
 			yield return new WaitForSeconds(0.05f);
 		}
@@ -116,34 +116,38 @@ public class SplashScreenManager : MonoBehaviour {
 
 
 		StartCoroutine(hideImage(foreground));
+
+		StartCoroutine(triggerStroboscopic(background));
 		
 		yield return new WaitForSeconds(1.2f);
 
 		StartCoroutine(shakeImage(background));
 
-		audioSourceExplosion.PlayDelayed(1.5f);
+		audioSourceExplosion.PlayDelayed(1.6f);
 
 	}
 	
 	private IEnumerator hideImage(Image image) {
 		
-		for(int i = 0 ; i <= 40 ; i++) {
+		for(int i = 0 ; i <= 150 ; i++) {
 			
-			setAlpha(image, 1 - (float)i / 40f);
+			setAlpha(image, 1 - (float)i / 150f);
 			
 			yield return new WaitForSeconds(0.05f);
 		}
 
-		image.color = new Color(0, 0, 0, 0);
+	}
+
+	private IEnumerator triggerStroboscopic(Image image) {
 
 		//stroboscopic
 		while(true) {
 
-			setAlpha(image, UnityEngine.Random.value * 0.2f);
+			setAlpha(image, 1 - UnityEngine.Random.value * 0.2f);
 
 			yield return new WaitForSeconds(0.1f);
 
-			setAlpha(image, 0);
+			setAlpha(image, 1);
 
 			yield return new WaitForSeconds(UnityEngine.Random.value * 0.1f + 0.1f);
 

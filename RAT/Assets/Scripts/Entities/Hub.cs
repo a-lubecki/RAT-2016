@@ -24,13 +24,13 @@ public class Hub : MonoBehaviour, IActionnable {
 		this.nodeElementHub = nodeElementHub;
 
 		//load the images
-		Texture2D textureDeactivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Deactivated.png");
+		Texture2D textureDeactivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Deactivated");
 		spriteDeactivated = Sprite.Create(textureDeactivated, 
 		                                   new Rect(0, 0, textureDeactivated.width, textureDeactivated.height),
 		                                   new Vector2(0.25f, 0.75f),
 		                                   Constants.TILE_SIZE * 2);
 
-		Texture2D textureActivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Activated.png");
+		Texture2D textureActivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Activated");
 		spriteActivated = Sprite.Create(textureActivated, 
 		                                 new Rect(0, 0, textureDeactivated.width, textureDeactivated.height),
 		                                 new Vector2(0.25f, 0.75f),

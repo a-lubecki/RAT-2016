@@ -24,7 +24,7 @@ public class Main {
         }
 
         final String DESIGNS_PATH = MAIN_PATH + "designs/";
-        final String RESOURCES_PATH = MAIN_PATH + "RAT/Assets/Res/";
+        final String RESOURCES_PATH = MAIN_PATH + "RAT/Assets/Resources/";
 
         Set<ExtensionTransform> imagesFilter = new HashSet<>();
         imagesFilter.add(new ExtensionTransform("png"));
