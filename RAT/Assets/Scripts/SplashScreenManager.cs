@@ -31,7 +31,8 @@ public class SplashScreenManager : MonoBehaviour {
 	public GameObject buttonContinueGame;
 	public GameObject buttonNewGame;
 	public GameObject buttonCredits;
-
+	
+	public AudioSource backgroundMusicPlayer;
 	public AudioSource audioSourceExplosion;
 
 	private static readonly int MAX_BUTTON_LONG_PRESS_ITERATIONS = 30;	//TODO move
@@ -42,7 +43,6 @@ public class SplashScreenManager : MonoBehaviour {
 		buttonContinueGame.SetActive(false);
 		buttonNewGame.SetActive(false);
 		buttonCredits.SetActive(false);
-
 
 		StartCoroutine(startAnimation());
 				
@@ -97,7 +97,7 @@ public class SplashScreenManager : MonoBehaviour {
 		}
 
 
-		yield return new WaitForSeconds(5);
+		yield return new WaitForSeconds(5.5f);
 
 
 		background.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_SPLASHSCREEN + "SplashScreenBgAfter.png");
@@ -115,10 +115,12 @@ public class SplashScreenManager : MonoBehaviour {
 
 
 		StartCoroutine(hideImage(foreground));
+		
+		yield return new WaitForSeconds(1.2f);
 
 		StartCoroutine(shakeImage(background));
 
-		audioSourceExplosion.PlayDelayed(0.5f);
+		audioSourceExplosion.PlayDelayed(1.5f);
 
 	}
 	
@@ -205,9 +207,23 @@ public class SplashScreenManager : MonoBehaviour {
 		setAlpha(subTitle, 0);
 		setAlpha(credits, 0);
 
+		yield return new WaitForSeconds(2.5f);
 		
-		yield return new WaitForSeconds(3);
-		
+		for(int i = 0 ; i <= 3 ; i++) {
+			
+			float value = (float)i / 3f;
+			setAlpha(splatCredits, value);
+			setAlpha(credits, value);
+			
+			yield return new WaitForSeconds(0.05f);
+		}
+
+
+		backgroundMusicPlayer.PlayDelayed(0.5f);
+
+		yield return new WaitForSeconds(1f);
+
+
 		for(int i = 0 ; i <= 3 ; i++) {
 
 			float value = (float)i / 3f;
@@ -217,18 +233,7 @@ public class SplashScreenManager : MonoBehaviour {
 			
 			yield return new WaitForSeconds(0.05f);
 		}
-		
-		yield return new WaitForSeconds(0.5f);
 
-
-		for(int i = 0 ; i <= 3 ; i++) {
-			
-			float value = (float)i / 3f;
-			setAlpha(splatCredits, value);
-			setAlpha(credits, value);
-			
-			yield return new WaitForSeconds(0.05f);
-		}
 
 		inputsEnabled = true;
 	}
