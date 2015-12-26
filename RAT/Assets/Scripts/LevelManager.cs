@@ -22,22 +22,34 @@ public class LevelManager : MonoBehaviour {
 
 
 	void Start () {
+		
+		if(Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
+			return;
+		}
 
-		if(currentLevelName == null) {
+		if(!Debug.isDebugBuild) {
+			return;
+		}
 
-			//load the current level
-			if(!GameSaver.Instance.loadCurrentLevel()) {
+		if(currentLevelName != null) {
+			return;
+		}
 
-				//if no saved data, load the very first level				
-				loadNextLevel(Constants.FIRST_LEVEL_NAME);
-			}
+		//load the current level
+		if(!GameSaver.Instance.loadCurrentLevel()) {
 
+			//if no saved data, load the very first level				
+			loadNextLevel(Constants.FIRST_LEVEL_NAME);
 		}
 
 	}
 
 
 	void OnLevelWasLoaded(int level) {
+
+		if(Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
+			return;
+		}
 
 		if(!isAboutToLoadNextLevel()) {
 			return;
@@ -294,8 +306,10 @@ public class LevelManager : MonoBehaviour {
 			GameSaver.Instance.saveAllToFile();
 		}
 
+		bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
+
 		//no fadein if level is the first
-		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_LEVEL), hasCurrentLevel ? 0.3f : 0, 0.3f, Color.black);
+		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_LEVEL), hasFade ? 0.3f : 0, 0.3f, Color.black);
 	}
 	
 	private bool isAboutToLoadNextLevel() {

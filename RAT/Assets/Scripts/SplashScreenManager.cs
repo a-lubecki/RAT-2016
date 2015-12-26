@@ -10,7 +10,8 @@ public class SplashScreenManager : MonoBehaviour {
 	
 	private readonly KeyCode[] KEYS_START = new KeyCode[] {
 		KeyCode.Return,
-		KeyCode.KeypadEnter
+		KeyCode.KeypadEnter,
+		KeyCode.Space
 	};
 	private readonly string[] BUTTONS_START = new string[] {
 		"Action1",
@@ -274,9 +275,37 @@ public class SplashScreenManager : MonoBehaviour {
 		inputsEnabled = true;
 
 	}
+	
+	public void onButtonContinueGameClicked() {
+
+		if(AutoFade.Fading) {
+			return;
+		}
+		
+		//load the current level
+		if(!GameSaver.Instance.loadCurrentLevel()) {
+			
+			//if no saved data, load the very first level				
+			GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
+		}
+
+	}
+
+	public void onButtonNewGameClicked() {
+
+		//TODO show popup warning
+		//TODO clear data
+
+		//if no saved data, load the very first level				
+		GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
+	}
+
+	public void onButtonCreditsClicked() {
+		
+	}
 
 
-	//TDO improve !!!!!
+	//TODO improve inputs !!!!!
 
 	
 	private bool isKeyPressed(KeyCode key, bool longPress) {
