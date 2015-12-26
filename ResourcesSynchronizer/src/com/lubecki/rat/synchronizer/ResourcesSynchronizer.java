@@ -3,11 +3,14 @@ package com.lubecki.rat.synchronizer;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Copyright Aurélien Lubecki 2013
@@ -86,8 +89,6 @@ public final class ResourcesSynchronizer {
 
         //copy
 
-        //TODO
-
         for (Map.Entry<File, ExtensionTransform> entrySet : filesToCopy.entrySet()) {
 
             File fileIn = entrySet.getKey();
@@ -106,10 +107,26 @@ public final class ResourcesSynchronizer {
                 pathOut += rootName + extensionTransform.outExtension;
             }
 
+            Path in = Paths.get(pathIn);
+            Path out = Paths.get(pathOut);
+
+            if(Files.exists(out)) {
+                try {
+                    if(Files.getLastModifiedTime(in).equals(Files.getLastModifiedTime(out))) {
+                        //the file is the same
+                        return;
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    //do nothing
+                    System.out.println("File is the same : from " + pathIn + " to " + pathOut);
+                }
+            }
+
             try {
                 Files.copy(
-                        Paths.get(pathIn),
-                        Paths.get(pathOut),
+                        in,
+                        out,
                         StandardCopyOption.REPLACE_EXISTING,
                         StandardCopyOption.COPY_ATTRIBUTES
                 );

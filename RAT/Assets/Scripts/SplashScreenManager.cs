@@ -28,18 +28,16 @@ public class SplashScreenManager : MonoBehaviour {
 	private bool inputsEnabled = false;
 	private bool hasHiddenTitle = false;
 	
-	private GameObject buttonContinueGame;
-	private GameObject buttonNewGame;
-	private GameObject buttonCredits;
+	public GameObject buttonContinueGame;
+	public GameObject buttonNewGame;
+	public GameObject buttonCredits;
+
+	public AudioSource audioSourceExplosion;
 
 	private static readonly int MAX_BUTTON_LONG_PRESS_ITERATIONS = 30;	//TODO move
 	private Dictionary<string, int> buttonPressIterations = new Dictionary<string, int>();	//TODO move
 
 	protected void Start() {
-		
-		buttonContinueGame = GameObject.Find(Constants.GAME_OBJECT_NAME_BUTTON_CONTINUE_GAME);
-		buttonNewGame = GameObject.Find(Constants.GAME_OBJECT_NAME_BUTTON_NEW_GAME);
-		buttonCredits = GameObject.Find(Constants.GAME_OBJECT_NAME_BUTTON_CREDITS);
 
 		buttonContinueGame.SetActive(false);
 		buttonNewGame.SetActive(false);
@@ -120,6 +118,7 @@ public class SplashScreenManager : MonoBehaviour {
 
 		StartCoroutine(shakeImage(background));
 
+		audioSourceExplosion.PlayDelayed(0.5f);
 
 	}
 	
