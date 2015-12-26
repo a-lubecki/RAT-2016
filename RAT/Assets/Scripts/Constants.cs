@@ -42,7 +42,9 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_TITLE = "SplashScreenTitle";
 	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_SUBTITLE = "SplashScreenSubTitle";
 	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_CREDITS = "SplashScreenCredits";
-
+	public static readonly string GAME_OBJECT_NAME_BUTTON_CONTINUE_GAME = "ButtonContinueGame";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_NEW_GAME = "ButtonNewGame";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_CREDITS = "ButtonCredits";
 
 	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
 	public static readonly string GAME_OBJECT_NAME_HUD = "CanvasHUD";
@@ -98,9 +100,8 @@ public class Constants {
 
 	public enum SceneIndex {
 		SCENE_INDEX_SPLASHSCREEN = 0,
-		SCENE_INDEX_MAIN_MENU = 1,
-		SCENE_INDEX_QUOTE = 2,
-		SCENE_INDEX_LEVEL = 3
+		SCENE_INDEX_QUOTE = 1,
+		SCENE_INDEX_LEVEL = 2
 	}
 
 	
