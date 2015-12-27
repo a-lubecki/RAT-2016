@@ -215,7 +215,7 @@
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value>Les portes se sont ouvertes</value>
 	</data>
-	<data name="Quote.AUGUSTE.COMPTE.0" xml:space="preserve">
+	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
 		<value>L’humanité se compose de plus de morts que de vivants.</value>
 	</data>
 	<data name="Quote.GANDHI.0" xml:space="preserve">
@@ -236,7 +236,7 @@
 	<data name="Quote.GANDHI.5" xml:space="preserve">
 		<value>Là où il n’y a le choix qu’entre lâcheté et violence, je conseillerai la violence.</value>
 	</data>
-	<data name="Quote.PIERRE.CURIE.0" xml:space="preserve">
+	<data name="Quote.PIERRE_CURIE.0" xml:space="preserve">
 		<value>L'humanité tirera plus de bien que de mal des découvertes nouvelles.</value>
 	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">

@@ -1,52 +1,77 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class QuoteManager : MonoBehaviour {
 	
-	private static readonly string AUTHOR_GANDHI = "Gandhi";
-	private static readonly string AUTHOR_AUGUSTE_COMPTE = "Auguste Compte";
-	private static readonly string AUTHOR_PIERRE_CURIE = "Pierre Curie";
+	public static bool TEST = false;
 
-	private static readonly string AUTHOR_ALBERT_EINSTEIN = "Albert Einstein";
-	private static readonly string AUTHOR_EDWARD_D_MORRISON = "Edward D. Morrison";
+	private static readonly Dictionary<string, string> authors = new Dictionary<string, string>() {
+		{"GANDHI", "Gandhi"},
+		{"AUGUSTE_COMPTE", "Auguste Compte"},
+		{"PIERRE_CURIE", "Pierre Curie"},
+		{"ALBERT_EINSTEIN", "Albert Einstein"},
+		{"EDWARD_D_MORRISON", "Edward D. Morrison"}
+	};
 
+	private static readonly string[] quoteTrKeys = new string[] {
+		"Quote.AUGUSTE_COMPTE.0",
+		"Quote.GANDHI.0",
+		"Quote.GANDHI.1",
+		"Quote.GANDHI.2",
+		"Quote.GANDHI.3",
+		"Quote.GANDHI.4",
+		"Quote.GANDHI.5",
+		"Quote.PIERRE_CURIE.0"
+	}; 
+
+	
 	public Text textQuote;
 	public Text textAuthor;
 
 
-	private static readonly Quote[] quotes = new Quote[] {
-		new Quote("Quote.AUGUSTE.COMPTE.0", AUTHOR_AUGUSTE_COMPTE),
-		new Quote("Quote.GANDHI.0", AUTHOR_GANDHI),
-		new Quote("Quote.GANDHI.1", AUTHOR_GANDHI),
-		new Quote("Quote.GANDHI.2", AUTHOR_GANDHI),
-		new Quote("Quote.GANDHI.3", AUTHOR_GANDHI),
-		new Quote("Quote.GANDHI.4", AUTHOR_GANDHI),
-		new Quote("Quote.GANDHI.5", AUTHOR_GANDHI),
-		new Quote("Quote.PIERRE.CURIE.0", AUTHOR_PIERRE_CURIE)
-	}; 
+	void Start () {
+				
+		if(TEST && Debug.isDebugBuild) {
+			//test all
+			StartCoroutine(test());
 
-	
-	private class Quote {
-		
-		public readonly string quoteTrKey;
-		public readonly string author;
-		
-		public Quote(string quoteKey, string author) {
-			this.quoteTrKey = quoteKey;
-			this.author = author;
+		} else {
+
+			chooseQuote((int)(UnityEngine.Random.value * quoteTrKeys.Length));
+
+			StartCoroutine(launchLevel());
 		}
+
 	}
 
+	private void chooseQuote(int pos) {
 
-	void Start () {
+		string quoteTrKey = quoteTrKeys[pos];
 
-		Quote quote = quotes[(int)(UnityEngine.Random.value * quotes.Length)];
+		textQuote.text = "\"" + Constants.tr(quoteTrKey) + "\"";
+		
+		string key = getAuthorKey(quoteTrKey);
+		string authorName = null;
 
-		textQuote.text = "\"" + Constants.tr(quote.quoteTrKey) + "\"";
-		textAuthor.text = "- " + quote.author + " -";
+		foreach(KeyValuePair<string, string> entry in authors) {
 
-		StartCoroutine(launchLevel());
+			if(key.Equals(entry.Key)) {
+				authorName = entry.Value;
+				break;
+			}
+		}
+
+		if(authorName != null) {
+			//should never happen
+			textAuthor.text = "- " + authorName + " -";
+		}
+
+	}
+
+	private string getAuthorKey(string quote) {
+		return quote.Split(new string[] {"."}, System.StringSplitOptions.None)[1];
 	}
 
 	private IEnumerator launchLevel() {
@@ -60,6 +85,17 @@ public class QuoteManager : MonoBehaviour {
 			GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
 
 		}
+	}
+
+	private IEnumerator test() {
+
+		for(int i=0 ; i<quoteTrKeys.Length ; i++) {
+
+			chooseQuote(i);
+
+			yield return new WaitForSeconds(3);
+		}
+		
 	}
 
 }

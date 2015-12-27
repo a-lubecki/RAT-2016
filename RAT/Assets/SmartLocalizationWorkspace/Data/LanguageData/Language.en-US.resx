@@ -215,7 +215,10 @@
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Quote.AUGUSTE.COMPTE.0" xml:space="preserve">
+	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.GANDHI.0" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Quote.GANDHI.1" xml:space="preserve">
@@ -233,7 +236,7 @@
 	<data name="Quote.GANDHI.5" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Quote.PIERRE.CURIE.0" xml:space="preserve">
+	<data name="Quote.PIERRE_CURIE.0" xml:space="preserve">
 		<value />
 	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">
@@ -258,9 +261,6 @@
 		<value />
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Quote.GANDHI.0" xml:space="preserve">
 		<value />
 	</data>
 </root>
