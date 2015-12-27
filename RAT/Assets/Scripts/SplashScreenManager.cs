@@ -285,23 +285,19 @@ public class SplashScreenManager : MonoBehaviour {
 		if(AutoFade.Fading) {
 			return;
 		}
-		
-		//load the current level
-		if(!GameSaver.Instance.loadCurrentLevel()) {
-			
-			//if no saved data, load the very first level				
-			GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
-		}
+
+		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_QUOTE), 0.3f, 0.3f, Color.black);
 
 	}
 
 	public void onButtonNewGameClicked() {
+		
+		if(AutoFade.Fading) {
+			return;
+		}
+		
+		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_QUOTE), 0.3f, 0.3f, Color.black);
 
-		//TODO show popup warning
-		//TODO clear data
-
-		//if no saved data, load the very first level				
-		GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
 	}
 
 	public void onButtonCreditsClicked() {

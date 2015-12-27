@@ -140,16 +140,16 @@
 	<data name="BigMessage.PlayerDead" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.CLAWS.Description" xml:space="preserve">
-		<value />
-	</data>
 	<data name="Item.CLAWS" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
+	<data name="Item.CLAWS.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Item.HEAL_DEFAULT" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="ItemSubType.EQUIPMENT_ARMS" xml:space="preserve">
@@ -215,6 +215,27 @@
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Quote.AUGUSTE.COMPTE.0" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.GANDHI.1" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.GANDHI.2" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.GANDHI.3" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.GANDHI.4" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.GANDHI.5" xml:space="preserve">
+		<value>New Value</value>
+	</data>
+	<data name="Quote.PIERRE.CURIE.0" xml:space="preserve">
+		<value>New Value</value>
+	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">
 		<value />
 	</data>
@@ -238,5 +259,8 @@
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
 		<value />
+	</data>
+	<data name="Quote.GANDHI.0" xml:space="preserve">
+		<value>New Value</value>
 	</data>
 </root>

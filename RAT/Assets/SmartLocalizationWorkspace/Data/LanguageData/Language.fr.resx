@@ -140,17 +140,17 @@
 	<data name="BigMessage.PlayerDead" xml:space="preserve">
 		<value>Vous êtes mort</value>
 	</data>
-	<data name="Item.CLAWS.Description" xml:space="preserve">
-		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles ne vous sauveront si vous manquez de munitions.</value>
-	</data>
 	<data name="Item.CLAWS" xml:space="preserve">
 		<value>Griffes</value>
 	</data>
-	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
-		<value>Se concentrer permet de regagner un peu de santé.</value>
+	<data name="Item.CLAWS.Description" xml:space="preserve">
+		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles ne vous sauveront si vous manquez de munitions.</value>
 	</data>
 	<data name="Item.HEAL_DEFAULT" xml:space="preserve">
 		<value>Concentration</value>
+	</data>
+	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
+		<value>Se concentrer permet de regagner un peu de santé.</value>
 	</data>
 	<data name="ItemSubType.EQUIPMENT_ARMS" xml:space="preserve">
 		<value>Bras</value>
@@ -214,6 +214,30 @@
 	</data>
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value>Les portes se sont ouvertes</value>
+	</data>
+	<data name="Quote.AUGUSTE.COMPTE.0" xml:space="preserve">
+		<value>L’humanité se compose de plus de morts que de vivants.</value>
+	</data>
+	<data name="Quote.GANDHI.0" xml:space="preserve">
+		<value>La vie persiste au sein même de la destruction.</value>
+	</data>
+	<data name="Quote.GANDHI.1" xml:space="preserve">
+		<value>On peut juger de la grandeur d'une nation par la façon dont les animaux y sont traités.</value>
+	</data>
+	<data name="Quote.GANDHI.2" xml:space="preserve">
+		<value>Tout ce que tu feras sera dérisoire, mais il est essentiel que tu le fasses.</value>
+	</data>
+	<data name="Quote.GANDHI.3" xml:space="preserve">
+		<value>Il y a assez de tout dans le monde pour satisfaire aux besoins de l'homme, mais pas assez pour assouvir son avidité.</value>
+	</data>
+	<data name="Quote.GANDHI.4" xml:space="preserve">
+		<value>Une vie de sacrifice est le sommet suprême de l'art. Elle est pleine d'une véritable joie.</value>
+	</data>
+	<data name="Quote.GANDHI.5" xml:space="preserve">
+		<value>Là où il n’y a le choix qu’entre lâcheté et violence, je conseillerai la violence.</value>
+	</data>
+	<data name="Quote.PIERRE.CURIE.0" xml:space="preserve">
+		<value>L'humanité tirera plus de bien que de mal des découvertes nouvelles.</value>
 	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">
 		<value>Statut</value>
