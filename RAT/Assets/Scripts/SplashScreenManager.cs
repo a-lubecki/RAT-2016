@@ -22,9 +22,11 @@ public class SplashScreenManager : MonoBehaviour {
 	};
 	
 	public static readonly string GAME_TITLE = "R.A.T.";
-	public static readonly string GAME_SUBTITLE = "Rush\nAnd\nTear";
+	public static readonly string GAME_SUBTITLE = "Rush\nAttack\nTry again";
 
-	public static readonly string GAME_CREDITS = GAME_TITLE + " - 2015/2016 - Aurélien Lubecki - v" + Application.version;
+	public static string getGameCreditsTitle() {
+		return GAME_TITLE + " - " + GAME_SUBTITLE.Replace("\n", " ") + " - 2015/2016 - Aurélien Lubecki - v" + Application.version;
+	}
 	
 	private bool inputsEnabled = false;
 	private bool hasHiddenTitle = false;
@@ -203,7 +205,7 @@ public class SplashScreenManager : MonoBehaviour {
 		
 		title.text = GAME_TITLE;
 		subTitle.text = GAME_SUBTITLE;
-		credits.text = GAME_CREDITS;
+		credits.text = getGameCreditsTitle();
 
 		setAlpha(splatTitle, 0);
 		setAlpha(splatCredits, 0);
