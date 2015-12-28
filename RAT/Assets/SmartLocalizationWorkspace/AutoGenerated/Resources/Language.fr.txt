@@ -134,6 +134,9 @@
 	<data name="AmmoType.MISSILE" xml:space="preserve">
 		<value>Missile</value>
 	</data>
+	<data name="Author.ANONYMOUS" xml:space="preserve">
+		<value>Anonyme</value>
+	</data>
 	<data name="BigMessage.HubActivated" xml:space="preserve">
 		<value>Hub activé</value>
 	</data>
@@ -215,8 +218,44 @@
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value>Les portes se sont ouvertes</value>
 	</data>
+	<data name="Quote.ALBERT_EINSTEIN.0" xml:space="preserve">
+		<value>Il est hélas devenu évident aujourd'hui que notre technologie a dépassé notre humanité.</value>
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.1" xml:space="preserve">
+		<value>La vie est une aventure, elle doit être sans cesse disputée à la mort.</value>
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.2" xml:space="preserve">
+		<value>Le monde ne sera pas détruit par ceux qui font le mal, mais par ceux qui les regardent sans rien faire.</value>
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.3" xml:space="preserve">
+		<value>L'homme et sa sécurité doivent constituer la première préoccupation de toute aventure technologique.</value>
+	</data>
+	<data name="Quote.ALDOUS_HUXLEY.0" xml:space="preserve">
+		<value>Il y a trois sortes d'intelligence : l'intelligence humaine, l'intelligence animale et l'intelligence militaire.</value>
+	</data>
+	<data name="Quote.ANONYMOUS.0" xml:space="preserve">
+		<value>On est toujours le monstre de quelqu'un.</value>
+	</data>
 	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
 		<value>L’humanité se compose de plus de morts que de vivants.</value>
+	</data>
+	<data name="Quote.CLAUDE_JOSEPH_ROUGET_DE_LISLE.0" xml:space="preserve">
+		<value>Mourir pour la patrie C'est le sort le plus beau, le plus digne d'envie !</value>
+	</data>
+	<data name="Quote.DAVID_HOMEL.0" xml:space="preserve">
+		<value>Quand les gens vous prennent pour un monstre, il n'y a qu'une chose à faire : dépasser leurs attentes.</value>
+	</data>
+	<data name="Quote.EDGAR_MORIN.0" xml:space="preserve">
+		<value>Il y a moins de désordre dans la nature que dans l'humanité.</value>
+	</data>
+	<data name="Quote.EDGAR_MORIN.1" xml:space="preserve">
+		<value>Une société s'autoproduit sans cesse parce qu'elle s'autodétruit sans cesse.</value>
+	</data>
+	<data name="Quote.EDWARD_D_MORRISON.0" xml:space="preserve">
+		<value>Si le mal existe en ce monde, il se cache dans le cœur des hommes</value>
+	</data>
+	<data name="Quote.FRIEDRICH_NIETZSCHE.0" xml:space="preserve">
+		<value>Quiconque lutte contre des monstres devrait prendre garde, dans le combat, à ne pas devenir monstre lui-même. Et quant à celui qui scrute le fond de l'abysse, l'abysse le scrute à son tour.</value>
 	</data>
 	<data name="Quote.GANDHI.0" xml:space="preserve">
 		<value>La vie persiste au sein même de la destruction.</value>
@@ -236,8 +275,35 @@
 	<data name="Quote.GANDHI.5" xml:space="preserve">
 		<value>Là où il n’y a le choix qu’entre lâcheté et violence, je conseillerai la violence.</value>
 	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.0" xml:space="preserve">
+		<value>Il est parfois moins admirable d'user de son pouvoir, que de se retenir d'en user.</value>
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.1" xml:space="preserve">
+		<value>Quand vous hésitez entre plusieurs voies, prenez toujours la plus douloureuse.</value>
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.2" xml:space="preserve">
+		<value>Mourir pour une cause ne fait pas que cette cause soit juste.</value>
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.3" xml:space="preserve">
+		<value>Nous aimons, dans les animaux, de pouvoir les tuer légalement. Dans la guerre aussi, nous aimons d'y pouvoir tuer légalement. Bien entendu, les hommes n'avouent jamais cela.</value>
+	</data>
+	<data name="Quote.MICHAEL_CRICHTON.0" xml:space="preserve">
+		<value>Notre imprudence aveugle se joindra à notre puissance technologique pour produire des effets dévastateurs.</value>
+	</data>
+	<data name="Quote.NAPOLEON_BONAPARTE.0" xml:space="preserve">
+		<value>La bonne politique est de faire croire aux peuples qu’ils sont libres.</value>
+	</data>
 	<data name="Quote.PIERRE_CURIE.0" xml:space="preserve">
 		<value>L'humanité tirera plus de bien que de mal des découvertes nouvelles.</value>
+	</data>
+	<data name="Quote.RENE_DUBOS.0" xml:space="preserve">
+		<value>L'un des pires démons de la civilisation technologique est la soif de croissance.</value>
+	</data>
+	<data name="Quote.TIM_WHITE.0" xml:space="preserve">
+		<value>Nous sommes une espèce jeune, un singe technologiquement sophistiqué, bipède doté d'un cerveau, avec un impact planétaire et des aspirations extraterrestres.</value>
+	</data>
+	<data name="Quote.WOODY_ALLEN.0" xml:space="preserve">
+		<value>L'humanité est à un croisement : un chemin mène au désespoir, l'autre à l'extinction totale. Espérons que nous aurons la sagesse de savoir choisir.</value>
 	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">
 		<value>Statut</value>

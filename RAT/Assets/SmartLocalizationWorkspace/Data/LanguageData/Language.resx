@@ -134,6 +134,9 @@
 	<data name="AmmoType.MISSILE" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Author.ANONYMOUS" xml:space="preserve">
+		<value />
+	</data>
 	<data name="BigMessage.HubActivated" xml:space="preserve">
 		<value />
 	</data>
@@ -215,29 +218,89 @@
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Quote.ALBERT_EINSTEIN.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.ALBERT_EINSTEIN.3" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.ALDOUS_HUXLEY.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.ANONYMOUS.0" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
-		<value>New Value</value>
+		<value />
+	</data>
+	<data name="Quote.CLAUDE_JOSEPH_ROUGET_DE_LISLE.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.DAVID_HOMEL.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.EDGAR_MORIN.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.EDWARD_D_MORRISON.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.FRIEDRICH_NIETZSCHE.0" xml:space="preserve">
+		<value />
 	</data>
 	<data name="Quote.GANDHI.0" xml:space="preserve">
-		<value>New Value</value>
+		<value />
 	</data>
 	<data name="Quote.GANDHI.1" xml:space="preserve">
-		<value>New Value</value>
+		<value />
 	</data>
 	<data name="Quote.GANDHI.2" xml:space="preserve">
-		<value>New Value</value>
+		<value />
 	</data>
 	<data name="Quote.GANDHI.3" xml:space="preserve">
-		<value>New Value</value>
+		<value />
 	</data>
 	<data name="Quote.GANDHI.4" xml:space="preserve">
-		<value>New Value</value>
+		<value />
 	</data>
 	<data name="Quote.GANDHI.5" xml:space="preserve">
-		<value>New Value</value>
+		<value />
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.HENRY_DE_MONTHERLANT.3" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.MICHAEL_CRICHTON.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.NAPOLEON_BONAPARTE.0" xml:space="preserve">
+		<value />
 	</data>
 	<data name="Quote.PIERRE_CURIE.0" xml:space="preserve">
-		<value>New Value</value>
+		<value />
+	</data>
+	<data name="Quote.RENE_DUBOS.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.TIM_WHITE.0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.WOODY_ALLEN.0" xml:space="preserve">
+		<value />
 	</data>
 	<data name="SubMenuType.CharacterStatus" xml:space="preserve">
 		<value />
@@ -261,6 +324,9 @@
 		<value />
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Quote.EDGAR_MORIN.1" xml:space="preserve">
 		<value />
 	</data>
 </root>
