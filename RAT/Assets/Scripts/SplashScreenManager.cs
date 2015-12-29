@@ -7,20 +7,7 @@ using UnityEngine.UI;
 using InControl;
 	
 public class SplashScreenManager : MonoBehaviour {
-	
-	private readonly KeyCode[] KEYS_START = new KeyCode[] {
-		KeyCode.Return,
-		KeyCode.KeypadEnter,
-		KeyCode.Space
-	};
-	private readonly string[] BUTTONS_START = new string[] {
-		"Action1",
-		"Action2",
-		"Start", 
-		"Select",
-		"TouchPadTap"//PS4
-	};
-	
+
 	public static readonly string GAME_TITLE = "R.A.T.";
 	public static readonly string GAME_SUBTITLE = "Rush\nAttack\nTry again";
 
@@ -38,9 +25,6 @@ public class SplashScreenManager : MonoBehaviour {
 	public AudioSource backgroundMusicPlayer;
 	public AudioSource audioSourceExplosion;
 
-	private static readonly int MAX_BUTTON_LONG_PRESS_ITERATIONS = 30;	//TODO move
-	private Dictionary<string, int> buttonPressIterations = new Dictionary<string, int>();	//TODO move
-
 	protected void Start() {
 
 		buttonContinueGame.SetActive(false);
@@ -52,18 +36,18 @@ public class SplashScreenManager : MonoBehaviour {
 		StartCoroutine(showMainTitle());
 
 	}
-
 	
-	protected void Update() {
-
+	public void hideSplashScreenTitle() {
+		
 		if(!inputsEnabled) {
 			return;
 		}
 		
-		if(isAnyKeyPressed(KEYS_START, false) || isAnyButtonPressed(BUTTONS_START, false)) {
-			StartCoroutine(showMenuButtons());
+		if(hasHiddenTitle) {
+			return;
 		}
 
+		StartCoroutine(showMenuButtons());
 	}
 
 	private static void setAlpha(Image image, float alpha) {
@@ -305,124 +289,6 @@ public class SplashScreenManager : MonoBehaviour {
 	public void onButtonCreditsClicked() {
 		
 	}
-
-
-	//TODO improve inputs !!!!!
-
-	
-	private bool isKeyPressed(KeyCode key, bool longPress) {
-		
-		/*if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
-			return false;
-		}*/
-		if(longPress) {
-			return Input.GetKey(key);
-		}
-		return Input.GetKeyDown(key);
-	}
-	
-	
-	private bool isAnyKeyPressed(KeyCode[] keys, bool longPress) {
-		
-		foreach (KeyCode k in keys) {
-			if(isKeyPressed(k, longPress)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private bool isAllKeysPressed(KeyCode[] keys, bool longPress) {
-		
-		foreach (KeyCode k in keys) {
-			if(!isKeyPressed(k, longPress)) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
-	private bool isButtonPressed(string inputControlName, bool longPress) {
-		/*
-		foreach(InputControl control in InputManager.ActiveDevice.Controls) {
-			if(control != null && control.IsPressed) {
-				Debug.Log(">>> CMD(" + control.Target + ") Handle(" + control.Handle + 
-				          ") IsPressed(" + control.IsPressed + ") WasPressed(" + control.WasPressed +
-				          ") WasReleased(" + control.WasReleased + ") LastValue(" + control.LastValue + ") Value(" + control.Value +
-				          ") LastState(" + control.LastState + ") State(" + control.State +
-				          ") HasChanged(" + control.HasChanged + ")");
-			}
-		}*/
-		/*
-		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
-			return false;
-		}*/
-		
-		InputControl ic = InputManager.ActiveDevice.GetControlByName(inputControlName);
-		
-		if(!buttonPressIterations.ContainsKey(inputControlName)) {
-			//register button if missing
-			buttonPressIterations.Add(inputControlName, 0);
-		}
-		
-		int iterationsCount = buttonPressIterations[inputControlName];
-		
-		if(!ic.State) {
-			
-			if(!ic.HasChanged) {
-				//not pressing the button
-				return false;
-			}
-			
-			//user has just stopped pressing the button
-			buttonPressIterations[inputControlName] = 0;
-			
-		} else {
-			
-			//user is still pressing the button
-			buttonPressIterations[inputControlName]++;
-		}
-		
-		
-		if(longPress) {
-			//long press only if there were too many iterations
-			return (iterationsCount >= MAX_BUTTON_LONG_PRESS_ITERATIONS);
-		}
-		
-		//check short press
-		
-		if(iterationsCount < MAX_BUTTON_LONG_PRESS_ITERATIONS && !ic.State) {
-			//short press only if the max of iterations was not reached when releasing the button
-			return true;
-		}
-		
-		return false;
-	}
-	
-	private bool isAnyButtonPressed(string[] inputControlNames, bool longPress) {
-		
-		foreach (string name in inputControlNames) {
-			if(isButtonPressed(name, longPress)) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	private bool isAllButtonsPressed(string[] inputControlNames, bool longPress) {
-		
-		foreach (string name in inputControlNames) {
-			if(!isButtonPressed(name, longPress)) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
-
 
 }
 

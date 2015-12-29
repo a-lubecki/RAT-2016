@@ -1,0 +1,19 @@
+using System;
+
+public class InputActionActivate {
+	
+	public override KeyCode[] getDefaultActionKeys() {
+		return new KeyCode[] { KeyCode. };
+	}
+
+	public override string[] getDefaultActionButtons() {
+		return new string[] { "" };
+	}
+	
+	public override void execute() {
+
+
+	}
+
+}
+

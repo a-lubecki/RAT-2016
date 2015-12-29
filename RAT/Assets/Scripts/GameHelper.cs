@@ -121,6 +121,21 @@ public class GameHelper {
 		return component;
 	}
 
+	public SplashScreenManager getSplashScreenManager() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_SPLASHSCREEN_MANAGER);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		SplashScreenManager component = gameObject.GetComponent<SplashScreenManager>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return component;
+	}
+
 	public LevelManager getLevelManager() {
 		
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_LEVEL_MANAGER);
@@ -134,6 +149,21 @@ public class GameHelper {
 		}
 		
 		return component;
+	}
+
+	public InputsManager getInputsManager() {
+		
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_INPUTS_MANAGER);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		InputsManager component = gameObject.GetComponent<InputsManager>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+		
+		return component; 
 	}
 
 	public MessageDisplayer getMessageDisplayer() {

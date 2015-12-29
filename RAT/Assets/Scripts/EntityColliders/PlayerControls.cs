@@ -7,138 +7,8 @@ using InControl;
 
 public class PlayerControls : EntityCollider { 
 
-	// controller buttons mapping : http://www.gallantgames.com/pages/incontrol-standardized-controls
-	private readonly KeyCode[] KEYS_DIRECTION_RIGHT = new KeyCode[] {
-		KeyCode.RightArrow,
-		KeyCode.D
-	};
-	private readonly KeyCode[] KEYS_DIRECTION_LEFT = new KeyCode[] {
-		KeyCode.LeftArrow,
-		KeyCode.Q
-	};
-	private readonly KeyCode[] KEYS_DIRECTION_UP = new KeyCode[] {
-		KeyCode.UpArrow,
-		KeyCode.Z
-	};
-	private readonly KeyCode[] KEYS_DIRECTION_DOWN = new KeyCode[] {
-		KeyCode.DownArrow,
-		KeyCode.S
-	};
-	private readonly KeyCode[] KEYS_ACTION = new KeyCode[] {
-		KeyCode.Return,
-		KeyCode.KeypadEnter
-	};
-	private readonly string[] BUTTONS_ACTION = new string[] {
-		"Action1"
-	};
-	private readonly KeyCode[] KEYS_RUN = new KeyCode[] {//only for keyboard, not controller or mobile
-		KeyCode.RightAlt,
-		KeyCode.LeftControl,
-		KeyCode.RightControl
-	};
-	private readonly string[] BUTTONS_RUN = new string[] {
-		"Action2"
-	};
-	private readonly KeyCode[] KEYS_DASH = new KeyCode[] {
-		KeyCode.Space
-	};
-	private readonly string[] BUTTONS_DASH = new string[] {
-		"Action2"
-	};
-	private readonly KeyCode[] KEYS_RIGHT_ATTACK = new KeyCode[] {
-		KeyCode.Keypad3,
-		KeyCode.P
-	};
-	private readonly string[] BUTTONS_RIGHT_ATTACK = new string[] {
-		"RightBumper",
-		"RightTrigger"
-	};
-	private readonly KeyCode[] KEYS_LEFT_ATTACK = new KeyCode[] {
-		KeyCode.Keypad1,
-		KeyCode.O
-	};
-	private readonly string[] BUTTONS_LEFT_ATTACK = new string[] {
-		"LeftBumper",
-		"LeftTrigger"
-	};
-	private readonly KeyCode[] KEYS_USE_OBJECT = new KeyCode[] {
-		KeyCode.Keypad7,
-		KeyCode.A
-	};
-	private readonly string[] BUTTONS_USE_OBJECT = new string[] {
-		"Action4"
-	};
-	private readonly KeyCode[] KEYS_USE_HEAL = new KeyCode[] {
-		KeyCode.Keypad9,
-		KeyCode.E
-	};
-	private readonly string[] BUTTONS_USE_HEAL = new string[] {
-		"Action3"
-	};
-	
-	private readonly KeyCode[] KEYS_NEXT_LEFT_WEAPON = new KeyCode[] {
-		KeyCode.Keypad4,
-		KeyCode.Alpha1,
-		KeyCode.C
-	};
-	private readonly string[] BUTTONS_NEXT_LEFT_WEAPON = new string[] {
-		"DPadLeft"
-	};
-	private readonly KeyCode[] KEYS_NEXT_RIGHT_WEAPON = new KeyCode[] {
-		KeyCode.Keypad6,
-		KeyCode.Alpha2,
-		KeyCode.V
-	};
-	private readonly string[] BUTTONS_NEXT_RIGHT_WEAPON = new string[] {
-		"DPadRight"
-	};
-	private readonly KeyCode[] KEYS_NEXT_HEAL = new KeyCode[] {
-		KeyCode.Keypad8,
-		KeyCode.Alpha3,
-		KeyCode.R
-	};
-	private readonly string[] BUTTONS_NEXT_HEAL = new string[] {
-		"DPadDown"
-	};
-	private readonly KeyCode[] KEYS_NEXT_OBJECT = new KeyCode[] {
-		KeyCode.Keypad2,
-		KeyCode.Alpha4,
-		KeyCode.F
-	};
-	private readonly string[] BUTTONS_NEXT_OBJECT = new string[] {
-		"DPadUp"
-	};
-
-	private readonly KeyCode[] KEYS_OPEN_MENU = new KeyCode[] {
-		KeyCode.Tab
-	};
-	private readonly string[] BUTTONS_OPEN_MENU = new string[] {
-		"Start", 
-		"Select",
-		"TouchPadTap"//PS4
-	};
-	private readonly KeyCode[] KEYS_PREVIOUS_SUB_MENU = new KeyCode[] {
-		KeyCode.Keypad1,
-		KeyCode.O
-	};
-	private readonly string[] BUTTONS_PREVIOUS_SUB_MENU = new string[] {
-		"LeftBumper",
-		"LeftTrigger"
-	};
-	private readonly KeyCode[] KEYS_NEXT_SUB_MENU = new KeyCode[] {
-		KeyCode.Keypad3,
-		KeyCode.P
-	};
-	private readonly string[] BUTTONS_NEXT_SUB_MENU = new string[] {
-		"RightBumper",
-		"RightTrigger"
-	};
-
 
 	public float MOVE_SPEED = 1;
-	
-	private static readonly int MAX_BUTTON_LONG_PRESS_ITERATIONS = 30;
-	private Dictionary<string, int> buttonPressIterations = new Dictionary<string, int>();
 
 	private bool isPressingAnyDirection = false;
 
@@ -169,110 +39,6 @@ public class PlayerControls : EntityCollider {
 		startRegainingStaminaAfterDelay(1f);
 	}
 
-	protected void Update() {
-
-		if(isPaused) {
-			return;
-		}
-
-		Menu menu = GameHelper.Instance.getMenu();
-		
-		if(menu.isAnimating()) {
-			return;
-		}
-
-
-		if(menu.isOpened()) {
-			
-			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
-
-				menu.closeAny();
-
-			}
-			
-			if(isAnyKeyPressed(KEYS_PREVIOUS_SUB_MENU, false) || isAnyButtonPressed(BUTTONS_PREVIOUS_SUB_MENU, false)) {
-
-				menu.selectPreviousSubMenuType();
-			}
-
-			if(isAnyKeyPressed(KEYS_NEXT_SUB_MENU, false) || isAnyButtonPressed(BUTTONS_NEXT_SUB_MENU, false)) {
-				
-				menu.selectNextSubMenuType();
-			}
-
-
-			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
-				
-				bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
-				if(hasMessage) {
-					//hide current message
-					MessageDisplayer.Instance.displayNextMessage();
-				} else {
-
-					//TODO handle menu actions
-
-				}
-				
-			}
-
-			
-			//TODO handle menu arrows
-
-
-		} else {
-			
-			if(isAnyKeyPressed(KEYS_OPEN_MENU, false) || isAnyButtonPressed(BUTTONS_OPEN_MENU, false)) {
-
-				menu.open(new MenuTypeInventory());
-
-			}
-			
-			if(isAnyKeyPressed(KEYS_ACTION, false) || isAnyButtonPressed(BUTTONS_ACTION, false)) {
-				
-				bool hasMessage = MessageDisplayer.Instance.isShowingMessage();
-				if(hasMessage) {
-					//hide current message
-					MessageDisplayer.Instance.displayNextMessage();
-				} else {
-					//execute current action
-					PlayerActionsManager.Instance.executeShownAction();
-				}
-				
-			}
-			
-			if(isAnyKeyPressed(KEYS_DASH, false) || isAnyButtonPressed(BUTTONS_DASH, false)) {
-				
-				Player player = GameHelper.Instance.getPlayer();
-				
-				if(player.stamina > 0) {
-					updateState(PlayerState.DASH);
-				}
-
-			}
-			
-			if(isAnyKeyPressed(KEYS_RIGHT_ATTACK, false) || isAnyButtonPressed(BUTTONS_RIGHT_ATTACK, false)) {
-
-				Player player = GameHelper.Instance.getPlayer();
-				
-				if(player.stamina > 0) {
-					updateState(PlayerState.SHORT_ATTACK);
-				}
-
-			}
-			
-			if(isAnyKeyPressed(KEYS_LEFT_ATTACK, false) || isAnyButtonPressed(BUTTONS_LEFT_ATTACK, false)) {
-				
-				Player player = GameHelper.Instance.getPlayer();
-				
-				if(player.stamina > 0) {
-					updateState(PlayerState.SHORT_ATTACK);
-				}
-				
-			}
-		
-		}
-
-	}
 	
 	protected void OnDisable() {
 
@@ -286,76 +52,24 @@ public class PlayerControls : EntityCollider {
 			return new Vector2();
 		}
 
-		float angleDegrees = 0;
-		float analogicFactor = 1;
+		InputsManager inputsManager = GameHelper.Instance.getInputsManager();
+
+		float angleDegrees = inputsManager.inputActionPlayerMove.angleDegrees;
+		float analogicFactor = inputsManager.inputActionPlayerMove.analogicFactor;
 		bool hasStartedRunning = false;
 		
 		isPressingAnyDirection = false;
 
+
 		// analogic directions
-		if(!isPressingAnyDirection) {
-			
-			InputDevice activeDevice = InputManager.ActiveDevice;
+		if(analogicFactor > 0) {
 
-			float dx = - activeDevice.LeftStickX.Value;
-			float dy = activeDevice.LeftStickY.Value;
+			isPressingAnyDirection = true;
 
-			if(dx > 1) {
-				dx = 1;
+			if(inputsManager.inputActionPlayerRun.isRunning) {
+				startRunningAfterDelay(0.4f);
+				hasStartedRunning = true;
 			}
-			if(dy > 1) {
-				dy = 1;
-			}
-
-			if(dx != 0 || dy != 0) {
-				
-				isPressingAnyDirection = true;
-
-				analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
-				angleDegrees = vectorToAngle(dx, dy) + 90;
-				
-				if(isAnyButtonPressed(BUTTONS_RUN, true)) {
-					startRunningAfterDelay(0.4f);
-					hasStartedRunning = true;
-				}/* else if(analogicFactor >= 0.99) {
-					startRunningAfterDelay(2f);
-					hasStartedRunning = true;
-				}*/
-			}
-		}
-
-		//keyboard
-		if(!isPressingAnyDirection) {
-
-			int dx = 0;
-			int dy = 0;
-
-			if(isAnyKeyPressed(KEYS_DIRECTION_RIGHT, true)) {
-				dx += -1;
-			}
-			if(isAnyKeyPressed(KEYS_DIRECTION_LEFT, true)) {
-				dx += 1;
-			}
-
-			if(isAnyKeyPressed(KEYS_DIRECTION_UP, true)) {
-				dy += 1;
-			}
-			if(isAnyKeyPressed(KEYS_DIRECTION_DOWN, true)) {
-				dy += -1;
-			}
-
-			if(dx != 0 || dy != 0) {
-
-				isPressingAnyDirection = true;
-
-				angleDegrees = vectorToAngle(dx, dy) + 90;
-
-				if(isAnyKeyPressed(KEYS_RUN, true)) {
-					startRunningAfterDelay(0.4f);
-					hasStartedRunning = true;
-				}
-			}
-
 		}
 
 
@@ -389,119 +103,34 @@ public class PlayerControls : EntityCollider {
 		return new Vector2(x, y);
 
 	}
-	
-	
-	private bool isKeyPressed(KeyCode key, bool longPress) {
 
-		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
-			return false;
-		}
-		if(longPress) {
-			return Input.GetKey(key);
-		}
-		return Input.GetKeyDown(key);
-	}
+	public void tryDash() {
 
-
-	private bool isAnyKeyPressed(KeyCode[] keys, bool longPress) {
-
-		foreach (KeyCode k in keys) {
-			if(isKeyPressed(k, longPress)) {
-				return true;
-			}
+		Player player = GameHelper.Instance.getPlayer();
+		if(player.stamina > 0) {
+			updateState(PlayerState.DASH);
 		}
 
-		return false;
 	}
 	
-	private bool isAllKeysPressed(KeyCode[] keys, bool longPress) {
+	public void tryLeftAttack() {
 		
-		foreach (KeyCode k in keys) {
-			if(!isKeyPressed(k, longPress)) {
-				return false;
-			}
-		}
+		Player player = GameHelper.Instance.getPlayer();
 		
-		return true;
-	}
-
-	private bool isButtonPressed(string inputControlName, bool longPress) {
-		/*
-		foreach(InputControl control in InputManager.ActiveDevice.Controls) {
-			if(control != null && control.IsPressed) {
-				Debug.Log(">>> CMD(" + control.Target + ") Handle(" + control.Handle + 
-				          ") IsPressed(" + control.IsPressed + ") WasPressed(" + control.WasPressed +
-				          ") WasReleased(" + control.WasReleased + ") LastValue(" + control.LastValue + ") Value(" + control.Value +
-				          ") LastState(" + control.LastState + ") State(" + control.State +
-				          ") HasChanged(" + control.HasChanged + ")");
-			}
-		}*/
-
-		if(!isControlsEnabled || !isControlsEnabledWhileAnimating) {
-			return false;
+		if(player.stamina > 0) {
+			updateState(PlayerState.SHORT_ATTACK);
 		}
 
-		InputControl ic = InputManager.ActiveDevice.GetControlByName(inputControlName);
-			
-		if(!buttonPressIterations.ContainsKey(inputControlName)) {
-			//register button if missing
-			buttonPressIterations.Add(inputControlName, 0);
-		}
-		
-		int iterationsCount = buttonPressIterations[inputControlName];
-
-		if(!ic.State) {
-
-			if(!ic.HasChanged) {
-				//not pressing the button
-				return false;
-			}
-
-			//user has just stopped pressing the button
-			buttonPressIterations[inputControlName] = 0;
-
-		} else {
-
-			//user is still pressing the button
-			buttonPressIterations[inputControlName]++;
-		}
-
-		
-		if(longPress) {
-			//long press only if there were too many iterations
-			return (iterationsCount >= MAX_BUTTON_LONG_PRESS_ITERATIONS);
-		}
-
-		//check short press
-
-		if(iterationsCount < MAX_BUTTON_LONG_PRESS_ITERATIONS && !ic.State) {
-			//short press only if the max of iterations was not reached when releasing the button
-			return true;
-		}
-
-		return false;
-	}
-
-	private bool isAnyButtonPressed(string[] inputControlNames, bool longPress) {
-		
-		foreach (string name in inputControlNames) {
-			if(isButtonPressed(name, longPress)) {
-				return true;
-			}
-		}
-		
-		return false;
 	}
 	
-	private bool isAllButtonsPressed(string[] inputControlNames, bool longPress) {
+	public void tryRightAttack() {
+
+		Player player = GameHelper.Instance.getPlayer();
 		
-		foreach (string name in inputControlNames) {
-			if(!isButtonPressed(name, longPress)) {
-				return false;
-			}
+		if(player.stamina > 0) {
+			updateState(PlayerState.SHORT_ATTACK);
 		}
-		
-		return true;
+
 	}
 	
 	protected override CharacterAction getCurrentCharacterAction() {
@@ -654,7 +283,7 @@ public class PlayerControls : EntityCollider {
 		
 		Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
 		
-		Vector2 newForce = angleToVector(angle, force);
+		Vector2 newForce = Constants.angleToVector(angle, force);
 		
 		//update transform with int vector to move with the grid
 		rigidBody.AddForce(

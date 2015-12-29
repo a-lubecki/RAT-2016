@@ -385,4 +385,34 @@ public class Menu : MonoBehaviour {
 
 	}
 
+
+	public int getSelectionLevel() {
+		//it's 0 by default, if an item is selected the level is 1, if a subitem is selected the level is 2, etc
+		return 0;
+	}
+	
+	public void validate() {
+		//TODO
+	}
+	
+	public void cancel() {
+		//TODO
+	}
+
+	public void navigateUp() {
+		//TODO
+	}
+	
+	public void navigateDown() {
+		//TODO
+	}
+	
+	public void navigateRight() {
+		//TODO
+	}
+	
+	public void navigateLeft() {
+		//TODO
+	}
+
 }

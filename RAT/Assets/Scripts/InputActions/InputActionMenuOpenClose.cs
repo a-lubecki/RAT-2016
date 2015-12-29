@@ -1,0 +1,34 @@
+using System;
+using UnityEngine;
+
+public class InputActionMenuOpenClose : AbstractInputAction {
+	
+	public override KeyCode[] getDefaultActionKeys() {
+		return new KeyCode[] { 
+			KeyCode.Tab
+		};
+	}
+
+	public override string[] getDefaultActionButtons() {
+		return new string[] {
+			"Start", 
+			"Select",
+			"TouchPadTap"//PS4
+		};
+	}
+	
+	public override bool execute() {
+
+		Menu menu = GameHelper.Instance.getMenu();
+
+		if(menu.isOpened()) {
+			menu.closeAny();
+		} else {
+			menu.open(new MenuTypeInventory());
+		}
+
+		return true;
+	}
+
+}
+

@@ -1,7 +1,8 @@
 using System;
-using SmartLocalization;
 using System.Collections;
 using System.Collections.Generic;
+using SmartLocalization;
+using UnityEngine;
 
 
 public class Constants {
@@ -41,13 +42,17 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_BUTTON_NEW_GAME = "ButtonNewGame";
 	public static readonly string GAME_OBJECT_NAME_BUTTON_CREDITS = "ButtonCredits";
 
+	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_MANAGER = "SplashScreenManager";
+	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
+	public static readonly string GAME_OBJECT_NAME_INPUTS_MANAGER = "InputsManager";
+
 	public static readonly string GAME_OBJECT_NAME_MAIN_CAMERA = "MainCamera";
 	public static readonly string GAME_OBJECT_NAME_HUD = "CanvasHUD";
 	public static readonly string GAME_OBJECT_NAME_HUD_HEALTH_BAR = "HUDBarHealth";
 	public static readonly string GAME_OBJECT_NAME_HUD_STAMINA_BAR = "HUDBarStamina";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_COLLIDER = "PlayerCollider";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
-	public static readonly string GAME_OBJECT_NAME_LEVEL_MANAGER = "LevelManager";
+
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
 	public static readonly string GAME_OBJECT_NAME_GROUND = "PrefabTileGround";
 	public static readonly string GAME_OBJECT_NAME_WALL = "PrefabTileWall";
@@ -97,6 +102,22 @@ public class Constants {
 		SCENE_INDEX_SPLASHSCREEN = 0,
 		SCENE_INDEX_QUOTE = 1,
 		SCENE_INDEX_LEVEL = 2
+	}
+	
+	public static float vectorToAngle(float x, float y) {
+		
+		if(y == 0) {
+			return (x > 0) ? 90 : -90;
+		}
+		
+		return Mathf.Atan2(x, y) * Mathf.Rad2Deg;
+	}
+	
+	public static Vector2 angleToVector(float angleDegrees, int force) {
+		
+		float angleRad = angleDegrees * Mathf.Deg2Rad;
+		
+		return new Vector2(Mathf.Sin(angleRad) * force, Mathf.Cos(angleRad) * force);
 	}
 
 	

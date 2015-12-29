@@ -12,10 +12,8 @@ public abstract class EntityCollider : MonoBehaviour {
 	public bool isRunning { get; protected set; }
 	private Coroutine coroutineRun;
 	
-	protected bool isControlsEnabled { get; private set; }
-	protected bool isControlsEnabledWhileAnimating { get; private set; }
-
-	protected bool isPaused { get; private set; }
+	public bool isControlsEnabled { get; private set; }
+	public bool isControlsEnabledWhileAnimating { get; private set; }
 
 	public BaseCharacterState currentState { get; private set; }
 	public CharacterDirection currentDirection { get; private set; }
@@ -71,7 +69,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 	protected virtual void FixedUpdate() {
 
-		if(isPaused) {
+		if(InputsManager.Instance.isPaused) {
 			return;
 		}
 
@@ -87,7 +85,7 @@ public abstract class EntityCollider : MonoBehaviour {
 
 		if(isMoving) {
 
-			setAngleDegrees(vectorToAngle(newVector.x, newVector.y));
+			setAngleDegrees(Constants.vectorToAngle(newVector.x, newVector.y));
 
 			Rigidbody2D rigidBody = GetComponent<Rigidbody2D>();
 
@@ -240,29 +238,8 @@ public abstract class EntityCollider : MonoBehaviour {
 		return 180;
 	}
 
-		
-	protected void OnApplicationFocus(bool focusStatus) {
-		this.isPaused = !focusStatus;
-	}
-
 
 	protected abstract Vector2 getNewMoveVector();
-
-	public static float vectorToAngle(float x, float y) {
-		
-		if(y == 0) {
-			return (x > 0) ? 90 : -90;
-		}
-		
-		return Mathf.Atan2(x, y) * Mathf.Rad2Deg;
-	}
-
-	public static Vector2 angleToVector(float angleDegrees, int force) {
-
-		float angleRad = angleDegrees * Mathf.Deg2Rad;
-
-		return new Vector2(Mathf.Sin(angleRad) * force, Mathf.Cos(angleRad) * force);
-	}
 
 	protected void changeState(BaseCharacterState state) {
 		
