@@ -248,6 +248,9 @@
 	<data name="Quote.EDGAR_MORIN.0" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Quote.EDGAR_MORIN.1" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Quote.EDWARD_D_MORRISON.0" xml:space="preserve">
 		<value />
 	</data>
@@ -326,7 +329,7 @@
 	<data name="SubMenuType.Teleport" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Quote.EDGAR_MORIN.1" xml:space="preserve">
+	<data name="Quote.BRUCE_LEE.0" xml:space="preserve">
 		<value />
 	</data>
 </root>

@@ -239,6 +239,9 @@
 	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
 		<value>L’humanité se compose de plus de morts que de vivants.</value>
 	</data>
+	<data name="Quote.BRUCE_LEE.0" xml:space="preserve">
+		<value>Ne priez pas pour une vie facile, priez pour avoir la force d’endurer la difficulté.</value>
+	</data>
 	<data name="Quote.CLAUDE_JOSEPH_ROUGET_DE_LISLE.0" xml:space="preserve">
 		<value>Mourir pour la patrie C'est le sort le plus beau, le plus digne d'envie !</value>
 	</data>
