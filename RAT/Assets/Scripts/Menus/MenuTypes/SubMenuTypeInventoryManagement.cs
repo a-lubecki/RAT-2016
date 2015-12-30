@@ -1,8 +1,8 @@
 using System;
 
-public class SubMenuTypeInventoryManagment : AbstractSubMenuType {
+public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 
-	public SubMenuTypeInventoryManagment() : base("InventoryManagment") {
+	public SubMenuTypeInventoryManagement() : base("InventoryManagement") {
 
 	}
 	

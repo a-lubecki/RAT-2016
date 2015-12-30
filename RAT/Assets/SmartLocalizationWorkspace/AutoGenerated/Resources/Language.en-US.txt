@@ -239,6 +239,9 @@
 	<data name="Quote.AUGUSTE_COMPTE.0" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Quote.BRUCE_LEE.0" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Quote.CLAUDE_JOSEPH_ROUGET_DE_LISLE.0" xml:space="preserve">
 		<value />
 	</data>
@@ -311,7 +314,7 @@
 	<data name="SubMenuType.GameOptions" xml:space="preserve">
 		<value />
 	</data>
-	<data name="SubMenuType.InventoryManagment" xml:space="preserve">
+	<data name="SubMenuType.InventoryManagement" xml:space="preserve">
 		<value />
 	</data>
 	<data name="SubMenuType.ItemsChest" xml:space="preserve">
@@ -327,9 +330,6 @@
 		<value />
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Quote.BRUCE_LEE.0" xml:space="preserve">
 		<value />
 	</data>
 </root>

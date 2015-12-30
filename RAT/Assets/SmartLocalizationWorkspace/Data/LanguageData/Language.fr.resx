@@ -314,7 +314,7 @@
 	<data name="SubMenuType.GameOptions" xml:space="preserve">
 		<value>Options</value>
 	</data>
-	<data name="SubMenuType.InventoryManagment" xml:space="preserve">
+	<data name="SubMenuType.InventoryManagement" xml:space="preserve">
 		<value>Inventaire</value>
 	</data>
 	<data name="SubMenuType.ItemsChest" xml:space="preserve">
