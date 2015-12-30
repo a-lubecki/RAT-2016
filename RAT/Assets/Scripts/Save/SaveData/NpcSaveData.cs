@@ -11,7 +11,7 @@ class NpcSaveData {
 	
 	private int currentLife;
 	
-	public NpcSaveData(Npc npc, AIControls aiControls) {
+	public NpcSaveData(Npc npc, NpcCollider aiControls) {
 		
 		if(npc == null) {
 			throw new System.ArgumentException();
@@ -29,7 +29,7 @@ class NpcSaveData {
 		currentLife = npc.life;
 	}
 	
-	public void assign(Npc npc, AIControls aiControls) {
+	public void assign(Npc npc, NpcCollider aiControls) {
 		
 		if(npc == null) {
 			throw new System.ArgumentException();

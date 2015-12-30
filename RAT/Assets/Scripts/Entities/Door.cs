@@ -249,7 +249,7 @@ public class Door : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		PlayerControls playerControls = GameHelper.Instance.getPlayerControls();
+		PlayerCollider playerControls = GameHelper.Instance.getPlayerControls();
 		
 		playerControls.disableControls();
 		getTriggerCollider().enabled = false;

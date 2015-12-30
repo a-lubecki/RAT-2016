@@ -50,7 +50,7 @@ public class InputActionPlayerMove : AbstractInputAction {
 
 	public override bool isActionDone() {
 		
-		PlayerControls playerController = GameHelper.Instance.getPlayerControls();
+		PlayerCollider playerController = GameHelper.Instance.getPlayerControls();
 		if(!playerController.isControlsEnabled || !playerController.isControlsEnabledWhileAnimating) {
 			return false;
 		}

@@ -186,7 +186,7 @@ public class GameSaver {
 		
 		gameSaveData.playerSaveData = new PlayerSaveData(
 			playerGameObject.GetComponent<Player>(),
-			playerGameObject.GetComponent<PlayerControls>());
+			playerGameObject.GetComponent<PlayerCollider>());
 	}
 	
 	public bool loadPlayer() {
@@ -199,7 +199,7 @@ public class GameSaver {
 		
 		gameSaveData.playerSaveData.assign(
 			playerGameObject.GetComponent<Player>(),
-			playerGameObject.GetComponent<PlayerControls>());
+			playerGameObject.GetComponent<PlayerCollider>());
 
 		return true;
 	}

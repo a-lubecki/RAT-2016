@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class AIControls : EntityCollider { 
+public class NpcCollider : EntityCollider { 
 
 	public float moveSpeed = 1;
 

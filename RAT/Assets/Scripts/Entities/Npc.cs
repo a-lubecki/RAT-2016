@@ -8,8 +8,8 @@ public class Npc : Character {
 	private EntityRenderer entityRenderer;
 	private NpcBar npcBar;
 
-	public AIControls getAIControls() {
-		return (AIControls) entityRenderer.entityCollider;
+	public NpcCollider getAIControls() {
+		return (NpcCollider) entityRenderer.entityCollider;
 	}
 
 	public void init(NodeElementNpc nodeElementNpc, EntityRenderer entityRenderer, NpcBar npcBar) {

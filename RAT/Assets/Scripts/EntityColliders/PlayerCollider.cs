@@ -5,7 +5,7 @@ using Level;
 using InControl;
 
 
-public class PlayerControls : EntityCollider { 
+public class PlayerCollider : EntityCollider { 
 
 
 	public float MOVE_SPEED = 1;

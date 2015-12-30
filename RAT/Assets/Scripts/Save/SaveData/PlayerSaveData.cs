@@ -11,7 +11,7 @@ class PlayerSaveData {
 	private int currentStamina;
 	private int currentXp;
 
-	public PlayerSaveData(Player player, PlayerControls playerControls) {
+	public PlayerSaveData(Player player, PlayerCollider playerControls) {
 		
 		if(player == null) {
 			throw new System.ArgumentException();
@@ -29,7 +29,7 @@ class PlayerSaveData {
 		currentXp = player.xp;
 	}
 	
-	public void assign(Player player, PlayerControls playerControls) {
+	public void assign(Player player, PlayerCollider playerControls) {
 		
 		if(player == null) {
 			throw new System.ArgumentException();

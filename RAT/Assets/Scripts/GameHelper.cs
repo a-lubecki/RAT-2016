@@ -111,9 +111,9 @@ public class GameHelper {
 		return component;
 	}
 
-	public PlayerControls getPlayerControls() {
+	public PlayerCollider getPlayerControls() {
 
-		PlayerControls component = getPlayerGameObject().GetComponent<PlayerControls>();
+		PlayerCollider component = getPlayerGameObject().GetComponent<PlayerCollider>();
 		if(component == null) {
 			throw new System.InvalidOperationException();
 		}

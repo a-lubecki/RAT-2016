@@ -355,7 +355,7 @@ public class LevelManager : MonoBehaviour {
 
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
-		PlayerControls playerControls = playerGameObject.GetComponent<PlayerControls>();
+		PlayerCollider playerControls = playerGameObject.GetComponent<PlayerCollider>();
 		playerControls.setInitialPosition(nodePosition, nodeDirection);
 
 	}
