@@ -3,7 +3,37 @@ using System.Collections;
 using System.Collections.ObjectModel;
 
 public class PlayerRenderer : CharacterRenderer {
+	
+	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
 
+
+	private Player getPlayer() {
+		return (Player) character;
+	}
+
+	protected override void FixedUpdate() {
+
+		base.FixedUpdate();
+
+		Player player = getPlayer();
+
+		//update health bar
+		HUDBar healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
+		
+		if(healthBar != null) {
+			healthBar.setBarSize(player.maxLife / (float) MAX_PLAYER_VALUE_FOR_BARS);
+			healthBar.setValues(player.life, player.maxLife);
+		}
+		
+		//update stamina bar
+		HUDBar staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
+		
+		if(staminaBar != null) {
+			staminaBar.setBarSize(player.maxStamina / (float) MAX_PLAYER_VALUE_FOR_BARS);
+			staminaBar.setValues(player.stamina, player.maxStamina);
+		}
+
+	}
 
 	protected override CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState) {
 

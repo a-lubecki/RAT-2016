@@ -10,11 +10,15 @@ public abstract class CharacterRenderer : MonoBehaviour {
 
 	private Coroutine coroutineUpdateSprite;
 
-	void FixedUpdate () {
+	protected virtual void FixedUpdate () {
 	
 		if(character == null) {
 			throw new System.InvalidOperationException();
 		}
+
+		string sortingLayerName = character.isDead() ? Constants.SORTING_LAYER_NAME_OBJECTS : Constants.SORTING_LAYER_NAME_CHARACTERS;
+		GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
+
 
 		transform.position = snapToGrid(character.transform.position);
 

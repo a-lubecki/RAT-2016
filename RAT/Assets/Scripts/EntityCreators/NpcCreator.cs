@@ -33,14 +33,13 @@ public class NpcCreator : BaseEntityCreator {
 		GameObject gameObjectRenderer = new NpcRendererCreator().createNewGameObject(nodeElement);
 		
 		Npc npc = gameObjectCollider.GetComponent<Npc>();
-		CharacterRenderer npcRenderer = gameObjectRenderer.GetComponent<CharacterRenderer>();
-		npcRenderer.character = npc;
-		npc.characterRenderer = npcRenderer;
+		DefaultNpcRenderer npcRenderer = gameObjectRenderer.GetComponent<DefaultNpcRenderer>();
 
 		GameObject gameObjectNpcBar = new NpcBarCreator().createNewGameObject(nodeElement);
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
-		npc.init(nodeElement, npcRenderer, npcBar);
+		npcRenderer.init(npc, npcBar);
+		npc.init(nodeElement, npcRenderer);
 
 		return gameObjectCollider;
 	}

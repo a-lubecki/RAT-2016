@@ -12,8 +12,16 @@ public class Player : Character {
 	public static readonly int STAMINA_CONSUMPTION_SHORT_ATTACK = 30;
 	public static readonly int STAMINA_CONSUMPTION_HEAVY_ATTACK = 60;
 
-	private static readonly int MAX_PLAYER_VALUE_FOR_BARS = 1500;
+	public static readonly float BASE_MOVE_SPEED = 100f;
+
+	private float moveSpeed = BASE_MOVE_SPEED;
 	
+	private bool isPressingAnyDirection = false;
+	
+	private bool isRegainingStamina = false;
+	private Coroutine coroutineRegainingStamina;
+
+
 	private int _skillPointHealth;
 	public int skillPointHealth { 
 		get {
@@ -53,7 +61,6 @@ public class Player : Character {
 			} else {
 				_maxStamina = value;
 			}
-			updateViews();
 		}
 	}
 
@@ -70,7 +77,6 @@ public class Player : Character {
 			} else {
 				_stamina = value;
 			}
-			updateViews();
 		}
 	}
 	
@@ -131,34 +137,6 @@ public class Player : Character {
 		xp += newXp;
 		GameHelper.Instance.getXpDisplayManager().earnXp(lastXp, xp - lastXp);
 	}
-	
-	protected override void updateViews() {
-
-		//update health bar
-		HUDBar healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
-		
-		if(healthBar != null) {
-			healthBar.setBarSize(maxLife / (float) MAX_PLAYER_VALUE_FOR_BARS);
-			healthBar.setValues(life, maxLife);
-		}
-
-		//update stamina bar
-		HUDBar staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
-		
-		if(staminaBar != null) {
-			staminaBar.setBarSize(maxStamina / (float) MAX_PLAYER_VALUE_FOR_BARS);
-			staminaBar.setValues(stamina, maxStamina);
-		}
-	}
-
-	protected override void respawn() {
-
-		base.respawn();
-		
-		//set as a character
-		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
-
-	}
 
 	protected override void die() {
 
@@ -175,10 +153,6 @@ public class Player : Character {
 		base.setAsDead();
 
 		stamina = 0;
-
-		//set as an object
-		GameHelper.Instance.getPlayerRenderer().gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-
 	}
 
 	IEnumerator processRespawn() {
@@ -196,16 +170,6 @@ public class Player : Character {
 	}
 
 
-
-	
-	public static readonly float BASE_MOVE_SPEED = 100f;
-	private float moveSpeed = BASE_MOVE_SPEED;
-	
-	private bool isPressingAnyDirection = false;
-	
-	private bool isRegainingStamina = false;
-	private Coroutine coroutineRegainingStamina;
-	
 	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
 		
 		if(nodePosition != null) {
@@ -569,7 +533,7 @@ public class Player : Character {
 			if(!npc.isDead()) {
 				//TODO TEST remove player life
 				Player player = GameHelper.Instance.getPlayer();
-				player.takeDamages(1);
+				player.takeDamages(10);
 			}
 			
 		}

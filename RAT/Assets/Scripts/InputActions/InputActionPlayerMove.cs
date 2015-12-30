@@ -22,22 +22,8 @@ public class InputActionPlayerMove : AbstractInputAction {
 	};
 
 
-	private float _angleDegrees;
-	public float angleDegrees {
-		get {
-			return _angleDegrees;
-		}
-	}
-
-	private float _analogicFactor;
-	public float analogicFactor {
-		get {
-			return _analogicFactor;
-		}
-		private set {
-			_analogicFactor = value;
-		}
-	}
+	public float angleDegrees { get; private set; }
+	public float analogicFactor { get; private set; }
 
 	public override KeyCode[] getDefaultActionKeys() {
 		return null;
@@ -55,8 +41,8 @@ public class InputActionPlayerMove : AbstractInputAction {
 			return false;
 		}
 
-		_analogicFactor = 0;
-		_angleDegrees = 0;
+		analogicFactor = 0;
+		angleDegrees = 0;
 
 		
 		// analogic directions
@@ -73,13 +59,13 @@ public class InputActionPlayerMove : AbstractInputAction {
 		}
 		
 		if(dx != 0 || dy != 0) {
-			_analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
-			_angleDegrees = Constants.vectorToAngle(dx, dy) + 90;
+			analogicFactor = Mathf.Sqrt(dx*dx + dy*dy);
+			angleDegrees = Constants.vectorToAngle(dx, dy) + 90;
 		}
 
 
 		//keyboard
-		if(_analogicFactor <= 0) {
+		if(analogicFactor <= 0) {
 			
 			if(isAnyKeyPressed(KEYS_DIRECTION_RIGHT, true)) {
 				dx += -1;
@@ -96,13 +82,13 @@ public class InputActionPlayerMove : AbstractInputAction {
 			}
 			
 			if(dx != 0 || dy != 0) {
-				_analogicFactor = 1;
-				_angleDegrees = Constants.vectorToAngle(dx, dy) + 90;
+				analogicFactor = 1;
+				angleDegrees = Constants.vectorToAngle(dx, dy) + 90;
 			}
 
 		}
 		
-		return (_analogicFactor > 0);
+		return (analogicFactor > 0);
 	}
 
 	public override bool execute() {

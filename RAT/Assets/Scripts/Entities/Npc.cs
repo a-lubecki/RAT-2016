@@ -5,9 +5,8 @@ using Level;
 public class Npc : Character {
 
 	public NodeElementNpc nodeElementNpc { get; private set; }
-	private NpcBar npcBar;
 
-	public void init(NodeElementNpc nodeElementNpc, CharacterRenderer characterRenderer, NpcBar npcBar) {
+	public void init(NodeElementNpc nodeElementNpc, CharacterRenderer characterRenderer) {
 
 		if(nodeElementNpc == null) {
 			throw new System.ArgumentException();
@@ -18,7 +17,6 @@ public class Npc : Character {
 
 		this.nodeElementNpc = nodeElementNpc;
 		this.characterRenderer = characterRenderer;
-		this.npcBar = npcBar;
 
 		reinitLife();
 	}
@@ -33,7 +31,6 @@ public class Npc : Character {
 			respawn();
 		}
 
-		updateViews();
 	}
 	
 	public void reinitLifeAndPosition() {
@@ -52,34 +49,6 @@ public class Npc : Character {
 		this.life = 25;//TODO this.life = maxLife;
 
 		respawn();
-
-		updateViews();
-	}
-
-	void Update() {
-
-		//set the bar over the character
-		if(npcBar != null && npcBar.enabled) {
-			Vector2 pos = characterRenderer.transform.position;
-			pos.y = (int) (pos.y + Constants.TILE_SIZE * 0.6f);
-			npcBar.transform.position = pos;
-		}
-	}
-	
-	protected override void updateViews() {
-		
-		if(npcBar != null) {
-			npcBar.setValues(life, maxLife);
-		}
-	}
-	
-	protected override void respawn() {
-		
-		base.respawn();
-		
-		//set as a character
-		characterRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
-		
 	}
 
 	protected override void die() {
@@ -87,21 +56,8 @@ public class Npc : Character {
 
 		GameHelper.Instance.getPlayer().earnXp(500);//TODO test
 	}
-	
-	protected override void setAsDead() {
-		base.setAsDead();
-
-		//set as an object
-		characterRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
-
-	}
 
 
-
-
-
-
-	
 	protected override Vector2 getNewMoveVector() {
 		
 		return new Vector2(0, 0);//TODO
@@ -137,7 +93,7 @@ public class Npc : Character {
 			
 			if(!player.isDead()) {
 				//TODO TEST remove player life
-				gameObject.GetComponent<Npc>().takeDamages(10);
+				gameObject.GetComponent<Npc>().takeDamages(100);
 			}
 			
 		}

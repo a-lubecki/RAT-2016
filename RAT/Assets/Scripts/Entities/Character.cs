@@ -4,6 +4,23 @@ using Level;
 
 public abstract class Character : MonoBehaviour {
 	
+	public CharacterRenderer characterRenderer;
+	
+	public float angleDegrees { get; protected set; }
+	
+	public bool isMoving { get; private set; }
+	public bool isRunning { get; protected set; }
+	private Coroutine coroutineRun;
+	
+	public bool isControlsEnabled { get; private set; }
+	public bool isControlsEnabledWhileAnimating { get; private set; }
+	
+	public BaseCharacterState currentState { get; private set; }
+	public CharacterDirection currentDirection { get; private set; }
+	
+	private Coroutine coroutineStateAnimation;
+	
+
 	private int _maxLife;
 	public int maxLife { 
 		get {
@@ -15,7 +32,6 @@ public abstract class Character : MonoBehaviour {
 			} else {
 				_maxLife = value;
 			}
-			updateViews();
 		}
 	}
 	
@@ -32,7 +48,6 @@ public abstract class Character : MonoBehaviour {
 			} else {
 				_life = value;
 			}
-			updateViews();
 		}
 	}
 
@@ -100,31 +115,8 @@ public abstract class Character : MonoBehaviour {
 			collider.enabled = false;
 		}
 	}
-	
-	protected abstract void updateViews();
 
 
-
-
-
-	
-	public CharacterRenderer characterRenderer;
-	
-	public float angleDegrees { get; protected set; }
-	
-	public bool isMoving { get; private set; }
-	public bool isRunning { get; protected set; }
-	private Coroutine coroutineRun;
-	
-	public bool isControlsEnabled { get; private set; }
-	public bool isControlsEnabledWhileAnimating { get; private set; }
-	
-	public BaseCharacterState currentState { get; private set; }
-	public CharacterDirection currentDirection { get; private set; }
-	
-	private Coroutine coroutineStateAnimation;
-	
-	
 	protected virtual void Start() {
 		
 		isControlsEnabled = true;
@@ -413,6 +405,4 @@ public abstract class Character : MonoBehaviour {
 	}
 	
 }
-
-
 
