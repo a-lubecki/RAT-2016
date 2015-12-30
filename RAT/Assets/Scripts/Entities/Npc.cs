@@ -101,29 +101,6 @@ public class Npc : Character {
 
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-		
-		collide(other);		
-	}
-
-	void OnTriggerStay2D(Collider2D other) {
-		
-		collide(other);		
-	}
-	
-	private void collide(Collider2D other) {
-		
-		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
-			
-			Player player = GameHelper.Instance.getPlayer();
-			
-			if(!player.isDead()) {
-				//TODO TEST remove player life
-				takeDamages(10);
-			}
-			
-		}
-	}
 
 }
 

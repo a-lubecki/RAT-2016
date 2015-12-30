@@ -195,30 +195,6 @@ public class Player : Character {
 		levelManager.processPlayerRespawn();
 	}
 
-	void OnTriggerEnter2D(Collider2D other) {
-		
-		collide(other);
-	}
-	
-	void OnTriggerStay2D(Collider2D other) {
-
-		collide(other);
-	}
-
-	private void collide(Collider2D other) {
-		
-		if(Constants.GAME_OBJECT_NAME_NPC_COLLIDER.Equals(other.name)) {
-			
-			Npc npc = other.gameObject.GetComponent<Npc>();
-			
-			if(!npc.isDead()) {
-				//TODO TEST remove player life
-				takeDamages(1);
-			}
-			
-		}
-	}
-
 
 }
 

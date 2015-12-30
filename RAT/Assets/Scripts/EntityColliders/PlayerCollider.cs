@@ -358,5 +358,32 @@ public class PlayerCollider : EntityCollider {
 
 	}
 
+	
+	void OnTriggerEnter2D(Collider2D other) {
+		
+		collide(other);
+	}
+	
+	void OnTriggerStay2D(Collider2D other) {
+		
+		collide(other);
+	}
+	
+	private void collide(Collider2D other) {
+		
+		if(Constants.GAME_OBJECT_NAME_NPC_COLLIDER.Equals(other.name)) {
+			
+			Npc npc = other.gameObject.GetComponent<Npc>();
+			
+			if(!npc.isDead()) {
+				//TODO TEST remove player life
+				Player player = GameHelper.Instance.getPlayer();
+				player.takeDamages(1);
+			}
+			
+		}
+	}
+
+
 }
 
