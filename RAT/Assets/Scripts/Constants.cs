@@ -26,7 +26,7 @@ public class Constants {
 	public static readonly string PREFAB_NAME_TILE_HUB = "PrefabTileHub";
 	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink";
 	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor";
-	public static readonly string PREFAB_NAME_NPC_COLLIDER = "NpcCollider";
+	public static readonly string PREFAB_NAME_NPC = "Npc";
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar";
 
@@ -50,7 +50,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_HUD = "CanvasHUD";
 	public static readonly string GAME_OBJECT_NAME_HUD_HEALTH_BAR = "HUDBarHealth";
 	public static readonly string GAME_OBJECT_NAME_HUD_STAMINA_BAR = "HUDBarStamina";
-	public static readonly string GAME_OBJECT_NAME_PLAYER_COLLIDER = "PlayerCollider";
+	public static readonly string GAME_OBJECT_NAME_PLAYER = "Player";
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
 
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
@@ -59,7 +59,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_HUB = "PrefabTileHub";
 	public static readonly string GAME_OBJECT_NAME_LINK = "PrefabTileLink";
 	public static readonly string GAME_OBJECT_NAME_DOOR = "PrefabTileDoor";
-	public static readonly string GAME_OBJECT_NAME_NPC_COLLIDER = "NpcCollider";
+	public static readonly string GAME_OBJECT_NAME_NPC = "Npc";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
 

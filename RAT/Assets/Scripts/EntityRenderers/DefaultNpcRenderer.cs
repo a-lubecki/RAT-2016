@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 
-public class DefaultNpcRenderer : EntityRenderer {
+public class DefaultNpcRenderer : CharacterRenderer {
 
 
 	protected override CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState) {

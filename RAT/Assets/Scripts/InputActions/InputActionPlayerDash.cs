@@ -21,7 +21,7 @@ public class InputActionPlayerDash : AbstractInputActionPlayer {
 			return false;
 		}
 		
-		GameHelper.Instance.getPlayerControls().tryDash();
+		GameHelper.Instance.getPlayer().tryDash();
 		
 		return true;
 	}

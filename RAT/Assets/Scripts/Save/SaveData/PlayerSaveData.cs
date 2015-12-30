@@ -11,35 +11,28 @@ class PlayerSaveData {
 	private int currentStamina;
 	private int currentXp;
 
-	public PlayerSaveData(Player player, PlayerCollider playerControls) {
+	public PlayerSaveData(Player player) {
 		
 		if(player == null) {
 			throw new System.ArgumentException();
 		}
-		if(playerControls == null) {
-			throw new System.ArgumentException();
-		}
 
-		currentPosX = (int)(playerControls.transform.position.x);
-		currentPosY = (int)(playerControls.transform.position.y);
-		currentAngleDegrees = (int)playerControls.angleDegrees;
+		currentPosX = (int)(player.transform.position.x);
+		currentPosY = (int)(player.transform.position.y);
+		currentAngleDegrees = (int)player.angleDegrees;
 		
 		currentLife = player.life;
 		currentStamina = player.stamina;
 		currentXp = player.xp;
 	}
 	
-	public void assign(Player player, PlayerCollider playerControls) {
+	public void assign(Player player) {
 		
 		if(player == null) {
 			throw new System.ArgumentException();
 		}
-		if(playerControls == null) {
-			throw new System.ArgumentException();
-		}
 
-		playerControls.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
-		
+		player.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
 		player.init(currentLife, currentStamina, currentXp);
 	}
 

@@ -299,7 +299,7 @@ public class LevelManager : MonoBehaviour {
 		if(hasCurrentLevel) {
 			//the current level is not currently loading
 
-			GameHelper.Instance.getPlayerControls().disableControls();
+			GameHelper.Instance.getPlayer().disableControls();
 			
 			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveNpcs();
@@ -352,11 +352,7 @@ public class LevelManager : MonoBehaviour {
 			throw new System.NotSupportedException("Not supported yet");
 		}
 
-
-		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
-		
-		PlayerCollider playerControls = playerGameObject.GetComponent<PlayerCollider>();
-		playerControls.setInitialPosition(nodePosition, nodeDirection);
+		GameHelper.Instance.getPlayer().setInitialPosition(nodePosition, nodeDirection);
 
 	}
 

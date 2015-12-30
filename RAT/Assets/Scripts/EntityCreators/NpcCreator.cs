@@ -6,11 +6,11 @@ public class NpcCreator : BaseEntityCreator {
 	
 
 	protected override GameObject getPrefab() {
-		return GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_NPC_COLLIDER);
+		return GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_NPC);
 	}
 
 	protected override string getGameObjectName() {
-		return Constants.GAME_OBJECT_NAME_NPC_COLLIDER;
+		return Constants.GAME_OBJECT_NAME_NPC;
 	}
 	
 	protected override string getSortingLayerName() {
@@ -31,16 +31,15 @@ public class NpcCreator : BaseEntityCreator {
 			y);
 
 		GameObject gameObjectRenderer = new NpcRendererCreator().createNewGameObject(nodeElement);
-
-		EntityCollider npcCollider = gameObjectCollider.GetComponent<EntityCollider>();
-		EntityRenderer npcRenderer = gameObjectRenderer.GetComponent<EntityRenderer>();
-		npcRenderer.entityCollider = npcCollider;
-		npcCollider.entityRenderer = npcRenderer;
+		
+		Npc npc = gameObjectCollider.GetComponent<Npc>();
+		CharacterRenderer npcRenderer = gameObjectRenderer.GetComponent<CharacterRenderer>();
+		npcRenderer.character = npc;
+		npc.characterRenderer = npcRenderer;
 
 		GameObject gameObjectNpcBar = new NpcBarCreator().createNewGameObject(nodeElement);
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
-		Npc npc = gameObjectCollider.GetComponent<Npc>();
 		npc.init(nodeElement, npcRenderer, npcBar);
 
 		return gameObjectCollider;

@@ -13,11 +13,7 @@ class NpcListSaveData {
 		}
 
 		foreach(Npc npc in npcs) {
-
-			npcsData.Add(new NpcSaveData(
-				npc,
-				npc.getAIControls()
-				));
+			npcsData.Add(new NpcSaveData(npc));
 		}
 	}
 
@@ -34,10 +30,7 @@ class NpcListSaveData {
 		
 		foreach(NpcSaveData npcData in npcsData) {
 			Npc npc = npcsById[npcData.id];
-			npcData.assign(
-				npc,
-				npc.getAIControls()
-				);
+			npcData.assign(npc);
 		}
 
 	}

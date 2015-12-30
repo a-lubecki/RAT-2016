@@ -23,7 +23,7 @@ public class InputActionPlayerAttackRight : AbstractInputActionPlayer {
 			return false;
 		}
 
-		GameHelper.Instance.getPlayerControls().tryRightAttack();
+		GameHelper.Instance.getPlayer().tryRightAttack();
 
 		return true;
 	}

@@ -5,24 +5,19 @@ using Level;
 public class Npc : Character {
 
 	public NodeElementNpc nodeElementNpc { get; private set; }
-	private EntityRenderer entityRenderer;
 	private NpcBar npcBar;
 
-	public NpcCollider getAIControls() {
-		return (NpcCollider) entityRenderer.entityCollider;
-	}
-
-	public void init(NodeElementNpc nodeElementNpc, EntityRenderer entityRenderer, NpcBar npcBar) {
+	public void init(NodeElementNpc nodeElementNpc, CharacterRenderer characterRenderer, NpcBar npcBar) {
 
 		if(nodeElementNpc == null) {
 			throw new System.ArgumentException();
 		}
-		if(entityRenderer == null) {
+		if(characterRenderer == null) {
 			throw new System.ArgumentException();
 		}
 
 		this.nodeElementNpc = nodeElementNpc;
-		this.entityRenderer = entityRenderer;
+		this.characterRenderer = characterRenderer;
 		this.npcBar = npcBar;
 
 		reinitLife();
@@ -42,8 +37,8 @@ public class Npc : Character {
 	}
 	
 	public void reinitLifeAndPosition() {
-		
-		entityRenderer.entityCollider.setInitialPosition(
+
+		setInitialPosition(
 			nodeElementNpc.nodePosition.x * Constants.TILE_SIZE,
 			- nodeElementNpc.nodePosition.y * Constants.TILE_SIZE,
 			0);//TODO angle from nodeElementNpc
@@ -65,7 +60,7 @@ public class Npc : Character {
 
 		//set the bar over the character
 		if(npcBar != null && npcBar.enabled) {
-			Vector2 pos = entityRenderer.transform.position;
+			Vector2 pos = characterRenderer.transform.position;
 			pos.y = (int) (pos.y + Constants.TILE_SIZE * 0.6f);
 			npcBar.transform.position = pos;
 		}
@@ -83,7 +78,7 @@ public class Npc : Character {
 		base.respawn();
 		
 		//set as a character
-		entityRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
+		characterRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_CHARACTERS;
 		
 	}
 
@@ -97,10 +92,56 @@ public class Npc : Character {
 		base.setAsDead();
 
 		//set as an object
-		entityRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
+		characterRenderer.gameObject.GetComponent<SpriteRenderer>().sortingLayerName = Constants.SORTING_LAYER_NAME_OBJECTS;
 
 	}
 
+
+
+
+
+
+	
+	protected override Vector2 getNewMoveVector() {
+		
+		return new Vector2(0, 0);//TODO
+	}
+	
+	protected override bool canRun() {
+		return true;
+	}
+	
+	protected override CharacterAction getCurrentCharacterAction() {
+		return new CharacterAction(false, 100);
+	}
+	
+	protected override BaseCharacterState getNextState() {
+		return BaseCharacterState.WAIT;
+	}
+	
+	void OnTriggerEnter2D(Collider2D other) {
+		
+		collide(other);		
+	}
+	
+	void OnTriggerStay2D(Collider2D other) {
+		
+		collide(other);		
+	}
+	
+	private void collide(Collider2D other) {
+		
+		if(Constants.GAME_OBJECT_NAME_PLAYER.Equals(other.name)) {
+			
+			Player player = GameHelper.Instance.getPlayer();
+			
+			if(!player.isDead()) {
+				//TODO TEST remove player life
+				gameObject.GetComponent<Npc>().takeDamages(10);
+			}
+			
+		}
+	}
 
 }
 

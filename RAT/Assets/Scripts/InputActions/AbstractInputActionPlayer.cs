@@ -13,8 +13,8 @@ public abstract class AbstractInputActionPlayer : AbstractInputAction {
 			return false;
 		}
 		
-		PlayerCollider playerController = GameHelper.Instance.getPlayerControls();
-		if(!playerController.isControlsEnabled || !playerController.isControlsEnabledWhileAnimating) {
+		Player player = GameHelper.Instance.getPlayer();
+		if(!player.isControlsEnabled || !player.isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

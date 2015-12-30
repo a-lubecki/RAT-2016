@@ -78,7 +78,7 @@ public class GameHelper {
 
 	public GameObject getPlayerGameObject() {
 
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER);
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
@@ -86,14 +86,14 @@ public class GameHelper {
 		return gameObject;
 	}
 	
-	public EntityRenderer getPlayerRenderer() {
+	public CharacterRenderer getPlayerRenderer() {
 		
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_RENDERER);
 		if(gameObject == null) {
 			throw new System.InvalidOperationException();
 		}
 		
-		EntityRenderer component = gameObject.GetComponent<EntityRenderer>();
+		CharacterRenderer component = gameObject.GetComponent<CharacterRenderer>();
 		if(component == null) {
 			throw new System.InvalidOperationException();
 		}
@@ -104,16 +104,6 @@ public class GameHelper {
 	public Player getPlayer() {
 
 		Player component = getPlayerGameObject().GetComponent<Player>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return component;
-	}
-
-	public PlayerCollider getPlayerControls() {
-
-		PlayerCollider component = getPlayerGameObject().GetComponent<PlayerCollider>();
 		if(component == null) {
 			throw new System.InvalidOperationException();
 		}

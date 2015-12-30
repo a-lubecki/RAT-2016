@@ -30,7 +30,7 @@ public class NpcRendererCreator : BaseEntityCreator {
 			x, 
 			y);
 
-		EntityRenderer npcRenderer = gameObject.GetComponent<EntityRenderer>();
+		CharacterRenderer npcRenderer = gameObject.GetComponent<CharacterRenderer>();
 
 		npcRenderer.currentSpritePrefix = "Enemy.Insect";//TODO test
 		//npcRenderer.currentSpritePrefix = nodeElement.;//TODO

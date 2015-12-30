@@ -184,9 +184,7 @@ public class GameSaver {
 		
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
-		gameSaveData.playerSaveData = new PlayerSaveData(
-			playerGameObject.GetComponent<Player>(),
-			playerGameObject.GetComponent<PlayerCollider>());
+		gameSaveData.playerSaveData = new PlayerSaveData(playerGameObject.GetComponent<Player>());
 	}
 	
 	public bool loadPlayer() {
@@ -197,9 +195,7 @@ public class GameSaver {
 		
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
-		gameSaveData.playerSaveData.assign(
-			playerGameObject.GetComponent<Player>(),
-			playerGameObject.GetComponent<PlayerCollider>());
+		gameSaveData.playerSaveData.assign(playerGameObject.GetComponent<Player>());
 
 		return true;
 	}

@@ -51,7 +51,7 @@ public class Hub : MonoBehaviour, IActionnable {
 
 	void OnTriggerStay2D(Collider2D collider) {
 		
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
 		
@@ -64,7 +64,7 @@ public class Hub : MonoBehaviour, IActionnable {
 	
 	void OnTriggerExit2D(Collider2D collider) {
 		
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
 		
@@ -104,15 +104,15 @@ public class Hub : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		PlayerCollider playerControls = GameHelper.Instance.getPlayerControls();
+		Player player = GameHelper.Instance.getPlayer();
 
-		playerControls.disableControls();
+		player.disableControls();
 		getTriggerCollider().enabled = false;
 
 		yield return new WaitForSeconds(1f);
 		
 		getTriggerCollider().enabled = true;
-		playerControls.enableControls();
+		player.enableControls();
 
 	}
 
@@ -143,7 +143,7 @@ public class Hub : MonoBehaviour, IActionnable {
 	private void openHubMenu() {
 		
 		//disable controls when editing
-		GameHelper.Instance.getPlayerControls().disableControls();
+		GameHelper.Instance.getPlayer().disableControls();
 		getTriggerCollider().enabled = false;
 
 		GameHelper.Instance.getMenu().open(new MenuTypeHub(this));

@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.ObjectModel;
 
-public abstract class EntityRenderer : MonoBehaviour {
+public abstract class CharacterRenderer : MonoBehaviour {
 
-	public EntityCollider entityCollider;
+	public Character character;
 
 	public string currentSpritePrefix;
 
@@ -12,11 +12,11 @@ public abstract class EntityRenderer : MonoBehaviour {
 
 	void FixedUpdate () {
 	
-		if(entityCollider == null) {
+		if(character == null) {
 			throw new System.InvalidOperationException();
 		}
 
-		transform.position = snapToGrid(entityCollider.transform.position);
+		transform.position = snapToGrid(character.transform.position);
 
 		//Debug.Log(">>> " + transform.position.x + " - " + transform.position.y);
 
@@ -89,7 +89,7 @@ public abstract class EntityRenderer : MonoBehaviour {
 		
 		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
 			Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
-			key.imagePos + "." + entityCollider.currentDirection.ToString());
+			key.imagePos + "." + character.currentDirection.ToString());
 		
 		GetComponent<SpriteRenderer>().sprite = sprite;
 

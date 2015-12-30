@@ -201,7 +201,7 @@ public class Door : MonoBehaviour, IActionnable {
 
 	void OnTriggerStay2D(Collider2D collider) {
 
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
 
@@ -217,7 +217,7 @@ public class Door : MonoBehaviour, IActionnable {
 
 	void OnTriggerExit2D(Collider2D collider) {
 
-		if(!Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(collider.name)) {
+		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
 		
@@ -249,9 +249,9 @@ public class Door : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		PlayerCollider playerControls = GameHelper.Instance.getPlayerControls();
+		Player player = GameHelper.Instance.getPlayer();
 		
-		playerControls.disableControls();
+		player.disableControls();
 		getTriggerCollider().enabled = false;
 		getTriggerOutCollider().enabled = false;
 
@@ -260,7 +260,7 @@ public class Door : MonoBehaviour, IActionnable {
 
 		manageDoorOpening();
 		
-		playerControls.enableControls();
+		player.enableControls();
 		
 		if(!isOpened) {
 			getTriggerOutCollider().enabled = true;
@@ -288,7 +288,7 @@ public class Door : MonoBehaviour, IActionnable {
 				return;
 			}
 			
-			GameObject playerGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER);
+			GameObject playerGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER);
 			
 			float x = transform.position.x;
 			float y = transform.position.y;

@@ -8,7 +8,7 @@ public class Link : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other) {
 
-		if(Constants.GAME_OBJECT_NAME_PLAYER_COLLIDER.Equals(other.name)) {
+		if(Constants.GAME_OBJECT_NAME_PLAYER.Equals(other.name)) {
 			GameHelper.Instance.getLevelManager().processLink(this);
 		}
 

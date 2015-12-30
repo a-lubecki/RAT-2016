@@ -11,35 +11,28 @@ class NpcSaveData {
 	
 	private int currentLife;
 	
-	public NpcSaveData(Npc npc, NpcCollider aiControls) {
+	public NpcSaveData(Npc npc) {
 		
 		if(npc == null) {
-			throw new System.ArgumentException();
-		}
-		if(aiControls == null) {
 			throw new System.ArgumentException();
 		}
 		
 		id = npc.nodeElementNpc.nodeId.value;
 		
-		currentPosX = (int)(aiControls.transform.position.x);
-		currentPosY = (int)(aiControls.transform.position.y);
-		currentAngleDegrees = (int)aiControls.angleDegrees;
+		currentPosX = (int)(npc.transform.position.x);
+		currentPosY = (int)(npc.transform.position.y);
+		currentAngleDegrees = (int)npc.angleDegrees;
 		
 		currentLife = npc.life;
 	}
 	
-	public void assign(Npc npc, NpcCollider aiControls) {
+	public void assign(Npc npc) {
 		
 		if(npc == null) {
 			throw new System.ArgumentException();
 		}
-		if(aiControls == null) {
-			throw new System.ArgumentException();
-		}
 		
-		aiControls.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
-		
+		npc.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
 		npc.init(currentLife);
 	}
 	
