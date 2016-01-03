@@ -90,6 +90,14 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_STORY_ITEMS_LIST = "SubMenuTypeStoryItemsList";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TELEPORT = "SubMenuTypeTeleport";
 
+	public static readonly string GAME_OBJECT_NAME_GRID_BAG = "GridBag";
+	public static readonly string GAME_OBJECT_NAME_GRID_OBJECTS = "GridObjects";
+	public static readonly string GAME_OBJECT_NAME_GRID_HEALS = "GridHeals";
+	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_LEFT = "GridWeaponsLeft";
+	public static readonly string GAME_OBJECT_NAME_GRID_EQUIP = "GridEquip";
+	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT = "GridWeaponsRight";
+
+
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
 	public static readonly string SORTING_LAYER_NAME_WALLS = "walls";
 	public static readonly string SORTING_LAYER_NAME_OBJECTS = "objects";

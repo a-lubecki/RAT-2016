@@ -307,19 +307,21 @@ public class Menu : MonoBehaviour {
 			return;
 		}
 
+		AbstractSubMenuType subMenuType = currentMenuType.getCurrentSubMenuType();
+
 		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
 
-		Transform subMenuGameObject = subMenuKeeper.transform.Find(currentMenuType.getCurrentSubMenuType().getGameObjectName());
-		if(subMenuGameObject == null) {
+		Transform subMenuTransform = subMenuKeeper.transform.Find(subMenuType.getGameObjectName());
+		if(subMenuTransform == null) {
 			return;
 		}
 		
-		subMenuGameObject.gameObject.SetActive(true);
+		subMenuTransform.gameObject.SetActive(true);
 
-		subMenuGameObject.SetParent(transform);
+		subMenuTransform.SetParent(transform);
 
 		//adjust
-		RectTransform rectTransform = subMenuGameObject.GetComponent<RectTransform>();
+		RectTransform rectTransform = subMenuTransform.GetComponent<RectTransform>();
 
 		rectTransform.anchorMin = new Vector2(0, 0);
 		rectTransform.anchorMax = new Vector2(1, 1);
@@ -329,6 +331,9 @@ public class Menu : MonoBehaviour {
 		rectTransform.offsetMax = new Vector2(0, -3);
 		rectTransform.rotation = Quaternion.identity;
 		rectTransform.localScale = new Vector3(1, 1, 1);
+
+
+		subMenuType.build(subMenuTransform.gameObject);
 
 	}
 	

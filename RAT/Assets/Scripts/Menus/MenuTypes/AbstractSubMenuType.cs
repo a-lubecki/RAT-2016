@@ -23,5 +23,22 @@ public abstract class AbstractSubMenuType : Displayable {
 		return transform.gameObject;
 	}
 
+	private bool isBuilt = false;
+
+	public void build(GameObject gameObjectSubMenu) {
+
+		if(isBuilt) {
+			return;
+		}
+
+		isBuilt = true;
+
+		buildInternal(gameObjectSubMenu);
+	}
+
+	protected virtual void buildInternal(GameObject gameObjectSubMenu) {
+
+	}
+
 }
 
