@@ -23,7 +23,7 @@ public abstract class AbstractSubMenuType : Displayable {
 		return transform.gameObject;
 	}
 
-	private bool isBuilt = false;
+	private static bool isBuilt = false;
 
 	public void build(GameObject gameObjectSubMenu) {
 

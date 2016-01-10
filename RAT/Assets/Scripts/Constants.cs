@@ -16,6 +16,7 @@ public class Constants {
 	public static readonly string PATH_RES_MAPS = PATH_RES + "Maps/";
 	public static readonly string PATH_RES_ENVIRONMENTS = PATH_RES + "Environments/";
 	public static readonly string PATH_RES_CHARACTERS = PATH_RES + "Characters/";
+	public static readonly string PATH_RES_MENUS = PATH_RES + "Menus/";
 	public static readonly string PATH_RES_SPLASHSCREEN = PATH_RES + "Splashscreen/";
 	public static readonly string PATH_RES_SCRIPTS = PATH_RES + "Scripts/";
 	public static readonly string PATH_RES_DEBUG = PATH_RES + "Debug/";

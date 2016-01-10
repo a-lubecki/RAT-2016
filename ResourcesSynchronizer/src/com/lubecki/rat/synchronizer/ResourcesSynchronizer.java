@@ -114,7 +114,7 @@ public final class ResourcesSynchronizer {
                 try {
                     if(Files.getLastModifiedTime(in).equals(Files.getLastModifiedTime(out))) {
                         //the file is the same
-                        return;
+                        continue;
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
