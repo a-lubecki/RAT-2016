@@ -23,21 +23,63 @@ public abstract class AbstractSubMenuType : Displayable {
 		return transform.gameObject;
 	}
 
-	private static bool isBuilt = false;
-
-	public void build(GameObject gameObjectSubMenu) {
-
-		if(isBuilt) {
-			return;
-		}
-
-		isBuilt = true;
-
-		buildInternal(gameObjectSubMenu);
+	public virtual void updateViews(GameObject gameObjectSubMenu) {
 	}
 
-	protected virtual void buildInternal(GameObject gameObjectSubMenu) {
 
+	private int selectionLevel = 0;
+	
+	public int getSelectionLevel() {
+		//it's 0 by default, if an item is selected the level is 1, if a subitem is selected the level is 2, etc
+		return selectionLevel;
+	}
+	
+	protected void incrementSelectionLevel() {
+		selectionLevel++;
+	}
+	protected void decrementSelectionLevel() {
+		selectionLevel--;
+	}
+
+	public virtual void validate() {
+
+		if(selectionLevel == 0) {
+
+			incrementSelectionLevel();
+
+			//TODO select
+		
+		} else {
+
+
+		}
+
+	}
+	
+	public virtual void cancel() {
+
+		if(selectionLevel == 1) {
+			
+			decrementSelectionLevel();
+			
+			//TODO deselect
+			
+		} else {
+
+		}
+
+	}
+	
+	public virtual void navigateUp() {
+	}
+	
+	public virtual void navigateDown() {
+	}
+	
+	public virtual void navigateRight() {
+	}
+	
+	public virtual void navigateLeft() {
 	}
 
 }

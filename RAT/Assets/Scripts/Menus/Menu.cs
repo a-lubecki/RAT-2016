@@ -333,7 +333,7 @@ public class Menu : MonoBehaviour {
 		rectTransform.localScale = new Vector3(1, 1, 1);
 
 
-		subMenuType.build(subMenuTransform.gameObject);
+		subMenuType.updateViews(subMenuTransform.gameObject);
 
 	}
 	
@@ -392,32 +392,31 @@ public class Menu : MonoBehaviour {
 
 
 	public int getSelectionLevel() {
-		//it's 0 by default, if an item is selected the level is 1, if a subitem is selected the level is 2, etc
-		return 0;
+		return currentMenuType.getCurrentSubMenuType().getSelectionLevel();
 	}
 	
 	public void validate() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().validate();
 	}
 	
 	public void cancel() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().cancel();
 	}
 
 	public void navigateUp() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().navigateUp();
 	}
 	
 	public void navigateDown() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().navigateDown();
 	}
 	
 	public void navigateRight() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().navigateRight();
 	}
 	
 	public void navigateLeft() {
-		//TODO
+		currentMenuType.getCurrentSubMenuType().navigateLeft();
 	}
 
 }

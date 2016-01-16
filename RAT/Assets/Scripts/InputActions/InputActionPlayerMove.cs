@@ -5,19 +5,15 @@ using InControl;
 public class InputActionPlayerMove : AbstractInputAction {
 	
 	private readonly KeyCode[] KEYS_DIRECTION_RIGHT = new KeyCode[] {
-		KeyCode.RightArrow,
 		KeyCode.D
 	};
 	private readonly KeyCode[] KEYS_DIRECTION_LEFT = new KeyCode[] {
-		KeyCode.LeftArrow,
 		KeyCode.Q
 	};
 	private readonly KeyCode[] KEYS_DIRECTION_UP = new KeyCode[] {
-		KeyCode.UpArrow,
 		KeyCode.Z
 	};
 	private readonly KeyCode[] KEYS_DIRECTION_DOWN = new KeyCode[] {
-		KeyCode.DownArrow,
 		KeyCode.S
 	};
 
