@@ -211,9 +211,13 @@ public class GameHelper {
 		
 		return gameObject.GetComponent<Hub>();
 	}
-
+	
 	public Door[] getDoors() {
 		return GameObject.FindObjectsOfType<Door>();
+	}
+
+	public Loot[] getLoots() {
+		return GameObject.FindObjectsOfType<Loot>();
 	}
 
 	public Npc[] getNpcs() {

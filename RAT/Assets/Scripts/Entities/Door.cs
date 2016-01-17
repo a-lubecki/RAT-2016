@@ -110,7 +110,7 @@ public class Door : MonoBehaviour, IActionnable {
 			updateCollider(true);
 			updateSprite(sprites.Length);
 
-			PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+			PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
 
 			MessageDisplayer.Instance.removeAllMessagesFrom(this);
 		}
@@ -210,7 +210,7 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 	
 		if(getTriggerCollider().IsTouching(collider)) {
-			PlayerActionsManager.Instance.showAction(new ActionOpenDoor(this));
+			PlayerActionsManager.Instance.showAction(new ActionDoorOpen(this));
 		}
 
 	}
@@ -226,7 +226,7 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 
 		if(!getTriggerCollider().IsTouching(collider)) {
-			PlayerActionsManager.Instance.hideAction(new ActionOpenDoor(this));
+			PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
 		}
 
 		if(!getTriggerOutCollider().IsTouching(collider)) {

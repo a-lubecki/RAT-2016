@@ -27,6 +27,7 @@ public class Constants {
 	public static readonly string PREFAB_NAME_TILE_HUB = "PrefabTileHub";
 	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink";
 	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor";
+	public static readonly string PREFAB_NAME_LOOT = "PrefabLoot";
 	public static readonly string PREFAB_NAME_NPC = "Npc";
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar";
@@ -60,6 +61,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_HUB = "PrefabTileHub";
 	public static readonly string GAME_OBJECT_NAME_LINK = "PrefabTileLink";
 	public static readonly string GAME_OBJECT_NAME_DOOR = "PrefabTileDoor";
+	public static readonly string GAME_OBJECT_NAME_LOOT = "PrefabTileLoot";
 	public static readonly string GAME_OBJECT_NAME_NPC = "Npc";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";
@@ -106,6 +108,9 @@ public class Constants {
 	public static readonly string SORTING_LAYER_NAME_HUB = "hub";
 
 	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
+	
+	public static readonly AbstractMenuType MENU_TYPE_INVENTORY = new MenuTypeInventory();
+
 
 	public enum SceneIndex {
 		SCENE_INDEX_SPLASHSCREEN = 0,

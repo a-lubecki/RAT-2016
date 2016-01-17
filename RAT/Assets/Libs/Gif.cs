@@ -13,6 +13,16 @@ public class Gif : MonoBehaviour {
 	public Sprite[] sprites;
 
 
+	private Image image;
+	private SpriteRenderer spriteRenderer;
+
+
+	protected void Awake() {
+		
+		image = GetComponent<Image>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
+	}
+
 	public void startAnimation() {
 
 		stopAnimation();
@@ -30,9 +40,14 @@ public class Gif : MonoBehaviour {
 		StopCoroutine(coroutineAnimation);
 
 		coroutineAnimation = null;
-		
-		Image image = GetComponent<Image>();
-		image.sprite = sprites[0];
+
+		Sprite currentSprite = sprites[0];
+		if(image != null) {
+			image.sprite = currentSprite;
+		}
+		if(spriteRenderer != null) {
+			spriteRenderer.sprite = currentSprite;
+		}
 	}
 
 	private IEnumerator animate() {
@@ -40,11 +55,16 @@ public class Gif : MonoBehaviour {
 		float durationSecTmp = durationSec;
 		bool isLoopTmp = isLoop;
 
-		Image image = GetComponent<Image>();
-
 		if(durationSecTmp <= 0) {
 			coroutineAnimation = null;
-			image.sprite = sprites[0];
+			
+			Sprite currentSprite = sprites[0];
+			if(image != null) {
+				image.sprite = currentSprite;
+			}
+			if(spriteRenderer != null) {
+				spriteRenderer.sprite = currentSprite;
+			}
 			return false;
 		}
 
@@ -61,8 +81,14 @@ public class Gif : MonoBehaviour {
 		float secondsToWait = durationSecTmp / (float)nbImages;
 
 		for(i = 0 ; i < nbImages ; i++) {
-
-			image.sprite = sprites[i];
+			
+			Sprite currentSprite = sprites[i];
+			if(image != null) {
+				image.sprite = currentSprite;
+			}
+			if(spriteRenderer != null) {
+				spriteRenderer.sprite = currentSprite;
+			}
 
 			yield return new WaitForSeconds(secondsToWait);
 

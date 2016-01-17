@@ -56,9 +56,9 @@ public class Hub : MonoBehaviour, IActionnable {
 		}
 		
 		if(!isActivated) {
-			PlayerActionsManager.Instance.showAction(new ActionActivateHub(this));
+			PlayerActionsManager.Instance.showAction(new ActionHubActivate(this));
 		} else {
-			PlayerActionsManager.Instance.showAction(new ActionUseHub(this));
+			PlayerActionsManager.Instance.showAction(new ActionHubUse(this));
 		}
 	}
 	
@@ -68,8 +68,8 @@ public class Hub : MonoBehaviour, IActionnable {
 			return;
 		}
 		
-		PlayerActionsManager.Instance.hideAction(new ActionActivateHub(this));
-		PlayerActionsManager.Instance.hideAction(new ActionUseHub(this));
+		PlayerActionsManager.Instance.hideAction(new ActionHubActivate(this));
+		PlayerActionsManager.Instance.hideAction(new ActionHubUse(this));
 		
 		GameHelper.Instance.getMenu().close(typeof(MenuTypeHub));
 	}

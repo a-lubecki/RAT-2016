@@ -116,13 +116,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="Action.ActivateHub" xml:space="preserve">
+	<data name="Action.Door.Open" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Action.OpenDoor" xml:space="preserve">
+	<data name="Action.Hub.Activate" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Action.UseHub" xml:space="preserve">
+	<data name="Action.Hub.Use" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Action.Loot.Collect" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
 		<value />
 	</data>
 	<data name="AmmoType.BULLET" xml:space="preserve">
@@ -147,6 +153,36 @@
 		<value />
 	</data>
 	<data name="Grid.Bag.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Equip" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Equip.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Heals" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Heals.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Objects" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Objects.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.WeaponsLeft" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.WeaponsLeft.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.WeaponsRight" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.WeaponsRight.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Item.CLAWS" xml:space="preserve">
@@ -336,36 +372,6 @@
 		<value />
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Equip.Description" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Equip" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Heals.Description" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Objects.Description" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Objects" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.Heals" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.WeaponsLeft.Description" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.WeaponsLeft" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.WeaponsRight" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Grid.WeaponsRight.Description" xml:space="preserve">
 		<value />
 	</data>
 </root>

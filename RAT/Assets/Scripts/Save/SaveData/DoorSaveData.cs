@@ -3,7 +3,7 @@ using System;
 [Serializable]
 class DoorSaveData {
 	
-	public string id {get; private set; }
+	public string id { get; private set; }
 	private bool isOpened; 
 	
 	public DoorSaveData(Door door) {

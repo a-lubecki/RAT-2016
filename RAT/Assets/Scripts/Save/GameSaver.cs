@@ -265,6 +265,34 @@ public class GameSaver {
 		return true;
 	}
 	
+	public void saveLoots() {
+		
+		Loot[] loots = GameHelper.Instance.getLoots();
+		if(loots.Length <= 0) {
+			return;
+		}
+		
+		getCurrentGameLevelSaveData().lootListSaveData = new LootListSaveData(loots);
+	}
+	
+	public bool loadLoots() {
+		
+		Loot[] loots = GameHelper.Instance.getLoots();
+		if(loots.Length <= 0) {
+			return true;
+		}
+		
+		GameLevelSaveData data = getCurrentGameLevelSaveData();
+		
+		if(data.lootListSaveData == null) {
+			return false;
+		}
+		
+		data.lootListSaveData.assign(loots);
+		
+		return true;
+	}
+
 	public void saveNpcs() {
 		
 		Npc[] npcs = GameHelper.Instance.getNpcs();

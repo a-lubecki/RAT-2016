@@ -205,7 +205,7 @@ public class LevelManager : MonoBehaviour {
 			linkCreator.createNewGameObject(currentNodeLevel.getLink(i));
 		}
 
-
+		
 		// load doors
 		DoorCreator doorCreator = new DoorCreator();
 		
@@ -216,6 +216,18 @@ public class LevelManager : MonoBehaviour {
 		}
 		//init
 		GameSaver.Instance.loadDoors();
+
+
+		// load loots
+		LootCreator lootCreator = new LootCreator();
+		
+		int lootCount = currentNodeLevel.getLootCount();
+		for(int i=0 ; i<lootCount ; i++) {
+			
+			lootCreator.createNewGameObject(currentNodeLevel.getLoot(i));
+		}
+		//init
+		GameSaver.Instance.loadLoots();
 
 
 		// load NPCs
@@ -470,6 +482,7 @@ public class LevelManager : MonoBehaviour {
 			GameSaver.Instance.savePlayer();
 			GameSaver.Instance.saveNpcs();
 			GameSaver.Instance.saveDoors();
+			GameSaver.Instance.saveLoots();
 			GameSaver.Instance.saveAllToFile();
 
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");

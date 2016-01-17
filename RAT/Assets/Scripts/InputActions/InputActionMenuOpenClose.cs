@@ -24,7 +24,7 @@ public class InputActionMenuOpenClose : AbstractInputAction {
 		if(menu.isOpened()) {
 			menu.closeAny();
 		} else {
-			menu.open(new MenuTypeInventory());
+			menu.open(Constants.MENU_TYPE_INVENTORY);
 		}
 
 		return true;

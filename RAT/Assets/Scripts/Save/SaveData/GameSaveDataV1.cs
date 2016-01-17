@@ -44,6 +44,7 @@ class GameLevelSaveData {
 	
 	public HubSaveData hubSaveData;
 	public DoorListSaveData doorListSaveData;
+	public LootListSaveData lootListSaveData;
 	public NpcListSaveData npcListSaveData;
 	public ListenerEventListSaveData listenerEventListSaveData;
 

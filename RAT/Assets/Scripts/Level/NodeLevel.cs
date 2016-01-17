@@ -15,7 +15,7 @@ namespace Level {
 		private List<BaseNode> doorElements;
 		//private List<BaseNode> leverElements;
 		//private List<BaseNode> buttonElements;
-		//private List<BaseNode> lootElements;
+		private List<BaseNode> lootElements;
 		//private List<BaseNode> chestElements;
 		private List<BaseNode> npcElements;
 
@@ -29,7 +29,7 @@ namespace Level {
 			doorElements = parseChildren("DOOR", typeof(NodeElementDoor));
 			//leverElements = parseChildren("LEVER", typeof(NodeElementLever));
 			//buttonElements = parseChildren("BUTTON", typeof(NodeElementButton));
-			//lootElements = parseChildren("LOOT", typeof(NodeElementLoot));
+			lootElements = parseChildren("LOOT", typeof(NodeElementLoot));
 			//chestElements = parseChildren("CHEST", typeof(NodeElementChest));
 			npcElements = parseChildren("NPC", typeof(NodeElementNpc));
 			
@@ -70,7 +70,7 @@ namespace Level {
 		public NodeElementButton getButton(int pos) {
 			return buttonElements[pos] as NodeElementButton;
 		}
-		
+		*/
 		public int getLootCount() {
 			return lootElements.Count;
 		}
@@ -78,7 +78,7 @@ namespace Level {
 		public NodeElementLoot getLoot(int pos) {
 			return lootElements[pos] as NodeElementLoot;
 		}
-		
+		/*
 		public int getChestCount() {
 			return chestElements.Count;
 		}
@@ -118,11 +118,11 @@ namespace Level {
 			}
 			foreach(BaseNode node in buttonElements) {
 				node.freeXmlObjects();
-			}
+			}*/
 			foreach(BaseNode node in lootElements) {
 				node.freeXmlObjects();
 			}
-			foreach(BaseNode node in chestElements) {
+			/*foreach(BaseNode node in chestElements) {
 				node.freeXmlObjects();
 			}
 			*/
