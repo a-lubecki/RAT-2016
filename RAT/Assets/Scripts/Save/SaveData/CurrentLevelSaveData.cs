@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class CurrentLevelSaveData {
 	
-	private string currentLevelName;
+	public string currentLevelName { get; private set; }
 	
 	public CurrentLevelSaveData(LevelManager levelManager) {
 		
@@ -13,16 +13,7 @@ public class CurrentLevelSaveData {
 		
 		currentLevelName = levelManager.getCurrentLevelName();
 	}
-	
-	public void assign(LevelManager levelManager) {
-		
-		if(levelManager == null) {
-			throw new System.ArgumentException();
-		}
-		
-		levelManager.loadNextLevel(currentLevelName);
-	}
-	
+
 }
 
 

@@ -120,12 +120,14 @@ public class QuoteManager : MonoBehaviour {
 		yield return new WaitForSeconds(5);
 
 		//load the current level
-		if(!GameSaver.Instance.loadCurrentLevel()) {
-			
+		string levelName = GameSaver.Instance.getCurrentLevelName();
+		if(levelName == null) {
 			//if no saved data, load the very first level				
-			GameHelper.Instance.getLevelManager().loadNextLevel(Constants.FIRST_LEVEL_NAME);
-
+			levelName = Constants.FIRST_LEVEL_NAME;
 		}
+
+		GameHelper.Instance.getLevelManager().loadNextLevel(levelName);
+
 	}
 
 	private IEnumerator test() {

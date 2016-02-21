@@ -42,5 +42,16 @@ public class DoorListSaveData {
 		}
 
 	}
+	
+	public Dictionary<string, DoorSaveData> getDoorsDataById() {
+		
+		Dictionary<string, DoorSaveData> doorsById = new Dictionary<string, DoorSaveData>(doorsData.Count);
+		
+		foreach(DoorSaveData doorData in doorsData) {
+			doorsById.Add(doorData.id, doorData);
+		}
+		
+		return doorsById;
+	}
 
 }

@@ -149,28 +149,32 @@ public class GameSaver {
 		return gameSaveData.getGameLevelSaveData(GameHelper.Instance.getLevelManager().getCurrentLevelName());
 	}
 
+
+	public string getCurrentLevelName() {
+		
+		if(gameSaveData.currentLevelSaveData == null) {
+			return null;
+		}
+
+		return gameSaveData.currentLevelSaveData.currentLevelName;
+	}
 	
 	public void saveCurrentLevel() {
 
 		gameSaveData.currentLevelSaveData = new CurrentLevelSaveData(GameHelper.Instance.getLevelManager());
 	}
-	
-	public bool loadCurrentLevel() {
-	
-		if(gameSaveData.currentLevelSaveData == null) {
-			return false;
-		}
-		
-		gameSaveData.currentLevelSaveData.assign(GameHelper.Instance.getLevelManager());
 
-		return true;
-	}
 	
+	public PlayerStatsSaveData getPlayerStatsSaveData() {
+		
+		return gameSaveData.playerStatsSaveData;
+	}
+
 	public void savePlayerStats() {
 
 		gameSaveData.playerStatsSaveData = new PlayerStatsSaveData(GameHelper.Instance.getPlayer());
 	}
-	
+	/*
 	public bool loadPlayerStats() {
 		
 		if(gameSaveData.playerStatsSaveData == null) {
@@ -180,15 +184,20 @@ public class GameSaver {
 		gameSaveData.playerStatsSaveData.assign(GameHelper.Instance.getPlayer());
 
 		return true;
-	}
+	}*/
 	
+	public PlayerSaveData getPlayerSaveData() {
+		
+		return gameSaveData.playerSaveData;
+	}
+
 	public void savePlayer() {
 		
 		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
 		
 		gameSaveData.playerSaveData = new PlayerSaveData(playerGameObject.GetComponent<Player>());
 	}
-	
+	/*
 	public bool loadPlayer() {
 
 		if(gameSaveData.playerSaveData == null) {
@@ -200,7 +209,7 @@ public class GameSaver {
 		gameSaveData.playerSaveData.assign(playerGameObject.GetComponent<Player>());
 
 		return true;
-	}
+	}*/
 	
 	public void deletePlayer() {
 
@@ -209,6 +218,11 @@ public class GameSaver {
 		}
 
 		gameSaveData.playerSaveData = null;
+	}
+	
+	
+	public HubSaveData getHubSaveData() {
+		return getCurrentGameLevelSaveData().hubSaveData;
 	}
 
 	public void saveHub() {
@@ -220,7 +234,7 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().hubSaveData = new HubSaveData(hub);
 	}
-	
+	/*
 	public bool loadHub() {
 		
 		Hub hub = GameHelper.Instance.getHub();
@@ -237,8 +251,18 @@ public class GameSaver {
 		data.hubSaveData.assign(hub);
 		
 		return true;
-	}
+	}*/
 	
+	public Dictionary<string, DoorSaveData> getDoorsSaveData() {
+
+		DoorListSaveData data = getCurrentGameLevelSaveData().doorListSaveData;
+		if(data == null) {
+			return null;
+		}
+
+		return data.getDoorsDataById();
+	}
+
 	public void saveDoors() {
 		
 		Door[] doors = GameHelper.Instance.getDoors();
@@ -248,7 +272,7 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().doorListSaveData = new DoorListSaveData(doors);
 	}
-	
+	/*
 	public bool loadDoors() {
 		
 		Door[] doors = GameHelper.Instance.getDoors();
@@ -265,7 +289,7 @@ public class GameSaver {
 		data.doorListSaveData.assign(doors);
 		
 		return true;
-	}
+	}*/
 	
 	public Dictionary<string, LootSaveData> getLootsSaveData() {
 
@@ -286,29 +310,17 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().lootListSaveData = new LootListSaveData(loots);
 	}
+	
+	public Dictionary<string, NpcSaveData> getNpcsSaveData() {
 
-	public Dictionary<string, LootSaveData> getLootsSaveData() {
-		return getCurrentGameLevelSaveData().lootListSaveData.getLootsDataById();
+		NpcListSaveData data = getCurrentGameLevelSaveData().npcListSaveData;
+		if(data == null) {
+			return null;
+		}
+
+		return data.getNpcsDataById();
 	}
-	/*
-	public bool loadLoots() {
-		
-		Loot[] loots = GameHelper.Instance.getLoots();
-		if(loots.Length <= 0) {
-			return true;
-		}
-		
-		GameLevelSaveData data = getCurrentGameLevelSaveData();
-		
-		if(data.lootListSaveData == null) {
-			return false;
-		}
-		
-		data.lootListSaveData.assign(loots);
-		
-		return true;
-	}*/
-
+	
 	public void saveNpcs() {
 		
 		Npc[] npcs = GameHelper.Instance.getNpcs();
@@ -318,7 +330,7 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().npcListSaveData = new NpcListSaveData(npcs);
 	}
-	
+	/*
 	public bool loadNpcs() {
 
 		Npc[] npcs = GameHelper.Instance.getNpcs();
@@ -335,13 +347,23 @@ public class GameSaver {
 		data.npcListSaveData.assign(npcs);
 		
 		return true;
-	}
+	}*/
 	
 	public void deleteNpcs() {
 		
 		getCurrentGameLevelSaveData().npcListSaveData = null;
 	}
-	
+
+	public List<ListenerEventSaveData> getListenerEvents() {
+		
+		ListenerEventListSaveData data = getCurrentGameLevelSaveData().listenerEventListSaveData;
+		if(data == null) {
+			return null;
+		}
+
+		return data.getListenersEventSaveData();
+	}
+
 	public void saveListenerEvents() {
 				
 		IMapListener mapListener = GameHelper.Instance.getCurrentMapListener();
@@ -351,7 +373,7 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().listenerEventListSaveData = new ListenerEventListSaveData(mapListener);
 	}
-	
+	/*
 	public bool loadListenerEvents() {
 		
 		IMapListener mapListener = GameHelper.Instance.getCurrentMapListener();
@@ -368,7 +390,7 @@ public class GameSaver {
 		data.listenerEventListSaveData.assign(mapListener);
 		
 		return true;
-	}
+	}*/
 
 }
 

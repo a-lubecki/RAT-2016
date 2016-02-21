@@ -3,13 +3,13 @@ using System;
 [Serializable]
 public class PlayerSaveData {
 
-	private int currentPosX;
-	private int currentPosY;
-	private int currentAngleDegrees;
+	public int currentPosX { get; private set; }
+	public int currentPosY { get; private set; }
+	public int currentAngleDegrees { get; private set; }
 	
-	private int currentLife;
-	private int currentStamina;
-	private int currentXp;
+	public int currentLife { get; private set; }
+	public int currentStamina { get; private set; }
+	public int currentXp { get; private set; }
 
 	public PlayerSaveData(Player player) {
 		

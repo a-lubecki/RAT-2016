@@ -36,11 +36,13 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		//load the current level
-		if(!GameSaver.Instance.loadCurrentLevel()) {
-
+		string levelName = GameSaver.Instance.getCurrentLevelName();
+		if(levelName == null) {
 			//if no saved data, load the very first level				
-			loadNextLevel(Constants.FIRST_LEVEL_NAME);
+			levelName = Constants.FIRST_LEVEL_NAME;
 		}
+
+		loadNextLevel(levelName);
 
 	}
 
@@ -80,7 +82,21 @@ public class LevelManager : MonoBehaviour {
 		GameSaver.Instance.saveAllToFile();
 
 		//load listener events after all other loaded elements
-		GameSaver.Instance.loadListenerEvents();
+		IMapListener mapListener = GameHelper.Instance.getCurrentMapListener();
+		if(mapListener != null) {
+			
+			List<ListenerEventSaveData> listenerEventSaveDataList = GameSaver.Instance.getListenerEvents();
+			if(listenerEventSaveDataList != null) {
+				
+				foreach(ListenerEventSaveData eventData in listenerEventSaveDataList) {
+					
+					if(eventData.isAchieved) {
+						mapListener.achieveEvent(eventData.id);
+					}
+				}
+			}
+
+		}
 
 		startSaverCoroutine();
 	}
@@ -187,12 +203,17 @@ public class LevelManager : MonoBehaviour {
 
 		// load hub if there is one
 		if(currentNodeLevel.hubElement != null) {
+			
+			HubSaveData hubSaveData = GameSaver.Instance.getHubSaveData();
 
 			HubCreator hubCreator = new HubCreator();
-			hubCreator.createNewGameObject(currentNodeLevel.hubElement);
+			GameObject gameObjectHub = hubCreator.createNewGameObject(currentNodeLevel.hubElement);
 
-			//init
-			GameSaver.Instance.loadHub();
+			//init if previously saved
+			if(hubSaveData != null) {
+				hubSaveData.assign(gameObjectHub.GetComponent<Hub>());
+			}
+
 		}
 
 
@@ -209,13 +230,22 @@ public class LevelManager : MonoBehaviour {
 		// load doors
 		DoorCreator doorCreator = new DoorCreator();
 		
+		Dictionary<string, DoorSaveData> doorsSaveDataById = GameSaver.Instance.getDoorsSaveData();
+
 		int doorCount = currentNodeLevel.getDoorCount();
 		for(int i=0 ; i<doorCount ; i++) {
+
+			NodeElementDoor nodeElementDoor = currentNodeLevel.getDoor(i);
+			string elementId = nodeElementDoor.nodeId.value;
 			
-			doorCreator.createNewGameObject(currentNodeLevel.getDoor(i));
+			GameObject gameObjectDoor = doorCreator.createNewGameObject(nodeElementDoor);
+
+			//init if previously saved
+			if(doorsSaveDataById != null) {
+				DoorSaveData doorSaveData = doorsSaveDataById[elementId];
+				doorSaveData.assign(gameObjectDoor.GetComponent<Door>());
+			}
 		}
-		//init
-		GameSaver.Instance.loadDoors();
 
 
 		// load loots
@@ -254,14 +284,34 @@ public class LevelManager : MonoBehaviour {
 
 		// load NPCs
 		NpcCreator npcCreator = new NpcCreator();
-		
+
+		Dictionary<string, NpcSaveData> npcsSaveDataById = GameSaver.Instance.getNpcsSaveData();
+
 		int npcCount = currentNodeLevel.getNpcCount();
 		for(int i=0 ; i<npcCount ; i++) {
 			
-			npcCreator.createNewGameObject(currentNodeLevel.getNpc(i));
+			NodeElementNpc nodeElementNpc = currentNodeLevel.getNpc(i);
+			string elementId = nodeElementNpc.nodeId.value;
+
+			bool isDead = false;
+			NpcSaveData npcSaveData = null;
+			
+			//init if previously saved
+			if(npcsSaveDataById != null) {
+				npcSaveData = npcsSaveDataById[elementId];
+				isDead = (npcSaveData.currentLife <= 0);
+			}
+
+			if(!isDead) {
+
+				GameObject gameObjectNpc = npcCreator.createNewGameObject(nodeElementNpc);
+
+				//init if previously saved
+				if(npcSaveData != null) {
+					npcSaveData.assign(gameObjectNpc.GetComponent<Npc>());
+				}
+			}
 		}
-		//init
-		GameSaver.Instance.loadNpcs();
 
 	}
 
@@ -278,8 +328,11 @@ public class LevelManager : MonoBehaviour {
 			bool hasLoadedPlayer = false;
 
 			//load saved player
-			if(GameSaver.Instance.loadPlayer()) {
+			PlayerSaveData playerSaveData = GameSaver.Instance.getPlayerSaveData();
+			if(playerSaveData != null) {
+				
 				hasLoadedPlayer = true;
+				playerSaveData.assign(GameHelper.Instance.getPlayer());
 			}
 
 			if(lastNodeElementTrigger != null) {
@@ -395,13 +448,18 @@ public class LevelManager : MonoBehaviour {
 		Player player = GameHelper.Instance.getPlayer();
 
 		//load player stats
-		if(!GameSaver.Instance.loadPlayerStats()) {
-			//very first init of the player stats
-			player.initStats(5, 5);
-		
+		PlayerStatsSaveData playerStatsSaveData = GameSaver.Instance.getPlayerStatsSaveData();
+		if(playerStatsSaveData != null) {
+
+			playerStatsSaveData.assign(player);
+			
+			player.reinitLifeAndStamina();
+
 		} else if(mustSpawnPlayerAtHub) {
 
-			player.reinitLifeAndStamina();
+			//very first init of the player stats
+			player.initStats(5, 5);
+
 		}
 
 	}

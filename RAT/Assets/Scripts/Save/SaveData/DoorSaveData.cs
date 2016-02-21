@@ -4,7 +4,7 @@ using System;
 public class DoorSaveData {
 	
 	public string id { get; private set; }
-	private bool isOpened; 
+	public bool isOpened { get; private set; } 
 	
 	public DoorSaveData(Door door) {
 

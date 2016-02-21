@@ -17,17 +17,16 @@ public class ListenerEventListSaveData {
 		}
 		
 	}
-	
-	public void assign(IMapListener listener) {
 
-		if(listener == null) {
-			throw new System.ArgumentException();
-		}
+	public List<ListenerEventSaveData> getListenersEventSaveData() {
 
-		foreach(ListenerEventSaveData eventData in eventsData) {
-			eventData.assign(listener);
-		}
+		List<ListenerEventSaveData> copy = new List<ListenerEventSaveData>();
 		
+		foreach(ListenerEventSaveData eventData in eventsData) {
+			copy.Add(eventData);
+		}
+
+		return copy;
 	}
-	
+
 }

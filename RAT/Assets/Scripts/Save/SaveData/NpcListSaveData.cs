@@ -34,4 +34,17 @@ public class NpcListSaveData {
 		}
 
 	}
+
+	
+	public Dictionary<string, NpcSaveData> getNpcsDataById() {
+		
+		Dictionary<string, NpcSaveData> npcsById = new Dictionary<string, NpcSaveData>(npcsData.Count);
+		
+		foreach(NpcSaveData npcData in npcsData) {
+			npcsById.Add(npcData.id, npcData);
+		}
+		
+		return npcsById;
+	}
+
 }
