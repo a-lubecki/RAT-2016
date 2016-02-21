@@ -1,10 +1,10 @@
 using System;
 
 [Serializable]
-class LootSaveData {
+public class LootSaveData {
 	
 	public string id { get; private set; }
-	private bool isCollected;
+	public bool isCollected { get; private set; }
 	
 	public LootSaveData(Loot loot) {
 

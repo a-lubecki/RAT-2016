@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class CurrentLevelSaveData {
+public class CurrentLevelSaveData {
 	
 	private string currentLevelName;
 	

@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class DoorSaveData {
+public class DoorSaveData {
 	
 	public string id { get; private set; }
 	private bool isOpened; 

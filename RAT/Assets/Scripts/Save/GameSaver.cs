@@ -4,6 +4,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameSaver {
 	
@@ -265,6 +267,16 @@ public class GameSaver {
 		return true;
 	}
 	
+	public Dictionary<string, LootSaveData> getLootsSaveData() {
+
+		LootListSaveData data = getCurrentGameLevelSaveData().lootListSaveData;
+		if(data == null) {
+			return null;
+		}
+
+		return data.getLootsDataById();
+	}
+
 	public void saveLoots() {
 		
 		Loot[] loots = GameHelper.Instance.getLoots();
@@ -274,7 +286,11 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().lootListSaveData = new LootListSaveData(loots);
 	}
-	
+
+	public Dictionary<string, LootSaveData> getLootsSaveData() {
+		return getCurrentGameLevelSaveData().lootListSaveData.getLootsDataById();
+	}
+	/*
 	public bool loadLoots() {
 		
 		Loot[] loots = GameHelper.Instance.getLoots();
@@ -291,7 +307,7 @@ public class GameSaver {
 		data.lootListSaveData.assign(loots);
 		
 		return true;
-	}
+	}*/
 
 	public void saveNpcs() {
 		

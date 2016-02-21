@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class ListenerEventSaveData {
+public class ListenerEventSaveData {
 	
 	private string id;
 	private bool isAchieved; 

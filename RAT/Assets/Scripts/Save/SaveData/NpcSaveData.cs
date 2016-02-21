@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class NpcSaveData {
+public class NpcSaveData {
 	
 	public string id {get; private set; }
 	

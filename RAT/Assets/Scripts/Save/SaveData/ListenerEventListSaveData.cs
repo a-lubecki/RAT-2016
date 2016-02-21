@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class ListenerEventListSaveData {
+public class ListenerEventListSaveData {
 	
 	private List<ListenerEventSaveData> eventsData = new List<ListenerEventSaveData>(); 
 	

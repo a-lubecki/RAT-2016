@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class GameSaveDataV1 {
+public class GameSaveDataV1 {
 
 	public CurrentLevelSaveData currentLevelSaveData;
 	public PlayerStatsSaveData playerStatsSaveData;
@@ -40,7 +40,7 @@ class GameSaveDataV1 {
 
 
 [Serializable]
-class GameLevelSaveData {
+public class GameLevelSaveData {
 	
 	public HubSaveData hubSaveData;
 	public DoorListSaveData doorListSaveData;

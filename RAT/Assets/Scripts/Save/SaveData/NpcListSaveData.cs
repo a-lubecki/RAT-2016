@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class NpcListSaveData {
+public class NpcListSaveData {
 
 	private List<NpcSaveData> npcsData = new List<NpcSaveData>(); 
 	

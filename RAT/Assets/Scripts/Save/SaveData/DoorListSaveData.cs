@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class DoorListSaveData {
+public class DoorListSaveData {
 
 	private List<DoorSaveData> doorsData = new List<DoorSaveData>(); 
 

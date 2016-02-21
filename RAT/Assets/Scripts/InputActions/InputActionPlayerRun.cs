@@ -14,7 +14,7 @@ public class InputActionPlayerRun : AbstractInputActionPlayer {
 		return true;
 	}
 	public override KeyCode[] getDefaultActionKeys() {
-		return new KeyCode[] { 
+		return new KeyCode[] {
 			KeyCode.RightAlt,
 			KeyCode.LeftControl,
 			KeyCode.RightControl 

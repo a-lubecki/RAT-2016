@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class PlayerSaveData {
+public class PlayerSaveData {
 
 	private int currentPosX;
 	private int currentPosY;

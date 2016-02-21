@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class PlayerStatsSaveData {
+public class PlayerStatsSaveData {
 	
 	private int skillPointHealth;
 	private int skillPointEnergy;

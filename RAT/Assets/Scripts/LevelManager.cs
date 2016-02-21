@@ -220,14 +220,36 @@ public class LevelManager : MonoBehaviour {
 
 		// load loots
 		LootCreator lootCreator = new LootCreator();
+
+		Dictionary<string, LootSaveData> lootsSaveDataById = GameSaver.Instance.getLootsSaveData();
 		
 		int lootCount = currentNodeLevel.getLootCount();
 		for(int i=0 ; i<lootCount ; i++) {
-			
-			lootCreator.createNewGameObject(currentNodeLevel.getLoot(i));
+
+			NodeElementLoot nodeElementLoot = currentNodeLevel.getLoot(i);
+			string elementId = nodeElementLoot.nodeId.value;
+
+			bool isCollected = false;
+			LootSaveData lootSaveData = null;
+
+			if(lootsSaveDataById != null) {
+				lootSaveData = lootsSaveDataById[elementId];
+				isCollected = lootSaveData.isCollected;
+			}
+
+			// create loot only if the loot was not collected
+			if(!isCollected) {
+
+				GameObject gameObjectLoot = lootCreator.createNewGameObject(nodeElementLoot);
+				
+				//init if previously saved
+				if(lootSaveData != null) {
+					lootSaveData.assign(gameObjectLoot.GetComponent<Loot>());
+				}
+			}
+
+
 		}
-		//init
-		GameSaver.Instance.loadLoots();
 
 
 		// load NPCs

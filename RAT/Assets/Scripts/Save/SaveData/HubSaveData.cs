@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-class HubSaveData {
+public class HubSaveData {
 	
 	private bool isActivated; 
 	

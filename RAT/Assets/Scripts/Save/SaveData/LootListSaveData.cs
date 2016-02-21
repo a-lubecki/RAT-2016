@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 [Serializable]
-class LootListSaveData {
+public class LootListSaveData {
 
 	private List<LootSaveData> lootsData = new List<LootSaveData>(); 
 
@@ -44,4 +44,16 @@ class LootListSaveData {
 
 	}
 
+	public Dictionary<string, LootSaveData> getLootsDataById() {
+
+		Dictionary<string, LootSaveData> lootsById = new Dictionary<string, LootSaveData>(lootsData.Count);
+
+		foreach(LootSaveData lootData in lootsData) {
+			lootsById.Add(lootData.id, lootData);
+		}
+
+		return lootsById;
+	}
+
 }
+
