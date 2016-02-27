@@ -14,6 +14,7 @@ public class DoorListSaveData {
 
 		if(doors.Length <= 0) {
 			doorsData.Clear();
+			return;
 		}
 
 		foreach(Door door in doors) {
@@ -21,34 +22,13 @@ public class DoorListSaveData {
 		}
 
 	}
-	
-	public void assign(Door[] doors) {
 
-		if(doors == null || doors.Length <= 0) {
-			return;
-		}
-
-		Dictionary<string, Door> doorsById = new Dictionary<string, Door>(doors.Length);
-		foreach(Door door in doors) {
-			doorsById.Add(door.nodeElementDoor.nodeId.value, door);
-		}
-
-		foreach(DoorSaveData doorData in doorsData) {
-			Door door = doorsById[doorData.id];
-			if(door == null) {
-				continue;
-			}
-			doorData.assign(door);
-		}
-
-	}
-	
 	public Dictionary<string, DoorSaveData> getDoorsDataById() {
 		
 		Dictionary<string, DoorSaveData> doorsById = new Dictionary<string, DoorSaveData>(doorsData.Count);
 		
 		foreach(DoorSaveData doorData in doorsData) {
-			doorsById.Add(doorData.id, doorData);
+			doorsById.Add(doorData.getId(), doorData);
 		}
 		
 		return doorsById;

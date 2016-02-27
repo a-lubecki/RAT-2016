@@ -3,9 +3,16 @@ using System;
 [Serializable]
 public class DoorSaveData {
 	
-	public string id { get; private set; }
-	public bool isOpened { get; private set; } 
+	private string id;
+	private bool isOpened;
 	
+	public string getId() {
+		return id;
+	}
+	public bool getIsOpened() {
+		return isOpened;
+	}
+
 	public DoorSaveData(Door door) {
 
 		if(door == null) {

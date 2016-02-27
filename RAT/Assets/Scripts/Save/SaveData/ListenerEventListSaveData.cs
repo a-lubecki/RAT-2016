@@ -24,7 +24,7 @@ public class ListenerEventListSaveData {
 		
 		foreach(ListenerEventSaveData eventData in eventsData) {
 			copy.Add(eventData);
-		}
+		} 
 
 		return copy;
 	}

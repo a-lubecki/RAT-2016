@@ -3,7 +3,11 @@ using System;
 [Serializable]
 public class CurrentLevelSaveData {
 	
-	public string currentLevelName { get; private set; }
+	private string currentLevelName;
+
+	public string getCurrentLevelName() {
+		return currentLevelName;
+	}
 	
 	public CurrentLevelSaveData(LevelManager levelManager) {
 		

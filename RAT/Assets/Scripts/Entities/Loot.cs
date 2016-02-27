@@ -88,9 +88,9 @@ public class Loot : MonoBehaviour, IActionnable {
 		getTriggerCollider().enabled = false;
 		
 		GetComponent<Gif>().stopAnimation();
-		
-		gameObject.SetActive(false);
-		Destroy(gameObject);
+
+		//hide the image, can't disable and destroy the object because it won't be saved with the collected items
+		GetComponent<SpriteRenderer>().sprite = null;
 
 	}
 

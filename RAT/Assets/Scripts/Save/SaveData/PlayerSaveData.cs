@@ -2,14 +2,33 @@ using System;
 
 [Serializable]
 public class PlayerSaveData {
-
-	public int currentPosX { get; private set; }
-	public int currentPosY { get; private set; }
-	public int currentAngleDegrees { get; private set; }
 	
-	public int currentLife { get; private set; }
-	public int currentStamina { get; private set; }
-	public int currentXp { get; private set; }
+	private int currentPosX;
+	private int currentPosY;
+	private int currentAngleDegrees;
+	
+	private int currentLife;
+	private int currentStamina;
+	private int currentXp;
+	
+	public int getCurrentPosX() {
+		return currentPosX;
+	}
+	public int getCurrentPosY() {
+		return currentPosY;
+	}
+	public int getCurrentAngleDegrees() {
+		return currentAngleDegrees;
+	}
+	public int getCurrentLife() {
+		return currentLife;
+	}
+	public int getCurrentStamina() {
+		return currentStamina;
+	}
+	public int getCurrentXp() {
+		return currentXp;
+	}
 
 	public PlayerSaveData(Player player) {
 		

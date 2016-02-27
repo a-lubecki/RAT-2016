@@ -3,14 +3,30 @@ using System;
 [Serializable]
 public class NpcSaveData {
 	
-	public string id { get; private set; }
+	private string id;
 	
-	public int currentPosX { get; private set; }
-	public int currentPosY { get; private set; }
-	public int currentAngleDegrees { get; private set; }
+	private int currentPosX;
+	private int currentPosY;
+	private int currentAngleDegrees;
 	
-	public int currentLife { get; private set; }
-	
+	private int currentLife;
+
+	public string getId() {
+		return id;
+	}
+	public int getCurrentPosX() {
+		return currentPosX;
+	}
+	public int getCurrentPosY() {
+		return currentPosY;
+	}
+	public int getCurrentAngleDegrees() {
+		return currentAngleDegrees;
+	}
+	public int getCurrentLife() {
+		return currentLife;
+	}
+
 	public NpcSaveData(Npc npc) {
 		
 		if(npc == null) {

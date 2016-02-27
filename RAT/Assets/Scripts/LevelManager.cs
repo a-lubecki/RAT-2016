@@ -90,8 +90,8 @@ public class LevelManager : MonoBehaviour {
 				
 				foreach(ListenerEventSaveData eventData in listenerEventSaveDataList) {
 					
-					if(eventData.isAchieved) {
-						mapListener.achieveEvent(eventData.id);
+					if(eventData.getIsAchieved()) {
+						eventData.assign(mapListener);
 					}
 				}
 			}
@@ -264,7 +264,7 @@ public class LevelManager : MonoBehaviour {
 
 			if(lootsSaveDataById != null) {
 				lootSaveData = lootsSaveDataById[elementId];
-				isCollected = lootSaveData.isCollected;
+				isCollected = lootSaveData.getIsCollected();
 			}
 
 			// create loot only if the loot was not collected
@@ -299,7 +299,7 @@ public class LevelManager : MonoBehaviour {
 			//init if previously saved
 			if(npcsSaveDataById != null) {
 				npcSaveData = npcsSaveDataById[elementId];
-				isDead = (npcSaveData.currentLife <= 0);
+				isDead = (npcSaveData.getCurrentLife() <= 0);
 			}
 
 			if(!isDead) {
@@ -310,6 +310,16 @@ public class LevelManager : MonoBehaviour {
 				if(npcSaveData != null) {
 					npcSaveData.assign(gameObjectNpc.GetComponent<Npc>());
 				}
+
+			} else {
+				//create body
+				
+				//TODO TEST !!!
+				GameObject gameObjectNpc = npcCreator.createNewGameObject(nodeElementNpc);
+				if(npcSaveData != null) {
+					npcSaveData.assign(gameObjectNpc.GetComponent<Npc>());
+				}
+				//TODO TEST !!!
 			}
 		}
 
@@ -452,10 +462,12 @@ public class LevelManager : MonoBehaviour {
 		if(playerStatsSaveData != null) {
 
 			playerStatsSaveData.assign(player);
-			
-			player.reinitLifeAndStamina();
 
-		} else if(mustSpawnPlayerAtHub) {
+			if(mustSpawnPlayerAtHub) {
+				player.reinitLifeAndStamina();
+			}
+
+		} else {
 
 			//very first init of the player stats
 			player.initStats(5, 5);

@@ -3,9 +3,16 @@ using System;
 [Serializable]
 public class LootSaveData {
 	
-	public string id { get; private set; }
-	public bool isCollected { get; private set; }
-	
+	private string id;
+	private bool isCollected;
+
+	public string getId() {
+		return id;
+	}
+	public bool getIsCollected() {
+		return isCollected;
+	}
+
 	public LootSaveData(Loot loot) {
 
 		if(loot == null) {

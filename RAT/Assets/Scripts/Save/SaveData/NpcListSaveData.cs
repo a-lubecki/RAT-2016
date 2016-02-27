@@ -8,7 +8,12 @@ public class NpcListSaveData {
 	
 	public NpcListSaveData(Npc[] npcs) {
 		
-		if(npcs == null || npcs.Length <= 0) {
+		if(npcs == null) {
+			return;
+		}
+		
+		if(npcs.Length <= 0) {
+			npcsData.Clear();
 			return;
 		}
 
@@ -17,31 +22,13 @@ public class NpcListSaveData {
 		}
 	}
 
-	public void assign(Npc[] npcs) {
-		
-		if(npcs == null || npcs.Length <= 0) {
-			return;
-		}
-
-		Dictionary<string, Npc> npcsById = new Dictionary<string, Npc>(npcs.Length);
-		foreach(Npc npc in npcs) {
-			npcsById.Add(npc.nodeElementNpc.nodeId.value, npc);
-		}
-		
-		foreach(NpcSaveData npcData in npcsData) {
-			Npc npc = npcsById[npcData.id];
-			npcData.assign(npc);
-		}
-
-	}
-
 	
 	public Dictionary<string, NpcSaveData> getNpcsDataById() {
 		
 		Dictionary<string, NpcSaveData> npcsById = new Dictionary<string, NpcSaveData>(npcsData.Count);
 		
 		foreach(NpcSaveData npcData in npcsData) {
-			npcsById.Add(npcData.id, npcData);
+			npcsById.Add(npcData.getId(), npcData);
 		}
 		
 		return npcsById;
