@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class DoorListSaveData {
 
-	private List<DoorSaveData> doorsData = new List<DoorSaveData>(); 
+	private Dictionary<string, DoorSaveData> doorsDataById = new Dictionary<string, DoorSaveData>(); 
 
 	public DoorListSaveData(Door[] doors) {
 		
@@ -12,26 +12,15 @@ public class DoorListSaveData {
 			return;
 		}
 
-		if(doors.Length <= 0) {
-			doorsData.Clear();
-			return;
-		}
-
 		foreach(Door door in doors) {
-			doorsData.Add(new DoorSaveData(door));
+			DoorSaveData doorData = new DoorSaveData(door);
+			doorsDataById.Add(doorData.getId(), doorData);
 		}
 
 	}
 
 	public Dictionary<string, DoorSaveData> getDoorsDataById() {
-		
-		Dictionary<string, DoorSaveData> doorsById = new Dictionary<string, DoorSaveData>(doorsData.Count);
-		
-		foreach(DoorSaveData doorData in doorsData) {
-			doorsById.Add(doorData.getId(), doorData);
-		}
-		
-		return doorsById;
+		return new Dictionary<string, DoorSaveData>(doorsDataById);
 	}
 
 }

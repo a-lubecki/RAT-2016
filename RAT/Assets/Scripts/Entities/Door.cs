@@ -305,7 +305,7 @@ public class Door : MonoBehaviour, IActionnable {
 			}
 		}
 		
-		if(nodeElementDoor.nodeRequire != null) {
+		if(nodeElementDoor.nodeRequireItem != null) {
 			//TODO item
 			MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Locked")));
 			return;

@@ -19,14 +19,7 @@ public class ListenerEventListSaveData {
 	}
 
 	public List<ListenerEventSaveData> getListenersEventSaveData() {
-
-		List<ListenerEventSaveData> copy = new List<ListenerEventSaveData>();
-		
-		foreach(ListenerEventSaveData eventData in eventsData) {
-			copy.Add(eventData);
-		} 
-
-		return copy;
+		return new List<ListenerEventSaveData>(eventsData);
 	}
 
 }

@@ -7,6 +7,10 @@ namespace Level {
 	public class NodeInt : BaseNode {
 
 		public int value { get; private set; }
+		
+		public NodeInt(int value) {
+			this.value = value;
+		}
 
 		public NodeInt(XmlNode node) : base(node) {
 			

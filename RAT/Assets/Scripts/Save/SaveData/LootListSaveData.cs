@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class LootListSaveData {
 
-	private List<LootSaveData> lootsData = new List<LootSaveData>(); 
+	private Dictionary<string, LootSaveData> lootsDataById = new Dictionary<string, LootSaveData>(); 
 
 	public LootListSaveData(Loot[] loots) {
 		
@@ -12,26 +12,15 @@ public class LootListSaveData {
 			return;
 		}
 
-		if(loots.Length <= 0) {
-			lootsData.Clear();
-			return;
-		}
-
 		foreach(Loot loot in loots) {
-			lootsData.Add(new LootSaveData(loot));
+			LootSaveData lootData = new LootSaveData(loot);
+			lootsDataById.Add(lootData.getId(), lootData);
 		}
 
 	}
 
 	public Dictionary<string, LootSaveData> getLootsDataById() {
-
-		Dictionary<string, LootSaveData> lootsById = new Dictionary<string, LootSaveData>(lootsData.Count);
-
-		foreach(LootSaveData lootData in lootsData) {
-			lootsById.Add(lootData.getId(), lootData);
-		}
-
-		return lootsById;
+		return new Dictionary<string, LootSaveData>(lootsDataById);
 	}
 
 }

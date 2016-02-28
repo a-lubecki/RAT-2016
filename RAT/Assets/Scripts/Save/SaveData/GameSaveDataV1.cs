@@ -7,6 +7,7 @@ public class GameSaveDataV1 {
 	public CurrentLevelSaveData currentLevelSaveData;
 	public PlayerStatsSaveData playerStatsSaveData;
 	public PlayerSaveData playerSaveData;
+	public InventorySaveData inventorySaveData;
 
 	private Dictionary<string, GameLevelSaveData> gameLevelSaveDataDictionary = new Dictionary<string, GameLevelSaveData>();
 

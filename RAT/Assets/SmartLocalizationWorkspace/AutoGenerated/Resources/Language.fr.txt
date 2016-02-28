@@ -252,10 +252,10 @@
 		<value>La porte ne s'ouvre pas</value>
 	</data>
 	<data name="Message.Door.Locked" xml:space="preserve">
-		<value>La porte ne peut pas être ouverte de ce coté</value>
+		<value>La porte est verrouillée</value>
 	</data>
 	<data name="Message.Door.WrongSide" xml:space="preserve">
-		<value>La porte est verrouillée</value>
+		<value>La porte ne peut pas être ouverte de ce coté</value>
 	</data>
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value>Les portes se sont ouvertes</value>

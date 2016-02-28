@@ -17,9 +17,10 @@ public class LevelManager : MonoBehaviour {
 	private static string currentLevelName;
 	private static NodeLevel currentNodeLevel;//optional
 
+	private static bool isVeryFirstStart = false;
+
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
-
 
 	void Start () {
 		
@@ -38,7 +39,9 @@ public class LevelManager : MonoBehaviour {
 		//load the current level
 		string levelName = GameSaver.Instance.getCurrentLevelName();
 		if(levelName == null) {
+
 			//if no saved data, load the very first level				
+			isVeryFirstStart = true;
 			levelName = Constants.FIRST_LEVEL_NAME;
 		}
 
@@ -55,6 +58,10 @@ public class LevelManager : MonoBehaviour {
 
 		if(!isAboutToLoadNextLevel()) {
 			return;
+		}
+
+		if(isVeryFirstStart) {
+			MessageDisplayer.Instance.displayMessages(new Message(this, "Nouvelle objectif : Sortir du complexe"));//TODO TEST
 		}
 
 		//loaded set the current name
@@ -99,6 +106,8 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		startSaverCoroutine();
+
+		isVeryFirstStart = false;
 	}
 
 	private void createLevel() {

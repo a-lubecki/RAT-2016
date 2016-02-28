@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class InventoryGrid : MonoBehaviour {
 
@@ -23,6 +24,8 @@ public class InventoryGrid : MonoBehaviour {
 	public string[] typesFilterTags;
 	private ItemType[] typesFilter;
 
+	private List<ItemInGrid> items = new List<ItemInGrid>();
+
 	/*
 	public InventoryGrid siblingTop;
 	public InventoryGrid siblingBottom;
@@ -42,6 +45,10 @@ public class InventoryGrid : MonoBehaviour {
 			(isPoint ? "Point" : ("Segment." + 
 			 (isHorizontalSegment ? "H" : "V"))) +
 				"." + x + "." + y;
+	}
+
+	public List<ItemInGrid> getItems() {
+		return items;
 	}
 
 	public void updateViews() {
@@ -171,6 +178,32 @@ public class InventoryGrid : MonoBehaviour {
 		im.color = color;
 
 	}
+
 	
+	public void updateItems(List<ItemInGrid> items) {
+
+		this.items = new List<ItemInGrid>(items);
+
+		//TODO update items
+
+	}
+	
+	public void addItem(ItemInGrid item) {
+
+		//TODO
+
+	}
+	
+	public void removeItem(ItemInGrid item) {
+		
+		//TODO
+	}
+	
+	public void moveItem(ItemInGrid item) {
+		
+		//TODO
+	}
+
+
 }
 
