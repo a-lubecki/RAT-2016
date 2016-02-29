@@ -1,6 +1,6 @@
 using System;
 
-public class Item : Displayable {
+public class ItemPattern : Displayable {
 
 	public readonly string id;
 
@@ -14,21 +14,21 @@ public class Item : Displayable {
 	
 	public readonly int maxGroupable;
 	
-	public readonly AmmoType ammoType;
+	public readonly ObjectAmmoPattern ammoType;
 
 	//TODO sprite name
 	
 	
-	public Item(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
 	            int widthInBlocks, int heightInBlocks, bool isCastable) : this(id, trKey, itemType, itemSubType,
 	                                                               widthInBlocks, heightInBlocks, isCastable,
 	                                                               1, null) {
 
 	}
 
-	public Item(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
 	            int widthInBlocks, int heightInBlocks, bool isCastable,
-	             int maxGroupable, AmmoType ammoType) : base("Item." + trKey) {
+	             int maxGroupable, ObjectAmmoPattern ammoType) : base("Item." + trKey) {
 
 		if(itemType == null) {
 			throw new System.ArgumentException();

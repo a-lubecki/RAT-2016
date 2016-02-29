@@ -131,15 +131,6 @@
 	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
 		<value>Ramasser\n+ Réorganiser</value>
 	</data>
-	<data name="AmmoType.BULLET" xml:space="preserve">
-		<value>Balle</value>
-	</data>
-	<data name="AmmoType.ENERGY" xml:space="preserve">
-		<value>Énergie</value>
-	</data>
-	<data name="AmmoType.MISSILE" xml:space="preserve">
-		<value>Missile</value>
-	</data>
 	<data name="Author.ANONYMOUS" xml:space="preserve">
 		<value>Anonyme</value>
 	</data>
@@ -185,6 +176,15 @@
 	<data name="Grid.WeaponsRight.Description" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Item.AMMO_BULLET" xml:space="preserve">
+		<value>Balle</value>
+	</data>
+	<data name="Item.AMMO_ENERGY" xml:space="preserve">
+		<value>Énergie</value>
+	</data>
+	<data name="Item.AMMO_MISSILE" xml:space="preserve">
+		<value>Missile</value>
+	</data>
 	<data name="Item.CLAWS" xml:space="preserve">
 		<value>Griffes</value>
 	</data>
@@ -221,11 +221,14 @@
 	<data name="ItemSubType.OBJECT_BOOST" xml:space="preserve">
 		<value>Boost</value>
 	</data>
-	<data name="ItemSubType.OBJECT_DATA" xml:space="preserve">
-		<value>Données</value>
-	</data>
 	<data name="ItemSubType.OBJECT_OFFENSIVE" xml:space="preserve">
 		<value>Offensif</value>
+	</data>
+	<data name="ItemSubType.SPECIAL_DATA" xml:space="preserve">
+		<value>Données</value>
+	</data>
+	<data name="ItemSubType.SPECIAL_KEY" xml:space="preserve">
+		<value>Clés</value>
 	</data>
 	<data name="ItemSubType.WEAPON_CLAWS" xml:space="preserve">
 		<value>Griffes</value>
@@ -244,6 +247,9 @@
 	</data>
 	<data name="ItemType.OBJECT" xml:space="preserve">
 		<value>Objets</value>
+	</data>
+	<data name="ItemType.OTHER" xml:space="preserve">
+		<value>Spéciaux</value>
 	</data>
 	<data name="ItemType.WEAPON" xml:space="preserve">
 		<value>Armes</value>

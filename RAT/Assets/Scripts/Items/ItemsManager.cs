@@ -20,7 +20,7 @@ public class ItemsManager {
 	}
 
 
-	private Dictionary<string, Item> itemsById = new Dictionary<string, Item>();
+	private Dictionary<string, ItemPattern> itemsById = new Dictionary<string, ItemPattern>();
 
 
 	private void loadAllItems() {
@@ -30,7 +30,7 @@ public class ItemsManager {
 		//TODO
 	}
 
-	public Item findItem(string itemId) {
+	public ItemPattern findItem(string itemId) {
 		return itemsById[itemId];
 	}
 

@@ -6,6 +6,7 @@ public class ItemType : Displayable {
 	public static readonly ItemType EQUIPMENT = new ItemType("EQUIPMENT");
 	public static readonly ItemType OBJECT = new ItemType("OBJECT");
 	public static readonly ItemType HEAL = new ItemType("HEAL");
+	public static readonly ItemType SPECIAL = new ItemType("SPECIAL");
 	
 	public ItemType(string key) : base("ItemType." + key) {
 		

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ItemInGrid : MonoBehaviour {
 	
-	private Item item;
+	private ItemPattern item;
 
 	private string gridGameObjectName = "";
 	private int posXInBlocks = 0;
@@ -12,11 +12,11 @@ public class ItemInGrid : MonoBehaviour {
 	private int nbGrouped = 1;
 
 
-	public void init(Item item, string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
+	public void init(ItemPattern item, string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
 		init(item, gridGameObjectName, posXInBlocks, posYInBlocks, 1);
 	}
 
-	public void init(Item item, string gridGameObjectName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
+	public void init(ItemPattern item, string gridGameObjectName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
 
 		if(item == null) {
 			throw new System.ArgumentException();
@@ -38,7 +38,7 @@ public class ItemInGrid : MonoBehaviour {
 
 	}	
 
-	public Item getItem() {
+	public ItemPattern getItem() {
 		return item;
 	}
 
