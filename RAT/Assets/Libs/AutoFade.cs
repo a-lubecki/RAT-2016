@@ -1,5 +1,6 @@
 // AutoFade.cs
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class AutoFade : MonoBehaviour
@@ -59,9 +60,9 @@ public class AutoFade : MonoBehaviour
 			DrawQuad(aColor,t);
 		}
 		if (m_LevelName != "")
-			Application.LoadLevel(m_LevelName);
+			SceneManager.LoadScene(m_LevelName);
 		else
-			Application.LoadLevel(m_LevelIndex);
+			SceneManager.LoadScene(m_LevelIndex);
 		while (t>0.0f)
 		{
 			yield return new WaitForEndOfFrame();

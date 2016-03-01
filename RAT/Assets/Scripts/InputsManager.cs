@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public interface InputsManagerListener {
 
@@ -49,7 +50,7 @@ public class InputsManager : MonoBehaviour {
 
 	void Start() {
 
-		int sceneId = Application.loadedLevel;
+		int sceneId = SceneManager.GetActiveScene().buildIndex;
 		if(sceneId == (int)(Constants.SceneIndex.SCENE_INDEX_SPLASHSCREEN)) {
 
 			possibleActions.Add(new InputActionSplashscreenStart());

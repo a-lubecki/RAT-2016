@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using MiniJSON;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ public class LevelManager : MonoBehaviour {
 
 	void Start () {
 		
-		if(Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
+		if(SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
 			return;
 		}
 
@@ -52,7 +53,7 @@ public class LevelManager : MonoBehaviour {
 
 	void OnLevelWasLoaded(int level) {
 
-		if(Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
+		if(SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
 			return;
 		}
 
@@ -412,7 +413,7 @@ public class LevelManager : MonoBehaviour {
 			GameSaver.Instance.saveAllToFile();
 		}
 
-		bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || Application.loadedLevel != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
+			bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
 
 		//no fadein if level is the first
 		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_LEVEL), hasFade ? 0.3f : 0, 0.3f, Color.black);
