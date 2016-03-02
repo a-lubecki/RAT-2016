@@ -42,6 +42,7 @@ public class Main {
 
         foldersToSync.put("Characters", imagesFilter);
         foldersToSync.put("Environments", imagesFilter);
+        foldersToSync.put("Items", mapsFilter);
         foldersToSync.put("Maps", mapsFilter);
         foldersToSync.put("Menus", imagesFilter);
         foldersToSync.put("Musics", soundsFilter);
