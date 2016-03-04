@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Node {
 
-	public abstract class BaseNode {
+	public class BaseNode {
 
 		private XmlNode node;
 		
@@ -122,7 +122,20 @@ namespace Node {
 
 			return res;
 		}
-		
+
+		public List<BaseNode> parseAllChildren(Type fieldType) {
+
+			List<BaseNode> res = new List<BaseNode>();
+
+			XmlNodeList nodeList = getNodeChildren();
+
+			foreach(XmlNode n in nodeList) {
+				res.Add(newLevelNode(fieldType, n));
+			}
+
+			return res;
+		}
+
 
 		private BaseNode newLevelNode(Type fieldType, params XmlNode[] args) {
 

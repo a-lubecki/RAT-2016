@@ -15,51 +15,27 @@ namespace Node {
 		public NodeGame(XmlNode node) : base (node) {
 
 
-			XmlNodeList nodeItemTypeList = getNodeChildren(node);//root
+			List<BaseNode> nodeItemTypeList = parseAllChildren(typeof(BaseNode));
 
-			for(int iType = 0 ; iType < nodeItemTypeList.Count ; iType++) {
+			foreach(BaseNode nodeItemType in nodeItemTypeList) {
 
-				//WEAPON
+				ItemType itemType = ItemType.fromString(getText(nodeItemType));
 
-				XmlNode nodeItemType = nodeItemTypeList.Item(iType);
+				List<BaseNode> nodeItemSubTypeList = nodeItemType.parseAllChildren(typeof(BaseNode));
 
-				string itemTypeId = getText(nodeItemType);
-				ItemType itemType = ItemType.fromString(itemTypeId);
+				foreach(BaseNode nodeItemSubType in nodeItemSubTypeList) {
+					
+					ItemSubType itemSubType = ItemSubType.fromString(itemType, getText(nodeItemSubType));
 
-				XmlNodeList nodeItemSubTypeList = getNodeChildren(nodeItemType);
+					List<BaseNode> nodeItemPatternList = nodeItemSubType.parseAllChildren(typeof(NodeElementItemPattern));
 
-				for(int iSubType = 0 ; iSubType < nodeItemSubTypeList.Count ; iSubType++) {
-
-					//WEAPON_OFFENSIVE
-
-					XmlNode nodeItemSubType = nodeItemSubTypeList.Item(iSubType);
-
-					string itemSubTypeId = getText(nodeItemSubType);
-					ItemSubType itemSubType = ItemSubType.fromString(itemType, itemSubTypeId);
-
-
-					XmlNodeList nodeItemPatternList = getNodeChildren(nodeItemSubType);
-
-					if(nodeItemPatternList.Count <= 0) {
-						continue;
-					}
-
-					NodeLabel nodeLabelSubType = new NodeLabel(nodeItemSubType);
-
-
-					for(int iPattern = 0 ; iPattern < nodeItemPatternList.Count ; iPattern++) {
+					foreach(BaseNode baseNode in nodeItemPatternList) {
 
 						//WEAPON_KATANA
-
-						XmlNode nodeItemPattern = nodeItemPatternList.Item(iPattern);
-
-						string itemPatternId = getText(nodeItemPattern);
-						NodeElementItemPattern nodeElementItemPattern = nodeLabelSubType.parseChild(itemPatternId, typeof(NodeElementItemPattern)) as NodeElementItemPattern;
-
-						addItemPatternNode(nodeElementItemPattern, itemPatternId, itemType, itemSubType);
-
+						NodeElementItemPattern nodeElementItemPattern = (NodeElementItemPattern) baseNode;
+						addItemPatternNode(nodeElementItemPattern, getText(nodeElementItemPattern), itemType, itemSubType);
 					}
-							
+
 				}
 
 			}
