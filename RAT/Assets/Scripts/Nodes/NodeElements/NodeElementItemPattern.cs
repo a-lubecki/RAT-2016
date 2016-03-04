@@ -9,14 +9,14 @@ namespace Node {
 		public NodeInt nodeMaxGroupable { get ; private set; }
 		public NodeInt nodeWidth { get ; private set; }
 		public NodeInt nodeHeight { get ; private set; }
-		public NodeLabel nodeAmmoType { get ; private set; }
+		public NodeLabel nodeAmmoPattern { get ; private set; }
 
 		public NodeElementItemPattern(XmlNode node) : base(node) {
 
 			nodeMaxGroupable = parseChild("maxGroupable", typeof(NodeInt)) as NodeInt;
 			nodeWidth = parseChild("width", typeof(NodeInt)) as NodeInt;
 			nodeHeight = parseChild("height", typeof(NodeInt)) as NodeInt;
-			nodeAmmoType = parseChild("maxGroupable", typeof(NodeLabel)) as NodeLabel;
+			nodeAmmoPattern = parseChild("ammoPattern", typeof(NodeLabel)) as NodeLabel;
 
 			if(nodeMaxGroupable == null) {
 				nodeMaxGroupable = new NodeInt(1);
@@ -43,8 +43,8 @@ namespace Node {
 			nodeMaxGroupable.freeXmlObjects();
 			nodeWidth.freeXmlObjects();
 			nodeHeight.freeXmlObjects();
-			if(nodeAmmoType != null) {
-				nodeAmmoType.freeXmlObjects();
+			if(nodeAmmoPattern != null) {
+				nodeAmmoPattern.freeXmlObjects();
 			}
 			
 			base.freeXmlObjects();

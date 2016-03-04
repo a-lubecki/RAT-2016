@@ -9,7 +9,7 @@ namespace Node {
 
 
 		private Dictionary<string, ItemPattern> itemPatternsById = new Dictionary<string, ItemPattern>();
-		private Dictionary<ItemType, Dictionary<ItemSubType, ItemPattern>> itemPatternsBySubtypeByType = new Dictionary<ItemType, Dictionary<ItemSubType, ItemPattern>>();
+		private Dictionary<ItemType, Dictionary<ItemSubType, List<ItemPattern>>> itemPatternsBySubtypeByType = new Dictionary<ItemType, Dictionary<ItemSubType, List<ItemPattern>>>();
 
 
 		public NodeGame(XmlNode node) : base (node) {
@@ -37,22 +37,26 @@ namespace Node {
 					string itemSubTypeId = getText(nodeItemSubType);
 					ItemSubType itemSubType = ItemSubType.fromString(itemType, itemSubTypeId);
 
-					if(getNodeChildren(nodeItemSubType).Count <= 0) {
-						//no items under subtype
+
+					XmlNodeList nodeItemPatternList = getNodeChildren(nodeItemSubType);
+
+					if(nodeItemPatternList.Count <= 0) {
 						continue;
 					}
 
-					NodeLabel nodeLabel = new NodeLabel(nodeItemSubType);
+					NodeLabel nodeLabelSubType = new NodeLabel(nodeItemSubType);
 
-					List<BaseNode> nodeItemPatterns = nodeLabel.parseChildren(itemSubTypeId, typeof(NodeElementItemPattern));
 
-					foreach(NodeElementItemPattern nodeItemPattern in nodeItemPatterns) {
+					for(int iPattern = 0 ; iPattern < nodeItemPatternList.Count ; iPattern++) {
 
 						//WEAPON_KATANA
 
-						string itemPatternId = getText(nodeItemPattern);
+						XmlNode nodeItemPattern = nodeItemPatternList.Item(iPattern);
 
-						addItemPatternNode(nodeItemPattern, itemPatternId, itemType, itemSubType);
+						string itemPatternId = getText(nodeItemPattern);
+						NodeElementItemPattern nodeElementItemPattern = nodeLabelSubType.parseChild(itemPatternId, typeof(NodeElementItemPattern)) as NodeElementItemPattern;
+
+						addItemPatternNode(nodeElementItemPattern, itemPatternId, itemType, itemSubType);
 
 					}
 							
@@ -68,17 +72,16 @@ namespace Node {
 
 		private void addItemPatternNode(NodeElementItemPattern nodeItemPattern, string itemPatternId, ItemType itemType, ItemSubType itemSubType) {
 
-			bool isCastable = (itemType != ItemType.SPECIAL && itemSubType != ItemSubType.WEAPON_CLAWS);//TODO add others
+			bool isCastable = (itemType != ItemType.SPECIAL && itemSubType != ItemSubType.WEAPON_CLAWS);//TODO add special heal
 
 			ItemPattern ammoPattern = null;
-			NodeLabel nodeAmmoType = nodeItemPattern.nodeAmmoType;
-			if(nodeAmmoType != null) {
-				ammoPattern = findItemPattern(nodeAmmoType.value);
+			NodeLabel nodeAmmoPattern = nodeItemPattern.nodeAmmoPattern;
+			if(nodeAmmoPattern != null) {
+				ammoPattern = findItemPattern(nodeAmmoPattern.value);
 			}
 
 			ItemPattern itemPattern = new ItemPattern(
-				itemPatternId, 
-				itemPatternId, 
+				itemPatternId,
 				itemType, 
 				itemSubType, 
 				nodeItemPattern.nodeWidth.value,
@@ -88,15 +91,27 @@ namespace Node {
 				nodeItemPattern.nodeMaxGroupable.value
 			);
 
+			//add by id
 			itemPatternsById.Add(itemPatternId, itemPattern);
 
-			Dictionary<ItemSubType, ItemPattern> itemPatternsBySubtype = itemPatternsBySubtypeByType[itemType];
-			if(itemPatternsBySubtype == null) {
-				itemPatternsBySubtype = new Dictionary<ItemSubType, ItemPattern>();
-				itemPatternsBySubtypeByType[itemType] = itemPatternsBySubtype;
+			//add by subtype / type :
+			Dictionary<ItemSubType, List<ItemPattern>> itemPatternsBySubtype = null;
+			if(itemPatternsBySubtypeByType.ContainsKey(itemType)) {
+				itemPatternsBySubtype = itemPatternsBySubtypeByType[itemType];
+			} else {
+				itemPatternsBySubtype = new Dictionary<ItemSubType, List<ItemPattern>>();
+				itemPatternsBySubtypeByType.Add(itemType, itemPatternsBySubtype);
 			}
 
-			itemPatternsBySubtype.Add(itemSubType, itemPattern);
+			List<ItemPattern> itemPatterns = null;
+			if(itemPatternsBySubtype.ContainsKey(itemSubType)) {
+				itemPatterns = itemPatternsBySubtype[itemSubType];
+			} else {
+				itemPatterns = new List<ItemPattern>();
+				itemPatternsBySubtype.Add(itemSubType, itemPatterns);
+			}
+
+			itemPatterns.Add(itemPattern);
 		}
 
 

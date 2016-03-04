@@ -17,11 +17,6 @@ namespace Node {
 				throw new System.ArgumentException();
 			}
 			this.node = node;
-
-			XmlNodeList nodeList = getNodeChildren();
-			if(nodeList.Count <= 0) {
-				throw new System.InvalidOperationException();
-			}
 		}
 
 		protected XmlNodeList getNodeChildren() {

@@ -19,16 +19,19 @@ public class ItemPattern : Displayable {
 	//TODO sprite name
 	
 	
-	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, ItemType itemType, ItemSubType itemSubType,
 		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern) : this(
-			id, trKey, itemType, itemSubType, widthInBlocks, heightInBlocks, isCastable, ammoPattern, 1) {
+			id, itemType, itemSubType, widthInBlocks, heightInBlocks, isCastable, ammoPattern, 1) {
 
 	}
 
-	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, ItemType itemType, ItemSubType itemSubType,
 		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern, 
-		int maxGroupable) : base("Item." + trKey) {
+		int maxGroupable) : base("Item." + id) {
 
+		if(string.IsNullOrEmpty(id)) {
+			throw new System.ArgumentException();
+		}
 		if(itemType == null) {
 			throw new System.ArgumentException();
 		}
@@ -45,6 +48,8 @@ public class ItemPattern : Displayable {
 		if(maxGroupable <= 0) {
 			throw new System.ArgumentException();
 		}
+
+		this.id = id;
 
 		this.itemType = itemType;
 		this.itemSubType = itemSubType;
