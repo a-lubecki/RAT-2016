@@ -233,7 +233,7 @@ public class SplashScreenManager : MonoBehaviour {
 	private IEnumerator showMenuButtons() {
 
 		if(hasHiddenTitle) {
-			return false;
+			yield break;
 		}
 
 		inputsEnabled = false;

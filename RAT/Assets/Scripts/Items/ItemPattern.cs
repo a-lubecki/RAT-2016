@@ -14,21 +14,20 @@ public class ItemPattern : Displayable {
 	
 	public readonly int maxGroupable;
 	
-	public readonly ObjectAmmoPattern ammoType;
+	public readonly ItemPattern ammoPattern;
 
 	//TODO sprite name
 	
 	
 	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
-	            int widthInBlocks, int heightInBlocks, bool isCastable) : this(id, trKey, itemType, itemSubType,
-	                                                               widthInBlocks, heightInBlocks, isCastable,
-	                                                               1, null) {
+		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern) : this(
+			id, trKey, itemType, itemSubType, widthInBlocks, heightInBlocks, isCastable, ammoPattern, 1) {
 
 	}
 
 	public ItemPattern(string id, string trKey, ItemType itemType, ItemSubType itemSubType,
-	            int widthInBlocks, int heightInBlocks, bool isCastable,
-	             int maxGroupable, ObjectAmmoPattern ammoType) : base("Item." + trKey) {
+		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern, 
+		int maxGroupable) : base("Item." + trKey) {
 
 		if(itemType == null) {
 			throw new System.ArgumentException();
@@ -57,7 +56,7 @@ public class ItemPattern : Displayable {
 
 		this.maxGroupable = maxGroupable;
 
-		this.ammoType = ammoType;//can be null
+		this.ammoPattern = ammoPattern;//can be null
 
 	}
 

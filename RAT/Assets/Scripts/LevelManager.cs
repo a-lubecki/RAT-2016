@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.IO;
-using Level;
+using Node;
 using System;
 
 
@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour {
 	private static bool mustSpawnPlayerAtHub = false;
 
 	private static string currentLevelName;
+	private static NodeGame nodeGame;
 	private static NodeLevel currentNodeLevel;//optional
 
 	private static bool isVeryFirstStart = false;
@@ -37,6 +38,8 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
+		createGame();
+
 		//load the current level
 		string levelName = GameSaver.Instance.getCurrentLevelName();
 		if(levelName == null) {
@@ -50,6 +53,27 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
+	private void createGame() {
+
+		if(nodeGame != null) {
+			//node already loaded
+			return;
+		}
+
+		TextAsset textAssetItemsPatterns = GameHelper.Instance.loadTextAsset(Constants.PATH_RES_ITEMS + "Item.Patterns");
+		if(textAssetItemsPatterns == null) {
+			Debug.LogWarning("Could not load textAssetItemsPatterns");
+			return;
+		}
+
+		XmlDocument xmlDocument = new XmlDocument();
+		xmlDocument.LoadXml(textAssetItemsPatterns.text);
+
+		XmlElement rootNode = xmlDocument.DocumentElement;
+
+		nodeGame = new NodeGame(rootNode.SelectSingleNode("node"));
+
+	}
 
 	void OnLevelWasLoaded(int level) {
 

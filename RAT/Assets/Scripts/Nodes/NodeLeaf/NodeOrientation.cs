@@ -2,25 +2,22 @@ using System;
 using System.Xml;
 using UnityEngine;
 
-namespace Level {
+namespace Node {
 
-	public class NodeDirection : BaseNode {
+	public class NodeOrientation : BaseNode {
 
-		public enum Direction {
-			NONE,
-			UP,
-			DOWN,
-			LEFT,
-			RIGHT
+		public enum Orientation {
+			FACE,
+			SIDE
 		}
 
-		public Direction value { get; private set; }
-
-		public NodeDirection() {
-			value = Direction.UP;
+		public Orientation value { get; private set; }
+		
+		public NodeOrientation() {
+			value = Orientation.FACE;
 		}
 
-		public NodeDirection(XmlNode node) : base(node) {
+		public NodeOrientation(XmlNode node) : base(node) {
 
 			XmlNodeList nodeList = getNodeChildren();
 		
@@ -34,7 +31,7 @@ namespace Level {
 				throw new System.InvalidOperationException();
 			}
 
-			value = (Direction)Enum.Parse(typeof(Direction), nodeValue);
+			value = (Orientation)Enum.Parse(typeof(Orientation), nodeValue);
 		}
 
 	}

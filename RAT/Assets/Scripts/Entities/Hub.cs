@@ -1,5 +1,5 @@
 using UnityEngine;
-using Level;
+using Node;
 using System.Collections;
 
 public class Hub : MonoBehaviour, IActionnable {

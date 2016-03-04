@@ -293,12 +293,20 @@ public class GameHelper {
 		throw new System.InvalidOperationException("Could not load image asset : " + imagePath + " => " + spriteName);
 	}
 
+	public TextAsset loadTextAsset(string path) {
+
+		if(string.IsNullOrEmpty(path)) {
+			return null;
+		}
+		return Resources.Load<TextAsset>(path) as TextAsset;
+	}
+
 	public TextAsset loadLevelAsset(string levelName) {
-		
+
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.Load<TextAsset>(Constants.PATH_RES_MAPS + "Level." + levelName) as TextAsset;
+		return loadTextAsset(Constants.PATH_RES_MAPS + "Level." + levelName);
 	}
 	
 	public TextAsset loadMapAsset(string levelName) {
@@ -306,7 +314,7 @@ public class GameHelper {
 		if(string.IsNullOrEmpty(levelName)) {
 			return null;
 		}
-		return Resources.Load<TextAsset>(Constants.PATH_RES_MAPS + "Map." + levelName) as TextAsset;
+		return loadTextAsset(Constants.PATH_RES_MAPS + "Map." + levelName);
 	}
 
 	public GameObject loadPrefabAsset(string prefabName) {

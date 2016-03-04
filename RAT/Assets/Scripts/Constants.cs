@@ -14,6 +14,7 @@ public class Constants {
 	public static readonly string PATH_RES_PREFABS = PATH_RES + "Prefabs/";
 	public static readonly string PATH_RES_TEST = PATH_RES + "Test/";
 	public static readonly string PATH_RES_MAPS = PATH_RES + "Maps/";
+	public static readonly string PATH_RES_ITEMS = PATH_RES + "Items/";
 	public static readonly string PATH_RES_ENVIRONMENTS = PATH_RES + "Environments/";
 	public static readonly string PATH_RES_CHARACTERS = PATH_RES + "Characters/";
 	public static readonly string PATH_RES_MENUS = PATH_RES + "Menus/";

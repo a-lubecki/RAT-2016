@@ -3,7 +3,7 @@ using System.Xml;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Level {
+namespace Node {
 
 	public class NodeLevel : BaseNode {
 

@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 using UnityEngine;
 
-namespace Level {
+namespace Node {
 
 	public class NodeString : NodeLabel {
 

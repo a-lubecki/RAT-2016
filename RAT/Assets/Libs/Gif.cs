@@ -65,7 +65,7 @@ public class Gif : MonoBehaviour {
 			if(spriteRenderer != null) {
 				spriteRenderer.sprite = currentSprite;
 			}
-			return false;
+			yield return false;
 		}
 
 		Sprite[] spritesTmp = new Sprite[sprites.Length];

@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Level;
+using Node;
 
 public abstract class BaseEntityCreator {
 

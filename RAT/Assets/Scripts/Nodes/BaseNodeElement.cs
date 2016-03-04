@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Level {
+namespace Node {
 	
 	public class BaseNodeElement : BaseNode {
 		

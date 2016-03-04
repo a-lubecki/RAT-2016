@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Level;
+using Node;
 
 public class Door : MonoBehaviour, IActionnable {
 	
@@ -136,7 +136,7 @@ public class Door : MonoBehaviour, IActionnable {
 	IEnumerator animateDoor(bool actionOpen, float totalTime) {
 		
 		if(isAnimatingDoor) {
-			yield return false;
+			yield break;
 		}
 		
 		isAnimatingDoor = true;

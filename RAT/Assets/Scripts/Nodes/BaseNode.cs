@@ -2,7 +2,7 @@ using System;
 using System.Xml;
 using System.Collections.Generic;
 
-namespace Level {
+namespace Node {
 
 	public abstract class BaseNode {
 
@@ -31,7 +31,7 @@ namespace Level {
 		protected string getId() {
 			return getId(node);
 		}
-		
+
 		protected string getText() {
 			return getText(node);
 		}
@@ -46,6 +46,10 @@ namespace Level {
 
 		public static string getText(XmlNode node) {
 			return getAttributeValue(node, "TEXT");			
+		}
+
+		public static string getText(BaseNode baseNode) {
+			return getText(baseNode.node);
 		}
 		
 		public static string getAttributeValue(XmlNode node, string attributeName) {
@@ -74,11 +78,11 @@ namespace Level {
 			return val;
 		}
 		
-		protected BaseNode parseChild(string label, Type fieldType) {
+		public BaseNode parseChild(string label, Type fieldType) {
 			return parseChild(label, fieldType, false);
 		}
 
-		protected BaseNode parseChild(string label, Type fieldType, bool returnNonNull) {
+		public BaseNode parseChild(string label, Type fieldType, bool returnNonNull) {
 
 			if(string.IsNullOrEmpty(label)) {
 				throw new ArgumentException();
@@ -102,7 +106,7 @@ namespace Level {
 			return null;
 		}
 			
-		protected List<BaseNode> parseChildren(string label, Type fieldType) {
+		public List<BaseNode> parseChildren(string label, Type fieldType) {
 			
 			if(string.IsNullOrEmpty(label)) {
 				throw new ArgumentException();

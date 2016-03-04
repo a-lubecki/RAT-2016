@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Level;
+using Node;
 
 public class Link : MonoBehaviour {
 

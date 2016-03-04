@@ -1,5 +1,5 @@
 using System;
-using Level;
+using Node;
 using UnityEngine;
 
 public class NpcCreator : BaseEntityCreator {

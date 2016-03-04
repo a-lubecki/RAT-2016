@@ -2,22 +2,22 @@ using System;
 using System.Xml;
 using UnityEngine;
 
-namespace Level {
+namespace Node {
 
-	public class NodeOrientation : BaseNode {
+	public class NodeDoorStatus : BaseNode {
 
-		public enum Orientation {
-			FACE,
-			SIDE
+		public enum DoorStatus {
+			CLOSED,
+			OPENED
 		}
 
-		public Orientation value { get; private set; }
+		public DoorStatus value { get; private set; }
 		
-		public NodeOrientation() {
-			value = Orientation.FACE;
+		public NodeDoorStatus() {
+			value = DoorStatus.CLOSED;
 		}
 
-		public NodeOrientation(XmlNode node) : base(node) {
+		public NodeDoorStatus(XmlNode node) : base(node) {
 
 			XmlNodeList nodeList = getNodeChildren();
 		
@@ -31,7 +31,7 @@ namespace Level {
 				throw new System.InvalidOperationException();
 			}
 
-			value = (Orientation)Enum.Parse(typeof(Orientation), nodeValue);
+			value = (DoorStatus)Enum.Parse(typeof(DoorStatus), nodeValue);
 		}
 
 	}
