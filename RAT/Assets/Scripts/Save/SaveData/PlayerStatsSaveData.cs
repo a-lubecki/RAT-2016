@@ -3,10 +3,10 @@ using System;
 [Serializable]
 public class PlayerStatsSaveData {
 	
-	private int skillPointHealth;
-	private int skillPointEnergy;
+	protected int skillPointHealth;
+	protected int skillPointEnergy;
 	
-	private string levelNameForlastHub;
+	protected string levelNameForlastHub;
 
 	public int getSkillPointHealth() {
 		return skillPointHealth;

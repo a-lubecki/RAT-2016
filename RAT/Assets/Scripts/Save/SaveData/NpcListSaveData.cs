@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class NpcListSaveData {
 
-	private Dictionary<string, NpcSaveData> npcsDataById = new Dictionary<string, NpcSaveData>(); 
+	protected Dictionary<string, NpcSaveData> npcsDataById = new Dictionary<string, NpcSaveData>(); 
 	
 	public NpcListSaveData(Npc[] npcs) {
 		

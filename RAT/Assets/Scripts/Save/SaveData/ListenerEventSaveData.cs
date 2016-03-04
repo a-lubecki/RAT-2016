@@ -3,8 +3,8 @@ using System;
 [Serializable]
 public class ListenerEventSaveData {
 	
-	private string id;
-	private bool isAchieved;
+	protected string id;
+	protected bool isAchieved;
 	
 	public string getId() {
 		return id;

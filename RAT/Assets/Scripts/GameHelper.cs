@@ -366,7 +366,7 @@ public class GameHelper {
 
 		if(mapListener == null) {
 			//create the listener class for this map
-			string levelName = levelManager.getCurrentLevelName();
+			string levelName = GameManager.Instance.getCurrentLevelName();
 			if(string.IsNullOrEmpty(levelName)) {
 				Debug.LogWarning("Level name is or empty");
 				return null;

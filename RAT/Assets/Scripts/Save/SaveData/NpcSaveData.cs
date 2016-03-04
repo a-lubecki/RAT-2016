@@ -3,13 +3,13 @@ using System;
 [Serializable]
 public class NpcSaveData {
 	
-	private string id;
+	protected string id;
 	
-	private int currentPosX;
-	private int currentPosY;
-	private int currentAngleDegrees;
+	protected int currentPosX;
+	protected int currentPosY;
+	protected int currentAngleDegrees;
 	
-	private int currentLife;
+	protected int currentLife;
 
 	public string getId() {
 		return id;

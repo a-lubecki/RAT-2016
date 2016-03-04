@@ -9,7 +9,7 @@ public class GameSaveDataV1 {
 	public PlayerSaveData playerSaveData;
 	public InventorySaveData inventorySaveData;
 
-	private Dictionary<string, GameLevelSaveData> gameLevelSaveDataDictionary = new Dictionary<string, GameLevelSaveData>();
+	protected Dictionary<string, GameLevelSaveData> gameLevelSaveDataDictionary = new Dictionary<string, GameLevelSaveData>();
 
 	public GameLevelSaveData getGameLevelSaveData(string levelName) {
 		

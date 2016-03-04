@@ -3,8 +3,8 @@ using System;
 [Serializable]
 public class DoorSaveData {
 	
-	private string id;
-	private bool isOpened;
+	protected string id;
+	protected bool isOpened;
 	
 	public string getId() {
 		return id;

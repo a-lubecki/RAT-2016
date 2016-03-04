@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class GameSaver {
 	
 	private static GameSaver instance;
@@ -17,7 +18,11 @@ public class GameSaver {
 		
 		get {
 			if (instance == null) {
+
 				instance = new GameSaver();
+
+				Debug.Log("Encryption : " + SystemInfo.deviceUniqueIdentifier + "\n" + BitConverter.ToString(ENCRYPTION_KEY) + "\n" + BitConverter.ToString(ENCRYPTION_IV));
+
 				instance.loadAllFromFile();
 			}
 			return instance;
@@ -92,7 +97,15 @@ public class GameSaver {
 		Debug.Log("[SAVE begin : " + DateTime.Now + "]");
 
 		string filePath = getFilePath();
-		
+
+		if(Debug.isDebugBuild) {
+
+			//copy the save before saving
+			if(File.Exists(filePath)) {
+				File.Copy(filePath, filePath + "_bak", true);
+			}
+		}
+
 		BinaryFormatter bf = new BinaryFormatter();
 		FileStream fs = File.Open(filePath, FileMode.OpenOrCreate);
 
@@ -121,6 +134,7 @@ public class GameSaver {
 		}
 		
 		Debug.Log("[SAVE end : " + DateTime.Now + "]");
+
 	}
 
 	private void serializeGame(BinaryFormatter bf, Stream stream) {
@@ -155,7 +169,7 @@ public class GameSaver {
 
 	
 	private GameLevelSaveData getCurrentGameLevelSaveData() {
-		return gameSaveData.getGameLevelSaveData(GameHelper.Instance.getLevelManager().getCurrentLevelName());
+		return gameSaveData.getGameLevelSaveData(GameManager.Instance.getCurrentLevelName());
 	}
 
 
@@ -170,7 +184,7 @@ public class GameSaver {
 	
 	public void saveCurrentLevel() {
 
-		gameSaveData.currentLevelSaveData = new CurrentLevelSaveData(GameHelper.Instance.getLevelManager());
+		gameSaveData.currentLevelSaveData = new CurrentLevelSaveData(GameManager.Instance.getCurrentLevelName());
 	}
 
 	

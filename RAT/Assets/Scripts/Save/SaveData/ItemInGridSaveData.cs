@@ -3,12 +3,12 @@ using System;
 [Serializable]
 public class ItemInGridSaveData {
 
-	private string id;
+	protected string id;
 
-	private int posXInBlocks;
-	private int posYInBlocks;
+	protected int posXInBlocks;
+	protected int posYInBlocks;
 	
-	private int nbGrouped;
+	protected int nbGrouped;
 	
 	public string getId() {
 		return id;

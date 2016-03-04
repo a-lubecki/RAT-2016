@@ -3,8 +3,8 @@ using System;
 [Serializable]
 public class LootSaveData {
 	
-	private string id;
-	private bool isCollected;
+	protected string id;
+	protected bool isCollected;
 
 	public string getId() {
 		return id;

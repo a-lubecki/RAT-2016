@@ -3,19 +3,19 @@ using System;
 [Serializable]
 public class CurrentLevelSaveData {
 	
-	private string currentLevelName;
+	protected string currentLevelName;
 
 	public string getCurrentLevelName() {
 		return currentLevelName;
 	}
 	
-	public CurrentLevelSaveData(LevelManager levelManager) {
+	public CurrentLevelSaveData(string currentLevelName) {
 		
-		if(levelManager == null) {
+		if(string.IsNullOrEmpty(currentLevelName)) {
 			throw new System.ArgumentException();
 		}
 		
-		currentLevelName = levelManager.getCurrentLevelName();
+		this.currentLevelName = currentLevelName;
 	}
 
 }

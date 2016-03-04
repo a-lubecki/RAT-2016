@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class ListenerEventListSaveData {
 	
-	private List<ListenerEventSaveData> eventsData = new List<ListenerEventSaveData>(); 
+	protected List<ListenerEventSaveData> eventsData = new List<ListenerEventSaveData>(); 
 	
 	public ListenerEventListSaveData(IMapListener listener) {
 		

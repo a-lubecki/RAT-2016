@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class HubSaveData {
 	
-	private bool isActivated;
+	protected bool isActivated;
 
 	public bool getIsActivated() {
 		return isActivated;

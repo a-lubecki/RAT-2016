@@ -3,13 +3,13 @@ using System;
 [Serializable]
 public class PlayerSaveData {
 	
-	private int currentPosX;
-	private int currentPosY;
-	private int currentAngleDegrees;
+	protected int currentPosX;
+	protected int currentPosY;
+	protected int currentAngleDegrees;
 	
-	private int currentLife;
-	private int currentStamina;
-	private int currentXp;
+	protected int currentLife;
+	protected int currentStamina;
+	protected int currentXp;
 	
 	public int getCurrentPosX() {
 		return currentPosX;

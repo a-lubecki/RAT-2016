@@ -15,11 +15,7 @@ public class LevelManager : MonoBehaviour {
 	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 	private static bool mustSpawnPlayerAtHub = false;
 
-	private static string currentLevelName;
-	private static NodeGame nodeGame;
-	private static NodeLevel currentNodeLevel;//optional
-
-	private static bool isVeryFirstStart = false;
+	private bool isVeryFirstStart = false;
 
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
@@ -34,11 +30,11 @@ public class LevelManager : MonoBehaviour {
 			return;
 		}
 
-		if(currentLevelName != null) {
+		if(GameManager.Instance.hasCurrentLevel()) {
 			return;
 		}
 
-		createGame();
+		GameManager.Instance.loadNodeGame();
 
 		//load the current level
 		string levelName = GameSaver.Instance.getCurrentLevelName();
@@ -53,27 +49,6 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	private void createGame() {
-
-		if(nodeGame != null) {
-			//node already loaded
-			return;
-		}
-
-		TextAsset textAssetItemsPatterns = GameHelper.Instance.loadTextAsset(Constants.PATH_RES_ITEMS + "Item.Patterns");
-		if(textAssetItemsPatterns == null) {
-			Debug.LogWarning("Could not load textAssetItemsPatterns");
-			return;
-		}
-
-		XmlDocument xmlDocument = new XmlDocument();
-		xmlDocument.LoadXml(textAssetItemsPatterns.text);
-
-		XmlElement rootNode = xmlDocument.DocumentElement;
-
-		nodeGame = new NodeGame(rootNode.SelectSingleNode("node"));
-
-	}
 
 	void OnLevelWasLoaded(int level) {
 
@@ -90,13 +65,17 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		//loaded set the current name
-		currentLevelName = nextLevelName;
-		currentNodeLevel = null;
+		GameManager.Instance.loadNodeLevel(nextLevelName);
+
+		if(!GameManager.Instance.hasCurrentLevel()) {
+			Debug.Log("LEVEL NOT LOADED : " + nextLevelName + " - SCENE " + level);
+			return;
+		}
+
 		nextLevelName = null;
 		
-		Debug.Log("LOAD LEVEL : " + currentLevelName + " - SCENE " + level);
+		Debug.Log("LOAD LEVEL : " + GameManager.Instance.getCurrentLevelName() + " - SCENE " + level);
 
-		createLevel();
 		createMap();
 		createGameElements();
 
@@ -135,87 +114,10 @@ public class LevelManager : MonoBehaviour {
 		isVeryFirstStart = false;
 	}
 
-	private void createLevel() {
-
-		TextAsset textAssetLevel = GameHelper.Instance.loadLevelAsset(currentLevelName);
-		if(textAssetLevel == null) {
-			Debug.LogWarning("Could not load textAssetLevel : " + currentLevelName);
-			return;
-		}
-
-		XmlDocument xmlDocument = new XmlDocument();
-		xmlDocument.LoadXml(textAssetLevel.text);
-		
-		XmlElement rootNode = xmlDocument.DocumentElement;
-
-		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
-
-
-		/*
-		/// TODO DEBUG ///
-		if(currentNodeLevel.spawnElement == null) {
-			Debug.Log(">>> nodeLevel.spawnElement => null");
-		} else {	
-			Debug.Log(">>> nodeLevel.spawnElement => " + 
-			          "x(" + currentNodeLevel.spawnElement.nodePosition.x + ") " +
-			          "y(" + currentNodeLevel.spawnElement.nodePosition.y + ") " +
-			          "direction(" + currentNodeLevel.spawnElement.nodeDirection.value + ")");
-		}
-		
-		for(int i=0;i<currentNodeLevel.getHubCount();i++) {
-			
-			NodeElementHub hubElement = currentNodeLevel.getHub(i);
-			
-			Debug.Log(">>> nodeLevel.hubElement[" + i + "] => " + 
-			          "x(" + hubElement.nodePosition.x + ") " +
-			          "y(" + hubElement.nodePosition.y + ") " +
-			          "direction(" + hubElement.nodeDirection.value + ")");
-		}
-
-		for(int i=0;i<currentNodeLevel.getLinkCount();i++) {
-
-			NodeElementLink linkElement = currentNodeLevel.getLink(i);
-
-			Debug.Log(">>> nodeLevel.linkElement[" + i + "] => " + 
-			          "x(" + linkElement.nodePosition.x + ") " +
-			          "y(" + linkElement.nodePosition.y + ") " +
-			          "nextMap(" + linkElement.nodeNextMap.value + ") " +
-			          "nextPos.x(" + linkElement.nodeNextPosition.x + ") " +
-			          "nextPos.y(" + linkElement.nodeNextPosition.y + ") " +
-					  "nextDirection(" + linkElement.nodeNextDirection.value + ")");
-		}*/
-		
-		/*   
-		   ////TODO TEST
-		   foreach (XmlNode node in mainNode) {
-			
-			if("pos".Equals(LevelNode.getText(node))) {
-				
-				NodePosition n = new NodePosition(node);
-				Debug.Log(">>> DONE !!! => pos : " + n.x + " / " + n.y);
-				
-			} else if("level".Equals(LevelNode.getText(node))) {
-				
-				LevelNodeInt n = new LevelNodeInt(node);
-				Debug.Log(">>> DONE !!! => level : " + n.value);
-				
-			} else if("name".Equals(LevelNode.getText(node))) {
-				
-				LevelNodeString n = new LevelNodeString(node);
-				Debug.Log(">>> DONE !!! => name : " + n.value);
-				
-			} else if("label".Equals(LevelNode.getText(node))) {
-				
-				LevelNodeLabel n = new LevelNodeLabel(node);
-				Debug.Log(">>> DONE !!! => label : " + n.value);
-			}*/
-		/// TODO DEBUG ///
-
-	}
-
-
 	private void createMap() {
-		
+
+		string currentLevelName = GameManager.Instance.getCurrentLevelName();
+
 		TextAsset textAssetMap = GameHelper.Instance.loadMapAsset(currentLevelName);
 		if(textAssetMap == null) {
 			throw new System.InvalidOperationException("Could not load textAssetMap : " + currentLevelName);
@@ -231,9 +133,7 @@ public class LevelManager : MonoBehaviour {
 
 	private void createGameElements() {
 
-		if(currentNodeLevel == null) {
-			return;
-		}
+		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
 		// load hub if there is one
 		if(currentNodeLevel.hubElement != null) {
@@ -360,6 +260,8 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void spawnPlayer() {
+		
+		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
 		BaseNodeElement currentNodeElementTrigger;
 
@@ -425,7 +327,7 @@ public class LevelManager : MonoBehaviour {
 
 		stopSaverCoroutine();
 
-		bool hasCurrentLevel = !string.IsNullOrEmpty(currentLevelName);
+		bool hasCurrentLevel = GameManager.Instance.hasCurrentLevel();
 
 		if(hasCurrentLevel) {
 			//the current level is not currently loading
@@ -437,7 +339,7 @@ public class LevelManager : MonoBehaviour {
 			GameSaver.Instance.saveAllToFile();
 		}
 
-			bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
+		bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
 
 		//no fadein if level is the first
 		AutoFade.LoadLevel((int)(Constants.SceneIndex.SCENE_INDEX_LEVEL), hasFade ? 0.3f : 0, 0.3f, Color.black);
@@ -563,7 +465,7 @@ public class LevelManager : MonoBehaviour {
 		if(nodeNextMap != null) {
 			requiredLevelName = nodeNextMap.value;
 		} else {
-			requiredLevelName = currentLevelName;
+			requiredLevelName = GameManager.Instance.getCurrentLevelName();
 		}
 
 		if(string.IsNullOrEmpty(requiredLevelName)) {
@@ -578,10 +480,6 @@ public class LevelManager : MonoBehaviour {
 	}
 
 
-	public string getCurrentLevelName() {
-		return currentLevelName;
-	}
-	
 	private void startSaverCoroutine() {
 		
 		stopSaverCoroutine();

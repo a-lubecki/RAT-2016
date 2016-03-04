@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class LootListSaveData {
 
-	private Dictionary<string, LootSaveData> lootsDataById = new Dictionary<string, LootSaveData>(); 
+	protected Dictionary<string, LootSaveData> lootsDataById = new Dictionary<string, LootSaveData>(); 
 
 	public LootListSaveData(Loot[] loots) {
 		

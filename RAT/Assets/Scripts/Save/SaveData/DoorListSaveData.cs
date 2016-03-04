@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class DoorListSaveData {
 
-	private Dictionary<string, DoorSaveData> doorsDataById = new Dictionary<string, DoorSaveData>(); 
+	protected Dictionary<string, DoorSaveData> doorsDataById = new Dictionary<string, DoorSaveData>(); 
 
 	public DoorListSaveData(Door[] doors) {
 		

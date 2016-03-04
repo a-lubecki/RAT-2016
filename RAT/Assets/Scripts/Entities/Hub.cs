@@ -90,7 +90,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		
 		//keep level to respawn after
 		Player player = GameHelper.Instance.getPlayer();
-		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
 		
 		GameSaver.Instance.saveHub();
 		GameSaver.Instance.savePlayer();
@@ -129,7 +129,7 @@ public class Hub : MonoBehaviour, IActionnable {
 
 		
 		//keep level to respawn after
-		player.levelNameForLastHub = GameHelper.Instance.getLevelManager().getCurrentLevelName();
+		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
 		
 		GameSaver.Instance.savePlayer();
 		GameSaver.Instance.savePlayerStats();

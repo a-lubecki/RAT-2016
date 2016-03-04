@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class ItemInGridListSaveData {
 
-	private Dictionary<string, ItemInGridSaveData> itemsDataById = new Dictionary<string, ItemInGridSaveData>();
+	protected Dictionary<string, ItemInGridSaveData> itemsDataById = new Dictionary<string, ItemInGridSaveData>();
 
 	public ItemInGridListSaveData(List<ItemInGrid> items) {
 		
