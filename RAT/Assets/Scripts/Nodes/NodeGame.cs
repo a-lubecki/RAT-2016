@@ -48,7 +48,7 @@ namespace Node {
 
 		private void addItemPatternNode(NodeElementItemPattern nodeItemPattern, string itemPatternId, ItemType itemType, ItemSubType itemSubType) {
 
-			bool isCastable = (itemType != ItemType.SPECIAL && itemSubType != ItemSubType.WEAPON_CLAWS);//TODO add special heal
+			bool isCastable = (itemType != ItemType.SPECIAL && !Constants.ITEM_ID_CLAWS.Equals(itemPatternId) && !Constants.ITEM_ID_REGENERATION.Equals(itemPatternId));
 
 			ItemPattern ammoPattern = null;
 			NodeLabel nodeAmmoPattern = nodeItemPattern.nodeAmmoPattern;
@@ -95,6 +95,10 @@ namespace Node {
 
 			if(id == null) {
 				throw new ArgumentException();
+			}
+
+			if(!itemPatternsById.ContainsKey(id)) {
+				return null;
 			}
 
 			return itemPatternsById[id];

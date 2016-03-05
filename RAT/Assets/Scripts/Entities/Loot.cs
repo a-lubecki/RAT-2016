@@ -6,6 +6,9 @@ public class Loot : MonoBehaviour, IActionnable {
 	
 	public NodeElementLoot nodeElementLoot { get; private set; }
 
+	public ItemPattern itemPattern { get; private set; }
+	public int nbGrouped { get; private set; }
+
 	public bool isCollecting { get; private set; }
 	public bool isCollected { get; private set; }
 
@@ -24,17 +27,29 @@ public class Loot : MonoBehaviour, IActionnable {
 
 	}
 	
-	public void init(bool isCollected) {
+	public void init(ItemPattern itemPattern, int nbGrouped) {
 
-		if(isCollected) {
-			setCollected();
-		} else {
-			GetComponent<Gif>().startAnimation();
+		if(itemPattern == null) {
+			throw new System.ArgumentException();
 		}
+		if(nbGrouped <= 0) {
+			throw new System.ArgumentException();
+		}
+
+		this.itemPattern = itemPattern;
+		this.nbGrouped = nbGrouped;
+
+		GetComponent<Gif>().startAnimation();
+
 	}
 
 	public string getLootText() {
-		return "TEST x1";//TODO get object name
+
+		string multiplier = "";
+		if(nbGrouped > 1) {
+			multiplier = " x" + nbGrouped;
+		}
+		return itemPattern.getTrName() + multiplier;
 	}
 
 	public void startCollecting() {

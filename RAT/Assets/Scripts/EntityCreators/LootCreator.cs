@@ -34,7 +34,12 @@ public class LootCreator : BaseEntityCreator {
 		Loot loot = gameObject.GetComponent<Loot>();
 		loot.setNodeElementLoot(nodeElement);
 
-		loot.init(false);
+		ItemPattern itemPattern = GameManager.Instance.getNodeGame().findItemPattern(nodeElement.nodeItem.value);
+		if(itemPattern == null) {
+			throw new InvalidOperationException("The item pattern was not found : " + nodeElement.nodeItem.value);
+		}
+
+		loot.init(itemPattern, nodeElement.nodeNbGrouped.value);
 
 		return gameObject;
 	}

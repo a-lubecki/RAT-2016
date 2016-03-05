@@ -27,10 +27,13 @@ public class GameManager {
 		}
 	}
 
+
 	private NodeGame nodeGame;
 
 	private string currentLevelName;
 	private NodeLevel currentNodeLevel;//optional
+
+	private PlayerInventory playerInventory = new PlayerInventory();
 
 
 	public NodeGame getNodeGame() {
@@ -48,6 +51,11 @@ public class GameManager {
 	public NodeLevel getCurrentNodeLevel() {
 		return currentNodeLevel;
 	}
+
+	public PlayerInventory getPlayerInventory() {
+		return playerInventory;
+	}
+
 
 
 	public void loadNodeGame() {

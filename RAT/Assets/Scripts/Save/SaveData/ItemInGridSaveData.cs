@@ -43,6 +43,12 @@ public class ItemInGridSaveData {
 			throw new System.ArgumentException();
 		}
 
-		itemInGrid.init(ItemsManager.Instance.findItem(id), grid.name, posXInBlocks, posYInBlocks, nbGrouped);
+		ItemPattern itemPattern = ItemsManager.Instance.findItem(id);
+		if(itemPattern == null) {
+			//not found
+			return;
+		}
+
+		itemInGrid.init(itemPattern, grid.name, posXInBlocks, posYInBlocks, nbGrouped);
 	}
 }

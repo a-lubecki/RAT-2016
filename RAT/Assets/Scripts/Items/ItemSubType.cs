@@ -9,7 +9,6 @@ public class ItemSubType : Displayable {
 	public static readonly ItemSubType HEAL_INSTANT = new ItemSubType("HEAL_INSTANT");
 	public static readonly ItemSubType HEAL_PERSISTENT = new ItemSubType("HEAL_PERSISTENT");
 
-	public static readonly ItemSubType WEAPON_CLAWS = new ItemSubType("WEAPON_CLAWS");
 	public static readonly ItemSubType WEAPON_OFFENSIVE = new ItemSubType("WEAPON_OFFENSIVE");
 	public static readonly ItemSubType WEAPON_DEFENSIVE = new ItemSubType("WEAPON_DEFENSIVE");
 
@@ -34,7 +33,7 @@ public class ItemSubType : Displayable {
 			return new ItemSubType[] { HEAL_INSTANT, HEAL_PERSISTENT };
 		}
 		if(itemType == ItemType.WEAPON) {
-			return new ItemSubType[] { WEAPON_CLAWS, WEAPON_OFFENSIVE, WEAPON_DEFENSIVE };
+			return new ItemSubType[] { WEAPON_OFFENSIVE, WEAPON_DEFENSIVE };
 		}
 		if(itemType == ItemType.EQUIPMENT) {
 			return new ItemSubType[] { EQUIPMENT_HEAD, EQUIPMENT_BODY, EQUIPMENT_ARMS, EQUIPMENT_LEGS };

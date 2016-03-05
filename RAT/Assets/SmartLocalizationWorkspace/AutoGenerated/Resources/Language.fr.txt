@@ -176,26 +176,113 @@
 	<data name="Grid.WeaponsRight.Description" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.AMMO_BULLET" xml:space="preserve">
+	<data name="Item.E_ARMY_HELMET" xml:space="preserve">
+		<value>Casque militaire</value>
+	</data>
+	<data name="Item.E_ARMY_HELMET.Description" xml:space="preserve">
+		<value>Le casque de base de l'armée, protège contre tout type de munition légères.</value>
+	</data>
+	<data name="Item.H_NANOMACHINES" xml:space="preserve">
+		<value>Nanomachines</value>
+	</data>
+	<data name="Item.H_NANOMACHINES.Description" xml:space="preserve">
+		<value>Le pack de nanomachines ressoudent les os et reconstituent les tissus sur une courte durée.</value>
+	</data>
+	<data name="Item.H_REGENATION" xml:space="preserve">
+		<value>Régénération</value>
+	</data>
+	<data name="Item.H_REGENATION.Description" xml:space="preserve">
+		<value>Due aux diverses modifications génétiques, la régénération permet de regagner un peu de santé.</value>
+	</data>
+	<data name="Item.O_AMMO_BULLET" xml:space="preserve">
 		<value>Balle</value>
 	</data>
-	<data name="Item.AMMO_ENERGY" xml:space="preserve">
+	<data name="Item.O_AMMO_BULLET.Description" xml:space="preserve">
+		<value>Balles 10mm de dernière génération.</value>
+	</data>
+	<data name="Item.O_AMMO_ENERGY" xml:space="preserve">
 		<value>Énergie</value>
 	</data>
-	<data name="Item.AMMO_MISSILE" xml:space="preserve">
+	<data name="Item.O_AMMO_ENERGY.Description" xml:space="preserve">
+		<value>Capsule d'énergie sombre ultra concentrée.</value>
+	</data>
+	<data name="Item.O_AMMO_MISSILE" xml:space="preserve">
 		<value>Missile</value>
 	</data>
-	<data name="Item.CLAWS" xml:space="preserve">
+	<data name="Item.O_AMMO_MISSILE.Description" xml:space="preserve">
+		<value>Missiles tactiques autoguidés.</value>
+	</data>
+	<data name="Item.O_ARMY_GRENADE" xml:space="preserve">
+		<value>Grenade militaire</value>
+	</data>
+	<data name="Item.O_ARMY_GRENADE.Description" xml:space="preserve">
+		<value>Grenade dévastatrice sur un rayon de 5 mètres.</value>
+	</data>
+	<data name="Item.S_DOOR_CODE_LABORATORY_1" xml:space="preserve">
+		<value>Code de la remise</value>
+	</data>
+	<data name="Item.S_DOOR_CODE_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_1" xml:space="preserve">
+		<value>Clé du labo 4</value>
+	</data>
+	<data name="Item.S_KEY_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_2" xml:space="preserve">
+		<value>Clé du labo 6</value>
+	</data>
+	<data name="Item.S_KEY_LABORATORY_2.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_PASS_LABORATORY_1" xml:space="preserve">
+		<value>Pass électronique</value>
+	</data>
+	<data name="Item.S_PASS_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_10GB" xml:space="preserve">
+		<value>Minidisque</value>
+	</data>
+	<data name="Item.S_STORAGE_10GB.Description" xml:space="preserve">
+		<value>Minidisque de données 10Go</value>
+	</data>
+	<data name="Item.S_STORAGE_1GB" xml:space="preserve">
+		<value>Minidisque</value>
+	</data>
+	<data name="Item.S_STORAGE_1GB.Description" xml:space="preserve">
+		<value>Minidisque de données 1Go</value>
+	</data>
+	<data name="Item.W_ARMY_SHIELD" xml:space="preserve">
+		<value>Bouclier de l'armée</value>
+	</data>
+	<data name="Item.W_ARMY_SHIELD.Description" xml:space="preserve">
+		<value>Un bouclier simple en acier trempé.</value>
+	</data>
+	<data name="Item.W_CLAWS" xml:space="preserve">
 		<value>Griffes</value>
 	</data>
-	<data name="Item.CLAWS.Description" xml:space="preserve">
+	<data name="Item.W_CLAWS.Description" xml:space="preserve">
 		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles ne vous sauveront si vous manquez de munitions.</value>
 	</data>
-	<data name="Item.HEAL_DEFAULT" xml:space="preserve">
-		<value>Concentration</value>
+	<data name="Item.W_GUN" xml:space="preserve">
+		<value>Pistolet</value>
 	</data>
-	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
-		<value>Se concentrer permet de regagner un peu de santé.</value>
+	<data name="Item.W_GUN.Description" xml:space="preserve">
+		<value>Pistolet fabriqué par l'armée il y a longtemps. Ce modèle est principalement utilisé par les résistants aujourd'hui.</value>
+	</data>
+	<data name="Item.W_KATANA" xml:space="preserve">
+		<value>Katana</value>
+	</data>
+	<data name="Item.W_KATANA.Description" xml:space="preserve">
+		<value>Un sabre affuté, relégué au rang d'objet décoratif depuis l'arrivée des armes longue distance. Seuls les anciens savent le manier.</value>
+	</data>
+	<data name="Item.W_RUSTED_PIPE" xml:space="preserve">
+		<value>Tuyau rouillé</value>
+	</data>
+	<data name="Item.W_RUSTED_PIPE.Description" xml:space="preserve">
+		<value>Un morceau de tuyau rouillé, efficace pour assomer un ennemi.</value>
 	</data>
 	<data name="ItemSubType.EQUIPMENT_ARMS" xml:space="preserve">
 		<value>Bras</value>
@@ -259,6 +346,9 @@
 	</data>
 	<data name="Message.Door.Locked" xml:space="preserve">
 		<value>La porte est verrouillée</value>
+	</data>
+	<data name="Message.Door.Unlock" xml:space="preserve">
+		<value>Vous avez utilisé : {0}</value>
 	</data>
 	<data name="Message.Door.WrongSide" xml:space="preserve">
 		<value>La porte ne peut pas être ouverte de ce coté</value>

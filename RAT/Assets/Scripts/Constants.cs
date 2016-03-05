@@ -112,6 +112,8 @@ public class Constants {
 	
 	public static readonly AbstractMenuType MENU_TYPE_INVENTORY = new MenuTypeInventory();
 
+	public static readonly string ITEM_ID_CLAWS = "W_CLAWS";
+	public static readonly string ITEM_ID_REGENERATION = "H_REGENERATION";
 
 	public enum SceneIndex {
 		SCENE_INDEX_SPLASHSCREEN = 0,

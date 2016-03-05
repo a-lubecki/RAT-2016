@@ -131,15 +131,6 @@
 	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.AMMO_BULLET" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Item.AMMO_ENERGY" xml:space="preserve">
-		<value />
-	</data>
-	<data name="Item.AMMO_MISSILE" xml:space="preserve">
-		<value />
-	</data>
 	<data name="Author.ANONYMOUS" xml:space="preserve">
 		<value />
 	</data>
@@ -185,16 +176,112 @@
 	<data name="Grid.WeaponsRight.Description" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.CLAWS" xml:space="preserve">
+	<data name="Item.E_ARMY_HELMET" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.CLAWS.Description" xml:space="preserve">
+	<data name="Item.E_ARMY_HELMET.Description" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.HEAL_DEFAULT" xml:space="preserve">
+	<data name="Item.H_NANOMACHINES" xml:space="preserve">
 		<value />
 	</data>
-	<data name="Item.HEAL_DEFAULT.Description" xml:space="preserve">
+	<data name="Item.H_NANOMACHINES.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.H_REGENATION" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.H_REGENATION.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_BULLET" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_BULLET.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_ENERGY" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_ENERGY.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_MISSILE" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_AMMO_MISSILE.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_ARMY_GRENADE" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.O_ARMY_GRENADE.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_DOOR_CODE_LABORATORY_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_DOOR_CODE_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_2" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_KEY_LABORATORY_2.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_PASS_LABORATORY_1" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_PASS_LABORATORY_1.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_10GB" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_10GB.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_1GB" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_1GB.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_ARMY_SHIELD" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_ARMY_SHIELD.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_CLAWS" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_CLAWS.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_GUN" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_GUN.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_KATANA" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_KATANA.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_RUSTED_PIPE" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.W_RUSTED_PIPE.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="ItemSubType.EQUIPMENT_ARMS" xml:space="preserve">
@@ -258,6 +345,9 @@
 		<value />
 	</data>
 	<data name="Message.Door.Locked" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Message.Door.Unlock" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Message.Door.WrongSide" xml:space="preserve">

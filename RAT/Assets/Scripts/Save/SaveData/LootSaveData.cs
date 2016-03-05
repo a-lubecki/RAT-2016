@@ -22,13 +22,6 @@ public class LootSaveData {
 		id = loot.nodeElementLoot.nodeId.value;
 		isCollected = loot.isCollected;
 	}
-	
-	public void assign(Loot loot) {
 
-		if(loot == null) {
-			throw new System.ArgumentException();
-		}
 
-		loot.init(isCollected);
-	}
 }

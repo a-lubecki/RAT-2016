@@ -203,13 +203,7 @@ public class LevelManager : MonoBehaviour {
 
 			// create loot only if the loot was not collected
 			if(!isCollected) {
-
-				GameObject gameObjectLoot = lootCreator.createNewGameObject(nodeElementLoot);
-				
-				//init if previously saved
-				if(lootSaveData != null) {
-					lootSaveData.assign(gameObjectLoot.GetComponent<Loot>());
-				}
+				lootCreator.createNewGameObject(nodeElementLoot);
 			}
 
 
