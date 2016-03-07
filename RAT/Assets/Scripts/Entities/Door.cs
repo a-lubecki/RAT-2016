@@ -111,8 +111,6 @@ public class Door : MonoBehaviour, IActionnable {
 			updateSprite(sprites.Length);
 
 			PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
-
-			MessageDisplayer.Instance.removeAllMessagesFrom(this);
 		}
 	}
 	
