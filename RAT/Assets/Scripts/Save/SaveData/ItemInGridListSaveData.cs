@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class ItemInGridListSaveData {
 
-	protected Dictionary<string, ItemInGridSaveData> itemsDataById = new Dictionary<string, ItemInGridSaveData>();
+	protected List<ItemInGridSaveData> itemsInGridData = new List<ItemInGridSaveData>();
 
 	public ItemInGridListSaveData(List<ItemInGrid> items) {
 		
@@ -13,14 +13,13 @@ public class ItemInGridListSaveData {
 		}
 
 		foreach(ItemInGrid item in items) {
-			ItemInGridSaveData itemData = new ItemInGridSaveData(item);
-			itemsDataById.Add(itemData.getId(), itemData);
+			itemsInGridData.Add(new ItemInGridSaveData(item));
 		}
 
 	}
 
-	public Dictionary<string, ItemInGridSaveData> getItemsDataById() {
-		return new Dictionary<string, ItemInGridSaveData>(itemsDataById);
+	public List<ItemInGridSaveData> getItemsInGrid() {
+		return new List<ItemInGridSaveData>(itemsInGridData);
 	}
 
 }

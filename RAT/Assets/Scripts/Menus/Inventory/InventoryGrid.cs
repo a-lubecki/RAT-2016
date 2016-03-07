@@ -24,7 +24,7 @@ public class InventoryGrid : MonoBehaviour {
 	public string[] typesFilterTags;
 	private ItemType[] typesFilter;
 
-	private List<ItemInGrid> items = new List<ItemInGrid>();
+	private HashSet<ItemInGrid> items = new HashSet<ItemInGrid>();
 
 	/*
 	public InventoryGrid siblingTop;
@@ -47,7 +47,7 @@ public class InventoryGrid : MonoBehaviour {
 				"." + x + "." + y;
 	}
 
-	public List<ItemInGrid> getItems() {
+	public HashSet<ItemInGrid> getItems() {
 		return items;
 	}
 
@@ -180,9 +180,9 @@ public class InventoryGrid : MonoBehaviour {
 	}
 
 	
-	public void updateItems(List<ItemInGrid> items) {
+	public void updateItems(HashSet<ItemInGrid> items) {
 
-		this.items = new List<ItemInGrid>(items);
+		this.items = new HashSet<ItemInGrid>(items);
 
 		//TODO update items
 

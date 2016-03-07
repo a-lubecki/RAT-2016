@@ -7,17 +7,17 @@ public class GameSaveDataV1 {
 	public CurrentLevelSaveData currentLevelSaveData;
 	public PlayerStatsSaveData playerStatsSaveData;
 	public PlayerSaveData playerSaveData;
-	public InventorySaveData inventorySaveData;
+	public ItemInGridListSaveData itemsInGridSaveData;
 
-	protected Dictionary<string, GameLevelSaveData> gameLevelSaveDataDictionary = new Dictionary<string, GameLevelSaveData>();
+	protected Dictionary<string, LevelSaveData> gameLevelSaveDataDictionary = new Dictionary<string, LevelSaveData>();
 
-	public GameLevelSaveData getGameLevelSaveData(string levelName) {
+	public LevelSaveData getGameLevelSaveData(string levelName) {
 		
 		if(levelName == null || levelName.Length <= 0) {
 			throw new System.ArgumentException();
 		}
 
-		GameLevelSaveData data;
+		LevelSaveData data;
 
 		if(gameLevelSaveDataDictionary.ContainsKey(levelName)) {
 
@@ -26,7 +26,7 @@ public class GameSaveDataV1 {
 		} else {
 			
 			//create a new one
-			data = new GameLevelSaveData();
+			data = new LevelSaveData();
 			gameLevelSaveDataDictionary[levelName] = data;
 		}
 
@@ -41,7 +41,7 @@ public class GameSaveDataV1 {
 
 
 [Serializable]
-public class GameLevelSaveData {
+public class LevelSaveData {
 	
 	public HubSaveData hubSaveData;
 	public DoorListSaveData doorListSaveData;

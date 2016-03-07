@@ -91,11 +91,8 @@ public class Hub : MonoBehaviour, IActionnable {
 		//keep level to respawn after
 		Player player = GameHelper.Instance.getPlayer();
 		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
-		
-		GameSaver.Instance.saveHub();
-		GameSaver.Instance.savePlayer();
-		GameSaver.Instance.savePlayerStats();
-		GameSaver.Instance.saveAllToFile();
+
+		GameManager.Instance.saveGame(false);
 
 		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.HubActivated"), true);
 
@@ -130,11 +127,8 @@ public class Hub : MonoBehaviour, IActionnable {
 		
 		//keep level to respawn after
 		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
-		
-		GameSaver.Instance.savePlayer();
-		GameSaver.Instance.savePlayerStats();
-		GameSaver.Instance.deleteNpcs();
-		GameSaver.Instance.saveAllToFile();
+
+		GameManager.Instance.saveGame(false);
 
 		openHubMenu();
 

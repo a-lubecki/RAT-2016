@@ -168,7 +168,7 @@ public class GameSaver {
 	}
 
 	
-	private GameLevelSaveData getCurrentGameLevelSaveData() {
+	private LevelSaveData getCurrentGameLevelSaveData() {
 		return gameSaveData.getGameLevelSaveData(GameManager.Instance.getCurrentLevelName());
 	}
 
@@ -273,7 +273,25 @@ public class GameSaver {
 		
 		getCurrentGameLevelSaveData().lootListSaveData = new LootListSaveData(loots);
 	}
-	
+
+	public List<ItemInGridSaveData> getItemsInGridSaveData() {
+		
+		ItemInGridListSaveData data = gameSaveData.itemsInGridSaveData;
+		if(data == null) {
+			return null;
+		}
+
+		return data.getItemsInGrid();
+	}
+
+	public void saveInventory() {
+		
+		Inventory inventory = GameManager.Instance.getInventory();
+
+		gameSaveData.itemsInGridSaveData = new ItemInGridListSaveData(inventory.getItems());
+	}
+
+
 	public Dictionary<string, NpcSaveData> getNpcsSaveData() {
 
 		NpcListSaveData data = getCurrentGameLevelSaveData().npcListSaveData;

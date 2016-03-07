@@ -13,8 +13,6 @@ public class GameManager {
 	private static GameManager instance;
 
 	private GameManager() {
-
-		loadNodeGame();
 	}
 
 	public static GameManager Instance {
@@ -22,6 +20,7 @@ public class GameManager {
 		get {
 			if (instance == null) {
 				instance = new GameManager();
+				instance.loadNodeGame();
 			}
 			return instance;
 		}
@@ -29,15 +28,18 @@ public class GameManager {
 
 
 	private NodeGame nodeGame;
+	private Inventory inventory;
 
 	private string currentLevelName;
 	private NodeLevel currentNodeLevel;//optional
 
-	private PlayerInventory playerInventory = new PlayerInventory();
-
 
 	public NodeGame getNodeGame() {
 		return nodeGame;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	public bool hasCurrentLevel() {
@@ -51,11 +53,6 @@ public class GameManager {
 	public NodeLevel getCurrentNodeLevel() {
 		return currentNodeLevel;
 	}
-
-	public PlayerInventory getPlayerInventory() {
-		return playerInventory;
-	}
-
 
 
 	public void loadNodeGame() {
@@ -77,6 +74,28 @@ public class GameManager {
 		XmlElement rootNode = xmlDocument.DocumentElement;
 
 		nodeGame = new NodeGame(rootNode.SelectSingleNode("node"));
+
+
+		//create player inventory
+		createInventory();
+	}
+
+	private void createInventory() {
+
+		inventory = new Inventory();
+
+		// load items from save
+		List<ItemInGridSaveData> itemsInGridSaveData = GameSaver.Instance.getItemsInGridSaveData();
+
+		if(itemsInGridSaveData == null) {
+			return;
+		}
+
+		foreach(ItemInGridSaveData itemData in itemsInGridSaveData) {
+			ItemInGrid item = new ItemInGrid();
+			itemData.assign(item);
+			inventory.addItem(item);
+		}
 
 	}
 
@@ -107,6 +126,27 @@ public class GameManager {
 		XmlElement rootNode = xmlDocument.DocumentElement;
 
 		currentNodeLevel = new NodeLevel(rootNode.SelectSingleNode("node"));
+
+	}
+
+
+	public void saveGame(bool deleteNpcs) {
+		
+		GameSaver.Instance.savePlayer();
+		GameSaver.Instance.savePlayerStats();
+		GameSaver.Instance.saveHub();
+		GameSaver.Instance.saveDoors();
+		GameSaver.Instance.saveLoots();
+		GameSaver.Instance.saveInventory();
+
+		if(deleteNpcs) {
+			GameSaver.Instance.deleteNpcs();
+		} else {
+			GameSaver.Instance.saveNpcs();
+		}
+
+		//commit
+		GameSaver.Instance.saveAllToFile();
 
 	}
 

@@ -78,8 +78,6 @@ public class LevelManager : MonoBehaviour {
 
 		createMap();
 		createGameElements();
-
-		initPlayerStats();
 		spawnPlayer();
 
 		//free for further level load
@@ -88,9 +86,7 @@ public class LevelManager : MonoBehaviour {
 
 		//save data to keep state as the player is in another changed level
 		GameSaver.Instance.saveCurrentLevel();
-		GameSaver.Instance.savePlayer();
-		GameSaver.Instance.saveNpcs();
-		GameSaver.Instance.saveAllToFile();
+		GameManager.Instance.saveGame(false);
 
 		//load listener events after all other loaded elements
 		IMapListener mapListener = GameHelper.Instance.getCurrentMapListener();
@@ -175,7 +171,7 @@ public class LevelManager : MonoBehaviour {
 			GameObject gameObjectDoor = doorCreator.createNewGameObject(nodeElementDoor);
 
 			//init if previously saved
-			if(doorsSaveDataById != null) {
+			if(doorsSaveDataById != null && doorsSaveDataById.ContainsKey(elementId)) {
 				DoorSaveData doorSaveData = doorsSaveDataById[elementId];
 				doorSaveData.assign(gameObjectDoor.GetComponent<Door>());
 			}
@@ -196,7 +192,7 @@ public class LevelManager : MonoBehaviour {
 			bool isCollected = false;
 			LootSaveData lootSaveData = null;
 
-			if(lootsSaveDataById != null) {
+			if(lootsSaveDataById != null && lootsSaveDataById.ContainsKey(elementId)) {
 				lootSaveData = lootsSaveDataById[elementId];
 				isCollected = lootSaveData.getIsCollected();
 			}
@@ -225,7 +221,7 @@ public class LevelManager : MonoBehaviour {
 			NpcSaveData npcSaveData = null;
 			
 			//init if previously saved
-			if(npcsSaveDataById != null) {
+			if(npcsSaveDataById != null && npcsSaveDataById.ContainsKey(elementId)) {
 				npcSaveData = npcsSaveDataById[elementId];
 				isDead = (npcSaveData.getCurrentLife() <= 0);
 			}
@@ -254,7 +250,27 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void spawnPlayer() {
-		
+
+		Player player = GameHelper.Instance.getPlayer();
+
+		//load player stats
+		PlayerStatsSaveData playerStatsSaveData = GameSaver.Instance.getPlayerStatsSaveData();
+		if(playerStatsSaveData != null) {
+
+			playerStatsSaveData.assign(player);
+
+			if(mustSpawnPlayerAtHub) {
+				player.reinitLifeAndStamina();
+			}
+
+		} else {
+
+			//very first init of the player stats
+			player.initStats(5, 5);
+
+		}
+
+
 		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
 		BaseNodeElement currentNodeElementTrigger;
@@ -327,10 +343,9 @@ public class LevelManager : MonoBehaviour {
 			//the current level is not currently loading
 
 			GameHelper.Instance.getPlayer().disableControls();
-			
-			GameSaver.Instance.savePlayer();
-			GameSaver.Instance.saveNpcs();
-			GameSaver.Instance.saveAllToFile();
+
+			//when the user quit the level, the doors, enemies... must be saved to be at this state when the player come back after
+			GameManager.Instance.saveGame(false);
 		}
 
 		bool hasFade = (hasCurrentLevel || !Debug.isDebugBuild || SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL));
@@ -383,30 +398,6 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
-	private void initPlayerStats() {
-		
-		Player player = GameHelper.Instance.getPlayer();
-
-		//load player stats
-		PlayerStatsSaveData playerStatsSaveData = GameSaver.Instance.getPlayerStatsSaveData();
-		if(playerStatsSaveData != null) {
-
-			playerStatsSaveData.assign(player);
-
-			if(mustSpawnPlayerAtHub) {
-				player.reinitLifeAndStamina();
-			}
-
-		} else {
-
-			//very first init of the player stats
-			player.initStats(5, 5);
-
-		}
-
-	}
-
-	
 	public void preparePlayerToRespawn() {
 		
 		if(isAboutToLoadNextLevel()) {
@@ -416,9 +407,8 @@ public class LevelManager : MonoBehaviour {
 
 		stopSaverCoroutine();
 
-		//save player so that when the player quit and restart the game, the player respawns
-		GameSaver.Instance.savePlayer();
-		GameSaver.Instance.saveAllToFile();
+		//save player so that when the player can't cheat by quitting and restarting the game to avoid dying
+		GameManager.Instance.saveGame(false);
 	}
 
 	public void processPlayerRespawn() {
@@ -496,12 +486,8 @@ public class LevelManager : MonoBehaviour {
 		while(isRunningSaverLoop) {
 			
 			yield return new WaitForSeconds(10);
-			
-			GameSaver.Instance.savePlayer();
-			GameSaver.Instance.saveNpcs();
-			GameSaver.Instance.saveDoors();
-			GameSaver.Instance.saveLoots();
-			GameSaver.Instance.saveAllToFile();
+
+			GameManager.Instance.saveGame(true);
 
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
 		}

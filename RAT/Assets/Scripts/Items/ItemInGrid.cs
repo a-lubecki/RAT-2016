@@ -1,27 +1,27 @@
 using System;
 using UnityEngine;
 
-public class ItemInGrid : MonoBehaviour {
+public class ItemInGrid {
 	
 	private ItemPattern item;
 
-	private string gridGameObjectName = "";
+	private string gridName = "";
 	private int posXInBlocks = 0;
 	private int posYInBlocks = 0;
 	
 	private int nbGrouped = 1;
 
-
-	public void init(ItemPattern item, string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
-		init(item, gridGameObjectName, posXInBlocks, posYInBlocks, 1);
+	public void init(ItemPattern item, int nbGrouped) {
+		init(item, null, 0, 0, nbGrouped);
 	}
 
-	public void init(ItemPattern item, string gridGameObjectName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
+	public void init(ItemPattern item, string gridName, int posXInBlocks, int posYInBlocks) {
+		init(item, gridName, posXInBlocks, posYInBlocks, 1);
+	}
+
+	public void init(ItemPattern item, string gridName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
 
 		if(item == null) {
-			throw new System.ArgumentException();
-		}
-		if(string.IsNullOrEmpty(gridGameObjectName)) {
 			throw new System.ArgumentException();
 		}
 		if(nbGrouped < 0) {
@@ -29,7 +29,7 @@ public class ItemInGrid : MonoBehaviour {
 		}
 
 		this.item = item;
-		this.gridGameObjectName = gridGameObjectName;
+		this.gridName = gridName;
 
 		this.posXInBlocks = posXInBlocks;
 		this.posYInBlocks = posYInBlocks;
@@ -42,8 +42,8 @@ public class ItemInGrid : MonoBehaviour {
 		return item;
 	}
 
-	public string getGridGameObjectName() {
-		return gridGameObjectName;
+	public string getGridName() {
+		return gridName;
 	}
 
 	public int getPosXInBlocks() {
@@ -55,7 +55,7 @@ public class ItemInGrid : MonoBehaviour {
 
 	public bool isFittingInsideGrid(InventoryGrid grid) {
 		return (posXInBlocks >= 0 && posXInBlocks + item.widthInBlocks <= grid.maxWidth &&
-		        posYInBlocks >= 0 && posYInBlocks + item.heightInBlocks <= grid.maxHeight);
+			posYInBlocks >= 0 && posYInBlocks + item.heightInBlocks <= grid.maxHeight);
 	}
 
 	public void move(string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
@@ -64,7 +64,7 @@ public class ItemInGrid : MonoBehaviour {
 			throw new System.ArgumentException();
 		}
 
-		this.gridGameObjectName = gridGameObjectName;
+		this.gridName = gridGameObjectName;
 		this.posXInBlocks = posXInBlocks;
 		this.posYInBlocks = posYInBlocks;
 	}

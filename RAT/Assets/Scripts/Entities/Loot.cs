@@ -107,6 +107,11 @@ public class Loot : MonoBehaviour, IActionnable {
 		//hide the image, can't disable and destroy the object because it won't be saved with the collected items
 		GetComponent<SpriteRenderer>().sprite = null;
 
+		//add to inventory
+		ItemInGrid item = new ItemInGrid();
+		item.init(itemPattern, nbGrouped);//TODO add in grid
+		GameManager.Instance.getInventory().addItem(item);
+
 	}
 
 

@@ -3,15 +3,19 @@ using System;
 [Serializable]
 public class ItemInGridSaveData {
 
-	protected string id;
+	protected string itemPatternId;
 
+	protected string gridName;
 	protected int posXInBlocks;
 	protected int posYInBlocks;
 	
 	protected int nbGrouped;
 	
-	public string getId() {
-		return id;
+	public string getItemPatternId() {
+		return itemPatternId;
+	}
+	public string getGridName() {
+		return gridName;
 	}
 	public int getPosXInBlocks() {
 		return posXInBlocks;
@@ -29,26 +33,27 @@ public class ItemInGridSaveData {
 			throw new System.ArgumentException();
 		}
 
-		id = itemInGrid.getItem().id;
-		
+		itemPatternId = itemInGrid.getItem().id;
+
+		gridName = itemInGrid.getGridName();
 		posXInBlocks = itemInGrid.getPosXInBlocks();
 		posYInBlocks = itemInGrid.getPosYInBlocks();
 
 		nbGrouped = itemInGrid.getNbGrouped();
 	}
 	
-	public void assign(InventoryGrid grid, ItemInGrid itemInGrid) {
+	public void assign(ItemInGrid itemInGrid) {
 
 		if(itemInGrid == null) {
 			throw new System.ArgumentException();
 		}
 
-		ItemPattern itemPattern = ItemsManager.Instance.findItem(id);
+		ItemPattern itemPattern = GameManager.Instance.getNodeGame().findItemPattern(itemPatternId);
 		if(itemPattern == null) {
 			//not found
 			return;
 		}
 
-		itemInGrid.init(itemPattern, grid.name, posXInBlocks, posYInBlocks, nbGrouped);
+		itemInGrid.init(itemPattern, gridName, posXInBlocks, posYInBlocks, nbGrouped);
 	}
 }

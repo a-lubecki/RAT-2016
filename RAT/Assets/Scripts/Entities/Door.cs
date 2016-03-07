@@ -312,14 +312,15 @@ public class Door : MonoBehaviour, IActionnable {
 				throw new System.InvalidOperationException("The item pattern was not found for the required item : " + nodeElementDoor.nodeRequireItem.value);
 			}
 
-			if(GameManager.Instance.getPlayerInventory().hasItemPattern(itemPattern)) {
-				//unlock door
-				MessageDisplayer.Instance.displayMessages(new Message(this, string.Format(Constants.tr("Message.Door.Unlock"), itemPattern.getTrName())));
-			} else {
+			if(!GameManager.Instance.getInventory().hasItemWithPattern(itemPattern)) {
 				//door remains locked
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Locked")));
+				return;
 			}
-			return;
+
+			//door unlocked with item
+			MessageDisplayer.Instance.displayMessages(new Message(this, string.Format(Constants.tr("Message.Door.Unlock"), itemPattern.getTrName())));
+
 		}
 		
 		open(true);
