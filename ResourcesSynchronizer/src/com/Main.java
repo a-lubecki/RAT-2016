@@ -33,6 +33,10 @@ public class Main {
         mapsFilter.add(new ExtensionTransform("mm", "xml"));
         mapsFilter.add(new ExtensionTransform("json"));
 
+        Set<ExtensionTransform> itemsFilter = new HashSet<>();
+        itemsFilter.add(new ExtensionTransform("mm", "xml"));
+        itemsFilter.add(new ExtensionTransform("png"));
+
         Set<ExtensionTransform> soundsFilter = new HashSet<>();
         soundsFilter.add(new ExtensionTransform("mp3"));
         soundsFilter.add(new ExtensionTransform("wav"));
@@ -42,7 +46,7 @@ public class Main {
 
         foldersToSync.put("Characters", imagesFilter);
         foldersToSync.put("Environments", imagesFilter);
-        foldersToSync.put("Items", mapsFilter);
+        foldersToSync.put("Items", itemsFilter);
         foldersToSync.put("Maps", mapsFilter);
         foldersToSync.put("Menus", imagesFilter);
         foldersToSync.put("Musics", soundsFilter);

@@ -3,6 +3,7 @@ using System;
 public class ItemPattern : Displayable {
 
 	public readonly string id;
+	public readonly string imageName;
 
 	public readonly ItemType itemType;
 	public readonly ItemSubType itemSubType;
@@ -16,20 +17,21 @@ public class ItemPattern : Displayable {
 	
 	public readonly ItemPattern ammoPattern;
 
-	//TODO sprite name
 	
-	
-	public ItemPattern(string id, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, string imageKey, ItemType itemType, ItemSubType itemSubType,
 		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern) : this(
-			id, itemType, itemSubType, widthInBlocks, heightInBlocks, isCastable, ammoPattern, 1) {
+			id, imageKey, itemType, itemSubType, widthInBlocks, heightInBlocks, isCastable, ammoPattern, 1) {
 
 	}
 
-	public ItemPattern(string id, ItemType itemType, ItemSubType itemSubType,
+	public ItemPattern(string id, string imageKey, ItemType itemType, ItemSubType itemSubType,
 		int widthInBlocks, int heightInBlocks, bool isCastable, ItemPattern ammoPattern, 
 		int maxGroupable) : base("Item." + id) {
 
 		if(string.IsNullOrEmpty(id)) {
+			throw new System.ArgumentException();
+		}
+		if(string.IsNullOrEmpty(imageKey)) {
 			throw new System.ArgumentException();
 		}
 		if(itemType == null) {
@@ -50,6 +52,7 @@ public class ItemPattern : Displayable {
 		}
 
 		this.id = id;
+		this.imageName = "Item." + imageKey;
 
 		this.itemType = itemType;
 		this.itemSubType = itemSubType;

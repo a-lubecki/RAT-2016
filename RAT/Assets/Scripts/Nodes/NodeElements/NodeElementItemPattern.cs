@@ -10,6 +10,7 @@ namespace Node {
 		public NodeInt nodeWidth { get ; private set; }
 		public NodeInt nodeHeight { get ; private set; }
 		public NodeLabel nodeAmmoPattern { get ; private set; }
+		public NodeString nodeImage { get ; private set; }
 
 		public NodeElementItemPattern(XmlNode node) : base(node) {
 
@@ -17,6 +18,7 @@ namespace Node {
 			nodeWidth = parseChild("width", typeof(NodeInt)) as NodeInt;
 			nodeHeight = parseChild("height", typeof(NodeInt)) as NodeInt;
 			nodeAmmoPattern = parseChild("ammoPattern", typeof(NodeLabel)) as NodeLabel;
+			nodeImage = parseChild("image", typeof(NodeString)) as NodeString;
 
 			if(nodeMaxGroupable == null) {
 				nodeMaxGroupable = new NodeInt(1);
@@ -45,6 +47,9 @@ namespace Node {
 			nodeHeight.freeXmlObjects();
 			if(nodeAmmoPattern != null) {
 				nodeAmmoPattern.freeXmlObjects();
+			}
+			if(nodeImage != null) {
+				nodeImage.freeXmlObjects();
 			}
 			
 			base.freeXmlObjects();

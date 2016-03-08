@@ -50,6 +50,14 @@ namespace Node {
 
 			bool isCastable = (itemType != ItemType.SPECIAL && !Constants.ITEM_ID_CLAWS.Equals(itemPatternId) && !Constants.ITEM_ID_REGENERATION.Equals(itemPatternId));
 
+			string imageKey = null;
+			NodeString nodeImage = nodeItemPattern.nodeImage;
+			if(nodeImage != null) {
+				imageKey = nodeImage.value;
+			} else {
+				imageKey = itemPatternId;
+			}
+
 			ItemPattern ammoPattern = null;
 			NodeLabel nodeAmmoPattern = nodeItemPattern.nodeAmmoPattern;
 			if(nodeAmmoPattern != null) {
@@ -58,6 +66,7 @@ namespace Node {
 
 			ItemPattern itemPattern = new ItemPattern(
 				itemPatternId,
+				imageKey,
 				itemType, 
 				itemSubType, 
 				nodeItemPattern.nodeWidth.value,
