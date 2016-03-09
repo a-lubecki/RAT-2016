@@ -66,6 +66,8 @@ public class PlayerActionsManager {
 		
 		textComponent.text = action.actionLabel;
 
+		//notify
+		action.notifyActionShown();
 	}
 
 	public void hideAction(BaseAction action) {
@@ -88,6 +90,9 @@ public class PlayerActionsManager {
 			return;
 		}
 
+		//retain action before nulling it
+		BaseAction retainedAction = action;
+
 		this.action = null;
 		
 		//hide
@@ -101,6 +106,9 @@ public class PlayerActionsManager {
 		
 		textComponent.enabled = false;
 		imageComponent.enabled = false;
+
+		//notify
+		retainedAction.notifyActionHidden();
 	}
 
 	public bool executeShownAction() {
@@ -119,7 +127,7 @@ public class PlayerActionsManager {
 		hideAction(retainedAction);
 
 		//notify after hiding because a new action can be shown in this notify, fix actions concurrency
-		retainedAction.notifyAction();
+		retainedAction.notifyActionValidated();
 
 		return true;
 	}

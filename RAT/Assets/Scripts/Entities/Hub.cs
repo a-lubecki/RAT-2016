@@ -74,7 +74,16 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameHelper.Instance.getMenu().close(typeof(MenuTypeHub));
 	}
 
-	void IActionnable.notifyAction(BaseAction action) {
+
+	void IActionnable.notifyActionShown(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionHidden(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionValidated(BaseAction action) {
 
 		if(!isActivated) {
 			activate();
@@ -82,7 +91,7 @@ public class Hub : MonoBehaviour, IActionnable {
 			use();
 		}
 	}
-		
+
 	private void activate() {
 		
 		//propose to activate

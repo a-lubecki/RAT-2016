@@ -234,8 +234,15 @@ public class Door : MonoBehaviour, IActionnable {
 
 	}
 
+	void IActionnable.notifyActionShown(BaseAction action) {
+		//do nothing
+	}
 
-	void IActionnable.notifyAction(BaseAction action) {
+	void IActionnable.notifyActionHidden(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionValidated(BaseAction action) {
 
 		if(isOpened) {
 			return;

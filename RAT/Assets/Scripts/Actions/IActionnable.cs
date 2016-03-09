@@ -2,7 +2,10 @@ using System;
 
 public interface IActionnable {
 
-	void notifyAction(BaseAction action);
+	void notifyActionShown(BaseAction action);
+	void notifyActionHidden(BaseAction action);
+
+	void notifyActionValidated(BaseAction action);
 
 }
 

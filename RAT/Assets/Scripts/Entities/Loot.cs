@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 using Node;
 
 public class Loot : MonoBehaviour, IActionnable {
@@ -20,7 +22,7 @@ public class Loot : MonoBehaviour, IActionnable {
 	public void setNodeElementLoot(NodeElementLoot nodeElementLoot) {
 		
 		if(nodeElementLoot == null) {
-			throw new System.InvalidOperationException();
+			throw new InvalidOperationException();
 		}
 		
 		this.nodeElementLoot = nodeElementLoot;
@@ -30,10 +32,10 @@ public class Loot : MonoBehaviour, IActionnable {
 	public void init(ItemPattern itemPattern, int nbGrouped) {
 
 		if(itemPattern == null) {
-			throw new System.ArgumentException();
+			throw new ArgumentException();
 		}
 		if(nbGrouped <= 0) {
-			throw new System.ArgumentException();
+			throw new ArgumentException();
 		}
 
 		this.itemPattern = itemPattern;
@@ -129,6 +131,7 @@ public class Loot : MonoBehaviour, IActionnable {
 		}
 	
 		if(getTriggerCollider().IsTouching(collider)) {
+
 			bool mustReorder = false;//TODO check if must reorder after the collecting
 			if(mustReorder) {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenReorder(this));
@@ -153,6 +156,7 @@ public class Loot : MonoBehaviour, IActionnable {
 		}
 		
 		if(!getTriggerCollider().IsTouching(collider)) {
+
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollectThenReorder(this));
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollect(this));
 		}
@@ -160,8 +164,37 @@ public class Loot : MonoBehaviour, IActionnable {
 	}
 
 
-	void IActionnable.notifyAction(BaseAction action) {
-		
+	void IActionnable.notifyActionShown(BaseAction action) {
+
+		//show retrievable item image
+
+		GameObject imageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_ITEM_RETRIEVABLE);
+		Image imageComponent = imageObject.GetComponent<Image>();
+
+		RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
+		rectTransform.sizeDelta = new Vector2(itemPattern.widthInBlocks, itemPattern.heightInBlocks);
+
+		rectTransform.localScale = new Vector3(1.6f, 1.6f, 1);
+
+		imageComponent.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_ITEMS + itemPattern.imageName);
+
+		imageComponent.enabled = true;
+
+	}
+
+	void IActionnable.notifyActionHidden(BaseAction action) {
+
+		//hide retrievable item image
+
+		GameObject imageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_ITEM_RETRIEVABLE);
+		Image imageComponent = imageObject.GetComponent<Image>();
+
+		imageComponent.enabled = false;
+
+	}
+
+	void IActionnable.notifyActionValidated(BaseAction action) {
+
 		if(isCollected) {
 			return;
 		}
@@ -172,6 +205,7 @@ public class Loot : MonoBehaviour, IActionnable {
 		StartCoroutine(delayPlayerAfterAction());
 
 	}
+
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
@@ -188,6 +222,7 @@ public class Loot : MonoBehaviour, IActionnable {
 		player.enableControls();
 
 	}
+
 
 }
 

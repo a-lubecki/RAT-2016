@@ -19,9 +19,19 @@ public abstract class BaseAction {
 		this.actionLabel = actionLabel;
 	}
 
-	public virtual void notifyAction() {
+	public virtual void notifyActionShown() {
 
-		objectToNotify.notifyAction(this);
+		objectToNotify.notifyActionShown(this);
+	}
+
+	public virtual void notifyActionHidden() {
+
+		objectToNotify.notifyActionHidden(this);
+	}
+
+	public virtual void notifyActionValidated() {
+
+		objectToNotify.notifyActionValidated(this);
 	}
 
 
