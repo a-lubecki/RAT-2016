@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,15 +22,41 @@ public class PlayerActionsManager {
 
 	private BaseAction action;
 
-	private bool enabled = true;
+	private HashSet<object> enabledOwners = new HashSet<object>();
 
-	public void setEnabled(bool enabled) {
+	public bool isEnabled() {
+		//no owner has required disabling
+		return (enabledOwners.Count <= 0);
+	}
 
-		if(!enabled) {
+	/**
+	 * An owner can disable the actions manager, it must
+	 */
+	public void setEnabled(object owner, bool enabled) {
+
+		if(enabled) {
+			enabledOwners.Remove(owner);
+		} else {
+			enabledOwners.Add(owner);
+		}
+
+		if(!isEnabled()) {
 			hideAnyAction();
 		}
-		
-		this.enabled = enabled;
+
+	}
+
+	public void setEnabledForced(bool enabled) {
+
+		if(enabled) {
+			enabledOwners.Clear();
+		} else {
+			enabledOwners.Add(this);
+		}
+
+		if(!isEnabled()) {
+			hideAnyAction();
+		}
 
 	}
 
@@ -43,7 +70,7 @@ public class PlayerActionsManager {
 			throw new System.ArgumentException();
 		}
 
-		if(!enabled) {
+		if(!isEnabled()) {
 			return;
 		}
 
@@ -86,14 +113,14 @@ public class PlayerActionsManager {
 	
 	public void hideAnyAction() {
 		
-		if(!enabled) {
+		if(action == null) {
 			return;
 		}
 
 		//retain action before nulling it
 		BaseAction retainedAction = action;
 
-		this.action = null;
+		action = null;
 		
 		//hide
 		GameObject actionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
@@ -113,7 +140,7 @@ public class PlayerActionsManager {
 
 	public bool executeShownAction() {
 		
-		if(!enabled) {
+		if(!isEnabled()) {
 			return false;
 		}
 

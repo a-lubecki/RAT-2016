@@ -369,7 +369,11 @@ public abstract class Character : MonoBehaviour {
 		CharacterAction characterAction = getCurrentCharacterAction();
 		
 		if(characterAction.isBlocking) {
+			
 			isControlsEnabledWhileAnimating = false;
+
+			//the actions don't show when the player is blocked by animations
+			PlayerActionsManager.Instance.setEnabled(this, false);
 		}
 		
 		//call action
@@ -388,6 +392,9 @@ public abstract class Character : MonoBehaviour {
 		}
 		
 		isControlsEnabledWhileAnimating = true;
+
+		//enable again
+		PlayerActionsManager.Instance.setEnabled(this, true);
 		
 		updateState(getNextState());
 	}

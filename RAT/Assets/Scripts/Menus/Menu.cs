@@ -65,7 +65,7 @@ public class Menu : MonoBehaviour {
 
 	private IEnumerator animateOpening() {
 		
-		PlayerActionsManager.Instance.setEnabled(false);
+		PlayerActionsManager.Instance.setEnabled(this, false);
 
 		for(int i = (int)(percentageOpening * ANIM_LOOP_COUNT_OPEN_CLOSE) ; i <= ANIM_LOOP_COUNT_OPEN_CLOSE ; i++) {
 
@@ -136,7 +136,7 @@ public class Menu : MonoBehaviour {
 		animateArrow(true, false, false);
 		animateArrow(false, false, false);
 
-		PlayerActionsManager.Instance.setEnabled(true);
+		PlayerActionsManager.Instance.setEnabled(this, true);
 
 		coroutineOpening = null;
 	}
