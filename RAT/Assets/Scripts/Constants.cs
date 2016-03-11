@@ -74,7 +74,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL = "BackgroundMessageNormal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION = "TextMessageAction";
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION = "BackgroundMessageAction";
-	public static readonly string GAME_OBJECT_NAME_IMAGE_ITEM_RETRIEVABLE = "ImageItemRetrievable";
+	public static readonly string GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM = "ImageRetrievableItem";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_TOTAL = "TextXpTotal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_EARNED = "TextXpEarned";
 	public static readonly string GAME_OBJECT_NAME_XP_DISPLAY_MANAGER = "XpDisplayManager";
@@ -95,6 +95,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_STORY_ITEMS_LIST = "SubMenuTypeStoryItemsList";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TELEPORT = "SubMenuTypeTeleport";
 
+	public static readonly string GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM = "GridRetrievableItem";
 	public static readonly string GAME_OBJECT_NAME_GRID_BAG = "GridBag";
 	public static readonly string GAME_OBJECT_NAME_GRID_OBJECTS = "GridObjects";
 	public static readonly string GAME_OBJECT_NAME_GRID_HEALS = "GridHeals";

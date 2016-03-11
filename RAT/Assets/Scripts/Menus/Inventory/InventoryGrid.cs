@@ -53,38 +53,28 @@ public class InventoryGrid : MonoBehaviour {
 
 	public void updateViews() {
 
-		bool mustCreateParts = (transform.childCount <= 0);
-		
 		RectTransform rt = GetComponent<RectTransform>();
-
-		if(mustCreateParts) {
 			
-			spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
-			spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
-			spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
-			spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
-			
-			titleText.text = Constants.tr(nameTrKey);
+		spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
+		spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
+		spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
+		spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
+		
+		titleText.text = Constants.tr(nameTrKey);
 
-			rt.sizeDelta = new Vector2(maxWidth * 0.8f, maxHeight * 0.8f);
-			rt.localScale = new Vector3(TILE_SIZE, TILE_SIZE, 1);
-		}
+		rt.sizeDelta = new Vector2(maxWidth * 0.8f, maxHeight * 0.8f);
+		rt.localScale = new Vector3(TILE_SIZE, TILE_SIZE, 1);
+
 
 		for(int y = 0 ; y < maxHeight + 1 ; y++) {
 			for(int x = 0 ; x < maxWidth + 1 ; x++) {
 				
 				//horizontal segment
 				if(x < maxWidth) {
-					if(mustCreateParts) {
-						createGridPart(rt, x, y, false, true);
-					}
 					updateGridPart(rt, x, y, false, true);
 				}
 				//vertical segment
 				if(y < maxHeight) {
-					if(mustCreateParts) {
-						createGridPart(rt, x, y, false, false);
-					}
 					updateGridPart(rt, x, y, false, false);
 				}
 			}
@@ -94,14 +84,19 @@ public class InventoryGrid : MonoBehaviour {
 			for(int x = 0 ; x < maxWidth + 1 ; x++) {
 				
 				//point
-				if(mustCreateParts) {
-					createGridPart(rt, x, y, true, false);
-				}
 				updateGridPart(rt, x, y, true, false);
 			}
 		}
 	}
-	
+
+	public void deleteViews() {
+
+		int count = transform.childCount;
+		for(int i = count - 1 ; i >= 0 ; i--) {
+			GameObject.Destroy(transform.GetChild(i).gameObject);
+		}
+	}
+
 	private void createGridPart(RectTransform parent, int x, int y, bool isPoint, bool isHorizontalSegment) {
 
 		GameObject go = new GameObject(getGameObjectName(x, y, isPoint, isHorizontalSegment));
@@ -137,10 +132,18 @@ public class InventoryGrid : MonoBehaviour {
 
 	}
 
+
 	private void updateGridPart(RectTransform parent, int x, int y, bool isPoint, bool isHorizontalSegment) {
 
-		GameObject go = parent.Find(getGameObjectName(x, y, isPoint, isHorizontalSegment)).gameObject;
-		Image im = go.GetComponent<Image>();
+		string objectName = getGameObjectName(x, y, isPoint, isHorizontalSegment);
+
+		Transform transform = parent.Find(objectName);
+		if(transform == null) {
+			createGridPart(parent, x, y, isPoint, isHorizontalSegment);
+			transform = parent.Find(objectName);
+		}
+
+		Image im = transform.gameObject.GetComponent<Image>();
 
 		Sprite sprite;
 		Color color = Color.white;

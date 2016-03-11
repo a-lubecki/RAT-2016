@@ -166,30 +166,55 @@ public class Loot : MonoBehaviour, IActionnable {
 
 	void IActionnable.notifyActionShown(BaseAction action) {
 
+		//show grid
+
+		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM);
+
+		Image gridImage = gridObject.GetComponent<Image>();
+		gridImage.enabled = true;
+
+		InventoryGrid grid = gridObject.GetComponent<InventoryGrid>();
+		grid.width = itemPattern.widthInBlocks;
+		grid.maxWidth = itemPattern.widthInBlocks;
+		grid.height = itemPattern.heightInBlocks;
+		grid.maxHeight = itemPattern.heightInBlocks;
+		grid.updateViews();
+		//		grid.addItem TODO
+
+
 		//show retrievable item image
 
-		GameObject imageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_ITEM_RETRIEVABLE);
-		Image imageComponent = imageObject.GetComponent<Image>();
+		GameObject itemObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM);
 
-		RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
-		rectTransform.sizeDelta = new Vector2(itemPattern.widthInBlocks, itemPattern.heightInBlocks);
+		RectTransform itemRectTransform = itemObject.GetComponent<RectTransform>();
+		itemRectTransform.sizeDelta = new Vector2(itemPattern.widthInBlocks, itemPattern.heightInBlocks);
+		itemRectTransform.localScale = new Vector3(1.6f, 1.6f, 1);
 
-		rectTransform.localScale = new Vector3(1.6f, 1.6f, 1);
-
-		imageComponent.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_ITEMS + itemPattern.imageName);
-
-		imageComponent.enabled = true;
+		Image itemImage = itemObject.GetComponent<Image>();
+		itemImage.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_ITEMS + itemPattern.imageName);
+		itemImage.enabled = true;
 
 	}
 
 	void IActionnable.notifyActionHidden(BaseAction action) {
 
+		//hide grid
+
+		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM);
+
+		Image gridImage = gridObject.GetComponent<Image>();
+		gridImage.enabled = false;
+
+		InventoryGrid grid = gridObject.GetComponent<InventoryGrid>();
+		grid.deleteViews();
+
+
 		//hide retrievable item image
 
-		GameObject imageObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_ITEM_RETRIEVABLE);
-		Image imageComponent = imageObject.GetComponent<Image>();
+		GameObject itemObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM);
 
-		imageComponent.enabled = false;
+		Image itemImage = itemObject.GetComponent<Image>();
+		itemImage.enabled = false;
 
 	}
 
