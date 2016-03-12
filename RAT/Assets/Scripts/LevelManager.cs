@@ -487,7 +487,7 @@ public class LevelManager : MonoBehaviour {
 			
 			yield return new WaitForSeconds(10);
 
-			GameManager.Instance.saveGame(true);
+			GameManager.Instance.saveGame(false);
 
 			Debug.Log("[GAME SAVED " + DateTime.Now + "]");
 		}

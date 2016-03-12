@@ -36,13 +36,13 @@ public class InventoryGrid : MonoBehaviour {
 	public InventoryGrid siblingLeft;
 	public InventoryGrid siblingRight;
 */
-	
-	private static Sprite spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
-	private static Sprite spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
-	private static Sprite spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
-	private static Sprite spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
 
-	private static GameObject prefabRetrievableItem = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_ITEMINGRID);
+	private static Sprite spriteInventoryPointOutside;
+	private static Sprite spriteInventoryPointInside;
+	private static Sprite spriteInventorySegmentOutside;
+	private static Sprite spriteInventorySegmentInside;
+
+	private static GameObject prefabRetrievableItem;
 
 	private string getGameObjectName(int x, int y, bool isPoint, bool isHorizontalSegment) {
 
@@ -52,6 +52,25 @@ public class InventoryGrid : MonoBehaviour {
 				"." + x + "." + y;
 	}
 
+
+	void Awake() {
+
+		if(spriteInventoryPointOutside == null) {
+			spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
+		}
+		if(spriteInventoryPointInside == null) {
+			spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
+		}
+		if(spriteInventorySegmentOutside == null) {
+			spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
+		}
+		if(spriteInventorySegmentInside == null) {
+			spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
+		}
+		if(prefabRetrievableItem == null) {
+			prefabRetrievableItem = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_ITEMINGRID);
+		}
+	}
 
 	public void updateGridViews() {
 		

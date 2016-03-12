@@ -137,7 +137,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		//keep level to respawn after
 		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
 
-		GameManager.Instance.saveGame(false);
+		GameManager.Instance.saveGame(true);
 
 		openHubMenu();
 
