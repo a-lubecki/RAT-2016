@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ItemInGrid {
 	
-	private ItemPattern item;
+	private ItemPattern itemPattern;
 
 	private string gridName = "";
 	private int posXInBlocks = 0;
@@ -19,16 +19,16 @@ public class ItemInGrid {
 		init(item, gridName, posXInBlocks, posYInBlocks, 1);
 	}
 
-	public void init(ItemPattern item, string gridName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
+	public void init(ItemPattern itemPattern, string gridName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
 
-		if(item == null) {
+		if(itemPattern == null) {
 			throw new System.ArgumentException();
 		}
 		if(nbGrouped < 0) {
 			throw new System.ArgumentException();
 		}
 
-		this.item = item;
+		this.itemPattern = itemPattern;
 		this.gridName = gridName;
 
 		this.posXInBlocks = posXInBlocks;
@@ -39,7 +39,7 @@ public class ItemInGrid {
 	}	
 
 	public ItemPattern getItem() {
-		return item;
+		return itemPattern;
 	}
 
 	public string getGridName() {
@@ -54,8 +54,8 @@ public class ItemInGrid {
 	}
 
 	public bool isFittingInsideGrid(InventoryGrid grid) {
-		return (posXInBlocks >= 0 && posXInBlocks + item.widthInBlocks <= grid.maxWidth &&
-			posYInBlocks >= 0 && posYInBlocks + item.heightInBlocks <= grid.maxHeight);
+		return (posXInBlocks >= 0 && posXInBlocks + itemPattern.widthInBlocks <= grid.maxWidth &&
+			posYInBlocks >= 0 && posYInBlocks + itemPattern.heightInBlocks <= grid.maxHeight);
 	}
 
 	public void move(string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
@@ -75,7 +75,7 @@ public class ItemInGrid {
 	}
 
 	public bool isGroupValid() {
-		return (nbGrouped > 0 && nbGrouped <= item.maxGroupable);
+		return (nbGrouped > 0 && nbGrouped <= itemPattern.maxGroupable);
 	}
 
 	public void setNbGrouped(int nbGrouped) {
@@ -83,7 +83,7 @@ public class ItemInGrid {
 		if(nbGrouped <= 0) {
 			throw new System.ArgumentException();
 		}
-		if(nbGrouped > item.maxGroupable) {
+		if(nbGrouped > itemPattern.maxGroupable) {
 			throw new System.ArgumentException();
 		}
 		
@@ -98,12 +98,12 @@ public class ItemInGrid {
 	 */
 	public bool group(ItemInGrid other) {
 		
-		if(item.trKey.Equals(other.item.trKey)) {
+		if(itemPattern.trKey.Equals(other.itemPattern.trKey)) {
 			return false;
 		}
 		
 		int maxResult = nbGrouped + other.nbGrouped;
-		int diff = maxResult - item.maxGroupable;
+		int diff = maxResult - itemPattern.maxGroupable;
 		if(diff < 0) {
 			diff = 0;
 		}

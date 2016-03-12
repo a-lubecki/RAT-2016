@@ -15,12 +15,12 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 	
 	public override void updateViews(GameObject gameObjectSubMenu) {
 
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_BAG).updateViews();
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_OBJECTS).updateViews();
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_HEALS).updateViews();
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_WEAPONS_LEFT).updateViews();
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_EQUIP).updateViews();
-		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT).updateViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_BAG).updateGridViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_OBJECTS).updateGridViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_HEALS).updateGridViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_WEAPONS_LEFT).updateGridViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_EQUIP).updateGridViews();
+		findInventoryGrid(gameObjectSubMenu, Constants.GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT).updateGridViews();
 
 	}
 

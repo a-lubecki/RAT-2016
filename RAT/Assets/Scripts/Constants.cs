@@ -32,6 +32,7 @@ public class Constants {
 	public static readonly string PREFAB_NAME_NPC = "Npc";
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar";
+	public static readonly string PREFAB_NAME_ITEMINGRID = "PrefabItemInGrid";
 
 	
 	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_BACKGROUND = "SplashScreenBackground";
@@ -74,7 +75,6 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL = "BackgroundMessageNormal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION = "TextMessageAction";
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION = "BackgroundMessageAction";
-	public static readonly string GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM = "ImageRetrievableItem";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_TOTAL = "TextXpTotal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_EARNED = "TextXpEarned";
 	public static readonly string GAME_OBJECT_NAME_XP_DISPLAY_MANAGER = "XpDisplayManager";

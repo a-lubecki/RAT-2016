@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Node;
@@ -178,21 +179,14 @@ public class Loot : MonoBehaviour, IActionnable {
 		grid.maxWidth = itemPattern.widthInBlocks;
 		grid.height = itemPattern.heightInBlocks;
 		grid.maxHeight = itemPattern.heightInBlocks;
-		grid.updateViews();
-		//		grid.addItem TODO
 
+		grid.updateGridViews();
 
-		//show retrievable item image
+		ItemInGrid item = new ItemInGrid();
+		item.init(itemPattern, grid.name, 0, 0, nbGrouped);
 
-		GameObject itemObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM);
-
-		RectTransform itemRectTransform = itemObject.GetComponent<RectTransform>();
-		itemRectTransform.sizeDelta = new Vector2(itemPattern.widthInBlocks, itemPattern.heightInBlocks);
-		itemRectTransform.localScale = new Vector3(1.6f, 1.6f, 1);
-
-		Image itemImage = itemObject.GetComponent<Image>();
-		itemImage.sprite = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_ITEMS + itemPattern.imageName);
-		itemImage.enabled = true;
+		grid.removeItems();
+		grid.addItem(item);
 
 	}
 
@@ -206,15 +200,8 @@ public class Loot : MonoBehaviour, IActionnable {
 		gridImage.enabled = false;
 
 		InventoryGrid grid = gridObject.GetComponent<InventoryGrid>();
-		grid.deleteViews();
-
-
-		//hide retrievable item image
-
-		GameObject itemObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_RETRIEVABLE_ITEM);
-
-		Image itemImage = itemObject.GetComponent<Image>();
-		itemImage.enabled = false;
+		grid.deleteGridViews();
+		grid.removeItems();
 
 	}
 

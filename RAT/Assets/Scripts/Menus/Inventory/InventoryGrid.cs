@@ -21,10 +21,14 @@ public class InventoryGrid : MonoBehaviour {
 
 	public int maxItems = 0;
 
+	public Color colorActivated = new Color(1, 1, 1, 0.75f);
+	public Color colorDeactivated = new Color(0.5f, 0.5f, 0.5f, 0.75f);
+
 	public string[] typesFilterTags;
 	private ItemType[] typesFilter;
 
-	private HashSet<ItemInGrid> items = new HashSet<ItemInGrid>();
+	//private List<GameObject> gridGameObjects = new List<GameObject>();
+	//private List<GameObject> itemsGameObjects = new List<GameObject>();
 
 	/*
 	public InventoryGrid siblingTop;
@@ -33,11 +37,12 @@ public class InventoryGrid : MonoBehaviour {
 	public InventoryGrid siblingRight;
 */
 	
-	private static Sprite spriteInventoryPointOutside;
-	private static Sprite spriteInventoryPointInside;
-	private static Sprite spriteInventorySegmentOutside;
-	private static Sprite spriteInventorySegmentInside;
+	private static Sprite spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
+	private static Sprite spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
+	private static Sprite spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
+	private static Sprite spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
 
+	private static GameObject prefabRetrievableItem = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_ITEMINGRID);
 
 	private string getGameObjectName(int x, int y, bool isPoint, bool isHorizontalSegment) {
 
@@ -47,21 +52,13 @@ public class InventoryGrid : MonoBehaviour {
 				"." + x + "." + y;
 	}
 
-	public HashSet<ItemInGrid> getItems() {
-		return items;
-	}
 
-	public void updateViews() {
-
-		RectTransform rt = GetComponent<RectTransform>();
-			
-		spriteInventoryPointOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Outside");
-		spriteInventoryPointInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Point.Inside");
-		spriteInventorySegmentOutside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Outside");
-		spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
+	public void updateGridViews() {
 		
 		titleText.text = Constants.tr(nameTrKey);
 
+
+		RectTransform rt = GetComponent<RectTransform>();
 		rt.sizeDelta = new Vector2(maxWidth * 0.8f, maxHeight * 0.8f);
 		rt.localScale = new Vector3(TILE_SIZE, TILE_SIZE, 1);
 
@@ -89,13 +86,27 @@ public class InventoryGrid : MonoBehaviour {
 		}
 	}
 
-	public void deleteViews() {
+	public void deleteGridViews() {
+
+		deleteChidrenGameObjects(false);
+	}
+
+	public void deleteChidrenGameObjects(bool deleteItemsGameObjects) {
 
 		int count = transform.childCount;
 		for(int i = count - 1 ; i >= 0 ; i--) {
-			GameObject.Destroy(transform.GetChild(i).gameObject);
+
+			Transform childTransform = transform.GetChild(i);
+
+			if(deleteItemsGameObjects == (childTransform.GetComponent<ItemInGridBehavior>() != null)) {
+				childTransform.SetParent(null, false);
+				GameObject.Destroy(childTransform.gameObject);
+			}
+
 		}
 	}
+	
+
 
 	private void createGridPart(RectTransform parent, int x, int y, bool isPoint, bool isHorizontalSegment) {
 
@@ -146,7 +157,7 @@ public class InventoryGrid : MonoBehaviour {
 		Image im = transform.gameObject.GetComponent<Image>();
 
 		Sprite sprite;
-		Color color = Color.white;
+		Color color = colorActivated;
 		if(isPoint) {
 
 			if((x <= 0 || x >= maxWidth) || (y <= 0 || y >= maxHeight)) {
@@ -156,7 +167,7 @@ public class InventoryGrid : MonoBehaviour {
 			}
 
 			if(x > width || y > height) {
-				color = Color.grey;
+				color = colorDeactivated;
 			}
 
 		} else {
@@ -172,7 +183,7 @@ public class InventoryGrid : MonoBehaviour {
 			   (x > width - 1 && isHorizontalSegment) ||
 			   (y > height && isHorizontalSegment) ||
 			   (y > height - 1 && !isHorizontalSegment)) {
-				color = Color.grey;
+				color = colorDeactivated;
 			}
 		}
 
@@ -182,29 +193,33 @@ public class InventoryGrid : MonoBehaviour {
 
 	}
 
-	
-	public void updateItems(HashSet<ItemInGrid> items) {
-
-		this.items = new HashSet<ItemInGrid>(items);
-
-		//TODO update items
-
-	}
-	
 	public void addItem(ItemInGrid item) {
 
-		//TODO
+
+		//TODO check if don't exist yet
+
+		GameObject itemObject = GameHelper.Instance.newGameObjectFromPrefab(prefabRetrievableItem);
+
+		ItemInGridBehavior itemBehavior = itemObject.GetComponent<ItemInGridBehavior>();
+
+		itemBehavior.transform.SetParent(transform);
+		itemBehavior.itemInGrid = item;
 
 	}
-	
-	public void removeItem(ItemInGrid item) {
-		
-		//TODO
-	}
-	
+
 	public void moveItem(ItemInGrid item) {
 		
 		//TODO
+	}
+
+	public void removeItem(ItemInGrid item) {
+
+		//TODO
+	}
+
+	public void removeItems() {
+
+		deleteChidrenGameObjects(true);
 	}
 
 

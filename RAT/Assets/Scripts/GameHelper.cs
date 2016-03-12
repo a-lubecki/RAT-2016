@@ -329,7 +329,11 @@ public class GameHelper {
 	public Vector2 newPositionOnMap(int x, int y) {
 		return new Vector2(x * Constants.TILE_SIZE, - y * Constants.TILE_SIZE);
 	}
-	
+
+	public GameObject newGameObjectFromPrefab(GameObject prefab) {
+		return newGameObjectFromPrefab(prefab, 0, 0);
+	}
+
 	public GameObject newGameObjectFromPrefab(GameObject prefab, int x, int y) {
 		return newGameObjectFromPrefab(prefab, x, y, Quaternion.identity);
 	}
