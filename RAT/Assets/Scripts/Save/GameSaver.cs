@@ -267,7 +267,7 @@ public class GameSaver {
 	public void saveLoots() {
 		
 		Loot[] loots = GameHelper.Instance.getLoots();
-		if(loots.Length <= 0) {
+		if(loots != null && loots.Length <= 0) {
 			return;
 		}
 		

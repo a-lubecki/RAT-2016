@@ -19,7 +19,7 @@ public class LootSaveData {
 			throw new System.ArgumentException();
 		}
 
-		id = loot.nodeElementLoot.nodeId.value;
+		id = loot.id;
 		isCollected = loot.isCollected;
 	}
 

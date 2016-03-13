@@ -17,7 +17,7 @@ public class LootCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_OBJECTS;
 	}
 
-	public GameObject createNewGameObject(NodeElementLoot nodeElement) {
+	public GameObject createNewGameObject(NodeElementLoot nodeElement, Loot loot) {
 		
 		if(nodeElement == null) {
 			throw new System.ArgumentException();
@@ -31,15 +31,8 @@ public class LootCreator : BaseEntityCreator {
 			0
 			);
 
-		Loot loot = gameObject.GetComponent<Loot>();
-		loot.setNodeElementLoot(nodeElement);
-
-		ItemPattern itemPattern = GameManager.Instance.getNodeGame().findItemPattern(nodeElement.nodeItem.value);
-		if(itemPattern == null) {
-			throw new InvalidOperationException("The item pattern was not found : " + nodeElement.nodeItem.value);
-		}
-
-		loot.init(itemPattern, nodeElement.nodeNbGrouped.value);
+		LootBehavior lootBehavior = gameObject.GetComponent<LootBehavior>();
+		lootBehavior.init(loot);
 
 		return gameObject;
 	}

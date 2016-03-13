@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActionLootCollectThenReorder : BaseAction {
 
-	public ActionLootCollectThenReorder(Loot loot) : base(loot, loot.getLootText() + "\n" + Constants.tr("Action.Loot.CollectThenReorder")) {
+	public ActionLootCollectThenReorder(LootBehavior lootBehavior) : base(lootBehavior, lootBehavior.loot.getLootText() + "\n" + Constants.tr("Action.Loot.CollectThenReorder")) {
 
 	}
 

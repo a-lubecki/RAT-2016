@@ -20,6 +20,10 @@ public class LevelManager : MonoBehaviour {
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
 
+
+	public Loot[] loots { get; private set; }
+
+
 	void Start () {
 		
 		if(SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
@@ -182,8 +186,10 @@ public class LevelManager : MonoBehaviour {
 		LootCreator lootCreator = new LootCreator();
 
 		Dictionary<string, LootSaveData> lootsSaveDataById = GameSaver.Instance.getLootsSaveData();
-		
+
 		int lootCount = currentNodeLevel.getLootCount();
+		loots = new Loot[lootCount];
+
 		for(int i=0 ; i<lootCount ; i++) {
 
 			NodeElementLoot nodeElementLoot = currentNodeLevel.getLoot(i);
@@ -197,12 +203,14 @@ public class LevelManager : MonoBehaviour {
 				isCollected = lootSaveData.getIsCollected();
 			}
 
+			Loot loot = new Loot(nodeElementLoot, isCollected);
+
 			// create loot only if the loot was not collected
 			if(!isCollected) {
-				lootCreator.createNewGameObject(nodeElementLoot);
+				lootCreator.createNewGameObject(nodeElementLoot, loot);
 			}
 
-
+			loots[i] = loot;
 		}
 
 

@@ -217,7 +217,7 @@ public class GameHelper {
 	}
 
 	public Loot[] getLoots() {
-		return GameObject.FindObjectsOfType<Loot>();
+		return getLevelManager().loots;
 	}
 
 	public Npc[] getNpcs() {
