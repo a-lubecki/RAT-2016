@@ -129,7 +129,7 @@
 		<value>Ramasser</value>
 	</data>
 	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
-		<value>Ramasser\n+ Réorganiser</value>
+		<value>Ramasser + Réorganiser</value>
 	</data>
 	<data name="Author.ANONYMOUS" xml:space="preserve">
 		<value>Anonyme</value>

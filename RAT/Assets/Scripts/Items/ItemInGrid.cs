@@ -38,7 +38,7 @@ public class ItemInGrid {
 
 	}	
 
-	public ItemPattern getItem() {
+	public ItemPattern getItemPattern() {
 		return itemPattern;
 	}
 

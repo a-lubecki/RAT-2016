@@ -72,5 +72,15 @@ public class ItemPattern : Displayable {
 		return Constants.tr(trKey + ".Description");
 	}
 
+
+	public string getFirstGridName() {
+
+		if(itemType == ItemType.SPECIAL) {
+			return Constants.GAME_OBJECT_NAME_GRID_SPECIAL;
+		}
+
+		return Constants.GAME_OBJECT_NAME_GRID_BAG;
+	}
+
 }
 

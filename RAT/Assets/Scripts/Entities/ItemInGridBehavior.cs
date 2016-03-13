@@ -23,14 +23,14 @@ public class ItemInGridBehavior : MonoBehaviour {
 
 	public void updateViews() {
 
-		ItemPattern itemPattern = itemInGrid.getItem();
+		ItemPattern itemPattern = itemInGrid.getItemPattern();
 
 		RectTransform itemRectTransform = GetComponent<RectTransform>();
 		itemRectTransform.sizeDelta = new Vector2(itemPattern.widthInBlocks, itemPattern.heightInBlocks);
 		itemRectTransform.position = new Vector3(itemInGrid.getPosXInBlocks(), itemInGrid.getPosYInBlocks(), 0);
 		itemRectTransform.pivot = new Vector2(0.5f, 0);
 
-		itemRectTransform.localPosition = new Vector3(0, 0, 0);
+		itemRectTransform.localPosition = new Vector3(itemInGrid.getPosXInBlocks(), itemInGrid.getPosYInBlocks(), 0);
 		itemRectTransform.localScale = new Vector3(0.8f, 0.8f, 1);
 
 		Image itemImage = GetComponent<Image>();

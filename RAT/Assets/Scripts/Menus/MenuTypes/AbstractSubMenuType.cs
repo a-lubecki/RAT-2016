@@ -8,7 +8,7 @@ public abstract class AbstractSubMenuType : Displayable {
 	}
 
 	public abstract string getGameObjectName();
-	
+
 	public GameObject getSubMenuGameObject(Menu menu) {
 
 		if(menu == null) {

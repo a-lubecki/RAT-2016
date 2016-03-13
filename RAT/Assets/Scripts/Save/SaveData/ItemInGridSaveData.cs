@@ -33,7 +33,7 @@ public class ItemInGridSaveData {
 			throw new System.ArgumentException();
 		}
 
-		itemPatternId = itemInGrid.getItem().id;
+		itemPatternId = itemInGrid.getItemPattern().id;
 
 		gridName = itemInGrid.getGridName();
 		posXInBlocks = itemInGrid.getPosXInBlocks();

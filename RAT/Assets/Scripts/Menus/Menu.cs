@@ -172,7 +172,7 @@ public class Menu : MonoBehaviour {
 	public AbstractMenuType getCurrentMenuType() {
 		return currentMenuType;
 	}
-	
+		
 	public AbstractSubMenuType getCurrentSubMenuType() {
 		
 		AbstractMenuType menuType = getCurrentMenuType();

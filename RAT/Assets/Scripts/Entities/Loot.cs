@@ -55,6 +55,11 @@ public class Loot : MonoBehaviour, IActionnable {
 		return itemPattern.getTrName() + multiplier;
 	}
 
+	private bool mustReorderBeforePickingUp() {
+		return (itemPattern.itemType != ItemType.SPECIAL && 
+			!Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemFitting(itemPattern.getFirstGridName(), itemPattern, nbGrouped));
+	}
+
 	public void startCollecting() {
 
 		if(isCollected) {
@@ -66,10 +71,11 @@ public class Loot : MonoBehaviour, IActionnable {
 
 		isCollecting = true;
 
-		bool mustReorder = false;//TODO check if must reorder after the collecting
+		Menu menu = GameHelper.Instance.getMenu();
 
-		if(mustReorder) {
-			GameHelper.Instance.getMenu().open(Constants.MENU_TYPE_INVENTORY);
+		if(mustReorderBeforePickingUp()) {
+			
+			menu.open(Constants.MENU_TYPE_INVENTORY);
 			
 			//TODO call endCollecting(true/false) when the menu is closed
 
@@ -112,7 +118,21 @@ public class Loot : MonoBehaviour, IActionnable {
 
 		//add to inventory
 		ItemInGrid item = new ItemInGrid();
-		item.init(itemPattern, nbGrouped);//TODO add in grid
+
+		string gridName = itemPattern.getFirstGridName();
+
+		int[] itemCoords = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getNewItemCoords(gridName, itemPattern);
+		if(itemCoords == null) {
+			throw new NotSupportedException("TODO manage groupable items");
+		}
+		item.init(itemPattern, gridName, itemCoords[0], itemCoords[1], nbGrouped);
+
+		/*
+		//TODO change the x y coord
+		//TODO change don't add in GRID_BAG if type is SPECIAL => add in GRID_SPECIAL
+
+		item.init(itemPattern, itemPattern.getFirstGridName(), 0, 0, nbGrouped);
+		*/
 		GameManager.Instance.getInventory().addItem(item);
 
 	}
@@ -133,8 +153,7 @@ public class Loot : MonoBehaviour, IActionnable {
 	
 		if(getTriggerCollider().IsTouching(collider)) {
 
-			bool mustReorder = false;//TODO check if must reorder after the collecting
-			if(mustReorder) {
+			if(mustReorderBeforePickingUp()) {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenReorder(this));
 			} else {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this));
@@ -169,7 +188,7 @@ public class Loot : MonoBehaviour, IActionnable {
 
 		//show grid
 
-		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM);
+		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_COLLECTIBLE_ITEM);
 
 		Image gridImage = gridObject.GetComponent<Image>();
 		gridImage.enabled = true;
@@ -180,6 +199,7 @@ public class Loot : MonoBehaviour, IActionnable {
 		grid.height = itemPattern.heightInBlocks;
 		grid.maxHeight = itemPattern.heightInBlocks;
 
+		grid.deleteGridViews();
 		grid.updateGridViews();
 
 		ItemInGrid item = new ItemInGrid();
@@ -194,7 +214,7 @@ public class Loot : MonoBehaviour, IActionnable {
 
 		//hide grid
 
-		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM);
+		GameObject gridObject = GameObject.Find(Constants.GAME_OBJECT_NAME_GRID_COLLECTIBLE_ITEM);
 
 		Image gridImage = gridObject.GetComponent<Image>();
 		gridImage.enabled = false;

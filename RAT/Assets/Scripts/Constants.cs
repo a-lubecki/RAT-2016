@@ -95,13 +95,14 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_STORY_ITEMS_LIST = "SubMenuTypeStoryItemsList";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TELEPORT = "SubMenuTypeTeleport";
 
-	public static readonly string GAME_OBJECT_NAME_GRID_RETRIEVABLE_ITEM = "GridRetrievableItem";
+	public static readonly string GAME_OBJECT_NAME_GRID_COLLECTIBLE_ITEM = "GridCollectibleItem";
 	public static readonly string GAME_OBJECT_NAME_GRID_BAG = "GridBag";
 	public static readonly string GAME_OBJECT_NAME_GRID_OBJECTS = "GridObjects";
 	public static readonly string GAME_OBJECT_NAME_GRID_HEALS = "GridHeals";
 	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_LEFT = "GridWeaponsLeft";
 	public static readonly string GAME_OBJECT_NAME_GRID_EQUIP = "GridEquip";
 	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT = "GridWeaponsRight";
+	public static readonly string GAME_OBJECT_NAME_GRID_SPECIAL = "GridSpecial";
 
 
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
@@ -111,8 +112,6 @@ public class Constants {
 	public static readonly string SORTING_LAYER_NAME_HUB = "hub";
 
 	public static readonly string FIRST_LEVEL_NAME = "Part1.Laboratory1";//the very first level
-	
-	public static readonly AbstractMenuType MENU_TYPE_INVENTORY = new MenuTypeInventory();
 
 	public static readonly string ITEM_ID_CLAWS = "W_CLAWS";
 	public static readonly string ITEM_ID_REGENERATION = "H_REGENERATION";
@@ -171,6 +170,11 @@ public class Constants {
 
 		return LanguageManager.Instance.GetTextValue(key);
 	}
+
+
+	//init at the end so that all the other constants are available
+	public static readonly SubMenuTypeInventoryManagement SUB_MENU_TYPE_INVENTORY_MANAGEMENT = new SubMenuTypeInventoryManagement();
+	public static readonly MenuTypeInventory MENU_TYPE_INVENTORY = new MenuTypeInventory();
 
 }
 

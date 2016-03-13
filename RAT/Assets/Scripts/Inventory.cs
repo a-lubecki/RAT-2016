@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Inventory {
 
@@ -8,6 +9,23 @@ public class Inventory {
 
 	public List<ItemInGrid> getItems() {
 		return new List<ItemInGrid>(items);
+	}
+
+	public List<ItemInGrid> getItems(string gridName) {
+
+		if(string.IsNullOrEmpty(gridName)) {
+			throw new ArgumentException();
+		}
+
+		List<ItemInGrid> itemsInGrid = new List<ItemInGrid>();
+
+		foreach(ItemInGrid item in items) {
+			if(gridName.Equals(item.getGridName())) {
+				itemsInGrid.Add(item);
+			}
+		}
+
+		return itemsInGrid;
 	}
 
 	public ItemInGrid getItem(string gridName, int posXInGrid, int posYInGrid) {
@@ -47,17 +65,22 @@ public class Inventory {
 
 	public bool hasItemWithPattern(ItemPattern itemPattern) {
 
+		return getAnyItemInGridWithPattern(itemPattern) != null;
+	}
+
+	public ItemInGrid getAnyItemInGridWithPattern(ItemPattern itemPattern) {
+
 		if(itemPattern == null) {
 			throw new ArgumentException();
 		}
 
 		foreach(ItemInGrid item in items) {
-			if(itemPattern == item.getItem()) {
-				return true;
+			if(itemPattern == item.getItemPattern()) {
+				return item;
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 

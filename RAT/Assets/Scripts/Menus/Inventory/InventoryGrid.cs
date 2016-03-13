@@ -42,7 +42,7 @@ public class InventoryGrid : MonoBehaviour {
 	private static Sprite spriteInventorySegmentOutside;
 	private static Sprite spriteInventorySegmentInside;
 
-	private static GameObject prefabRetrievableItem;
+	private static GameObject prefabCollectibleItem;
 
 	private string getGameObjectName(int x, int y, bool isPoint, bool isHorizontalSegment) {
 
@@ -67,8 +67,8 @@ public class InventoryGrid : MonoBehaviour {
 		if(spriteInventorySegmentInside == null) {
 			spriteInventorySegmentInside = GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_MENUS + "Inventory.Segment.Inside");
 		}
-		if(prefabRetrievableItem == null) {
-			prefabRetrievableItem = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_ITEMINGRID);
+		if(prefabCollectibleItem == null) {
+			prefabCollectibleItem = GameHelper.Instance.loadPrefabAsset(Constants.PREFAB_NAME_ITEMINGRID);
 		}
 	}
 
@@ -212,12 +212,29 @@ public class InventoryGrid : MonoBehaviour {
 
 	}
 
+
+
+	public void addItems(List<ItemInGrid> items) {
+
+		if(items == null) {
+			throw new ArgumentException();
+		}
+
+		foreach(ItemInGrid item in items) {
+			addItem(item);
+		}
+
+	}
+
 	public void addItem(ItemInGrid item) {
 
+		if(item == null) {
+			throw new ArgumentException();
+		}
 
 		//TODO check if don't exist yet
 
-		GameObject itemObject = GameHelper.Instance.newGameObjectFromPrefab(prefabRetrievableItem);
+		GameObject itemObject = GameHelper.Instance.newGameObjectFromPrefab(prefabCollectibleItem);
 
 		ItemInGridBehavior itemBehavior = itemObject.GetComponent<ItemInGridBehavior>();
 

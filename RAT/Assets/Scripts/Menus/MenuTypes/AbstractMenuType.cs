@@ -38,7 +38,6 @@ public abstract class AbstractMenuType {
 		this.color = new Color(color.r, color.g, color.b);
 	}
 
-
 	public AbstractSubMenuType getCurrentSubMenuType() {
 		return subMenuTypes[currentSubMenuPos];
 	}
