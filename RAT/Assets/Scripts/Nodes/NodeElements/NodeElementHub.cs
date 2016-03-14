@@ -3,11 +3,8 @@ using System.Xml;
 
 namespace Node {
 	
-	public class NodeElementHub : BaseNodeElement {
+	public class NodeElementHub : BasePositionableElement {
 		
-		public static readonly string LISTENER_CALL_onHubActivated = "onHubActivated";
-		public static readonly string LISTENER_CALL_onHubDeactivated = "onHubDeactivated";
-
 		public NodeDirection nodeSpawnDirection { get ; private set; }
 
 		public NodeElementHub(XmlNode node) : base(node) {

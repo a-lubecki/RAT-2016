@@ -34,7 +34,7 @@ public class DoorCreator : BaseEntityCreator {
 		Door door = gameObject.GetComponent<Door>();
 		door.setNodeElementDoor(nodeElement);
 
-		door.init(nodeElement.nodeDoorStatus.value == NodeDoorStatus.DoorStatus.OPENED);
+		door.init(nodeElement.nodeDoorStatus.value == DoorStatus.OPENED);
 
 		return gameObject;
 	}

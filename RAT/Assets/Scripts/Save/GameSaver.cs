@@ -31,7 +31,7 @@ public class GameSaver {
 
 
 	public static readonly int CURRENT_VERSION = 1;
-	public static readonly bool HAS_ENCRYPTION = true;
+	public static readonly bool HAS_ENCRYPTION = false;
 
 	private GameSaveDataV1 gameSaveData = new GameSaveDataV1();
 

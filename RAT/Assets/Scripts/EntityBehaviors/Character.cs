@@ -139,15 +139,15 @@ public abstract class Character : MonoBehaviour {
 		GetComponent<Transform>().position = GameHelper.Instance.newPositionOnMap(xGeneration, yGeneration);
 	}
 	
-	public void setDirection(NodeDirection.Direction direction) {
+	public void setDirection(Direction direction) {
 		
-		if(direction == NodeDirection.Direction.UP) {
+		if(direction == Direction.UP) {
 			angleDegrees = 0;
-		} else if(direction == NodeDirection.Direction.RIGHT) {
+		} else if(direction == Direction.RIGHT) {
 			angleDegrees = 90;
-		} else if(direction == NodeDirection.Direction.DOWN) {
+		} else if(direction == Direction.DOWN) {
 			angleDegrees = 180;
-		} else if(direction == NodeDirection.Direction.LEFT) {
+		} else if(direction == Direction.LEFT) {
 			angleDegrees = 270;
 		}
 		

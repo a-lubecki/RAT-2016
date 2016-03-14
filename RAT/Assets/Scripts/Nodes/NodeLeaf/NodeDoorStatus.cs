@@ -6,11 +6,6 @@ namespace Node {
 
 	public class NodeDoorStatus : BaseNode {
 
-		public enum DoorStatus {
-			CLOSED,
-			OPENED
-		}
-
 		public DoorStatus value { get; private set; }
 		
 		public NodeDoorStatus() {

@@ -11,19 +11,20 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 	public bool isCollecting { get; private set; }
 
-	private CircleCollider2D getTriggerCollider() {
-		return GetComponent<CircleCollider2D>();
-	}
-
 	public void init(Loot loot) {
 
 		if(loot == null) {
 			throw new ArgumentException();
 		}
+
 		this.loot = loot;
 
 		GetComponent<Gif>().startAnimation();
 
+	}
+
+	private CircleCollider2D getTriggerCollider() {
+		return GetComponent<CircleCollider2D>();
 	}
 
 	public void startCollecting() {

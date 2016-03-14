@@ -17,14 +17,5 @@ public class HubSaveData {
 
 		isActivated = hub.isActivated;
 	}
-	
-	public void assign(Hub hub) {
-		
-		if(hub == null) {
-			throw new System.ArgumentException();
-		}
 
-		hub.init(isActivated);
-	}
-	
 }

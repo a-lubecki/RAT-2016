@@ -17,9 +17,12 @@ public class HubCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_OBJECTS;
 	}
 
-	public GameObject createNewGameObject(NodeElementHub nodeElement) {
-		
+	public GameObject createNewGameObject(NodeElementHub nodeElement, Hub hub) {
+
 		if(nodeElement == null) {
+			throw new System.ArgumentException();
+		}
+		if(hub == null) {
 			throw new System.ArgumentException();
 		}
 
@@ -28,11 +31,8 @@ public class HubCreator : BaseEntityCreator {
 			nodeElement.nodePosition.y
 			);
 		
-		Hub hub = gameObject.GetComponent<Hub>();
-		hub.setNodeElementHub(nodeElement);
-
-		bool isActivated = false;//TODO
-		hub.setActivated(isActivated);
+		HubBehavior hubBehavior = gameObject.GetComponent<HubBehavior>();
+		hubBehavior.init(hub);
 		
 		return gameObject;
 	}

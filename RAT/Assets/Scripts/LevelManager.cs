@@ -12,7 +12,7 @@ using System;
 public class LevelManager : MonoBehaviour {
 
 	private static string nextLevelName;//used to keep the information between levels
-	private static BaseNodeElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
+	private static BasePositionableElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
 	private static bool mustSpawnPlayerAtHub = false;
 
 	private bool isVeryFirstStart = false;
@@ -20,7 +20,7 @@ public class LevelManager : MonoBehaviour {
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
 
-
+	public Hub hub { get; private set; }
 	public Loot[] loots { get; private set; }
 
 
@@ -134,20 +134,22 @@ public class LevelManager : MonoBehaviour {
 	private void createGameElements() {
 
 		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
+		NodeElementHub nodeElementHub = currentNodeLevel.hubElement;
 
 		// load hub if there is one
-		if(currentNodeLevel.hubElement != null) {
+		if(nodeElementHub != null) {
 			
 			HubSaveData hubSaveData = GameSaver.Instance.getHubSaveData();
 
-			HubCreator hubCreator = new HubCreator();
-			GameObject gameObjectHub = hubCreator.createNewGameObject(currentNodeLevel.hubElement);
+			bool isActivated = false;
 
-			//init if previously saved
 			if(hubSaveData != null) {
-				hubSaveData.assign(gameObjectHub.GetComponent<Hub>());
+				isActivated = hubSaveData.getIsActivated();
 			}
 
+			hub = new Hub(nodeElementHub, isActivated);
+
+			new HubCreator().createNewGameObject(nodeElementHub, hub);
 		}
 
 
@@ -281,7 +283,7 @@ public class LevelManager : MonoBehaviour {
 
 		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
-		BaseNodeElement currentNodeElementTrigger;
+		BasePositionableElement currentNodeElementTrigger;
 
 		if(mustSpawnPlayerAtHub) {
 			//the player has died, the current node is the player
@@ -366,7 +368,7 @@ public class LevelManager : MonoBehaviour {
 		return !(string.IsNullOrEmpty(nextLevelName));
 	}
 
-	public void processPlayerLoad(BaseNodeElement nodeElement) {
+	public void processPlayerLoad(BasePositionableElement nodeElement) {
 		//move player in level with SPAWN / HUB / LINK / load from save
 
 		if(nodeElement == null) {

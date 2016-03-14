@@ -203,13 +203,7 @@ public class GameHelper {
 
 	
 	public Hub getHub() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_HUB);
-		if(gameObject == null) {
-			return null;//no hub
-		}
-		
-		return gameObject.GetComponent<Hub>();
+		return getLevelManager().hub;
 	}
 	
 	public Door[] getDoors() {
@@ -361,7 +355,7 @@ public class GameHelper {
 
 		return null;
 	}
-	
+
 	public MonoBehaviour getCurrentMapListenerBehaviour() {
 
 		LevelManager levelManager = getLevelManager();

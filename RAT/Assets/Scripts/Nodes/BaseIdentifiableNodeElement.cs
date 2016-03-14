@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Node {
 	
-	public class BaseIdentifiableNodeElement : BaseNodeElement {
+	public class BaseIdentifiableNodeElement : BasePositionableElement {
 		
 		public NodeString nodeId { get ; private set; }
 

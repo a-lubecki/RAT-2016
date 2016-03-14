@@ -181,7 +181,7 @@ public class Player : Character {
 		if(nodeDirection != null) {
 			setDirection(nodeDirection.value);
 		} else {
-			setDirection(NodeDirection.Direction.UP);
+			setDirection(Direction.UP);
 		}
 	}
 	

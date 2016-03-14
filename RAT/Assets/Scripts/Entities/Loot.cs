@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Node;
 
-public class Loot {
+public class Loot : BaseIdentifiableModel {
 
-	public string id { get; private set; }
 	public ItemPattern itemPattern { get; private set; }
 	public int nbGrouped { get; private set; }
 
@@ -13,17 +13,15 @@ public class Loot {
 
 	public Loot(NodeElementLoot nodeElementLoot, bool isCollected) 
 		: this(nodeElementLoot.nodeId.value, 
+			getListeners(nodeElementLoot),
 			GameManager.Instance.getNodeGame().findItemPattern(nodeElementLoot.nodeItem.value),
 			nodeElementLoot.nodeNbGrouped.value, 
 			isCollected) {
 
 	}
 		
-	public Loot(string id, ItemPattern itemPattern, int nbGrouped, bool isCollected) {
+	public Loot(string id, List<Listener> listeners, ItemPattern itemPattern, int nbGrouped, bool isCollected) : base(id, listeners) {
 		
-		if(string.IsNullOrEmpty(id)) {
-			throw new ArgumentException();
-		}
 		if(itemPattern == null) {
 			throw new ArgumentException("The item pattern was not found for " + id);
 		}
@@ -31,7 +29,6 @@ public class Loot {
 			throw new ArgumentException();
 		}
 
-		this.id = id;
 		this.itemPattern = itemPattern;
 		this.nbGrouped = nbGrouped;
 		this.isCollected = isCollected;

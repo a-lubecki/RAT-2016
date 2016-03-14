@@ -239,7 +239,7 @@ public class InventoryGrid : MonoBehaviour {
 		ItemInGridBehavior itemBehavior = itemObject.GetComponent<ItemInGridBehavior>();
 
 		itemBehavior.transform.SetParent(transform);
-		itemBehavior.itemInGrid = item;
+		itemBehavior.init(item);
 
 	}
 

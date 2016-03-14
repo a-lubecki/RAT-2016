@@ -6,14 +6,6 @@ namespace Node {
 
 	public class NodeDirection : BaseNode {
 
-		public enum Direction {
-			NONE,
-			UP,
-			DOWN,
-			LEFT,
-			RIGHT
-		}
-
 		public Direction value { get; private set; }
 
 		public NodeDirection() {

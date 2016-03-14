@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Node {
 
-	public class NodeElementItemPattern : BaseNodeElement {
+	public class NodeElementItemPattern : BasePositionableElement {
 
 		public NodeInt nodeMaxGroupable { get ; private set; }
 		public NodeInt nodeWidth { get ; private set; }

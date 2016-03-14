@@ -4,22 +4,19 @@ using UnityEngine.UI;
 
 public class ItemInGridBehavior : MonoBehaviour {
 
-	private ItemInGrid _itemInGrid;
-	public ItemInGrid itemInGrid {
+	public ItemInGrid itemInGrid { get; private set; }
 
-		get {
-			return _itemInGrid;
-		}
-		set {
 
-			_itemInGrid = value;
+	public void init(ItemInGrid itemInGrid) {
 
-			updateViews();
-
+		if(itemInGrid == null) {
+			throw new ArgumentException();
 		}
 
+		this.itemInGrid = itemInGrid;
+
+		updateViews();
 	}
-
 
 	public void updateViews() {
 

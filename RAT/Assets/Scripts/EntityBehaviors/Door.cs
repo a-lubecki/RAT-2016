@@ -286,9 +286,9 @@ public class Door : MonoBehaviour, IActionnable {
 		//check if the player has to be in the right side to open the door
 		if(nodeElementDoor.nodeUnlockSide != null) {
 			
-			NodeDirection.Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
+			Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
 			
-			if(unlockSide == NodeDirection.Direction.NONE) {
+			if(unlockSide == Direction.NONE) {
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Blocked")));
 				return;
 			}
@@ -300,10 +300,10 @@ public class Door : MonoBehaviour, IActionnable {
 			float xPlayer = playerGameObject.transform.position.x;
 			float yPlayer = playerGameObject.transform.position.y;
 			
-			if((unlockSide == NodeDirection.Direction.UP && y > yPlayer) ||
-			   (unlockSide == NodeDirection.Direction.DOWN && y < yPlayer) ||
-			   (unlockSide == NodeDirection.Direction.LEFT && x < xPlayer) ||
-			   (unlockSide == NodeDirection.Direction.RIGHT && x > xPlayer)) {
+			if((unlockSide == Direction.UP && y > yPlayer) ||
+			   (unlockSide == Direction.DOWN && y < yPlayer) ||
+			   (unlockSide == Direction.LEFT && x < xPlayer) ||
+			   (unlockSide == Direction.RIGHT && x > xPlayer)) {
 				
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.WrongSide")));
 				return;

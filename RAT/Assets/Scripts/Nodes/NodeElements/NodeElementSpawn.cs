@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Node {
 
-	public class NodeElementSpawn : BaseNodeElement {
+	public class NodeElementSpawn : BasePositionableElement {
 
 		public NodeDirection nodeDirection { get ; private set; }
 		

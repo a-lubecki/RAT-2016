@@ -1,52 +1,53 @@
 using UnityEngine;
 using Node;
+using System;
 using System.Collections;
 
-public class Hub : MonoBehaviour, IActionnable {
-	
-	public bool isActivated { get; private set; }
+public class HubBehavior : MonoBehaviour, IActionnable {
 
-	public NodeElementHub nodeElementHub { get; private set; }
-	
-	private Sprite spriteDeactivated;
-	private Sprite spriteActivated;
-	
-	private CircleCollider2D getTriggerCollider() {
-		return GetComponent<CircleCollider2D>();
-	}
+	private static Sprite spriteDeactivated;
+	private static Sprite spriteActivated;
 
-	public void setNodeElementHub(NodeElementHub nodeElementHub) {
-		
-		if(nodeElementHub == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		this.nodeElementHub = nodeElementHub;
+	public Hub hub { get; private set; }
+
+
+	void Awake() {
 
 		//load the images
-		Texture2D textureDeactivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Deactivated");
-		spriteDeactivated = Sprite.Create(textureDeactivated, 
-		                                   new Rect(0, 0, textureDeactivated.width, textureDeactivated.height),
-		                                   new Vector2(0.25f, 0.75f),
-		                                   Constants.TILE_SIZE * 2);
+		if(spriteDeactivated == null) {
+			Texture2D textureDeactivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Deactivated");
+			spriteDeactivated = Sprite.Create(textureDeactivated, 
+				new Rect(0, 0, textureDeactivated.width, textureDeactivated.height),
+				new Vector2(0.25f, 0.75f),
+				Constants.TILE_SIZE * 2);
+		}
 
-		Texture2D textureActivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Activated");
-		spriteActivated = Sprite.Create(textureActivated, 
-		                                 new Rect(0, 0, textureDeactivated.width, textureDeactivated.height),
-		                                 new Vector2(0.25f, 0.75f),
-		                                 Constants.TILE_SIZE * 2);
-
+		if(spriteActivated == null) {
+			Texture2D textureActivated = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + "Hub.Activated");
+			spriteActivated = Sprite.Create(textureActivated, 
+				new Rect(0, 0, textureActivated.width, textureActivated.height),
+				new Vector2(0.25f, 0.75f),
+				Constants.TILE_SIZE * 2);
+		}
 	}
-	
-	public void init(bool activated) {
+
+	public void init(Hub hub) {
+
+		if(hub == null) {
+			throw new ArgumentException();
+		}
+
+		this.hub = hub;
 		
-		this.isActivated = activated;
-		
-		if(activated) {
+		if(hub.isActivated) {
 			GetComponent<SpriteRenderer>().sprite = spriteActivated;
 		} else {
 			GetComponent<SpriteRenderer>().sprite = spriteDeactivated;
 		}
+	}
+
+	private CircleCollider2D getTriggerCollider() {
+		return GetComponent<CircleCollider2D>();
 	}
 
 	void OnTriggerStay2D(Collider2D collider) {
@@ -55,7 +56,7 @@ public class Hub : MonoBehaviour, IActionnable {
 			return;
 		}
 		
-		if(!isActivated) {
+		if(!hub.isActivated) {
 			PlayerActionsManager.Instance.showAction(new ActionHubActivate(this));
 		} else {
 			PlayerActionsManager.Instance.showAction(new ActionHubUse(this));
@@ -85,7 +86,7 @@ public class Hub : MonoBehaviour, IActionnable {
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		if(!isActivated) {
+		if(!hub.isActivated) {
 			activate();
 		} else {
 			use();
@@ -149,7 +150,7 @@ public class Hub : MonoBehaviour, IActionnable {
 		GameHelper.Instance.getPlayer().disableControls();
 		getTriggerCollider().enabled = false;
 
-		GameHelper.Instance.getMenu().open(new MenuTypeHub(this));
+		GameHelper.Instance.getMenu().open(new MenuTypeHub(hub));
 		
 		StartCoroutine(delayPlayerAfterAction());
 
@@ -169,9 +170,9 @@ public class Hub : MonoBehaviour, IActionnable {
 
 	public void setActivated(bool activated) {
 
-		bool hasChanged = (this.isActivated != activated);
+		bool hasChanged = (hub.isActivated != activated);
 		
-		this.isActivated = activated;
+		hub.setActivated(activated);
 
 		if(activated) {
 
@@ -179,7 +180,7 @@ public class Hub : MonoBehaviour, IActionnable {
 
 			//notify lister
 			if(hasChanged) {
-				this.nodeElementHub.trigger(NodeElementHub.LISTENER_CALL_onHubActivated);
+				hub.trigger(Hub.LISTENER_CALL_onHubActivated);
 			}
 
 		} else {
@@ -188,7 +189,7 @@ public class Hub : MonoBehaviour, IActionnable {
 			
 			//notify lister
 			if(hasChanged) {
-				this.nodeElementHub.trigger(NodeElementHub.LISTENER_CALL_onHubDeactivated);
+				hub.trigger(Hub.LISTENER_CALL_onHubDeactivated);
 			}
 		}
 

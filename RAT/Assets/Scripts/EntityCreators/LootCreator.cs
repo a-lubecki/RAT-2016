@@ -18,8 +18,11 @@ public class LootCreator : BaseEntityCreator {
 	}
 
 	public GameObject createNewGameObject(NodeElementLoot nodeElement, Loot loot) {
-		
+
 		if(nodeElement == null) {
+			throw new System.ArgumentException();
+		}
+		if(loot == null) {
 			throw new System.ArgumentException();
 		}
 
