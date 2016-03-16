@@ -12,7 +12,7 @@ using System;
 public class LevelManager : MonoBehaviour {
 
 	private static string nextLevelName;//used to keep the information between levels
-	private static BasePositionableElement lastNodeElementTrigger;//last trigger, spawn, link => used to keep the information between levels
+	private static ISpawnable lastSpawnable;//last trigger, spawn, link => used to keep the information between levels
 	private static bool mustSpawnPlayerAtHub = false;
 
 	private bool isVeryFirstStart = false;
@@ -20,6 +20,8 @@ public class LevelManager : MonoBehaviour {
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
 
+	public Spawn spawn { get; private set; }
+	public Link[] links { get; private set; }
 	public Hub hub { get; private set; }
 	public Loot[] loots { get; private set; }
 
@@ -84,8 +86,9 @@ public class LevelManager : MonoBehaviour {
 		createGameElements();
 		spawnPlayer();
 
+
 		//free for further level load
-		lastNodeElementTrigger = null;
+		lastSpawnable = null;
 		mustSpawnPlayerAtHub = false;
 
 		//save data to keep state as the player is in another changed level
@@ -157,9 +160,19 @@ public class LevelManager : MonoBehaviour {
 		LinkCreator linkCreator = new LinkCreator();
 
 		int linkCount = currentNodeLevel.getLinkCount();
+		links = new Link[linkCount];
+
+		string currentLevelName = GameManager.Instance.getCurrentLevelName();
+
 		for(int i=0 ; i<linkCount ; i++) {
 
-			linkCreator.createNewGameObject(currentNodeLevel.getLink(i));
+			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
+
+			Link link = new Link(nodeElementLink, currentLevelName);
+
+			links[i] = link;
+
+			linkCreator.createNewGameObject(nodeElementLink, link);
 		}
 
 		
@@ -277,17 +290,16 @@ public class LevelManager : MonoBehaviour {
 
 			//very first init of the player stats
 			player.initStats(5, 5);
-
 		}
 
 
 		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
-		BasePositionableElement currentNodeElementTrigger;
+		ISpawnable currentSpawnable;
 
 		if(mustSpawnPlayerAtHub) {
 			//the player has died, the current node is the player
-			currentNodeElementTrigger = currentNodeLevel.hubElement;
+			currentSpawnable = hub;
 
 		} else { 
 
@@ -301,9 +313,9 @@ public class LevelManager : MonoBehaviour {
 				playerSaveData.assign(GameHelper.Instance.getPlayer());
 			}
 
-			if(lastNodeElementTrigger != null) {
+			if(lastSpawnable != null) {
 				//something has triggered the load level (can be a link or a spawn)
-				currentNodeElementTrigger = lastNodeElementTrigger;
+				currentSpawnable = lastSpawnable;
 
 			} else { 
 
@@ -314,21 +326,27 @@ public class LevelManager : MonoBehaviour {
 
 				if(currentNodeLevel == null) {
 					//no level file provided : replace by default spawn element
-					currentNodeElementTrigger = new NodeElementSpawn();
-					
+					currentSpawnable = new Spawn();
+
 				} else {
 					
 					//get spawn element of the level
-					currentNodeElementTrigger = currentNodeLevel.spawnElement;
-					if(currentNodeElementTrigger == null) {
+					NodeElementSpawn nodeElementSpawn = currentNodeLevel.spawnElement;
+
+					if(nodeElementSpawn == null) {
 						//replace by default spawn element
-						currentNodeElementTrigger = new NodeElementSpawn();
+						currentSpawnable = new Spawn();
+
+					} else {
+						
+						spawn = new Spawn(nodeElementSpawn);
+						currentSpawnable = spawn; 
 					}
 				}
 			}
 		}
 
-		processPlayerLoad(currentNodeElementTrigger);
+		processPlayerLoad(currentSpawnable);
 
 	}
 	
@@ -368,43 +386,20 @@ public class LevelManager : MonoBehaviour {
 		return !(string.IsNullOrEmpty(nextLevelName));
 	}
 
-	public void processPlayerLoad(BasePositionableElement nodeElement) {
+	public void processPlayerLoad(ISpawnable spawnable) {
 		//move player in level with SPAWN / HUB / LINK / load from save
 
-		if(nodeElement == null) {
+		if(spawnable == null) {
 			throw new System.ArgumentException();
 		}
 
-		NodePosition nodePosition = null;
-		NodeDirection nodeDirection = null;
+		int posX = spawnable.getNextPosX();
+		int posY = spawnable.getNextPosY();
+		Direction direction = spawnable.getNextDirection();
 
-		if(nodeElement is NodeElementSpawn) {
-
-			NodeElementSpawn nodeElementSpawn = nodeElement as NodeElementSpawn;
-			
-			nodePosition = nodeElementSpawn.nodePosition;
-			nodeDirection = nodeElementSpawn.nodeDirection;
-
-		} else if(nodeElement is NodeElementLink) {
-			
-			NodeElementLink nodeElementLink = nodeElement as NodeElementLink;
-			
-			nodePosition = nodeElementLink.nodeNextPosition;
-			nodeDirection = nodeElementLink.nodeNextDirection;
-			
-		} else if(nodeElement is NodeElementHub) {
-
-			NodeElementHub nodeElementHub = nodeElement as NodeElementHub;
-			
-			nodePosition = nodeElementHub.nodePosition;
-			nodeDirection = nodeElementHub.nodeSpawnDirection;
-			
-		} else {
-
-			throw new System.NotSupportedException("Not supported yet");
-		}
-
-		GameHelper.Instance.getPlayer().setInitialPosition(nodePosition, nodeDirection);
+		Player player = GameHelper.Instance.getPlayer();
+		player.setMapPosition(posX, posY);
+		player.setDirection(direction);
 
 	}
 
@@ -452,21 +447,13 @@ public class LevelManager : MonoBehaviour {
 
 		//load next level with LINK
 
-		NodeElementLink nodeElementLink = link.nodeElementLink;
-
-		string requiredLevelName = null;
-		NodeString nodeNextMap = nodeElementLink.nodeNextMap;
-		if(nodeNextMap != null) {
-			requiredLevelName = nodeNextMap.value;
-		} else {
-			requiredLevelName = GameManager.Instance.getCurrentLevelName();
-		}
+		string requiredLevelName = link.nextMap;
 
 		if(string.IsNullOrEmpty(requiredLevelName)) {
 			throw new System.InvalidOperationException("The requiredLevelName is empty");
 		}
 
-		lastNodeElementTrigger = nodeElementLink;
+		lastSpawnable = link;
 
 		//load level
 		loadNextLevel(requiredLevelName);

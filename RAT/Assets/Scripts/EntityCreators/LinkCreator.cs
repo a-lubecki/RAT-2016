@@ -17,9 +17,12 @@ public class LinkCreator : BaseEntityCreator {
 		return GameHelper.Instance.loadSpriteAsset(Constants.PATH_RES_DEBUG + "Link");
 	}
 	
-	public GameObject createNewGameObject(NodeElementLink nodeElement) {
+	public GameObject createNewGameObject(NodeElementLink nodeElement, Link link) {
 		
 		if(nodeElement == null) {
+			throw new System.ArgumentException();
+		}
+		if(link == null) {
 			throw new System.ArgumentException();
 		}
 
@@ -49,8 +52,8 @@ public class LinkCreator : BaseEntityCreator {
 		transform.localPosition = pos;
 
 
-		Link link = gameObject.GetComponent<Link>();
-		link.nodeElementLink = nodeElement;
+		LinkBehavior linkBehavior = gameObject.GetComponent<LinkBehavior>();
+		linkBehavior.init(link);
 
 		return gameObject;
 	}

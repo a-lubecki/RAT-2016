@@ -168,22 +168,6 @@ public class Player : Character {
 
 		levelManager.processPlayerRespawn();
 	}
-
-
-	public void setInitialPosition(NodePosition nodePosition, NodeDirection nodeDirection) {
-		
-		if(nodePosition != null) {
-			setMapPosition(nodePosition.x, nodePosition.y);
-		} else {
-			setMapPosition(0, 0);
-		}
-		
-		if(nodeDirection != null) {
-			setDirection(nodeDirection.value);
-		} else {
-			setDirection(Direction.UP);
-		}
-	}
 	
 	protected override void Start() {
 		base.Start();
@@ -533,7 +517,7 @@ public class Player : Character {
 			if(!npc.isDead()) {
 				//TODO TEST remove player life
 				Player player = GameHelper.Instance.getPlayer();
-				player.takeDamages(10);
+				player.takeDamages(100);
 			}
 			
 		}

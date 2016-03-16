@@ -13,7 +13,7 @@ public class Loot : BaseIdentifiableModel {
 
 	public Loot(NodeElementLoot nodeElementLoot, bool isCollected) 
 		: this(nodeElementLoot.nodeId.value, 
-			getListeners(nodeElementLoot),
+			BaseListenerModel.getListeners(nodeElementLoot),
 			GameManager.Instance.getNodeGame().findItemPattern(nodeElementLoot.nodeItem.value),
 			nodeElementLoot.nodeNbGrouped.value, 
 			isCollected) {
