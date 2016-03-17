@@ -19,16 +19,8 @@ public class DoorSaveData {
 			throw new System.ArgumentException();
 		}
 
-		id = door.nodeElementDoor.nodeId.value;
+		id = door.id;
 		isOpened = door.isOpened;
 	}
-	
-	public void assign(Door door) {
 
-		if(door == null) {
-			throw new System.ArgumentException();
-		}
-
-		door.init(isOpened);
-	}
 }

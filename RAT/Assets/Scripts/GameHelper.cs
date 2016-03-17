@@ -207,7 +207,7 @@ public class GameHelper {
 	}
 	
 	public Door[] getDoors() {
-		return GameObject.FindObjectsOfType<Door>();
+		return getLevelManager().doors;
 	}
 
 	public Loot[] getLoots() {

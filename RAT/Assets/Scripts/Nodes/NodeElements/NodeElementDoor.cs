@@ -8,16 +8,16 @@ namespace Node {
 
 		public NodeOrientation nodeOrientation { get ; private set; }
 		public NodeInt nodeSpacing { get ; private set; }
-		public NodeDirection nodeUnlockSide { get ; private set; }
 		public NodeDoorStatus nodeDoorStatus { get ; private set; }
+		public NodeDirection nodeUnlockSide { get ; private set; }
 		public NodeLabel nodeRequireItem { get ; private set; }
 
 		public NodeElementDoor (XmlNode node) : base(node) {
 
 			nodeOrientation = parseChild("orientation", typeof(NodeOrientation), true) as NodeOrientation;
 			nodeSpacing = parseChild("spacing", typeof(NodeInt), true) as NodeInt;
-			nodeUnlockSide = parseChild("unlockSide", typeof(NodeDirection)) as NodeDirection;
 			nodeDoorStatus = parseChild("status", typeof(NodeDoorStatus), true) as NodeDoorStatus;
+			nodeUnlockSide = parseChild("unlockSide", typeof(NodeDirection)) as NodeDirection;
 			nodeRequireItem = parseChild("requireItem", typeof(NodeLabel)) as NodeLabel;
 
 			if(nodeSpacing.value < 1) {
@@ -30,10 +30,10 @@ namespace Node {
 
 			nodeOrientation.freeXmlObjects();
 			nodeSpacing.freeXmlObjects();
+			nodeDoorStatus.freeXmlObjects();
 			if(nodeUnlockSide != null) {
 				nodeUnlockSide.freeXmlObjects();
 			}
-			nodeDoorStatus.freeXmlObjects();
 			if(nodeRequireItem != null) {
 				nodeRequireItem.freeXmlObjects();
 			}

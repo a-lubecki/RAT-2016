@@ -6,11 +6,6 @@ namespace Node {
 
 	public class NodeOrientation : BaseNode {
 
-		public enum Orientation {
-			FACE,
-			SIDE
-		}
-
 		public Orientation value { get; private set; }
 		
 		public NodeOrientation() {

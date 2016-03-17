@@ -2,11 +2,11 @@
 using System.Collections;
 using Node;
 
-public class Door : MonoBehaviour, IActionnable {
+public class DoorBehavior : MonoBehaviour, IActionnable {
 	
-	public NodeElementDoor nodeElementDoor { get; private set; }
-	
-	public bool isOpened { get; private set; }
+	public Door door { get; private set; }
+
+
 	private bool isAnimatingDoor = false;
 	
 	private Sprite[] sprites;
@@ -24,19 +24,19 @@ public class Door : MonoBehaviour, IActionnable {
 		return GetComponent<CircleCollider2D>();
 	}
 
-	public void setNodeElementDoor(NodeElementDoor nodeElementDoor) {
-		
-		if(nodeElementDoor == null) {
+	public void init(Door door) {
+
+		if(door == null) {
 			throw new System.InvalidOperationException();
 		}
+
+		this.door = door;
 		
-		this.nodeElementDoor = nodeElementDoor;
 		
+		Orientation orientation = door.orientation;
+		int spacing = door.spacing;
 		
-		NodeOrientation.Orientation orientation = nodeElementDoor.nodeOrientation.value;
-		int spacing = nodeElementDoor.nodeSpacing.value;
-		
-		//load th eimage
+		//load the image
 		string imageName = "Door.Laboratory." + spacing + "." + orientation.ToString();
 		
 		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imageName);
@@ -45,7 +45,7 @@ public class Door : MonoBehaviour, IActionnable {
 		BoxCollider2D triggerCollider = getTriggerCollider();
 		
 		//load all sprites
-		if(orientation == NodeOrientation.Orientation.FACE) {
+		if(orientation == Orientation.FACE) {
 			
 			int nbSprites = (int)(texture.width / (float)(spacing * Constants.TILE_SIZE));
 			sprites = new Sprite[nbSprites];
@@ -78,15 +78,8 @@ public class Door : MonoBehaviour, IActionnable {
 			collisionsCollider.size = triggerCollider.size = new Vector2(0.35f, spacing);
 			collisionsCollider.offset = triggerCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
 		}
-		
-		//set the door as closed
-		updateCollider(false);
-		updateSprite(0);
-	}
-	
-	public void init(bool opened) {
 
-		if(opened) {
+		if(door.isOpened) {
 			updateCollider(true);
 			updateSprite(sprites.Length);
 		} else {
@@ -95,9 +88,10 @@ public class Door : MonoBehaviour, IActionnable {
 		}
 	}
 
+
 	public void open(bool animated) {
 		
-		if(isOpened) {
+		if(door.isOpened) {
 			return;
 		}
 		
@@ -116,7 +110,7 @@ public class Door : MonoBehaviour, IActionnable {
 	
 	public void close(bool animated) {
 		
-		if(!isOpened) {
+		if(!door.isOpened) {
 			return;
 		}
 		
@@ -174,7 +168,7 @@ public class Door : MonoBehaviour, IActionnable {
 	private void updateCollider(bool isOpened) {
 		
 		//disable all collider
-		this.isOpened = isOpened;
+		door.isOpened = isOpened;
 
 		Collider2D[] colliders = GetComponents<Collider2D>();
 		foreach(Collider2D c in colliders) {
@@ -203,7 +197,7 @@ public class Door : MonoBehaviour, IActionnable {
 			return;
 		}
 
-		if(isOpened) {
+		if(door.isOpened) {
 			return;
 		}
 	
@@ -219,7 +213,7 @@ public class Door : MonoBehaviour, IActionnable {
 			return;
 		}
 		
-		if(isOpened) {
+		if(door.isOpened) {
 			return;
 		}
 
@@ -244,7 +238,7 @@ public class Door : MonoBehaviour, IActionnable {
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		if(isOpened) {
+		if(door.isOpened) {
 			return;
 		}
 
@@ -267,7 +261,7 @@ public class Door : MonoBehaviour, IActionnable {
 		
 		player.enableControls();
 		
-		if(!isOpened) {
+		if(!door.isOpened) {
 			getTriggerOutCollider().enabled = true;
 		}
 
@@ -275,7 +269,7 @@ public class Door : MonoBehaviour, IActionnable {
 
 		//enable collider after delay to avoid displaying the action directly
 		//with the message if the door is still closed  
-		if(!isOpened) {
+		if(!door.isOpened) {
 			getTriggerCollider().enabled = true;
 		}
 
@@ -284,9 +278,9 @@ public class Door : MonoBehaviour, IActionnable {
 	private void manageDoorOpening() {
 		
 		//check if the player has to be in the right side to open the door
-		if(nodeElementDoor.nodeUnlockSide != null) {
+		if(door.hasUnlockSide) {
 			
-			Direction unlockSide = nodeElementDoor.nodeUnlockSide.value;
+			Direction unlockSide = door.unlockSide;
 			
 			if(unlockSide == Direction.NONE) {
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Blocked")));
@@ -309,22 +303,18 @@ public class Door : MonoBehaviour, IActionnable {
 				return;
 			}
 		}
-		
-		if(nodeElementDoor.nodeRequireItem != null) {
 
-			ItemPattern itemPattern = GameManager.Instance.getNodeGame().findItemPattern(nodeElementDoor.nodeRequireItem.value);
-			if(itemPattern == null) {
-				throw new System.InvalidOperationException("The item pattern was not found for the required item : " + nodeElementDoor.nodeRequireItem.value);
-			}
+		ItemPattern requiredItemPattern = door.requiredItemPattern;
+		if(requiredItemPattern != null) {
 
-			if(!GameManager.Instance.getInventory().hasItemWithPattern(itemPattern)) {
+			if(!GameManager.Instance.getInventory().hasItemWithPattern(requiredItemPattern)) {
 				//door remains locked
 				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Locked")));
 				return;
 			}
 
 			//door unlocked with item
-			MessageDisplayer.Instance.displayMessages(new Message(this, string.Format(Constants.tr("Message.Door.Unlock"), itemPattern.getTrName())));
+			MessageDisplayer.Instance.displayMessages(new Message(this, string.Format(Constants.tr("Message.Door.Unlock"), requiredItemPattern.getTrName())));
 
 		}
 		

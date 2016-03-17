@@ -17,9 +17,12 @@ public class DoorCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_WALLS;
 	}
 
-	public GameObject createNewGameObject(NodeElementDoor nodeElement) {
-		
+	public GameObject createNewGameObject(NodeElementDoor nodeElement, Door door) {
+
 		if(nodeElement == null) {
+			throw new System.ArgumentException();
+		}
+		if(door == null) {
 			throw new System.ArgumentException();
 		}
 
@@ -31,10 +34,8 @@ public class DoorCreator : BaseEntityCreator {
 			0
 			);
 		
-		Door door = gameObject.GetComponent<Door>();
-		door.setNodeElementDoor(nodeElement);
-
-		door.init(nodeElement.nodeDoorStatus.value == DoorStatus.OPENED);
+		DoorBehavior doorBehavior = gameObject.GetComponent<DoorBehavior>();
+		doorBehavior.init(door);
 
 		return gameObject;
 	}

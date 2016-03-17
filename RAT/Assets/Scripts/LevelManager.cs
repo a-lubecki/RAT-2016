@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour {
 
 	public Spawn spawn { get; private set; }
 	public Link[] links { get; private set; }
+	public Door[] doors { get; private set; }
 	public Hub hub { get; private set; }
 	public Loot[] loots { get; private set; }
 
@@ -159,20 +160,20 @@ public class LevelManager : MonoBehaviour {
 		// load links
 		LinkCreator linkCreator = new LinkCreator();
 
-		int linkCount = currentNodeLevel.getLinkCount();
-		links = new Link[linkCount];
+		int linksCount = currentNodeLevel.getLinkCount();
+		links = new Link[linksCount];
 
 		string currentLevelName = GameManager.Instance.getCurrentLevelName();
 
-		for(int i=0 ; i<linkCount ; i++) {
+		for(int i=0 ; i<linksCount ; i++) {
 
 			NodeElementLink nodeElementLink = currentNodeLevel.getLink(i);
 
 			Link link = new Link(nodeElementLink, currentLevelName);
-
 			links[i] = link;
 
 			linkCreator.createNewGameObject(nodeElementLink, link);
+
 		}
 
 		
@@ -181,19 +182,28 @@ public class LevelManager : MonoBehaviour {
 		
 		Dictionary<string, DoorSaveData> doorsSaveDataById = GameSaver.Instance.getDoorsSaveData();
 
-		int doorCount = currentNodeLevel.getDoorCount();
-		for(int i=0 ; i<doorCount ; i++) {
+		int doorsCount = currentNodeLevel.getDoorCount();
+		doors = new Door[doorsCount];
+
+		for(int i=0 ; i<doorsCount ; i++) {
 
 			NodeElementDoor nodeElementDoor = currentNodeLevel.getDoor(i);
 			string elementId = nodeElementDoor.nodeId.value;
-			
-			GameObject gameObjectDoor = doorCreator.createNewGameObject(nodeElementDoor);
 
-			//init if previously saved
+			bool isOpened;
+
 			if(doorsSaveDataById != null && doorsSaveDataById.ContainsKey(elementId)) {
 				DoorSaveData doorSaveData = doorsSaveDataById[elementId];
-				doorSaveData.assign(gameObjectDoor.GetComponent<Door>());
+				isOpened = doorSaveData.getIsOpened();
+			} else {
+				isOpened = (nodeElementDoor.nodeDoorStatus.value == DoorStatus.OPENED);
 			}
+
+			Door door = new Door(nodeElementDoor, isOpened);
+			doors[i] = door;
+
+			doorCreator.createNewGameObject(nodeElementDoor, door);
+
 		}
 
 
@@ -202,10 +212,10 @@ public class LevelManager : MonoBehaviour {
 
 		Dictionary<string, LootSaveData> lootsSaveDataById = GameSaver.Instance.getLootsSaveData();
 
-		int lootCount = currentNodeLevel.getLootCount();
-		loots = new Loot[lootCount];
+		int lootsCount = currentNodeLevel.getLootCount();
+		loots = new Loot[lootsCount];
 
-		for(int i=0 ; i<lootCount ; i++) {
+		for(int i=0 ; i<lootsCount ; i++) {
 
 			NodeElementLoot nodeElementLoot = currentNodeLevel.getLoot(i);
 			string elementId = nodeElementLoot.nodeId.value;
@@ -219,13 +229,13 @@ public class LevelManager : MonoBehaviour {
 			}
 
 			Loot loot = new Loot(nodeElementLoot, isCollected);
+			loots[i] = loot;
 
 			// create loot only if the loot was not collected
 			if(!isCollected) {
 				lootCreator.createNewGameObject(nodeElementLoot, loot);
 			}
 
-			loots[i] = loot;
 		}
 
 
@@ -234,8 +244,9 @@ public class LevelManager : MonoBehaviour {
 
 		Dictionary<string, NpcSaveData> npcsSaveDataById = GameSaver.Instance.getNpcsSaveData();
 
-		int npcCount = currentNodeLevel.getNpcCount();
-		for(int i=0 ; i<npcCount ; i++) {
+		int npcsCount = currentNodeLevel.getNpcCount();
+
+		for(int i=0 ; i<npcsCount ; i++) {
 			
 			NodeElementNpc nodeElementNpc = currentNodeLevel.getNpc(i);
 			string elementId = nodeElementNpc.nodeId.value;
