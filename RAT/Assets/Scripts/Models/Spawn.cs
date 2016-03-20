@@ -7,10 +7,10 @@ public class Spawn : ISpawnable {
 	
 	public int posX { get ; private set; }
 	public int posY { get ; private set; }
-	public Direction direction { get ; private set; }
+	public CharacterDirection direction { get ; private set; }
 
 
-	public Spawn() : this(0, 0, Direction.UP) {
+	public Spawn() : this(0, 0, CharacterDirection.UP) {
 
 	}
 
@@ -21,7 +21,7 @@ public class Spawn : ISpawnable {
 
 	}
 
-	public Spawn(int posX, int posY, Direction direction) : base() {
+	public Spawn(int posX, int posY, CharacterDirection direction) : base() {
 
 		this.posX = posX;
 		this.posY = posY;
@@ -37,7 +37,7 @@ public class Spawn : ISpawnable {
 		return posY;
 	}
 
-	Direction ISpawnable.getNextDirection() {
+	CharacterDirection ISpawnable.getNextDirection() {
 		return direction;
 	}
 

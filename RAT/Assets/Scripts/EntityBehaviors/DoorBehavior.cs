@@ -248,9 +248,9 @@ public class DoorBehavior : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		Player player = GameHelper.Instance.getPlayer();
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
 		
-		player.disableControls();
+		playerBehavior.disableControls();
 		getTriggerCollider().enabled = false;
 		getTriggerOutCollider().enabled = false;
 
@@ -259,7 +259,7 @@ public class DoorBehavior : MonoBehaviour, IActionnable {
 
 		manageDoorOpening();
 		
-		player.enableControls();
+		playerBehavior.enableControls();
 		
 		if(!door.isOpened) {
 			getTriggerOutCollider().enabled = true;

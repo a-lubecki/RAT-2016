@@ -11,20 +11,32 @@ public class Bar : MonoBehaviour {
 
 	protected float percentage = 0;
 	
-	
-	private bool isVisible = true;
 
-	
+	private bool isVisible_ = false;
+	public bool isVisible {
+		get {
+			return isVisible_;
+		}
+		set {
+			isVisible_ = value;
+			updateViewsVisibility();
+		} 
+	}
+
+	protected virtual void Start() {
+		updateViewsVisibility();
+	}
+		
 	public float getPercentage() {
 		return percentage;
 	}
 
-	public void setValues(int value, int maxValue) {
+	public void setValues(int value, int maxValue, bool mustRevealBar) {
 	
-		setPercentage(value / (float)maxValue);
+		setPercentage(value / (float)maxValue, mustRevealBar);
 	}
 
-	public virtual void setPercentage(float percentage) {
+	public virtual void setPercentage(float percentage, bool mustRevealBar) {
 
 		if(percentage < 0) {
 			this.percentage = 0;
@@ -34,13 +46,6 @@ public class Bar : MonoBehaviour {
 			this.percentage = percentage;
 		}
 
-	}
-	
-	public void setVisible(bool isVisible) {
-		
-		this.isVisible = isVisible;
-		
-		updateViewsVisibility();
 	}
 
 	protected void updateViewsVisibility() {

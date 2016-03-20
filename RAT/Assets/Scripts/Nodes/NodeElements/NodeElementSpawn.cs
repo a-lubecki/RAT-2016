@@ -6,14 +6,14 @@ namespace Node {
 
 	public class NodeElementSpawn : BasePositionableElement {
 
-		public NodeDirection nodeDirection { get ; private set; }
+		public NodeCharacterDirection nodeDirection { get ; private set; }
 		
 		public NodeElementSpawn() : base() {
 		}
 
 		public NodeElementSpawn(XmlNode node) : base(node) {
 
-			nodeDirection = parseChild("direction", typeof(NodeDirection), true) as NodeDirection;
+			nodeDirection = parseChild("direction", typeof(NodeCharacterDirection), true) as NodeCharacterDirection;
 			 
 		}
 		

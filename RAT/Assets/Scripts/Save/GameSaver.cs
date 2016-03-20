@@ -204,10 +204,8 @@ public class GameSaver {
 	}
 
 	public void savePlayer() {
-		
-		GameObject playerGameObject = GameHelper.Instance.getPlayerGameObject();
-		
-		gameSaveData.playerSaveData = new PlayerSaveData(playerGameObject.GetComponent<Player>());
+				
+		gameSaveData.playerSaveData = new PlayerSaveData(GameHelper.Instance.getPlayer());
 	}
 	
 	public void deletePlayer() {

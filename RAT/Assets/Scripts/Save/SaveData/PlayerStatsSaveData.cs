@@ -3,16 +3,16 @@ using System;
 [Serializable]
 public class PlayerStatsSaveData {
 	
-	protected int skillPointHealth;
-	protected int skillPointEnergy;
+	protected int skillPointsHealth;
+	protected int skillPointsEnergy;
 	
 	protected string levelNameForlastHub;
 
-	public int getSkillPointHealth() {
-		return skillPointHealth;
+	public int getSkillPointsHealth() {
+		return skillPointsHealth;
 	}
-	public int getSkillPointEnergy() {
-		return skillPointEnergy;
+	public int getSkillPointsEnergy() {
+		return skillPointsEnergy;
 	}
 	public string getLevelNameForlastHub() {
 		return levelNameForlastHub;
@@ -23,22 +23,11 @@ public class PlayerStatsSaveData {
 		if(player == null) {
 			throw new System.ArgumentException();
 		}
-		
-		skillPointHealth = player.skillPointHealth;
-		skillPointEnergy = player.skillPointEnergy;
+
+		skillPointsHealth = player.skillPointsHealth;
+		skillPointsEnergy = player.skillPointsEnergy;
 		
 		levelNameForlastHub = player.levelNameForLastHub;
-	}
-	
-	public void assign(Player player) {
-
-		if(player == null) {
-			throw new System.ArgumentException();
-		}
-
-		player.initStats(skillPointHealth, skillPointEnergy);
-
-		player.levelNameForLastHub = levelNameForlastHub;
 	}
 
 }

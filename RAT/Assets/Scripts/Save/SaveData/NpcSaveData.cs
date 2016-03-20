@@ -32,25 +32,21 @@ public class NpcSaveData {
 		if(npc == null) {
 			throw new System.ArgumentException();
 		}
-		
-		id = npc.nodeElementNpc.nodeId.value;
-		
-		currentPosX = (int)(npc.transform.position.x);
-		currentPosY = (int)(npc.transform.position.y);
-		currentAngleDegrees = (int)npc.angleDegrees;
-		
+
+		id = npc.id;
+
+		NpcBehavior npcBehavior = GameHelper.Instance.findNpcBehavior(npc);
+		if(npcBehavior != null) {
+			currentPosX = (int)(npcBehavior.transform.position.x);
+			currentPosY = (int)(npcBehavior.transform.position.y);
+		} else {
+			currentPosX = npc.initialPosX;
+			currentPosY = npc.initialPosY;
+		}
+
+		currentAngleDegrees = npc.angleDegrees;
 		currentLife = npc.life;
 	}
-	
-	public void assign(Npc npc) {
-		
-		if(npc == null) {
-			throw new System.ArgumentException();
-		}
-		
-		npc.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
-		npc.init(currentLife);
-	}
-	
+
 }
 

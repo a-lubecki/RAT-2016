@@ -1,52 +1,50 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using Node;
 
-public class Npc : Character {
+public class NpcBehavior : CharacterBehavior {
 
-	public NodeElementNpc nodeElementNpc { get; private set; }
+	public int level { get; private set; }
 
-	public void init(NodeElementNpc nodeElementNpc, CharacterRenderer characterRenderer) {
-
-		if(nodeElementNpc == null) {
-			throw new System.ArgumentException();
+	public Npc npc {
+		get {
+			return character as Npc;
 		}
-		if(characterRenderer == null) {
-			throw new System.ArgumentException();
+	}
+	public NpcRendererBehavior npcRendererBehavior {
+		get {
+			return characterRendererBehavior as NpcRendererBehavior;
 		}
+	}
 
-		this.nodeElementNpc = nodeElementNpc;
-		this.characterRenderer = characterRenderer;
+	public void init(Npc npc, NpcRendererBehavior npcRendererBehavior, bool setRealPosition, int posX, int posY) {
+
+		base.init(npc, npcRendererBehavior, setRealPosition, posX, posY);
 
 		reinitLife();
-	}
-	
-	public void init(int life) {
-		
-		this.life = life;
 
-		if(life <= 0) {
+		if(npc.life <= 0) {
 			setAsDead();
 		} else {
 			respawn();
 		}
 
 	}
-	
+
 	public void reinitLifeAndPosition() {
 
-		setInitialPosition(
-			nodeElementNpc.nodePosition.x * Constants.TILE_SIZE,
-			- nodeElementNpc.nodePosition.y * Constants.TILE_SIZE,
-			0);//TODO angle from nodeElementNpc
+		updateRealPosition(
+			npc.initialPosX * Constants.TILE_SIZE,
+			- npc.initialPosY * Constants.TILE_SIZE,
+			Character.directionToAngle(npc.initialDirection));
 
 		reinitLife();
 	}
 
 	public void reinitLife() {
 		
-		this.maxLife = 100;//TODO set with nodeElementNpc
-		this.life = 25;//TODO this.life = maxLife;
+		npc.life = npc.maxLife;
 
 		respawn();
 	}
@@ -54,7 +52,7 @@ public class Npc : Character {
 	protected override void die() {
 		base.die();
 
-		GameHelper.Instance.getPlayer().earnXp(500);//TODO test
+		GameHelper.Instance.findPlayerBehavior().earnXp(500);//TODO test
 	}
 
 
@@ -76,12 +74,20 @@ public class Npc : Character {
 	}
 	
 	void OnTriggerEnter2D(Collider2D other) {
-		
+
+		if(npc == null) {
+			return;
+		}
+
 		collide(other);		
 	}
 	
 	void OnTriggerStay2D(Collider2D other) {
 		
+		if(npc == null) {
+			return;
+		}
+
 		collide(other);		
 	}
 	
@@ -93,7 +99,7 @@ public class Npc : Character {
 			
 			if(!player.isDead()) {
 				//TODO TEST remove player life
-				gameObject.GetComponent<Npc>().takeDamages(100);
+				gameObject.GetComponent<NpcBehavior>().takeDamages(100);
 			}
 			
 		}

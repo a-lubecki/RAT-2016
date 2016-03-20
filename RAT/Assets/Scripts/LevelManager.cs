@@ -20,15 +20,17 @@ public class LevelManager : MonoBehaviour {
 	private bool isRunningSaverLoop = false;
 	private Coroutine coroutineSaveLoop;
 
+	public Player player { get; private set; }
 	public Spawn spawn { get; private set; }
 	public Link[] links { get; private set; }
 	public Door[] doors { get; private set; }
 	public Hub hub { get; private set; }
 	public Loot[] loots { get; private set; }
+	public Npc[] npcs { get; private set; }
 
 
 	void Start () {
-		
+
 		if(SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
 			return;
 		}
@@ -56,8 +58,27 @@ public class LevelManager : MonoBehaviour {
 
 	}
 
+	void Stop () {
+		
+		enablePlayerGameObjects(false);
+
+	}
+
+	private void enablePlayerGameObjects(bool enabled) {
+
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		if(playerBehavior != null) {
+			playerBehavior.enabled = enabled;
+		}
+		PlayerRendererBehavior playerRendererBehavior = GameHelper.Instance.findPlayerRendererBehavior();
+		if(playerRendererBehavior != null) {
+			playerRendererBehavior.enabled = enabled;
+		}
+	}
 
 	void OnLevelWasLoaded(int level) {
+
+		enablePlayerGameObjects(false);
 
 		if(SceneManager.GetActiveScene().buildIndex != (int)(Constants.SceneIndex.SCENE_INDEX_LEVEL)) {
 			return;
@@ -68,7 +89,7 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		if(isVeryFirstStart) {
-			MessageDisplayer.Instance.displayMessages(new Message(this, "Nouvelle objectif : Sortir du complexe"));//TODO TEST
+			MessageDisplayer.Instance.displayMessages(new Message(this, "Nouvel objectif : Sortir du complexe"));//TODO test
 		}
 
 		//loaded set the current name
@@ -245,38 +266,46 @@ public class LevelManager : MonoBehaviour {
 		Dictionary<string, NpcSaveData> npcsSaveDataById = GameSaver.Instance.getNpcsSaveData();
 
 		int npcsCount = currentNodeLevel.getNpcCount();
+		npcs = new Npc[npcsCount];
 
 		for(int i=0 ; i<npcsCount ; i++) {
 			
 			NodeElementNpc nodeElementNpc = currentNodeLevel.getNpc(i);
 			string elementId = nodeElementNpc.nodeId.value;
 
-			bool isDead = false;
+			bool setCurrentPosition = false;
+			int currentPosX = 0;
+			int currentPosY = 0;
+			int currentAngleDegrees;
+			bool setCurrentLife = false;
+			int currentLife = 0;
 			NpcSaveData npcSaveData = null;
 			
 			//init if previously saved
 			if(npcsSaveDataById != null && npcsSaveDataById.ContainsKey(elementId)) {
 				npcSaveData = npcsSaveDataById[elementId];
-				isDead = (npcSaveData.getCurrentLife() <= 0);
+				setCurrentPosition = true;
+				currentPosX = npcSaveData.getCurrentPosX();
+				currentPosY = npcSaveData.getCurrentPosY();
+				currentAngleDegrees = npcSaveData.getCurrentAngleDegrees();
+				setCurrentLife = true;
+				currentLife = npcSaveData.getCurrentLife();
+			} else {
+				currentAngleDegrees = Character.directionToAngle(nodeElementNpc.nodeDirection.value);
 			}
 
-			if(!isDead) {
+			Npc npc = new Npc(nodeElementNpc, setCurrentLife, currentLife, currentAngleDegrees);
+			npcs[i] = npc;
 
-				GameObject gameObjectNpc = npcCreator.createNewGameObject(nodeElementNpc);
+			if(!setCurrentLife || currentLife > 0) {//not dead
 
-				//init if previously saved
-				if(npcSaveData != null) {
-					npcSaveData.assign(gameObjectNpc.GetComponent<Npc>());
-				}
+				npcCreator.createNewGameObject(nodeElementNpc, npc, setCurrentPosition, currentPosX, currentPosY);
 
 			} else {
 				//create body
 				
 				//TODO TEST !!!
-				GameObject gameObjectNpc = npcCreator.createNewGameObject(nodeElementNpc);
-				if(npcSaveData != null) {
-					npcSaveData.assign(gameObjectNpc.GetComponent<Npc>());
-				}
+				//npcCreator.createNewGameObject(nodeElementNpc, npc, currentPosX, currentPosY, currentAngleDegrees);
 				//TODO TEST !!!
 			}
 		}
@@ -284,45 +313,67 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void spawnPlayer() {
-
-		Player player = GameHelper.Instance.getPlayer();
+		
+		string levelNameForLastHub = null;
+		int skillPointsHealth;
+		int skillPointsEnergy;
+		bool setLife = false;
+		int life = 0;
+		bool setStamina = false;
+		int stamina = 0;
+		int xp = 0;
+		bool setRealPosition = false;
+		int posX = 0;
+		int posY = 0;
+		int angleDegrees = 0;
 
 		//load player stats
 		PlayerStatsSaveData playerStatsSaveData = GameSaver.Instance.getPlayerStatsSaveData();
 		if(playerStatsSaveData != null) {
+			
+			levelNameForLastHub = playerStatsSaveData.getLevelNameForlastHub();
 
-			playerStatsSaveData.assign(player);
-
-			if(mustSpawnPlayerAtHub) {
-				player.reinitLifeAndStamina();
-			}
+			skillPointsHealth = playerStatsSaveData.getSkillPointsHealth();
+			skillPointsEnergy = playerStatsSaveData.getSkillPointsEnergy();
 
 		} else {
+			
+			skillPointsHealth = 10;
+			skillPointsEnergy = 10;
+		}
 
-			//very first init of the player stats
-			player.initStats(5, 5);
+		bool hasLoadedPlayerFromSave = false;
+
+		//load saved player
+		PlayerSaveData playerSaveData = GameSaver.Instance.getPlayerSaveData();
+		if(playerSaveData != null) {
+
+			if(!mustSpawnPlayerAtHub) {
+
+				hasLoadedPlayerFromSave = true;
+
+				setLife = true;
+				life = playerSaveData.getCurrentLife();
+				setStamina = true;
+				stamina = playerSaveData.getCurrentStamina();
+				xp = playerSaveData.getCurrentXp();
+				setRealPosition = true;
+				posX = playerSaveData.getCurrentPosX();
+				posY = playerSaveData.getCurrentPosY();
+				angleDegrees = playerSaveData.getCurrentAngleDegrees();
+			}
 		}
 
 
 		NodeLevel currentNodeLevel = GameManager.Instance.getCurrentNodeLevel();
 
-		ISpawnable currentSpawnable;
+		ISpawnable currentSpawnable = null;
 
 		if(mustSpawnPlayerAtHub) {
-			//the player has died, the current node is the player
+			//the player has died, the current node is the hub
 			currentSpawnable = hub;
 
 		} else { 
-
-			bool hasLoadedPlayer = false;
-
-			//load saved player
-			PlayerSaveData playerSaveData = GameSaver.Instance.getPlayerSaveData();
-			if(playerSaveData != null) {
-				
-				hasLoadedPlayer = true;
-				playerSaveData.assign(GameHelper.Instance.getPlayer());
-			}
 
 			if(lastSpawnable != null) {
 				//something has triggered the load level (can be a link or a spawn)
@@ -330,37 +381,60 @@ public class LevelManager : MonoBehaviour {
 
 			} else { 
 
-				if(hasLoadedPlayer) {
-					//done
-					return;
-				}
+				if(!hasLoadedPlayerFromSave) {
 
-				if(currentNodeLevel == null) {
-					//no level file provided : replace by default spawn element
-					currentSpawnable = new Spawn();
-
-				} else {
-					
-					//get spawn element of the level
-					NodeElementSpawn nodeElementSpawn = currentNodeLevel.spawnElement;
-
-					if(nodeElementSpawn == null) {
-						//replace by default spawn element
+					if(currentNodeLevel == null) {
+						//no level file provided : replace by default spawn element
 						currentSpawnable = new Spawn();
 
 					} else {
 						
-						spawn = new Spawn(nodeElementSpawn);
-						currentSpawnable = spawn; 
+						//get spawn element of the level
+						NodeElementSpawn nodeElementSpawn = currentNodeLevel.spawnElement;
+
+						if(nodeElementSpawn == null) {
+							//replace by default spawn element
+							currentSpawnable = new Spawn();
+
+						} else {
+							
+							spawn = new Spawn(nodeElementSpawn);
+							currentSpawnable = spawn; 
+						}
 					}
 				}
 			}
 		}
 
-		processPlayerLoad(currentSpawnable);
+
+		if(currentSpawnable != null) {
+			setRealPosition = false;
+			posX = currentSpawnable.getNextPosX();
+			posY = currentSpawnable.getNextPosY();
+			angleDegrees = Character.directionToAngle(currentSpawnable.getNextDirection());
+		}
+
+		player = new Player(skillPointsHealth, skillPointsEnergy, setLife, life, setStamina, stamina, xp, angleDegrees);
+		if(!string.IsNullOrEmpty(levelNameForLastHub)) {
+			player.levelNameForLastHub = levelNameForLastHub;
+		}
+
+		PlayerRendererBehavior playerRendererBehavior = GameHelper.Instance.findPlayerRendererBehavior();
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+
+		playerRendererBehavior.init(player, playerBehavior);
+		playerBehavior.init(player, playerRendererBehavior, setRealPosition, posX, posY);
+
+		if(!setRealPosition) {
+			//move
+			playerBehavior.updateMapPosition(posX, posY);
+		}
+
+		enablePlayerGameObjects(true);
 
 	}
-	
+
+
 	public void loadNextLevel(string levelName) {
 		
 		if(isAboutToLoadNextLevel()) {
@@ -381,7 +455,7 @@ public class LevelManager : MonoBehaviour {
 		if(hasCurrentLevel) {
 			//the current level is not currently loading
 
-			GameHelper.Instance.getPlayer().disableControls();
+			GameHelper.Instance.findPlayerBehavior().disableControls();
 
 			//when the user quit the level, the doors, enemies... must be saved to be at this state when the player come back after
 			GameManager.Instance.saveGame(false);
@@ -397,22 +471,6 @@ public class LevelManager : MonoBehaviour {
 		return !(string.IsNullOrEmpty(nextLevelName));
 	}
 
-	public void processPlayerLoad(ISpawnable spawnable) {
-		//move player in level with SPAWN / HUB / LINK / load from save
-
-		if(spawnable == null) {
-			throw new System.ArgumentException();
-		}
-
-		int posX = spawnable.getNextPosX();
-		int posY = spawnable.getNextPosY();
-		Direction direction = spawnable.getNextDirection();
-
-		Player player = GameHelper.Instance.getPlayer();
-		player.setMapPosition(posX, posY);
-		player.setDirection(direction);
-
-	}
 
 	public void preparePlayerToRespawn() {
 		
@@ -436,7 +494,7 @@ public class LevelManager : MonoBehaviour {
 		
 		//load next level with HUB
 		
-		string requiredLevelName = GameHelper.Instance.getPlayer().levelNameForLastHub;
+		string requiredLevelName = player.levelNameForLastHub;
 		
 		if(string.IsNullOrEmpty(requiredLevelName)) {
 			throw new System.InvalidOperationException("levelNameForlastHub is empty");

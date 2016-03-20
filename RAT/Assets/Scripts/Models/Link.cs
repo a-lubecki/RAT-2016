@@ -8,7 +8,7 @@ public class Link : BaseListenerModel, ISpawnable {
 	public string nextMap { get ; private set; }
 	public int nextPosX { get ; private set; }
 	public int nextPosY { get ; private set; }
-	public Direction nextDirection { get ; private set; }
+	public CharacterDirection nextDirection { get ; private set; }
 
 
 	public Link(NodeElementLink nodeElementLink, string nextMapFallBack) 
@@ -20,7 +20,7 @@ public class Link : BaseListenerModel, ISpawnable {
 
 	}
 
-	public Link(List<Listener> listeners, string nextMap, int nextPosX, int nextPosY, Direction nextDirection) : base(listeners) {
+	public Link(List<Listener> listeners, string nextMap, int nextPosX, int nextPosY, CharacterDirection nextDirection) : base(listeners) {
 
 		if(string.IsNullOrEmpty(nextMap)) {
 			throw new ArgumentException();
@@ -41,7 +41,7 @@ public class Link : BaseListenerModel, ISpawnable {
 		return nextPosY;
 	}
 
-	Direction ISpawnable.getNextDirection() {
+	CharacterDirection ISpawnable.getNextDirection() {
 		return nextDirection;
 	}
 

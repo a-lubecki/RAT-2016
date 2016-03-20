@@ -4,7 +4,7 @@ public interface ISpawnable {
 
 	int getNextPosX();
 	int getNextPosY();
-	Direction getNextDirection();
+	CharacterDirection getNextDirection();
 
 }
 

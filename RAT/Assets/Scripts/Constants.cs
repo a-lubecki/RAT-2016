@@ -122,13 +122,13 @@ public class Constants {
 		SCENE_INDEX_LEVEL = 2
 	}
 	
-	public static float vectorToAngle(float x, float y) {
+	public static int vectorToAngle(float x, float y) {
 		
 		if(y == 0) {
 			return (x > 0) ? 90 : -90;
 		}
 		
-		return Mathf.Atan2(x, y) * Mathf.Rad2Deg;
+		return (int)(Mathf.Atan2(x, y) * Mathf.Rad2Deg);
 	}
 	
 	public static Vector2 angleToVector(float angleDegrees, int force) {

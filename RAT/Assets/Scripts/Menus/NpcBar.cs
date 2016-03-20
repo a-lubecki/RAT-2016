@@ -6,15 +6,13 @@ public class NpcBar : Bar {
 
 	private Coroutine coroutineRevealBar;
 
-
-	void Start() {
-	
-		setVisible(false);
-	}
-	
 	
 	protected virtual void FixedUpdate() {
-		
+
+		if(!isVisible) {
+			return;
+		}
+
 		float middleWidth = transform.Find(BAR_PART_MIDDLE).localScale.x;
 		
 		int width = Mathf.FloorToInt(middleWidth * percentage);
@@ -29,8 +27,8 @@ public class NpcBar : Bar {
 		
 		updateViewsVisibility();
 	}
-	
-	public override void setPercentage(float percentage) {
+
+	public override void setPercentage(float percentage, bool mustRevealBar) {
 
 		float lastPercentage = getPercentage();
 
@@ -38,10 +36,9 @@ public class NpcBar : Bar {
 			return;
 		}
 
-		base.setPercentage(percentage);
+		base.setPercentage(percentage, mustRevealBar);
 
-		//reveal only if it's not the first assign and if the percentage is not 0 
-		if(lastPercentage >= 0) {
+		if(mustRevealBar) {
 			if(coroutineRevealBar != null) {
 				StopCoroutine(coroutineRevealBar);
 			}
@@ -51,11 +48,11 @@ public class NpcBar : Bar {
 
 	private IEnumerator revealBar() {
 		
-		setVisible(true);
+		isVisible = true;
 
 		yield return new WaitForSeconds(1f);
 
-		setVisible(false);
+		isVisible = false;
 
 	}
 

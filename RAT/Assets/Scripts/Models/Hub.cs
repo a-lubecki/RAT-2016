@@ -9,7 +9,7 @@ public class Hub : BaseListenerModel, ISpawnable {
 
 	public int posX { get; private set; }
 	public int posY { get; private set; }
-	public Direction spawnDirection { get; private set; }
+	public CharacterDirection spawnDirection { get; private set; }
 	public bool isActivated { get; private set; }
 
 
@@ -37,7 +37,7 @@ public class Hub : BaseListenerModel, ISpawnable {
 		return posY;
 	}
 
-	Direction ISpawnable.getNextDirection() {
+	CharacterDirection ISpawnable.getNextDirection() {
 		return spawnDirection;
 	}
 

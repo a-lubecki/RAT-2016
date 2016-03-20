@@ -10,7 +10,7 @@ namespace Node {
 		public NodeInt nodeHeight { get ; private set; }
 		public NodeString nodeNextMap { get ; private set; }
 		public NodePosition nodeNextPosition { get ; private set; }
-		public NodeDirection nodeNextDirection { get ; private set; }
+		public NodeCharacterDirection nodeNextDirection { get ; private set; }
 
 		public NodeElementLink(XmlNode node) : base(node) {
 			
@@ -24,7 +24,7 @@ namespace Node {
 			}
 			nodeNextMap = parseChild("nextMap", typeof(NodeString)) as NodeString;
 			nodeNextPosition = parseChild("nextPos", typeof(NodePosition), true) as NodePosition;
-			nodeNextDirection = parseChild("nextDirection", typeof(NodeDirection), true) as NodeDirection;
+			nodeNextDirection = parseChild("nextDirection", typeof(NodeCharacterDirection), true) as NodeCharacterDirection;
 
 		}
 

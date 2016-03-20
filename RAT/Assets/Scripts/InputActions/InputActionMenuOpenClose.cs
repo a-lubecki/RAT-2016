@@ -19,8 +19,8 @@ public class InputActionMenuOpenClose : AbstractInputAction {
 	
 	public override bool execute() {
 
-		Player player = GameHelper.Instance.getPlayer();
-		if(!player.isControlsEnabled || !player.isControlsEnabledWhileAnimating) {
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		if(!playerBehavior.isControlsEnabled || !playerBehavior.isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

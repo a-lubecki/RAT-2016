@@ -23,18 +23,8 @@ public class NpcRendererCreator : BaseEntityCreator {
 			throw new System.ArgumentException();
 		}
 
-		int x = nodeElement.nodePosition.x;
-		int y = nodeElement.nodePosition.y;
-
-		GameObject gameObject = createNewGameObject(
-			x, 
-			y);
-
-		CharacterRenderer npcRenderer = gameObject.GetComponent<CharacterRenderer>();
-
-		npcRenderer.currentSpritePrefix = "Enemy.Insect";//TODO test
-		//npcRenderer.currentSpritePrefix = nodeElement.;//TODO
-
+		GameObject gameObject = createNewGameObject(0, 0);
+		
 		return gameObject;
 	}
 

@@ -17,7 +17,7 @@ namespace Node {
 			if(nodeNbGrouped == null) {
 				nodeNbGrouped = new NodeInt(1);
 			} else if(nodeNbGrouped.value < 1) {
-				throw new System.InvalidOperationException("Nb grouped must be 1 or more : " + nodeNbGrouped.value);
+				throw new InvalidOperationException("Nb grouped must be 1 or more : " + nodeNbGrouped.value);
 			}
 
 		}

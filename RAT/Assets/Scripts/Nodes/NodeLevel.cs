@@ -44,6 +44,11 @@ namespace Node {
 		}
 		
 		public NodeElementLink getLink(int pos) {
+
+			if(pos < 0 || pos >= linkElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return linkElements[pos] as NodeElementLink;
 		}
 		
@@ -52,6 +57,11 @@ namespace Node {
 		}
 		
 		public NodeElementDoor getDoor(int pos) {
+
+			if(pos < 0 || pos >= doorElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return doorElements[pos] as NodeElementDoor;
 		}
 		/*
@@ -60,6 +70,11 @@ namespace Node {
 		}
 		
 		public NodeElementLever getLever(int pos) {
+
+			if(pos < 0 || pos >= leverElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return leverElements[pos] as NodeElementLever;
 		}
 		
@@ -68,6 +83,11 @@ namespace Node {
 		}
 		
 		public NodeElementButton getButton(int pos) {
+
+			if(pos < 0 || pos >= buttonElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return buttonElements[pos] as NodeElementButton;
 		}
 		*/
@@ -76,6 +96,11 @@ namespace Node {
 		}
 		
 		public NodeElementLoot getLoot(int pos) {
+
+			if(pos < 0 || pos >= lootElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return lootElements[pos] as NodeElementLoot;
 		}
 		/*
@@ -83,7 +108,12 @@ namespace Node {
 			return chestElements.Count;
 		}
 		
-		public NodeElementChest getDoor(int pos) {
+		public NodeElementChest getChest(int pos) {
+		
+			if(pos < 0 || pos >= chestElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return chestElements[pos] as NodeElementChest;
 		}
 		*/
@@ -91,9 +121,30 @@ namespace Node {
 		public int getNpcCount() {
 			return npcElements.Count;
 		}
-		
+
 		public NodeElementNpc getNpc(int pos) {
+
+			if(pos < 0 || pos >= npcElements.Count) {
+				throw new ArgumentException();
+			}
+
 			return npcElements[pos] as NodeElementNpc;
+		}
+
+		public NodeElementNpc findNpc(string id) {
+
+			if(string.IsNullOrEmpty(id)) {
+				throw new ArgumentException();
+			}
+
+			foreach(BaseNode node in npcElements) {
+				NodeElementNpc nodeElementNpc = node as NodeElementNpc;
+				if(id.Equals(nodeElementNpc.nodeId.value)) {
+					return nodeElementNpc;
+				}
+			}
+
+			return null;
 		}
 
 

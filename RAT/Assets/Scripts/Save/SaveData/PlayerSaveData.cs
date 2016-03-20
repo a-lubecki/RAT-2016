@@ -36,24 +36,22 @@ public class PlayerSaveData {
 			throw new System.ArgumentException();
 		}
 
-		currentPosX = (int)(player.transform.position.x);
-		currentPosY = (int)(player.transform.position.y);
-		currentAngleDegrees = (int)player.angleDegrees;
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		if(playerBehavior != null) {
+			currentPosX = (int)(playerBehavior.transform.position.x);
+			currentPosY = (int)(playerBehavior.transform.position.y);
+		} else {
+			currentPosX = player.initialPosX;
+			currentPosY = player.initialPosY;
+		}
+
+		currentAngleDegrees = player.angleDegrees;
 		
 		currentLife = player.life;
 		currentStamina = player.stamina;
 		currentXp = player.xp;
 	}
-	
-	public void assign(Player player) {
-		
-		if(player == null) {
-			throw new System.ArgumentException();
-		}
 
-		player.setInitialPosition(currentPosX, currentPosY, currentAngleDegrees);
-		player.init(currentLife, currentStamina, currentXp);
-	}
 
 }
 

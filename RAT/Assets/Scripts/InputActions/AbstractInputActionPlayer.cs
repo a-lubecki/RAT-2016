@@ -13,8 +13,8 @@ public abstract class AbstractInputActionPlayer : AbstractInputAction {
 			return false;
 		}
 		
-		Player player = GameHelper.Instance.getPlayer();
-		if(!player.isControlsEnabled || !player.isControlsEnabledWhileAnimating) {
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		if(!playerBehavior.isControlsEnabled || !playerBehavior.isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

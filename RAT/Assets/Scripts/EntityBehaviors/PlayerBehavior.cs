@@ -1,12 +1,13 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using Node;
 
-public class Player : Character {
+public class PlayerBehavior : CharacterBehavior {
 	
 	public static readonly float STAMINA_UPDATE_FREQUENCY_SEC = 0.2f;
 	public static readonly float DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC = 0.5f;
-	public static readonly int STAMINA_REGAIN_REST = 5;
+	public static readonly int STAMINA_REGAIN_REST = 12;
 	public static readonly int STAMINA_CONSUMPTION_RUN = 6;
 	public static readonly int STAMINA_CONSUMPTION_DASH = 30;
 	public static readonly int STAMINA_CONSUMPTION_SHORT_ATTACK = 30;
@@ -22,120 +23,36 @@ public class Player : Character {
 	private Coroutine coroutineRegainingStamina;
 
 
-	private int _skillPointHealth;
-	public int skillPointHealth { 
+	public Player player {
 		get {
-			return _skillPointHealth;
-		}
-		set {
-			if(value < 1) {
-				_skillPointHealth = 1;
-			} else {
-				_skillPointHealth = value;
-			}
+			return character as Player;
 		}
 	}
-	
-	private int _skillPointEnergy;
-	public int skillPointEnergy { 
+	public PlayerRendererBehavior playerRendererBehavior {
 		get {
-			return _skillPointEnergy;
-		}
-		set {
-			if(value < 1) {
-				_skillPointEnergy = 1;
-			} else {
-				_skillPointEnergy = value;
-			}
+			return playerRendererBehavior as PlayerRendererBehavior;
 		}
 	}
 
-	private int _maxStamina;
-	public int maxStamina { 
-		get {
-			return _maxStamina;
-		}
-		set {
-			if(value <= 0) {
-				_maxStamina = 0;
-			} else {
-				_maxStamina = value;
-			}
-		}
-	}
+	public void init(Player player, PlayerRendererBehavior playerRendererBehavior, bool setRealPosition, int posX, int posY) {
 
-	private int _stamina;
-	public int stamina { 
-		get {
-			return _stamina;
-		}
-		set {
-			if(value <= 0) {
-				_stamina = 0;
-			} else if(value > _maxStamina) {
-				_stamina = _maxStamina;
-			} else {
-				_stamina = value;
-			}
-		}
-	}
-	
-	private int _xp;
-	public int xp { 
-		get {
-			return _xp;
-		}
-		set {
-			if(value <= 0) {
-				_xp = 0;
-			} else {
-				_xp = value;
-			}
-		}
-	}
+		base.init(player, playerRendererBehavior, setRealPosition, posX, posY);
 
-	public string levelNameForLastHub;
+		GameHelper.Instance.getXpDisplayManager().setTotalXp(player.xp);
 
-	public void initStats(int skillPointHealth, int skillPointEnergy) {
-		
-		this.skillPointHealth = skillPointHealth;
-		this.skillPointEnergy = skillPointEnergy;
-
-		computeStats();
-
-		reinitLifeAndStamina();
-	}
-		
-	public void init(int life, int stamina, int xp) {
-
-		this.life = life;
-		this.stamina = stamina;
-
-		this.xp = xp;
-		GameHelper.Instance.getXpDisplayManager().setTotalXp(xp);
-
-		if(isDead()) {
+		if(player.isDead()) {
 			//respawn if the player was loaded and directly dead 
 			die();
 		}
 	}
 
-	public void reinitLifeAndStamina() {
-		
-		this.life = maxLife;
-		this.stamina = maxStamina;
-	}
-
-	private void computeStats() {
-
-		maxLife = 50 + 5 * skillPointHealth + 2 * skillPointEnergy;
-		maxStamina = 80 + 5 * skillPointEnergy;
-	}
-
 	public void earnXp(int newXp) {
-		int lastXp = xp;
-		xp += newXp;
-		GameHelper.Instance.getXpDisplayManager().earnXp(lastXp, xp - lastXp);
+
+		int lastXp = player.xp;
+
+		player.earnXp(newXp);
+
+		GameHelper.Instance.getXpDisplayManager().earnXp(lastXp, player.xp - lastXp);
 	}
 
 	protected override void die() {
@@ -143,7 +60,7 @@ public class Player : Character {
 		base.die();
 
 		//TODO set xp on body then save
-		xp = 0;
+		player.xp = 0;
 		GameHelper.Instance.getXpDisplayManager().setTotalXp(0);
 		
 		StartCoroutine(processRespawn());
@@ -152,7 +69,7 @@ public class Player : Character {
 	protected override void setAsDead() {
 		base.setAsDead();
 
-		stamina = 0;
+		player.stamina = 0;
 	}
 
 	IEnumerator processRespawn() {
@@ -168,19 +85,28 @@ public class Player : Character {
 
 		levelManager.processPlayerRespawn();
 	}
-	
-	protected override void Start() {
-		base.Start();
-		
-		InvokeRepeating("manageStamina", Player.STAMINA_UPDATE_FREQUENCY_SEC, Player.STAMINA_UPDATE_FREQUENCY_SEC);
-		
+
+	protected void OnEnable() {
+
+		if(player == null) {
+			return;
+		}
+
+		InvokeRepeating("manageStamina", PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC, PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC);
+
 		//if coming from a save when the player has not full stamina, regain it
 		startRegainingStaminaAfterDelay(1f);
 	}
-	
-	
+
 	protected void OnDisable() {
-		
+
+		if(player == null) {
+			return;
+		}
+
+		CancelInvoke("manageStamina");
+
+		stopRegainingStamina();
 		stopRunning();
 	}
 	
@@ -220,7 +146,7 @@ public class Player : Character {
 			return Vector2.zero;
 		}
 		
-		if(isRunning) {
+		if(player.isRunning) {
 			
 			analogicFactor = 1.6f;
 			
@@ -245,7 +171,6 @@ public class Player : Character {
 	
 	public void tryDash() {
 		
-		Player player = GameHelper.Instance.getPlayer();
 		if(player.stamina > 0) {
 			updateState(PlayerState.DASH);
 		}
@@ -253,8 +178,6 @@ public class Player : Character {
 	}
 	
 	public void tryLeftAttack() {
-		
-		Player player = GameHelper.Instance.getPlayer();
 		
 		if(player.stamina > 0) {
 			updateState(PlayerState.SHORT_ATTACK);
@@ -264,8 +187,6 @@ public class Player : Character {
 	
 	public void tryRightAttack() {
 		
-		Player player = GameHelper.Instance.getPlayer();
-		
 		if(player.stamina > 0) {
 			updateState(PlayerState.SHORT_ATTACK);
 		}
@@ -274,31 +195,29 @@ public class Player : Character {
 	
 	protected override CharacterAction getCurrentCharacterAction() {
 		
-		if(currentState == BaseCharacterState.WALK) {
+		if(player.currentState == BaseCharacterState.WALK) {
 			return new CharacterAction(false, 0.4f);
 		}
 		
-		if(currentState == BaseCharacterState.RUN) {
+		if(player.currentState == BaseCharacterState.RUN) {
 			return new CharacterAction(false, 0.2f);
 		}
 		
-		if(currentState == PlayerState.DASH) {
+		if(player.currentState == PlayerState.DASH) {
 			return new CharacterAction(true, 0.5f, delegate(CharacterAction action) {
 				
-				Player player = GameHelper.Instance.getPlayer();
-				
 				//remove stamina
-				player.stamina -= Player.STAMINA_CONSUMPTION_DASH;
+				player.stamina -= PlayerBehavior.STAMINA_CONSUMPTION_DASH;
 				
 				//after a dash, the player can't continue the same running
 				stopRunning();
 				stopRegainingStamina();
 				
 				float angle;
-				if(isMoving) {
-					angle = angleDegrees;
+				if(player.isMoving) {
+					angle = player.angleDegrees;
 				} else {
-					angle = directionToAngle(currentDirection);
+					angle = Character.directionToAngle(currentDirection);
 					
 					//dash opposite
 					angle += 180;
@@ -308,66 +227,62 @@ public class Player : Character {
 				
 			}, delegate(CharacterAction action) {
 				
-				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+				startRegainingStaminaAfterDelay(PlayerBehavior.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
 				
 			});
 		}
 		
-		if(currentState == PlayerState.SHORT_ATTACK) {
+		if(player.currentState == PlayerState.SHORT_ATTACK) {
 			return new CharacterAction(true, 0.9f, delegate(CharacterAction action) {
 				
-				Player player = GameHelper.Instance.getPlayer();
-				
 				//remove stamina
-				player.stamina -= Player.STAMINA_CONSUMPTION_SHORT_ATTACK;
+				player.stamina -= PlayerBehavior.STAMINA_CONSUMPTION_SHORT_ATTACK;
 				
 				//after a dash, the player can't continue the same running
 				stopRunning();
 				stopRegainingStamina();
 				
 				float angle;				
-				if(isMoving) {
-					angle = angleDegrees;
+				if(player.isMoving) {
+					angle = player.angleDegrees;
 				} else {
-					angle = directionToAngle(currentDirection);
+					angle = Character.directionToAngle(currentDirection);
 				}
 				StartCoroutine(dashAfterDelay(angle, 20000, 0.2f));
 				
 			}, delegate(CharacterAction action) {
 				
-				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+				startRegainingStaminaAfterDelay(PlayerBehavior.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
 				
 			});
 		}
 		
-		if(currentState == PlayerState.HEAVY_ATTACK) {
+		if(player.currentState == PlayerState.HEAVY_ATTACK) {
 			return new CharacterAction(true, 1.5f, delegate(CharacterAction action) {
 				
-				Player player = GameHelper.Instance.getPlayer();
-				
 				//remove stamina
-				player.stamina -= Player.STAMINA_CONSUMPTION_HEAVY_ATTACK;
+				player.stamina -= PlayerBehavior.STAMINA_CONSUMPTION_HEAVY_ATTACK;
 				
 				//after a dash, the player can't continue the same running
 				stopRunning();
 				stopRegainingStamina();
 				
 				float angle;				
-				if(isMoving) {
-					angle = angleDegrees;
+				if(player.isMoving) {
+					angle = player.angleDegrees;
 				} else {
-					angle = directionToAngle(currentDirection);
+					angle = Character.directionToAngle(currentDirection);
 				}
 				StartCoroutine(dashAfterDelay(angle, 30000, 0.5f));
 				
 			}, delegate(CharacterAction action) {
 				
-				startRegainingStaminaAfterDelay(Player.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
+				startRegainingStaminaAfterDelay(PlayerBehavior.DELAY_STAMINA_RECOVERY_AFTER_ACTION_SEC);
 				
 			});
 		}
 		
-		if(currentState == PlayerState.DEFEND) {
+		if(player.currentState == PlayerState.DEFEND) {
 			return new CharacterAction(false, 1);
 		}
 		
@@ -378,11 +293,11 @@ public class Player : Character {
 	
 	protected override BaseCharacterState getNextState() {
 		
-		if(isMoving) { 
-			if(currentState == BaseCharacterState.WALK) {
+		if(player.isMoving) { 
+			if(player.currentState == BaseCharacterState.WALK) {
 				return BaseCharacterState.WALK;
 			}
-			if(currentState == BaseCharacterState.RUN) {
+			if(player.currentState == BaseCharacterState.RUN) {
 				return BaseCharacterState.WALK;
 			}
 		}
@@ -398,8 +313,7 @@ public class Player : Character {
 			//no need to run if no direction pressed
 			return false;
 		}
-		
-		Player player = GameHelper.Instance.getPlayer();
+
 		if(player.stamina <= 0) {
 			//can't run if no stamina
 			return false;
@@ -470,16 +384,14 @@ public class Player : Character {
 	
 	private void manageStamina() {
 		
-		Player player = GameHelper.Instance.getPlayer();
-		
 		if(player.isDead()) {
 			stopRegainingStamina();
 			return;
 		}
 		
-		if(isRunning) {
+		if(player.isRunning) {
 			
-			player.stamina -= Player.STAMINA_CONSUMPTION_RUN;
+			player.stamina -= PlayerBehavior.STAMINA_CONSUMPTION_RUN;
 			
 			//can't run any more
 			if(player.stamina <= 0) {
@@ -488,7 +400,7 @@ public class Player : Character {
 			
 		} else if(isRegainingStamina) {
 			
-			player.stamina += Player.STAMINA_REGAIN_REST;
+			player.stamina += PlayerBehavior.STAMINA_REGAIN_REST;
 			
 			if(player.stamina >= player.maxStamina) {
 				stopRegainingStamina();
@@ -499,12 +411,20 @@ public class Player : Character {
 	
 	
 	void OnTriggerEnter2D(Collider2D other) {
-		
+
+		if(player == null) {
+			return;
+		}
+
 		collide(other);
 	}
 	
 	void OnTriggerStay2D(Collider2D other) {
-		
+
+		if(player == null) {
+			return;
+		}
+
 		collide(other);
 	}
 	
@@ -512,12 +432,11 @@ public class Player : Character {
 		
 		if(Constants.GAME_OBJECT_NAME_NPC.Equals(other.name)) {
 			
-			Npc npc = other.gameObject.GetComponent<Npc>();
+			NpcBehavior npcBehavior = other.gameObject.GetComponent<NpcBehavior>();
 			
-			if(!npc.isDead()) {
-				//TODO TEST remove player life
-				Player player = GameHelper.Instance.getPlayer();
-				player.takeDamages(100);
+			if(!npcBehavior.npc.isDead()) {
+				//TODO TEST remove player life with (npc atk * npc level) - (player def + equipement def)
+				takeDamages(10 * npcBehavior.npc.level);
 			}
 			
 		}

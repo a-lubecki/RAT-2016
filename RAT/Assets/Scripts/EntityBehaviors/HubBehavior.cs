@@ -99,8 +99,7 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		setActivated(true);
 		
 		//keep level to respawn after
-		Player player = GameHelper.Instance.getPlayer();
-		player.levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
+		GameHelper.Instance.getPlayer().levelNameForLastHub = GameManager.Instance.getCurrentLevelName();
 
 		GameManager.Instance.saveGame(false);
 
@@ -111,15 +110,15 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		Player player = GameHelper.Instance.getPlayer();
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
 
-		player.disableControls();
+		playerBehavior.disableControls();
 		getTriggerCollider().enabled = false;
 
 		yield return new WaitForSeconds(1f);
 		
 		getTriggerCollider().enabled = true;
-		player.enableControls();
+		playerBehavior.enableControls();
 
 	}
 
@@ -131,7 +130,16 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		//respawn all enemies
 		Npc[] npcs = GameHelper.Instance.getNpcs();
 		foreach(Npc npc in npcs) {
-			npc.reinitLifeAndPosition();
+
+			NpcBehavior npcBehavior = GameHelper.Instance.findNpcBehavior(npc);
+			if(npcBehavior != null) {
+				npcBehavior.reinitLifeAndPosition();
+			} else {
+				//the game object was not previously created, create it using node
+				NodeElementNpc nodeElementNpc = GameManager.Instance.getCurrentNodeLevel().findNpc(npc.id);
+
+				new NpcCreator().createNewGameObject(nodeElementNpc, npc, false, 0, 0);
+			}
 		}
 
 		
@@ -147,7 +155,7 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 	private void openHubMenu() {
 		
 		//disable controls when editing
-		GameHelper.Instance.getPlayer().disableControls();
+		GameHelper.Instance.findPlayerBehavior().disableControls();
 		getTriggerCollider().enabled = false;
 
 		GameHelper.Instance.getMenu().open(new MenuTypeHub(hub));

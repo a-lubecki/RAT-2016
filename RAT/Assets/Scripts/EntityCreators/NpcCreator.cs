@@ -17,29 +17,26 @@ public class NpcCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_OBJECTS;
 	}
 
-	public GameObject createNewGameObject(NodeElementNpc nodeElement) {
-		
+	public GameObject createNewGameObject(NodeElementNpc nodeElement, Npc npc, bool setRealPosition, int posX, int posY) {
+
 		if(nodeElement == null) {
 			throw new System.ArgumentException();
 		}
+		if(npc == null) {
+			throw new System.ArgumentException();
+		}
 
-		int x = nodeElement.nodePosition.x;
-		int y = nodeElement.nodePosition.y;
-
-		GameObject gameObjectCollider = createNewGameObject(
-			x, 
-			y);
-
+		GameObject gameObjectCollider = createNewGameObject(0, 0);
 		GameObject gameObjectRenderer = new NpcRendererCreator().createNewGameObject(nodeElement);
 		
-		Npc npc = gameObjectCollider.GetComponent<Npc>();
-		DefaultNpcRenderer npcRenderer = gameObjectRenderer.GetComponent<DefaultNpcRenderer>();
+		NpcBehavior npcBehavior = gameObjectCollider.GetComponent<NpcBehavior>();
+		NpcRendererBehavior npcRendererBehavior = gameObjectRenderer.GetComponent<NpcRendererBehavior>();
 
 		GameObject gameObjectNpcBar = new NpcBarCreator().createNewGameObject(nodeElement);
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
-		npcRenderer.init(npc, npcBar);
-		npc.init(nodeElement, npcRenderer);
+		npcRendererBehavior.init(npc, npcBehavior, npcBar);
+		npcBehavior.init(npc, npcRendererBehavior, setRealPosition, posX, posY);
 
 		return gameObjectCollider;
 	}

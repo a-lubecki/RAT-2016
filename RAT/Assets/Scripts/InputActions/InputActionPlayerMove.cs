@@ -32,8 +32,8 @@ public class InputActionPlayerMove : AbstractInputAction {
 
 	public override bool isActionDone() {
 		
-		Player player = GameHelper.Instance.getPlayer();
-		if(!player.isControlsEnabled || !player.isControlsEnabledWhileAnimating) {
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		if(!playerBehavior.isControlsEnabled || !playerBehavior.isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

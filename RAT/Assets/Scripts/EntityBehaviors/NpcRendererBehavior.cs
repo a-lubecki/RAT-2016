@@ -1,22 +1,42 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 
-public class DefaultNpcRenderer : CharacterRenderer {
-	
-	private NpcBar npcBar;
-	
-	public void init(Npc npc, NpcBar npcBar) {
+public class NpcRendererBehavior : CharacterRendererBehavior {
 
-		if(npc == null) {
+	public Npc npc {
+		get {
+			return character as Npc;
+		}
+	}
+	public NpcBehavior npcBehavior {
+		get {
+			return characterBehavior as NpcBehavior;
+		}
+	}
+
+	private NpcBar npcBar;
+
+	public void init(Npc npc, NpcBehavior npcBehavior, NpcBar npcBar) {
+
+		base.init(npc, npcBehavior);
+
+		if(npcBar == null) {
 			throw new System.ArgumentException();
 		}
 
-		this.character = npc;
 		this.npcBar = npcBar;
+
+		npcBar.setValues(npc.life, npc.maxLife, false);
 	}
-	
+
 	protected override void FixedUpdate() {
+
+		if(npc == null) {
+			//not prepared
+			return;
+		}
 
 		base.FixedUpdate();
 
@@ -32,13 +52,13 @@ public class DefaultNpcRenderer : CharacterRenderer {
 		pos.y = (int) (pos.y + Constants.TILE_SIZE * 0.6f);
 		npcBar.transform.position = pos;
 
-		npcBar.setValues(character.life, character.maxLife);
+		npcBar.setValues(npc.life, npc.maxLife, true);
 	
 	}
 
 	protected override CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState) {
 		
-		string textureName = "Enemy.Insect.Wait";
+		string textureName = currentSpritePrefix + "Wait";
 		
 		//wait
 		return new CharacterAnimation(

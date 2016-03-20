@@ -1,26 +1,50 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 
-public abstract class CharacterRenderer : MonoBehaviour {
+public abstract class CharacterRendererBehavior : MonoBehaviour {
 
-	public Character character;
+	public Character character { get; private set; }
+	public CharacterBehavior characterBehavior { get; private set; }
 
-	public string currentSpritePrefix;
+	public string currentSpritePrefix { get; private set; }
 
 	private Coroutine coroutineUpdateSprite;
 
-	protected virtual void FixedUpdate () {
-	
+
+	protected void init(Character character, CharacterBehavior characterBehavior) {
+
 		if(character == null) {
-			throw new System.InvalidOperationException();
+			throw new ArgumentException();
+		}
+		if(characterBehavior == null) {
+			throw new ArgumentException();
+		}
+
+		this.characterBehavior = characterBehavior;
+		this.character = character;
+
+		if(character is Player) {
+			currentSpritePrefix = "Character.Rat.";
+		} else {
+			//TODO get with character type
+			currentSpritePrefix = "Enemy.Insect.";
+		}
+	}
+
+	protected virtual void FixedUpdate () {
+
+		if(character == null) {
+			//not prepared
+			return;
 		}
 
 		string sortingLayerName = character.isDead() ? Constants.SORTING_LAYER_NAME_OBJECTS : Constants.SORTING_LAYER_NAME_CHARACTERS;
 		GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
 
 
-		transform.position = snapToGrid(character.transform.position);
+		transform.position = snapToGrid(characterBehavior.transform.position);
 
 		//Debug.Log(">>> " + transform.position.x + " - " + transform.position.y);
 
@@ -93,7 +117,7 @@ public abstract class CharacterRenderer : MonoBehaviour {
 		
 		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
 			Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
-			key.imagePos + "." + character.currentDirection.ToString());
+			key.imagePos + "." + characterBehavior.currentDirection.ToString());
 		
 		GetComponent<SpriteRenderer>().sprite = sprite;
 

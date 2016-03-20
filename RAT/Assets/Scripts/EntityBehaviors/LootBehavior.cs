@@ -208,9 +208,9 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 	
 	private IEnumerator delayPlayerAfterAction() {
 		
-		Player player = GameHelper.Instance.getPlayer();
+		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
 		
-		player.disableControls();
+		playerBehavior.disableControls();
 		getTriggerCollider().enabled = false;
 
 		
@@ -218,7 +218,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 		startCollecting();
 		
-		player.enableControls();
+		playerBehavior.enableControls();
 
 	}
 

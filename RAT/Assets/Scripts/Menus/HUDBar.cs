@@ -9,6 +9,12 @@ public class HUDBar : Bar {
 
 	private float percentageMax = 1;//the percentage of max (if the player can only reach 2000hp max with the max level and if he has 200hp max now, the current value is 0.1)
 
+	protected override void Start() {
+
+		isVisible = true;
+
+	}
+
 	protected virtual void FixedUpdate() {
 
 		int pixelSize = GameHelper.Instance.getMainCameraResizer().pixelSize;
@@ -51,5 +57,9 @@ public class HUDBar : Bar {
 
 	}
 
+	public void setValues(int value, int maxValue) {
+
+		base.setValues(value, maxValue, true);
+	}
 }
 
