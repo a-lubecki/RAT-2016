@@ -131,6 +131,9 @@
 	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
 		<value>Ramasser + Réorganiser</value>
 	</data>
+	<data name="Action.Note.Show" xml:space="preserve">
+		<value>Voir le message</value>
+	</data>
 	<data name="Author.ANONYMOUS" xml:space="preserve">
 		<value>Anonyme</value>
 	</data>
@@ -355,6 +358,12 @@
 	</data>
 	<data name="Message.Event.DoorsOpened" xml:space="preserve">
 		<value>Les portes se sont ouvertes</value>
+	</data>
+	<data name="Note.Story1" xml:space="preserve">
+		<value>Rapport d'analyse du sujet 2558, 5 février 3054</value>
+	</data>
+	<data name="Note.Story2" xml:space="preserve">
+		<value>Le sujet a entièrement régénéré la patte qu'on lui avait coupé. Les résultats sont au delà de nos espérances.</value>
 	</data>
 	<data name="Quote.ALBERT_EINSTEIN.0" xml:space="preserve">
 		<value>Il est hélas devenu évident aujourd'hui que notre technologie a dépassé notre humanité.</value>

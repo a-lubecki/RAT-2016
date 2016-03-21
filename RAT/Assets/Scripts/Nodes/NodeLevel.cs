@@ -16,6 +16,7 @@ namespace Node {
 		//private List<BaseNode> leverElements;
 		//private List<BaseNode> buttonElements;
 		private List<BaseNode> lootElements;
+		private List<BaseNode> noteElements;
 		//private List<BaseNode> chestElements;
 		private List<BaseNode> npcElements;
 
@@ -30,6 +31,7 @@ namespace Node {
 			//leverElements = parseChildren("LEVER", typeof(NodeElementLever));
 			//buttonElements = parseChildren("BUTTON", typeof(NodeElementButton));
 			lootElements = parseChildren("LOOT", typeof(NodeElementLoot));
+			noteElements = parseChildren("NOTE", typeof(NodeElementNote));
 			//chestElements = parseChildren("CHEST", typeof(NodeElementChest));
 			npcElements = parseChildren("NPC", typeof(NodeElementNpc));
 			
@@ -91,10 +93,11 @@ namespace Node {
 			return buttonElements[pos] as NodeElementButton;
 		}
 		*/
+
 		public int getLootCount() {
 			return lootElements.Count;
 		}
-		
+
 		public NodeElementLoot getLoot(int pos) {
 
 			if(pos < 0 || pos >= lootElements.Count) {
@@ -103,6 +106,20 @@ namespace Node {
 
 			return lootElements[pos] as NodeElementLoot;
 		}
+
+		public int getNoteCount() {
+			return noteElements.Count;
+		}
+
+		public NodeElementNote getNote(int pos) {
+
+			if(pos < 0 || pos >= noteElements.Count) {
+				throw new ArgumentException();
+			}
+
+			return noteElements[pos] as NodeElementNote;
+		}
+
 		/*
 		public int getChestCount() {
 			return chestElements.Count;
@@ -171,6 +188,9 @@ namespace Node {
 				node.freeXmlObjects();
 			}*/
 			foreach(BaseNode node in lootElements) {
+				node.freeXmlObjects();
+			}
+			foreach(BaseNode node in noteElements) {
 				node.freeXmlObjects();
 			}
 			/*foreach(BaseNode node in chestElements) {

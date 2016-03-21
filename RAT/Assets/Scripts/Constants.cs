@@ -29,6 +29,7 @@ public class Constants {
 	public static readonly string PREFAB_NAME_TILE_LINK = "PrefabTileLink";
 	public static readonly string PREFAB_NAME_TILE_DOOR = "PrefabTileDoor";
 	public static readonly string PREFAB_NAME_LOOT = "PrefabLoot";
+	public static readonly string PREFAB_NAME_NOTE = "PrefabNote";
 	public static readonly string PREFAB_NAME_NPC = "Npc";
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar";
@@ -58,12 +59,13 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_PLAYER_RENDERER = "PlayerRenderer";
 
 	public static readonly string GAME_OBJECT_NAME_MAP = "Map";
-	public static readonly string GAME_OBJECT_NAME_GROUND = "PrefabTileGround";
-	public static readonly string GAME_OBJECT_NAME_WALL = "PrefabTileWall";
-	public static readonly string GAME_OBJECT_NAME_HUB = "PrefabTileHub";
-	public static readonly string GAME_OBJECT_NAME_LINK = "PrefabTileLink";
-	public static readonly string GAME_OBJECT_NAME_DOOR = "PrefabTileDoor";
-	public static readonly string GAME_OBJECT_NAME_LOOT = "PrefabTileLoot";
+	public static readonly string GAME_OBJECT_NAME_GROUND = "Ground";
+	public static readonly string GAME_OBJECT_NAME_WALL = "Wall";
+	public static readonly string GAME_OBJECT_NAME_HUB = "Hub";
+	public static readonly string GAME_OBJECT_NAME_LINK = "Link";
+	public static readonly string GAME_OBJECT_NAME_DOOR = "Door";
+	public static readonly string GAME_OBJECT_NAME_LOOT = "Loot";
+	public static readonly string GAME_OBJECT_NAME_NOTE = "Note";
 	public static readonly string GAME_OBJECT_NAME_NPC = "Npc";
 	public static readonly string GAME_OBJECT_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string GAME_OBJECT_NAME_NPC_BAR = "NpcBar";

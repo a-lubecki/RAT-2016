@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour {
 	public Door[] doors { get; private set; }
 	public Hub hub { get; private set; }
 	public Loot[] loots { get; private set; }
+	public Note[] notes { get; private set; }
 	public Npc[] npcs { get; private set; }
 
 
@@ -256,6 +257,24 @@ public class LevelManager : MonoBehaviour {
 			if(!isCollected) {
 				lootCreator.createNewGameObject(nodeElementLoot, loot);
 			}
+
+		}
+
+
+		// load notes
+		NoteCreator noteCreator = new NoteCreator();
+
+		int notesCount = currentNodeLevel.getNoteCount();
+		notes = new Note[notesCount];
+
+		for(int i=0 ; i<notesCount ; i++) {
+
+			NodeElementNote nodeElementNote = currentNodeLevel.getNote(i);
+
+			Note note = new Note(nodeElementNote);
+			notes[i] = note;
+
+			noteCreator.createNewGameObject(nodeElementNote, note);
 
 		}
 
