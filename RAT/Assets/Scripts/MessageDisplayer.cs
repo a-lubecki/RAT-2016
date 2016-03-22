@@ -55,9 +55,13 @@ public class MessageDisplayer : MonoBehaviour {
 		}
 
 	}
-	
+
 	public bool isShowingMessage() {
 		return (currentMessage != null);
+	}
+
+	public bool isShowingMessageFrom(object caller) {
+		return (currentMessage != null && currentMessage.caller == caller);
 	}
 
 	public void displayNextMessage() {
@@ -79,7 +83,7 @@ public class MessageDisplayer : MonoBehaviour {
 
 		//enqueue current message
 		if(currentMessage != null) {
-			queue.Add(currentMessage);
+			queue.Insert(0, currentMessage);
 		}
 
 		hideNormalMessage();

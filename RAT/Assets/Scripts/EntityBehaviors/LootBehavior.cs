@@ -11,6 +11,8 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 	public bool isCollecting { get; private set; }
 
+	private bool isColliding = false;
+
 	public void init(Loot loot) {
 
 		if(loot == null) {
@@ -23,8 +25,12 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 	}
 
-	private CircleCollider2D getTriggerCollider() {
-		return GetComponent<CircleCollider2D>();
+	private CircleCollider2D getTriggerActionInCollider() {
+		return GetComponents<CircleCollider2D>()[0];
+	}
+
+	private CircleCollider2D getTriggerActionOutCollider() {
+		return GetComponents<CircleCollider2D>()[1];
 	}
 
 	public void startCollecting() {
@@ -67,7 +73,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		if(isCollected) {
 			setCollected();
 		} else {
-			getTriggerCollider().enabled = !isCollected;
+			getTriggerActionInCollider().enabled = !isCollected;
 		}
 
 	}
@@ -76,7 +82,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		
 		loot.setCollected();
 		
-		getTriggerCollider().enabled = false;
+		getTriggerActionInCollider().enabled = false;
 		
 		GetComponent<Gif>().stopAnimation();
 
@@ -110,6 +116,10 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
+
+		if(isColliding) {
+			return;
+		}
 		
 		if(loot.isCollected) {
 			return;
@@ -118,7 +128,9 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			return;
 		}
 	
-		if(getTriggerCollider().IsTouching(collider)) {
+		if(getTriggerActionInCollider().IsTouching(collider)) {
+
+			isColliding = true;
 
 			if(loot.mustReorderBeforePickingUp()) {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenReorder(this));
@@ -135,6 +147,10 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			return;
 		}
 
+		if(!isColliding) {
+			return;
+		}
+
 		if(loot.isCollected) {
 			return;
 		}
@@ -142,7 +158,9 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			return;
 		}
 		
-		if(!getTriggerCollider().IsTouching(collider)) {
+		if(!getTriggerActionOutCollider().IsTouching(collider)) {
+
+			isColliding = false;
 
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollectThenReorder(this));
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollect(this));
@@ -211,7 +229,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
 		
 		playerBehavior.disableControls();
-		getTriggerCollider().enabled = false;
+		getTriggerActionInCollider().enabled = false;
 
 		
 		yield return new WaitForSeconds(0.75f);

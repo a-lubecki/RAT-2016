@@ -46,8 +46,12 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		}
 	}
 
-	private CircleCollider2D getTriggerCollider() {
-		return GetComponent<CircleCollider2D>();
+	private CircleCollider2D getTriggerActionInCollider() {
+		return GetComponents<CircleCollider2D>()[0];
+	}
+
+	private CircleCollider2D getTriggerActionOutCollider() {
+		return GetComponents<CircleCollider2D>()[1];
 	}
 
 	void OnTriggerStay2D(Collider2D collider) {
@@ -55,12 +59,16 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
-		
-		if(!hub.isActivated) {
-			PlayerActionsManager.Instance.showAction(new ActionHubActivate(this));
-		} else {
-			PlayerActionsManager.Instance.showAction(new ActionHubUse(this));
+			
+		if(getTriggerActionInCollider().IsTouching(collider)) {
+			
+			if(!hub.isActivated) {
+				PlayerActionsManager.Instance.showAction(new ActionHubActivate(this));
+			} else {
+				PlayerActionsManager.Instance.showAction(new ActionHubUse(this));
+			}
 		}
+
 	}
 	
 	void OnTriggerExit2D(Collider2D collider) {
@@ -68,11 +76,14 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
 			return;
 		}
-		
-		PlayerActionsManager.Instance.hideAction(new ActionHubActivate(this));
-		PlayerActionsManager.Instance.hideAction(new ActionHubUse(this));
-		
-		GameHelper.Instance.getMenu().close(typeof(MenuTypeHub));
+
+		if(!getTriggerActionOutCollider().IsTouching(collider)) {
+
+			PlayerActionsManager.Instance.hideAction(new ActionHubActivate(this));
+			PlayerActionsManager.Instance.hideAction(new ActionHubUse(this));
+			
+			GameHelper.Instance.getMenu().close(typeof(MenuTypeHub));
+		}
 	}
 
 
@@ -113,11 +124,11 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
 
 		playerBehavior.disableControls();
-		getTriggerCollider().enabled = false;
+		getTriggerActionInCollider().enabled = false;
 
 		yield return new WaitForSeconds(1f);
 		
-		getTriggerCollider().enabled = true;
+		getTriggerActionInCollider().enabled = true;
 		playerBehavior.enableControls();
 
 	}
@@ -156,7 +167,7 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 		
 		//disable controls when editing
 		GameHelper.Instance.findPlayerBehavior().disableControls();
-		getTriggerCollider().enabled = false;
+		getTriggerActionInCollider().enabled = false;
 
 		GameHelper.Instance.getMenu().open(new MenuTypeHub(hub));
 		
