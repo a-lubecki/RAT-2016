@@ -96,7 +96,7 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 		int wGrid = grid.width;
 		int hGrid = grid.height;
 
-		bool[,] takenBlocks = new bool[wGrid, hGrid];
+		bool[,] takenBlocks = new bool[hGrid, wGrid];
 
 		foreach(ItemInGrid item in inventory.getItems(gridName)) {
 
@@ -117,7 +117,7 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 						break;
 					}
 
-					takenBlocks[posX + x, posY + y] = true;
+					takenBlocks[posY + y, posX + x] = true;
 				}
 			}
 
@@ -130,13 +130,13 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 
 		int minSize = (wItem < hItem) ? wItem : hItem;
 
-		int wGridMinusSize = wGrid - minSize;
-		int hGridMinusSize = hGrid - minSize;
+		int wGridMinusSize = wGrid - minSize + 1;
+		int hGridMinusSize = hGrid - minSize + 1;
 
 		for(int j = 0 ; j < hGridMinusSize ; j++) {
 			for(int i = 0 ; i < wGridMinusSize ; i++) {
 
-				if(!takenBlocks[i, j]) {
+				if(!takenBlocks[j, i]) {
 
 					bool hasAllFreeBlocks = true;
 
@@ -155,7 +155,7 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 								break;
 							}
 
-							if(takenBlocks[i + x, j + y]) {
+							if(takenBlocks[j + y, i + x]) {
 								hasAllFreeBlocks = false;
 								break;
 							}

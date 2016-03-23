@@ -52,6 +52,9 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			
 			//TODO call endCollecting(true/false) when the menu is closed
 
+			isCollecting = false;//TODO TEST
+			getTriggerActionInCollider().enabled = true;//TODO TEST
+
 		} else {
 
 			endCollecting(true);
