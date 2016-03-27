@@ -149,16 +149,34 @@
 	<data name="Grid.Bag.Description" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Grid.Data" xml:space="preserve">
+		<value>Données</value>
+	</data>
+	<data name="Grid.Data.Description" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Grid.Equip" xml:space="preserve">
 		<value>Équipements</value>
 	</data>
 	<data name="Grid.Equip.Description" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Grid.Goals" xml:space="preserve">
+		<value>Objectifs</value>
+	</data>
+	<data name="Grid.Goals.Description" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Grid.Heals" xml:space="preserve">
 		<value>Soins</value>
 	</data>
 	<data name="Grid.Heals.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Keys" xml:space="preserve">
+		<value>Clés</value>
+	</data>
+	<data name="Grid.Keys.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Grid.Objects" xml:space="preserve">
@@ -256,6 +274,12 @@
 	</data>
 	<data name="Item.S_STORAGE_1GB.Description" xml:space="preserve">
 		<value>Minidisque de données 1Go</value>
+	</data>
+	<data name="Item.S_STORAGE_20GB" xml:space="preserve">
+		<value>Minidisque</value>
+	</data>
+	<data name="Item.S_STORAGE_20GB.Description" xml:space="preserve">
+		<value>Minidisque de données 20Go</value>
 	</data>
 	<data name="Item.W_ARMY_SHIELD" xml:space="preserve">
 		<value>Bouclier de l'armée</value>
@@ -473,7 +497,7 @@
 	<data name="SubMenuType.Merchant" xml:space="preserve">
 		<value>Marchand</value>
 	</data>
-	<data name="SubMenuType.StoryItemsList" xml:space="preserve">
+	<data name="SubMenuType.SpecialItemsList" xml:space="preserve">
 		<value>Objets spéciaux</value>
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">

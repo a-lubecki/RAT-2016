@@ -86,19 +86,17 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		bool hasAddedItemInInventory = false;
 
 		//add to inventory
+		AbstractSubMenuType subMenuType = loot.itemPattern.getFirstSubMenuType();
 		string gridName = loot.itemPattern.getFirstGridName();
-		/*
-		//TODO change don't add in GRID_BAG if type is SPECIAL => add in GRID_SPECIAL
-
-		*/
 
 		Inventory inventory = GameManager.Instance.getInventory();
+		InventoryGrid inventoryGrid = subMenuType.findInventoryGrid(gridName);
 
 		int remainingNbGrouped = loot.nbGrouped;
 
 		while(remainingNbGrouped > 0) {
 			
-			ItemInGrid currentGroupableItem = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getGroupableItem(gridName, loot.itemPattern);
+			ItemInGrid currentGroupableItem = inventoryGrid.getGroupableItem(loot.itemPattern);
 
 			ItemInGrid newItemInGrid;
 
@@ -110,13 +108,14 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 				inventory.removeItem(currentGroupableItem);
 
 			} else {
-				//TODO split nbgrouped vs maxgroupable
-				int[] itemCoords = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getNewItemCoords(gridName, loot.itemPattern);
+				
+				int[] itemCoords = inventoryGrid.getNewItemCoords(loot.itemPattern);
 				if(itemCoords == null) {
 					Debug.Log("Can't add new object, lack of blocks");
 					break;
 				}
 
+				//split nbgrouped vs maxgroupable
 				int nb = remainingNbGrouped;
 				if(nb > loot.itemPattern.maxGroupable) {
 					nb = loot.itemPattern.maxGroupable;

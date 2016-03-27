@@ -167,6 +167,12 @@
 	<data name="Grid.Objects.Description" xml:space="preserve">
 		<value />
 	</data>
+	<data name="Grid.Data" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Data.Description" xml:space="preserve">
+		<value />
+	</data>
 	<data name="Grid.WeaponsLeft" xml:space="preserve">
 		<value />
 	</data>
@@ -255,6 +261,12 @@
 		<value />
 	</data>
 	<data name="Item.S_STORAGE_1GB.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_20GB" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Item.S_STORAGE_20GB.Description" xml:space="preserve">
 		<value />
 	</data>
 	<data name="Item.W_ARMY_SHIELD" xml:space="preserve">
@@ -473,10 +485,22 @@
 	<data name="SubMenuType.Merchant" xml:space="preserve">
 		<value />
 	</data>
-	<data name="SubMenuType.StoryItemsList" xml:space="preserve">
+	<data name="SubMenuType.SpecialItemsList" xml:space="preserve">
 		<value />
 	</data>
 	<data name="SubMenuType.Teleport" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Keys.Description" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Keys" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Goals" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Grid.Goals.Description" xml:space="preserve">
 		<value />
 	</data>
 </root>

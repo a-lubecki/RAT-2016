@@ -94,7 +94,7 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_ITEMS_CHEST = "SubMenuTypeItemsChest";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_LEVEL_UPGRADE = "SubMenuTypeLevelUpgrade";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_MERCHANT = "SubMenuTypeMerchant";
-	public static readonly string GAME_OBJECT_NAME_SUB_MENU_STORY_ITEMS_LIST = "SubMenuTypeStoryItemsList";
+	public static readonly string GAME_OBJECT_NAME_SUB_MENU_SPECIAL_ITEMS_LIST = "SubMenuTypeSpecialItemsList";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TELEPORT = "SubMenuTypeTeleport";
 
 	public static readonly string GAME_OBJECT_NAME_GRID_COLLECTIBLE_ITEM = "GridCollectibleItem";
@@ -104,7 +104,9 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_LEFT = "GridWeaponsLeft";
 	public static readonly string GAME_OBJECT_NAME_GRID_EQUIP = "GridEquip";
 	public static readonly string GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT = "GridWeaponsRight";
-	public static readonly string GAME_OBJECT_NAME_GRID_SPECIAL = "GridSpecial";
+	public static readonly string GAME_OBJECT_NAME_GRID_DATA = "GridData";
+	public static readonly string GAME_OBJECT_NAME_GRID_KEYS = "GridKeys";
+	public static readonly string GAME_OBJECT_NAME_GRID_GOALS = "GridGoals";
 
 
 	public static readonly string SORTING_LAYER_NAME_GROUND = "ground";
@@ -176,6 +178,7 @@ public class Constants {
 
 	//init at the end so that all the other constants are available
 	public static readonly SubMenuTypeInventoryManagement SUB_MENU_TYPE_INVENTORY_MANAGEMENT = new SubMenuTypeInventoryManagement();
+	public static readonly SubMenuTypeSpecialItemsList SUB_MENU_TYPE_SPECIAL_ITEMS_LIST = new SubMenuTypeSpecialItemsList();
 	public static readonly MenuTypeInventory MENU_TYPE_INVENTORY = new MenuTypeInventory();
 
 }

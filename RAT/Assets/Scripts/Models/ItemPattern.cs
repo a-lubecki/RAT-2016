@@ -72,11 +72,22 @@ public class ItemPattern : Displayable {
 		return Constants.tr(trKey + ".Description");
 	}
 
+	public AbstractSubMenuType getFirstSubMenuType() {
+
+		if(itemType == ItemType.SPECIAL) {
+			return Constants.SUB_MENU_TYPE_SPECIAL_ITEMS_LIST;
+		}
+
+		return Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT;
+	}
 
 	public string getFirstGridName() {
 
 		if(itemType == ItemType.SPECIAL) {
-			return Constants.GAME_OBJECT_NAME_GRID_SPECIAL;
+			if(itemSubType == ItemSubType.SPECIAL_DATA) {
+				return Constants.GAME_OBJECT_NAME_GRID_DATA;
+			}
+			return Constants.GAME_OBJECT_NAME_GRID_KEYS;
 		}
 
 		return Constants.GAME_OBJECT_NAME_GRID_BAG;

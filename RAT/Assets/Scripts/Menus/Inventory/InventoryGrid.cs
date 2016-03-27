@@ -218,6 +218,160 @@ public class InventoryGrid : MonoBehaviour {
 			|| (itemPattern.heightInBlocks <= width && itemPattern.widthInBlocks <= height));
 	}
 
+	public ItemInGrid getGroupableItem(ItemPattern itemPattern) {
+		
+		if(itemPattern == null) {
+			throw new ArgumentException();
+		}
+
+		Inventory inventory = GameManager.Instance.getInventory();
+
+		//check if item pattern already exist and can be merged
+		ItemInGrid itemWithPattern = inventory.getAnyItemInGridWithPattern(itemPattern);
+		if(itemWithPattern != null && 
+			itemWithPattern.getNbGrouped() < itemPattern.maxGroupable) {
+			return itemWithPattern;
+		}
+
+		return null;
+	}
+
+	public int[] getNewItemCoords(ItemPattern itemPattern) {
+
+		if(itemPattern == null) {
+			throw new ArgumentException();
+		}
+
+		Inventory inventory = GameManager.Instance.getInventory();
+
+		//check for taken blocks
+
+		bool[,] takenBlocks = new bool[height, width];
+
+		foreach(ItemInGrid item in inventory.getItems(name)) {
+
+			int posX = item.getPosXInBlocks();
+			int posY = item.getPosYInBlocks();
+			int w;
+			int h;
+			if(item.getOrientation() == Orientation.FACE) {
+				w = item.getItemPattern().widthInBlocks;
+				h = item.getItemPattern().heightInBlocks;
+			} else {
+				w = item.getItemPattern().heightInBlocks;
+				h = item.getItemPattern().widthInBlocks;
+			}
+
+			for(int y = 0 ; y < h ; y++) {
+
+				if(y >= height) {
+					break;
+				}
+
+				for(int x = 0 ; x < w ; x++) {
+
+					if(x >= width) {
+						break;
+					}
+
+					takenBlocks[posY + y, posX + x] = true;
+				}
+			}
+
+		}
+
+		//look if matches free blocks
+
+		int wItem = itemPattern.widthInBlocks;
+		int hItem = itemPattern.heightInBlocks;
+
+		int minSize = (wItem < hItem) ? wItem : hItem;
+
+		int wGridMinusSize = width - minSize + 1;
+		int hGridMinusSize = height - minSize + 1;
+
+		for(int j = 0 ; j < hGridMinusSize ; j++) {
+			for(int i = 0 ; i < wGridMinusSize ; i++) {
+
+				if(!takenBlocks[j, i]) {
+
+					bool hasAllFreeBlocks = true;
+
+					//check for non taken blocks in the itempatterns ranges horizontally
+					for(int y = 0 ; y < hItem; y++) {
+
+						if(j + y >= height) {
+							hasAllFreeBlocks = false;
+							break;
+						}
+
+						for(int x = 0 ; x < wItem; x++) {
+
+							if(i + x >= width) {
+								hasAllFreeBlocks = false;
+								break;
+							}
+
+							if(takenBlocks[j + y, i + x]) {
+								hasAllFreeBlocks = false;
+								break;
+							}
+						}
+
+						if(!hasAllFreeBlocks) {
+							break;
+						}
+					}
+
+					if(hasAllFreeBlocks) {
+						return new int[] { i, j, (int) Orientation.FACE };
+					}
+
+					if(wItem == hItem) {
+						//same size, no need to test with another orientation	
+						break;
+					}
+
+					//reset flag
+					hasAllFreeBlocks = true;
+
+					//check for non taken blocks in the itempatterns ranges vertically
+					for(int y = 0 ; y < wItem; y++) {
+
+						if(y >= height) {
+							hasAllFreeBlocks = false;
+							break;
+						}
+
+						for(int x = 0 ; x < hItem; x++) {
+
+							if(x >= width) {
+								hasAllFreeBlocks = false;
+								break;
+							}
+
+							if(takenBlocks[j + y, i + x]) {
+								hasAllFreeBlocks = false;
+								break;
+							}
+						}
+
+						if(!hasAllFreeBlocks) {
+							break;
+						}
+					}
+
+					if(hasAllFreeBlocks) {
+						return new int[] { i, j, (int)Orientation.SIDE };
+					}
+
+				}
+			}
+		}
+
+		return null;
+	}
+
 
 	public void addItems(List<ItemInGrid> items) {
 

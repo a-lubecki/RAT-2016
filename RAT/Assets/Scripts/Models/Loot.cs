@@ -49,13 +49,34 @@ public class Loot : BaseIdentifiableModel {
 	}
 
 	public bool canCollect() {
-		return (itemPattern.itemType == ItemType.SPECIAL || 
-			Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemFitting(itemPattern.getFirstGridName(), itemPattern));
+		
+		if(itemPattern.itemType == ItemType.SPECIAL) {
+			return true;
+		}
+
+		InventoryGrid grid = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.findInventoryGrid(itemPattern.getFirstGridName());
+		if(grid.isItemPatternFitting(itemPattern)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public bool mustReorderBeforeCollecting() {
-		return (itemPattern.itemType != ItemType.SPECIAL && 
-			!Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemCollectible(itemPattern.getFirstGridName(), itemPattern));
+
+		if(itemPattern.itemType == ItemType.SPECIAL) {
+			return false;
+		}
+
+		InventoryGrid grid = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.findInventoryGrid(itemPattern.getFirstGridName());
+		if(grid.getGroupableItem(itemPattern) != null) {
+			return false;
+		}
+		if(grid.getNewItemCoords(itemPattern) != null) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
