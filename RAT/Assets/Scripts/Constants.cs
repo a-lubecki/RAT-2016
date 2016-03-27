@@ -34,6 +34,7 @@ public class Constants {
 	public static readonly string PREFAB_NAME_NPC_RENDERER = "NpcRenderer";
 	public static readonly string PREFAB_NAME_NPC_BAR = "NpcBar";
 	public static readonly string PREFAB_NAME_ITEMINGRID = "PrefabItemInGrid";
+	public static readonly string PREFAB_NAME_ITEMINGRID_NB_GROUPED = "PrefabItemInGridNbGrouped";
 
 	
 	public static readonly string GAME_OBJECT_NAME_SPLASHSCREEN_BACKGROUND = "SplashScreenBackground";
