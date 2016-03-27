@@ -91,10 +91,28 @@ public class GameManager {
 			return;
 		}
 
+
+		NodeGame nodeGame = GameManager.Instance.getNodeGame();
+
 		foreach(ItemInGridSaveData itemData in itemsInGridSaveData) {
-			ItemInGrid item = new ItemInGrid();
-			itemData.assign(item);
+
+
+			ItemPattern itemPattern = nodeGame.findItemPattern(itemData.getItemPatternId());
+			if(itemPattern == null) {
+				//not found
+				continue;
+			}
+
+			ItemInGrid item = new ItemInGrid(
+				itemPattern,
+				itemData.getGridName(), 
+				itemData.getPosXInBlocks(), 
+				itemData.getPosYInBlocks(), 
+				itemData.getOrientation(), 
+				itemData.getNbGrouped());
+
 			inventory.addItem(item);
+
 		}
 
 	}

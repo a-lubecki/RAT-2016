@@ -3,10 +3,17 @@ using UnityEngine;
 
 public abstract class BaseAction {
 
-	private IActionnable objectToNotify;
-	public string actionLabel { get; private set; }
+	public readonly IActionnable objectToNotify;
+	public readonly string actionLabel;
+	public readonly bool hasWarning;
+	public readonly bool enabled;
 
-	public BaseAction(IActionnable objectToNotify, string actionLabel) {
+	public BaseAction(IActionnable objectToNotify, string actionLabel) 
+		: this(objectToNotify, actionLabel, false, true) {
+
+	}
+
+	public BaseAction(IActionnable objectToNotify, string actionLabel, bool hasWarning, bool enabled) {
 		
 		if(objectToNotify == null) {
 			throw new System.ArgumentException();
@@ -17,6 +24,8 @@ public abstract class BaseAction {
 
 		this.objectToNotify = objectToNotify;
 		this.actionLabel = actionLabel;
+		this.hasWarning = hasWarning;
+		this.enabled = enabled;
 	}
 
 	public virtual void notifyActionShown() {
@@ -31,7 +40,9 @@ public abstract class BaseAction {
 
 	public virtual void notifyActionValidated() {
 
-		objectToNotify.notifyActionValidated(this);
+		if(enabled) {
+			objectToNotify.notifyActionValidated(this);
+		}
 	}
 
 

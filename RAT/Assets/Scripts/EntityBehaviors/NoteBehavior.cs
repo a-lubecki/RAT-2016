@@ -46,8 +46,8 @@ public class NoteBehavior : MonoBehaviour, IActionnable {
 
 				if(!MessageDisplayer.Instance.isShowingMessageFrom(this)) {
 					
-					isColliding = true;
 					PlayerActionsManager.Instance.showAction(new ActionNoteShow(this));
+					isColliding = PlayerActionsManager.Instance.isShowingAction(this);
 
 				}
 

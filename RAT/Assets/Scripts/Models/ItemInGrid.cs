@@ -5,27 +5,25 @@ public class ItemInGrid {
 	
 	private ItemPattern itemPattern;
 
-	private string gridName = "";
-	private int posXInBlocks = 0;
-	private int posYInBlocks = 0;
-	
-	private int nbGrouped = 1;
+	private string gridName;
+	private int posXInBlocks;
+	private int posYInBlocks;
+	private Orientation orientation;
 
-	public void init(ItemPattern item, int nbGrouped) {
-		init(item, null, 0, 0, nbGrouped);
+	private int nbGrouped;
+
+	public ItemInGrid(ItemPattern item, string gridName)
+		: this(item, gridName, 0, 0, Orientation.FACE, 1) {
+
 	}
 
-	public void init(ItemPattern item, string gridName, int posXInBlocks, int posYInBlocks) {
-		init(item, gridName, posXInBlocks, posYInBlocks, 1);
-	}
-
-	public void init(ItemPattern itemPattern, string gridName, int posXInBlocks, int posYInBlocks, int nbGrouped) {
+	public ItemInGrid(ItemPattern itemPattern, string gridName, int posXInBlocks, int posYInBlocks, Orientation orientation, int nbGrouped) {
 
 		if(itemPattern == null) {
 			throw new System.ArgumentException();
 		}
-		if(nbGrouped < 0) {
-			throw new System.ArgumentException();
+		if(nbGrouped <= 0 || nbGrouped > itemPattern.maxGroupable) {
+			throw new ArgumentException("Nb grouped value must be between 0 and " + itemPattern.maxGroupable + " : " + nbGrouped);
 		}
 
 		this.itemPattern = itemPattern;
@@ -33,6 +31,7 @@ public class ItemInGrid {
 
 		this.posXInBlocks = posXInBlocks;
 		this.posYInBlocks = posYInBlocks;
+		this.orientation = orientation;
 
 		this.nbGrouped = nbGrouped;
 
@@ -52,10 +51,30 @@ public class ItemInGrid {
 	public int getPosYInBlocks() {
 		return posYInBlocks;
 	}
-
+	public Orientation getOrientation() {
+		return orientation;
+	}
+	/*
 	public bool isFittingInsideGrid(InventoryGrid grid) {
-		return (posXInBlocks >= 0 && posXInBlocks + itemPattern.widthInBlocks <= grid.maxWidth &&
-			posYInBlocks >= 0 && posYInBlocks + itemPattern.heightInBlocks <= grid.maxHeight);
+		
+		if (posXInBlocks < 0) {
+			return false;
+		}
+		if(posYInBlocks < 0) {
+			return false;
+		}
+
+		if(posXInBlocks + itemPattern.widthInBlocks > grid.maxWidth && 
+			posYInBlocks + itemPattern.widthInBlocks > grid.maxHeight) {
+			return false;
+		}
+
+		if(posYInBlocks + itemPattern.heightInBlocks > grid.maxHeight && 
+			posXInBlocks + itemPattern.heightInBlocks > grid.maxWidth) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public void move(string gridGameObjectName, int posXInBlocks, int posYInBlocks) {
@@ -68,12 +87,12 @@ public class ItemInGrid {
 		this.posXInBlocks = posXInBlocks;
 		this.posYInBlocks = posYInBlocks;
 	}
-
+*/
 	
 	public int getNbGrouped() {
 		return nbGrouped;
 	}
-
+	/*
 	public bool isGroupValid() {
 		return (nbGrouped > 0 && nbGrouped <= itemPattern.maxGroupable);
 	}
@@ -88,30 +107,54 @@ public class ItemInGrid {
 		}
 		
 		this.nbGrouped = nbGrouped;
-	}
-	
-	/**
-	 * Group with another item, return true if the grouping succeeded,
-	 * the grouped item result is this item, the other has nbGrouped 
-	 * at 0 or the remaining items number if the max has been reached.
-	 * If the grouping failed, both items remains unchanged.
-	 */
-	public bool group(ItemInGrid other) {
-		
-		if(itemPattern.trKey.Equals(other.itemPattern.trKey)) {
+	}*/
+	/*
+	public bool isGroupableWith(ItemInGrid other) {
+
+		if(other == null) {
 			return false;
 		}
+		if(other == this) {
+			return false;
+		}
+		if(!itemPattern.trKey.Equals(other.itemPattern.trKey)) {
+			return false;
+		}
+
+		return (nbGrouped < itemPattern.maxGroupable);
+	}
+	*/
+	/**
+	 * Group with another item, return the item if the grouping succeeded,
+	 * the grouped item result location is the current item's.
+	 * If the grouping failed, return null.
+	 */
+	public ItemInGrid newGroupedItem(ItemPattern otherItemPattern, int otherNbGrouped) {
+
+		if(otherItemPattern == null) {
+			return this;
+		}
+		if(!itemPattern.trKey.Equals(otherItemPattern.trKey)) {
+			return this;
+		}
 		
-		int maxResult = nbGrouped + other.nbGrouped;
+		int maxResult = nbGrouped + otherNbGrouped;
 		int diff = maxResult - itemPattern.maxGroupable;
 		if(diff < 0) {
 			diff = 0;
 		}
 		
-		this.nbGrouped = maxResult - diff;
-		other.nbGrouped = diff;
-		
-		return true;
+		int res = maxResult - diff;
+		if(res <= 0) {
+			return null;
+		}
+	
+		return new ItemInGrid(itemPattern, 
+			gridName, 
+			posXInBlocks,
+			posYInBlocks, 
+			orientation,
+			res);
 	}
 
 }

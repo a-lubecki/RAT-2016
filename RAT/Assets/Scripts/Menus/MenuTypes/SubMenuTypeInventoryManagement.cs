@@ -57,7 +57,26 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 		return transformGridBag.GetComponent<InventoryGrid>();
 	}
 
-	public bool isNewItemFitting(string gridName, ItemPattern itemPattern, int nbGrouped) {
+	public bool isNewItemFitting(string gridName, ItemPattern itemPattern) {
+
+		InventoryGrid grid = findInventoryGrid(gridName);
+		return grid.isItemPatternFitting(itemPattern);
+	}
+
+	public bool isNewItemCollectible(string gridName, ItemPattern itemPattern) {
+
+		if(getGroupableItem(gridName, itemPattern) != null) {
+			return true;
+		}
+		if(getNewItemCoords(gridName, itemPattern) != null) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public ItemInGrid getGroupableItem(string gridName, ItemPattern itemPattern) {
 
 		if(string.IsNullOrEmpty(gridName)) {
 			throw new ArgumentException();
@@ -71,16 +90,15 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 		//check if item pattern already exist and can be merged
 		ItemInGrid itemWithPattern = inventory.getAnyItemInGridWithPattern(itemPattern);
 		if(itemWithPattern != null && 
-			nbGrouped + itemWithPattern.getNbGrouped() <= itemPattern.maxGroupable) {
-			return true;
+			itemWithPattern.getNbGrouped() < itemPattern.maxGroupable) {
+			return itemWithPattern;
 		}
 
-		return (getNewItemCoords(gridName, itemPattern) != null);
+		return null;
 	}
 
-
 	public int[] getNewItemCoords(string gridName, ItemPattern itemPattern) {
-
+		
 		if(string.IsNullOrEmpty(gridName)) {
 			throw new ArgumentException();
 		}
@@ -102,8 +120,15 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 
 			int posX = item.getPosXInBlocks();
 			int posY = item.getPosYInBlocks();
-			int w = item.getItemPattern().widthInBlocks;
-			int h = item.getItemPattern().heightInBlocks;
+			int w;
+			int h;
+			if(item.getOrientation() == Orientation.FACE) {
+				w = item.getItemPattern().widthInBlocks;
+				h = item.getItemPattern().heightInBlocks;
+			} else {
+				w = item.getItemPattern().heightInBlocks;
+				h = item.getItemPattern().widthInBlocks;
+			}
 
 			for(int y = 0 ; y < h ; y++) {
 
@@ -167,13 +192,15 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 					}
 
 					if(hasAllFreeBlocks) {
-						return new int[] { i, j };
+						return new int[] { i, j, (int) Orientation.FACE };
 					}
 
-					if(wItem != hItem) {
+					if(wItem == hItem) {
+						//same size, no need to test with another orientation	
 						break;
 					}
 
+					//reset flag
 					hasAllFreeBlocks = true;
 
 					//check for non taken blocks in the itempatterns ranges vertically
@@ -191,7 +218,7 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 								break;
 							}
 
-							if(takenBlocks[i + x, j + y]) {
+							if(takenBlocks[j + y, i + x]) {
 								hasAllFreeBlocks = false;
 								break;
 							}
@@ -203,7 +230,7 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 					}
 
 					if(hasAllFreeBlocks) {
-						return new int[] { i, j };
+						return new int[] { i, j, (int)Orientation.SIDE };
 					}
 
 				}

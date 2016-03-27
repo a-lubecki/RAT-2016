@@ -64,6 +64,11 @@ public class PlayerActionsManager {
 		return (action != null);
 	}
 
+	public bool isShowingAction(object objectToNotify) {
+		return (action != null && action.objectToNotify == objectToNotify);
+	}
+
+
 	public void showAction(BaseAction action) {
 
 		if(action == null) {
@@ -92,6 +97,14 @@ public class PlayerActionsManager {
 		imageComponent.enabled = true;
 		
 		textComponent.text = action.actionLabel;
+
+		Color textColor = Color.cyan;
+		if(!action.enabled) {
+			textColor = Color.gray;
+		} else if(action.hasWarning) {
+			textColor = Color.yellow;
+		}
+		textComponent.color = textColor;
 
 		//notify
 		action.notifyActionShown();
@@ -145,6 +158,10 @@ public class PlayerActionsManager {
 		}
 
 		if(action == null) {
+			return false;
+		}
+
+		if(!action.enabled) {
 			return false;
 		}
 

@@ -30,7 +30,15 @@ public class ItemInGridBehavior : MonoBehaviour {
 		RectTransform parentTransform =  transform.parent.GetComponent<RectTransform>();
 		itemRectTransform.pivot = parentTransform.pivot;
 
-		itemRectTransform.localPosition = new Vector3(itemInGrid.getPosXInBlocks() * scale, - itemInGrid.getPosYInBlocks() * scale, 0);
+		int yBlocksRotation = 0;
+		if(itemInGrid.getOrientation() == Orientation.FACE) {
+			itemRectTransform.localRotation = Quaternion.identity;
+		} else {
+			itemRectTransform.localRotation = Quaternion.Euler(new Vector3(0, 0, 90));
+			yBlocksRotation = itemPattern.widthInBlocks;
+		}
+
+		itemRectTransform.localPosition = new Vector3(itemInGrid.getPosXInBlocks() * scale, - (itemInGrid.getPosYInBlocks() + yBlocksRotation) * scale, 0);
 		itemRectTransform.localScale = new Vector3(scale, scale, 1);
 
 		Image itemImage = GetComponent<Image>();

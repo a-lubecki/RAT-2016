@@ -212,6 +212,11 @@ public class InventoryGrid : MonoBehaviour {
 
 	}
 
+	public bool isItemPatternFitting(ItemPattern itemPattern) {
+
+		return ((itemPattern.widthInBlocks <= width && itemPattern.heightInBlocks <= height) 
+			|| (itemPattern.heightInBlocks <= width && itemPattern.widthInBlocks <= height));
+	}
 
 
 	public void addItems(List<ItemInGrid> items) {

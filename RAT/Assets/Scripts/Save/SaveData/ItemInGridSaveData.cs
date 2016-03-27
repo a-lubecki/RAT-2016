@@ -8,6 +8,7 @@ public class ItemInGridSaveData {
 	protected string gridName;
 	protected int posXInBlocks;
 	protected int posYInBlocks;
+	protected Orientation orientation;
 	
 	protected int nbGrouped;
 	
@@ -22,6 +23,9 @@ public class ItemInGridSaveData {
 	}
 	public int getPosYInBlocks() {
 		return posYInBlocks;
+	}
+	public Orientation getOrientation() {
+		return orientation;
 	}
 	public int getNbGrouped() {
 		return nbGrouped;
@@ -38,22 +42,10 @@ public class ItemInGridSaveData {
 		gridName = itemInGrid.getGridName();
 		posXInBlocks = itemInGrid.getPosXInBlocks();
 		posYInBlocks = itemInGrid.getPosYInBlocks();
+		orientation = itemInGrid.getOrientation();
 
 		nbGrouped = itemInGrid.getNbGrouped();
 	}
 	
-	public void assign(ItemInGrid itemInGrid) {
 
-		if(itemInGrid == null) {
-			throw new System.ArgumentException();
-		}
-
-		ItemPattern itemPattern = GameManager.Instance.getNodeGame().findItemPattern(itemPatternId);
-		if(itemPattern == null) {
-			//not found
-			return;
-		}
-
-		itemInGrid.init(itemPattern, gridName, posXInBlocks, posYInBlocks, nbGrouped);
-	}
 }

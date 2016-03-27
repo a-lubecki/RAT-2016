@@ -48,9 +48,14 @@ public class Loot : BaseIdentifiableModel {
 		return itemPattern.getTrName() + multiplier;
 	}
 
-	public bool mustReorderBeforePickingUp() {
+	public bool canCollect() {
+		return (itemPattern.itemType == ItemType.SPECIAL || 
+			Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemFitting(itemPattern.getFirstGridName(), itemPattern));
+	}
+
+	public bool mustReorderBeforeCollecting() {
 		return (itemPattern.itemType != ItemType.SPECIAL && 
-			!Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemFitting(itemPattern.getFirstGridName(), itemPattern, nbGrouped));
+			!Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.isNewItemCollectible(itemPattern.getFirstGridName(), itemPattern));
 	}
 
 }

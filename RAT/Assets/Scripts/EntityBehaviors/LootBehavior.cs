@@ -46,7 +46,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 		Menu menu = GameHelper.Instance.getMenu();
 
-		if(loot.mustReorderBeforePickingUp()) {
+		if(loot.mustReorderBeforeCollecting()) {
 			
 			menu.open(Constants.MENU_TYPE_INVENTORY);
 			
@@ -83,33 +83,68 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 	private void setCollected() {
 		
-		loot.setCollected();
-		
-		getTriggerActionInCollider().enabled = false;
-		
-		GetComponent<Gif>().stopAnimation();
-
-		//hide the image, can't disable and destroy the object because it won't be saved with the collected items
-		GetComponent<SpriteRenderer>().sprite = null;
+		bool hasAddedItemInInventory = false;
 
 		//add to inventory
-		ItemInGrid item = new ItemInGrid();
-
 		string gridName = loot.itemPattern.getFirstGridName();
-
-		int[] itemCoords = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getNewItemCoords(gridName, loot.itemPattern);
-		if(itemCoords == null) {
-			throw new NotSupportedException("TODO manage groupable items");
-		}
-		item.init(loot.itemPattern, gridName, itemCoords[0], itemCoords[1], loot.nbGrouped);
-
 		/*
-		//TODO change the x y coord
 		//TODO change don't add in GRID_BAG if type is SPECIAL => add in GRID_SPECIAL
 
-		item.init(itemPattern, itemPattern.getFirstGridName(), 0, 0, nbGrouped);
 		*/
-		GameManager.Instance.getInventory().addItem(item);
+
+		Inventory inventory = GameManager.Instance.getInventory();
+
+		int remainingNbGrouped = loot.nbGrouped;
+
+		while(remainingNbGrouped > 0) {
+			
+			ItemInGrid currentGroupableItem = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getGroupableItem(gridName, loot.itemPattern);
+
+			ItemInGrid newItemInGrid;
+
+			if(currentGroupableItem != null) {
+
+				newItemInGrid = currentGroupableItem.newGroupedItem(loot.itemPattern, remainingNbGrouped);
+
+				//replace item
+				inventory.removeItem(currentGroupableItem);
+
+			} else {
+				//TODO split nbgrouped vs maxgroupable
+				int[] itemCoords = Constants.SUB_MENU_TYPE_INVENTORY_MANAGEMENT.getNewItemCoords(gridName, loot.itemPattern);
+				if(itemCoords == null) {
+					Debug.Log("Can't add new object, lack of blocks");
+					break;
+				}
+
+				int nb = remainingNbGrouped;
+				if(nb > loot.itemPattern.maxGroupable) {
+					nb = loot.itemPattern.maxGroupable;
+				}
+
+				newItemInGrid = new ItemInGrid(loot.itemPattern, gridName, itemCoords[0], itemCoords[1], (Orientation)itemCoords[2], nb);
+
+			}
+
+			inventory.addItem(newItemInGrid);
+
+			hasAddedItemInInventory = true;
+
+			remainingNbGrouped -= newItemInGrid.getNbGrouped();
+		}
+
+
+		if(hasAddedItemInInventory) {
+
+			loot.setCollected();
+
+			getTriggerActionInCollider().enabled = false;
+
+			GetComponent<Gif>().stopAnimation();
+
+			//hide the image, can't disable and destroy the object because it won't be saved with the collected items
+			GetComponent<SpriteRenderer>().sprite = null;
+		}
 
 	}
 
@@ -133,13 +168,15 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 	
 		if(getTriggerActionInCollider().IsTouching(collider)) {
 
-			isColliding = true;
-
-			if(loot.mustReorderBeforePickingUp()) {
+			if(!loot.canCollect()) {
+				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this, false));
+			} else if(loot.mustReorderBeforeCollecting()) {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenReorder(this));
 			} else {
-				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this));
+				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this, true));
 			}
+
+			isColliding = PlayerActionsManager.Instance.isShowingAction(this);
 		}
 
 	}
@@ -166,7 +203,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			isColliding = false;
 
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollectThenReorder(this));
-			PlayerActionsManager.Instance.hideAction(new ActionLootCollect(this));
+			PlayerActionsManager.Instance.hideAction(new ActionLootCollect(this, false));
 		}
 
 	}
@@ -190,8 +227,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 		grid.deleteGridViews();
 		grid.updateGridViews();
 
-		ItemInGrid item = new ItemInGrid();
-		item.init(loot.itemPattern, grid.name, 0, 0, loot.nbGrouped);
+		ItemInGrid item = new ItemInGrid(loot.itemPattern, grid.name);
 
 		grid.removeItems();
 		grid.addItem(item);
@@ -219,6 +255,10 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			return;
 		}
 		if(isCollecting) {
+			return;
+		}
+
+		if(!loot.canCollect()) {
 			return;
 		}
 
