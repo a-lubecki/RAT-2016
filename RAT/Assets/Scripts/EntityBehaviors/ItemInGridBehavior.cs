@@ -94,12 +94,18 @@ public class ItemInGridBehavior : MonoBehaviour {
 			transformBackgroundNbGrouped.anchorMin = new Vector2(1, 0);
 			transformBackgroundNbGrouped.anchorMax = new Vector2(1, 0);
 			transformBackgroundNbGrouped.sizeDelta = new Vector2(1, 1);
-			transformBackgroundNbGrouped.anchoredPosition = new Vector2();
 
 			RectTransform transformTextNbGrouped = textNbGrouped.GetComponent<RectTransform>();
 			transformTextNbGrouped.localPosition = itemRectTransform.localPosition;
 			transformTextNbGrouped.localScale = new Vector3(0.6f, 0.6f, 1);
-			transformTextNbGrouped.anchoredPosition = new Vector2(0.2f, 0.1f);
+
+			if(itemInGrid.getOrientation() == Orientation.FACE) {
+				transformBackgroundNbGrouped.anchoredPosition = new Vector2();
+				transformTextNbGrouped.anchoredPosition = new Vector2(0.2f, 0.1f);
+			} else {
+				transformBackgroundNbGrouped.anchoredPosition = new Vector2(-itemPattern.widthInBlocks, 0);
+				transformTextNbGrouped.anchoredPosition = new Vector2(-itemPattern.widthInBlocks + 0.1f, -0.2f);
+			}
 
 		}
 

@@ -336,21 +336,21 @@ public class InventoryGrid : MonoBehaviour {
 					hasAllFreeBlocks = true;
 
 					//check for non taken blocks in the itempatterns ranges vertically
-					for(int y = 0 ; y < wItem; y++) {
+					for(int x = 0 ; x < wItem; x++) {
 
-						if(y >= height) {
+						if(j + x >= height) {
 							hasAllFreeBlocks = false;
 							break;
 						}
 
-						for(int x = 0 ; x < hItem; x++) {
+						for(int y = 0 ; y < hItem; y++) {
 
-							if(x >= width) {
+							if(i + y >= width) {
 								hasAllFreeBlocks = false;
 								break;
 							}
 
-							if(takenBlocks[j + y, i + x]) {
+							if(takenBlocks[j + x, i + y]) {
 								hasAllFreeBlocks = false;
 								break;
 							}
