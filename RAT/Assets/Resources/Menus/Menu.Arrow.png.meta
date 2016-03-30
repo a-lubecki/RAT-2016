@@ -1,12 +1,12 @@
 fileFormatVersion: 2
 guid: 28a809f2bfb0a7f44b2c45797abe2872
-timeCreated: 1450908800
+timeCreated: 1459349534
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Menu.Right.0
-    21300002: Menu.Right.1
-    21300004: Menu.Right.2
+    21300000: Menu.Arrow.0
+    21300002: Menu.Arrow.1
+    21300004: Menu.Arrow.2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -20,7 +20,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -45,7 +45,7 @@ TextureImporter:
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 32
   alphaIsTransparency: 1
@@ -53,7 +53,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Menu.Right.0
+    - name: Menu.Arrow.0
       rect:
         serializedVersion: 2
         x: 0
@@ -61,9 +61,10 @@ TextureImporter:
         width: 12
         height: 9
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Menu.Right.1
+      outline: []
+    - name: Menu.Arrow.1
       rect:
         serializedVersion: 2
         x: 12
@@ -71,9 +72,10 @@ TextureImporter:
         width: 12
         height: 9
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Menu.Right.2
+      outline: []
+    - name: Menu.Arrow.2
       rect:
         serializedVersion: 2
         x: 24
@@ -81,8 +83,10 @@ TextureImporter:
         width: 12
         height: 9
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 

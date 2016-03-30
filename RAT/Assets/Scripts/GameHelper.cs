@@ -166,6 +166,41 @@ public class GameHelper {
 		return component;
 	}
 
+	public GameObject getMenuArrowLeft() {
+
+		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
+		if(transform == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return transform.gameObject;
+	}
+
+	public GameObject getMenuArrowRight() {
+
+		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
+		if(transform == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return transform.gameObject;
+	}
+
+	public MenuCursorBehavior getMenuCursorBehavior() {
+		
+		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_CURSOR);
+		if(transform == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		MenuCursorBehavior component = transform.GetComponent<MenuCursorBehavior>();
+		if(component == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return component;
+	}
+
 	
 	public Hub getHub() {
 		return getLevelManager().hub;

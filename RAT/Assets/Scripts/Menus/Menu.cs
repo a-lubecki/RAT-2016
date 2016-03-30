@@ -138,6 +138,8 @@ public class Menu : MonoBehaviour {
 
 		PlayerActionsManager.Instance.setEnabled(this, true);
 
+		GameHelper.Instance.getMenuCursorBehavior().hide();
+
 		coroutineOpening = null;
 	}
 
@@ -354,6 +356,7 @@ public class Menu : MonoBehaviour {
 
 		subMenuGameObject.transform.SetParent(subMenuKeeper.transform);
 
+		GameHelper.Instance.getMenuCursorBehavior().hide();
 	}
 
 	private void animateArrows() {
@@ -364,14 +367,15 @@ public class Menu : MonoBehaviour {
 
 	private void animateArrow(bool isLeft, bool isAnimating, bool isFast) {
 
-		Transform transformArrow;
+
+		GameObject arrow;
 		if(isLeft) {
-			transformArrow = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
+			arrow = GameHelper.Instance.getMenuArrowLeft();
 		} else {
-			transformArrow = transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
+			arrow = GameHelper.Instance.getMenuArrowRight();
 		}
 
-		Gif gif = transformArrow.GetComponent<Gif>();
+		Gif gif = arrow.GetComponent<Gif>();
 
 		if(isAnimating) {
 
@@ -412,10 +416,18 @@ public class Menu : MonoBehaviour {
 	}
 	
 	public void navigateRight() {
+
+		GameHelper.Instance.getMenuCursorBehavior().show(
+			GameHelper.Instance.getMenuArrowRight(), 2, 1);
+		
 		currentMenuType.getCurrentSubMenuType().navigateRight();
 	}
 	
 	public void navigateLeft() {
+
+		GameHelper.Instance.getMenuCursorBehavior().show(
+			GameHelper.Instance.getMenuArrowLeft(), 2, 1);
+		
 		currentMenuType.getCurrentSubMenuType().navigateLeft();
 	}
 
