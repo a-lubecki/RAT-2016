@@ -32,9 +32,6 @@ public class MenuCursorBehavior : MonoBehaviour {
 
 	public void show(Vector2 anchoredPosition, RectTransform parentRectTransform, int width, int height) {
 
-		if(anchoredPosition == null) {
-			throw new ArgumentException();
-		}
 		if(parentRectTransform == null) {
 			throw new ArgumentException();
 		}

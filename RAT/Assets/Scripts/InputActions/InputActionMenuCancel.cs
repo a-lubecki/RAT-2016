@@ -25,16 +25,8 @@ public class InputActionMenuCancel : AbstractInputActionMenu {
 		if(hasMessage) {
 			//hide current message
 			MessageDisplayer.Instance.displayNextMessage();
-
 		} else {
-			
-			Menu menu = GameHelper.Instance.getMenu();
-
-			if(menu.getSelectionLevel() <= 0) {
-				menu.closeAny();
-			} else {
-				menu.cancel();
-			}
+			GameHelper.Instance.getMenu().cancel();
 		}
 
 		return true;

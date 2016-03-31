@@ -13,6 +13,8 @@ public class Menu : MonoBehaviour {
 	
 	private AbstractMenuType currentMenuType;
 
+	private MenuSelector menuSelector = new MenuSelector();
+
 	// Use this for initialization
 	void Start () {
 	
@@ -138,7 +140,7 @@ public class Menu : MonoBehaviour {
 
 		PlayerActionsManager.Instance.setEnabled(this, true);
 
-		GameHelper.Instance.getMenuCursorBehavior().hide();
+		menuSelector.deselectItem();
 
 		coroutineOpening = null;
 	}
@@ -356,7 +358,7 @@ public class Menu : MonoBehaviour {
 
 		subMenuGameObject.transform.SetParent(subMenuKeeper.transform);
 
-		GameHelper.Instance.getMenuCursorBehavior().hide();
+		menuSelector.deselectItem();
 	}
 
 	private void animateArrows() {
@@ -395,16 +397,26 @@ public class Menu : MonoBehaviour {
 	}
 
 
-	public int getSelectionLevel() {
-		return currentMenuType.getCurrentSubMenuType().getSelectionLevel();
-	}
-	
 	public void validate() {
+		
 		currentMenuType.getCurrentSubMenuType().validate();
+
+		menuSelector.validateSelectedItem();
+
 	}
 	
 	public void cancel() {
-		currentMenuType.getCurrentSubMenuType().cancel();
+
+		if(menuSelector.isValidated) {
+
+			currentMenuType.getCurrentSubMenuType().cancel();
+
+			menuSelector.cancelSelectedItem();
+
+		} else {
+			closeAny();
+		}
+
 	}
 
 	public void navigateUp() {
@@ -417,18 +429,18 @@ public class Menu : MonoBehaviour {
 	
 	public void navigateRight() {
 
-		GameHelper.Instance.getMenuCursorBehavior().show(
-			GameHelper.Instance.getMenuArrowRight(), 2, 1);
-		
 		currentMenuType.getCurrentSubMenuType().navigateRight();
+
+		menuSelector.selectItem(this, MenuArrow.MENU_ARROW_RIGHT);
+
 	}
 	
 	public void navigateLeft() {
 
-		GameHelper.Instance.getMenuCursorBehavior().show(
-			GameHelper.Instance.getMenuArrowLeft(), 2, 1);
-		
 		currentMenuType.getCurrentSubMenuType().navigateLeft();
+
+		menuSelector.selectItem(this, MenuArrow.MENU_ARROW_LEFT);
+
 	}
 
 }

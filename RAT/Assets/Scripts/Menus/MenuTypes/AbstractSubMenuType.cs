@@ -79,47 +79,10 @@ public abstract class AbstractSubMenuType : Displayable {
 	}
 
 
-	private int selectionLevel = 0;
-	
-	public int getSelectionLevel() {
-		//it's 0 by default, if an item is selected the level is 1, if a subitem is selected the level is 2, etc
-		return selectionLevel;
-	}
-
-	protected void incrementSelectionLevel() {
-		selectionLevel++;
-	}
-	protected void decrementSelectionLevel() {
-		selectionLevel--;
-	}
-
 	public virtual void validate() {
-
-		if(selectionLevel == 0) {
-
-			incrementSelectionLevel();
-
-			//TODO select
-		
-		} else {
-
-
-		}
-
 	}
 	
 	public virtual void cancel() {
-
-		if(selectionLevel == 1) {
-			
-			decrementSelectionLevel();
-			
-			//TODO deselect
-			
-		} else {
-
-		}
-
 	}
 	
 	public virtual void navigateUp() {
