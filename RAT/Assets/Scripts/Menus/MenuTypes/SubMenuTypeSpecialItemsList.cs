@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SubMenuTypeSpecialItemsList : AbstractSubMenuType {
@@ -12,12 +13,15 @@ public class SubMenuTypeSpecialItemsList : AbstractSubMenuType {
 	}
 
 
-	public override void updateViews(GameObject gameObjectSubMenu) {
+	public override List<string> getGridNames() {
 
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_DATA);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_KEYS);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_GOALS);
+		List<string> res = new List<string>();
 
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_DATA);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_KEYS);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_GOALS);
+
+		return res;
 	}
 
 }

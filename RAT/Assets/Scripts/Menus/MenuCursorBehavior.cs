@@ -48,8 +48,11 @@ public class MenuCursorBehavior : MonoBehaviour {
 		rectTransform.anchorMin = parentRectTransform.anchorMin;
 		rectTransform.anchorMax = parentRectTransform.anchorMax;
 		rectTransform.pivot = parentRectTransform.pivot;
-		rectTransform.localScale = parentRectTransform.localScale;
-		rectTransform.sizeDelta = new Vector2(width * 1.6f, height * 1.6f);
+		rectTransform.localScale = new Vector3(
+			parentRectTransform.localScale.x < 0 ? -0.8f : 0.8f,
+			parentRectTransform.localScale.y < 0 ? -0.8f : 0.8f,
+			1);
+		rectTransform.sizeDelta = new Vector2(width * 2, height * 2);
 
 		isVisible = true;
 
@@ -58,6 +61,9 @@ public class MenuCursorBehavior : MonoBehaviour {
 			tr.gameObject.SetActive(true);
 			tr.GetComponent<Gif>().startAnimation();
 		}
+
+		//put on top on the UI stack
+		rectTransform.SetAsLastSibling();
 
 	}
 

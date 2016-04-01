@@ -13,11 +13,13 @@ public class Menu : MonoBehaviour {
 	
 	private AbstractMenuType currentMenuType;
 
-	private MenuSelector menuSelector = new MenuSelector();
+	public MenuSelector menuSelector { get; private set; }
 
 	// Use this for initialization
 	void Start () {
-	
+
+		menuSelector = new MenuSelector();
+
 		updateViews();
 
 	}
@@ -338,6 +340,7 @@ public class Menu : MonoBehaviour {
 
 
 		subMenuType.updateViews(subMenuTransform.gameObject);
+		subMenuType.selectFirstItem();
 
 	}
 	
@@ -351,14 +354,15 @@ public class Menu : MonoBehaviour {
 		if(subMenuGameObject == null) {
 			return;
 		}
-		
+
+		menuSelector.deselectItem();
+
 		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
 		
 		subMenuGameObject.SetActive(false);
 
 		subMenuGameObject.transform.SetParent(subMenuKeeper.transform);
 
-		menuSelector.deselectItem();
 	}
 
 	private void animateArrows() {
@@ -399,9 +403,11 @@ public class Menu : MonoBehaviour {
 
 	public void validate() {
 		
-		currentMenuType.getCurrentSubMenuType().validate();
+		bool consumed = currentMenuType.getCurrentSubMenuType().validate();
 
-		menuSelector.validateSelectedItem();
+		if(!consumed) {
+			menuSelector.validateSelectedItem();
+		}
 
 	}
 	
@@ -409,37 +415,77 @@ public class Menu : MonoBehaviour {
 
 		if(menuSelector.isValidated) {
 
-			currentMenuType.getCurrentSubMenuType().cancel();
-
 			menuSelector.cancelSelectedItem();
 
 		} else {
-			closeAny();
+
+			bool consumed = currentMenuType.getCurrentSubMenuType().cancel();
+
+			if(!consumed) {
+				closeAny();
+			}
 		}
 
 	}
 
 	public void navigateUp() {
-		currentMenuType.getCurrentSubMenuType().navigateUp();
+		
+		if(menuSelector.isValidated) {
+			//TODO select item choice
+			return;
+		}
+
+		bool consumed = currentMenuType.getCurrentSubMenuType().navigateUp();
+
+		if(!consumed) {
+			
+			ISelectable selected = menuSelector.selectedItem;
+			if(selected != null && !(selected is MenuArrow)) {
+
+				//TODO select left or right
+				menuSelector.selectItem(this, MenuArrow.MENU_ARROW_RIGHT);
+			}
+		}
+		
 	}
 	
 	public void navigateDown() {
-		currentMenuType.getCurrentSubMenuType().navigateDown();
+		
+		if(menuSelector.isValidated) {
+			//TODO select item choice
+			return;
+		}
+
+		ISelectable selected = menuSelector.selectedItem;
+		if(selected != null && selected is MenuArrow) {
+
+			currentMenuType.getCurrentSubMenuType().navigateDown();
+
+		}
+
 	}
 	
 	public void navigateRight() {
 
-		currentMenuType.getCurrentSubMenuType().navigateRight();
+		if(menuSelector.isValidated) {
+			return;
+		}
 
-		menuSelector.selectItem(this, MenuArrow.MENU_ARROW_RIGHT);
+		bool consumed = currentMenuType.getCurrentSubMenuType().navigateRight();
+
+		if(!consumed) {
+			menuSelector.selectItem(this, MenuArrow.MENU_ARROW_RIGHT);
+		}
 
 	}
 	
 	public void navigateLeft() {
 
-		currentMenuType.getCurrentSubMenuType().navigateLeft();
+		bool consumed = currentMenuType.getCurrentSubMenuType().navigateLeft();
 
-		menuSelector.selectItem(this, MenuArrow.MENU_ARROW_LEFT);
+		if(!consumed) {
+			menuSelector.selectItem(this, MenuArrow.MENU_ARROW_LEFT);
+		}
 
 	}
 

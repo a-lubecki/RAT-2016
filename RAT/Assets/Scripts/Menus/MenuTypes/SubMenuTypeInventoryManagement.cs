@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
@@ -12,34 +13,18 @@ public class SubMenuTypeInventoryManagement : AbstractSubMenuType {
 		return Constants.GAME_OBJECT_NAME_SUB_MENU_INVENTORY_MANAGEMENT;
 	}
 
-	public override void updateViews(GameObject gameObjectSubMenu) {
+	public override List<string> getGridNames() {
 		
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_BAG);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_OBJECTS);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_HEALS);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_WEAPONS_LEFT);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_EQUIP);
-		updateGrid(Constants.GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT);
+		List<string> res = new List<string>();
 
-	}
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_BAG);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_OBJECTS);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_HEALS);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_WEAPONS_LEFT);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_EQUIP);
+		res.Add(Constants.GAME_OBJECT_NAME_GRID_WEAPONS_RIGHT);
 
-
-	public override void validate() {
-	}
-	
-	public override void cancel() {
-	}
-	
-	public override void navigateUp() {
-	}
-	
-	public override void navigateDown() {
-	}
-	
-	public override void navigateRight() {
-	}
-	
-	public override void navigateLeft() {
+		return res;
 	}
 
 }

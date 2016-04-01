@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ItemInGrid {
+public class ItemInGrid : ISelectable {
 	
 	private ItemPattern itemPattern;
 
@@ -155,6 +155,37 @@ public class ItemInGrid {
 			posYInBlocks, 
 			orientation,
 			res);
+	}
+
+	void ISelectable.onSelect() {
+
+		InventoryGrid grid = GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(getGridName());
+		if(grid == null) {
+			return;
+		}
+
+		RectTransform gridRectTransform = grid.GetComponent<RectTransform>();
+		RectTransform subMenuRectTransform = grid.transform.parent.GetComponent<RectTransform>();
+
+		Vector2 itemPos = new Vector2(subMenuRectTransform.offsetMin.x + gridRectTransform.offsetMin.x + posXInBlocks * 1.6f,
+			subMenuRectTransform.offsetMax.y + gridRectTransform.offsetMax.y - posYInBlocks * 1.6f);
+
+		GameHelper.Instance.getMenuCursorBehavior().show(itemPos, gridRectTransform, itemPattern.widthInBlocks, itemPattern.heightInBlocks);
+	}
+
+	void ISelectable.onDeselect() {
+
+		GameHelper.Instance.getMenuCursorBehavior().hide();
+	}
+
+	void ISelectable.onSelectionValidated() {
+
+		//TODO open item choice
+	}
+
+	void ISelectable.onSelectionCancelled() {
+
+		//TODO close item choice
 	}
 
 }

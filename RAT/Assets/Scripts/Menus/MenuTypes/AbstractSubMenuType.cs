@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class AbstractSubMenuType : Displayable {
@@ -24,6 +25,15 @@ public abstract class AbstractSubMenuType : Displayable {
 	}
 
 	public virtual void updateViews(GameObject gameObjectSubMenu) {
+		
+		foreach(string gridName in getGridNames()) {
+			updateGrid(gridName);
+		}
+
+	}
+
+	public virtual List<string> getGridNames() {
+		return new List<string>();
 	}
 
 	protected void updateGrid(string gridName) {
@@ -78,23 +88,182 @@ public abstract class AbstractSubMenuType : Displayable {
 		return grid;
 	}
 
+	public virtual void selectFirstItem() {
+		
+		//select first item we can find in grids
+		ItemInGrid firstItem = null;
 
-	public virtual void validate() {
+		List<ItemInGrid> items = GameManager.Instance.getInventory().getItems();
+		foreach(ItemInGrid item in items) {
+
+			if(getGridNames().Contains(item.getGridName())) {
+				firstItem = item;
+				break;
+			}
+		}
+
+		if(firstItem != null) {
+			GameHelper.Instance.getMenu().menuSelector.selectItem(this, firstItem);
+		}
+
 	}
-	
-	public virtual void cancel() {
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool validate() {
+		return false;
 	}
-	
-	public virtual void navigateUp() {
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool cancel() {
+		return false;
 	}
-	
-	public virtual void navigateDown() {
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool navigateUp() {
+
+		return navigate(Direction.UP);
 	}
-	
-	public virtual void navigateRight() {
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool navigateDown() {
+		/*
+		ISelectable selected = GameHelper.Instance.getMenu().menuSelector.selectedItem;
+		if(selected != null && selected is MenuArrow) {
+
+			MenuArrow menuArrow = selected as MenuArrow;
+			if(menuArrow.isLeft) {
+
+			} else {
+
+			}
+
+		}
+		return false;
+*/
+		return navigate(Direction.DOWN);
 	}
-	
-	public virtual void navigateLeft() {
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool navigateRight() {
+
+		return navigate(Direction.RIGHT);
+	}
+
+	/**
+	 * Return if the action is consumed by the submenu or if the menu must take over
+	 */
+	public virtual bool navigateLeft() {
+
+		return navigate(Direction.LEFT);
+	}
+
+	private bool navigate(Direction direction) {
+
+		MenuSelector menuSelector = GameHelper.Instance.getMenu().menuSelector;
+
+		ISelectable currentSelectedItem = menuSelector.selectedItem;
+		if(currentSelectedItem != null && currentSelectedItem is ItemInGrid) {
+
+			menuSelector.selectItem(this, getNextItemInGrid(currentSelectedItem as ItemInGrid, direction));
+
+			return (currentSelectedItem != menuSelector.selectedItem);
+		}
+
+		return false;
+	}
+		
+	/*
+	protected InventoryGrid getSelectedInventoryGrid() {
+
+
+
+	}
+
+	protected InventoryGrid getNextInventoryGrid(InventoryGrid grid, Direction direction) {
+
+
+
+	}*/
+
+	protected ItemInGrid getNextItemInGrid(ItemInGrid selectedItem, Direction direction) {
+
+		int minXSelected = selectedItem.getPosXInBlocks();
+		int minYSelected = selectedItem.getPosYInBlocks();
+		int maxXSelected = minXSelected + selectedItem.getItemPattern().widthInBlocks;
+		int maxYSelected = minYSelected + selectedItem.getItemPattern().heightInBlocks;
+
+
+		int maxScore = 1;
+		ItemInGrid currentItem = selectedItem;
+
+		foreach(ItemInGrid item in GameManager.Instance.getInventory().getItems()) {
+
+			if(selectedItem == item) {
+				continue;
+			}
+
+			if(item.getGridName().Equals(selectedItem.getGridName())) {
+				//TODO manage
+				continue;
+			}
+
+			int minX = item.getPosXInBlocks();
+			int minY = item.getPosYInBlocks();
+			int maxX = minX + item.getItemPattern().widthInBlocks;
+			int maxY = minY + item.getItemPattern().heightInBlocks;
+
+			for(int y = 0 ; y < item.getItemPattern().heightInBlocks ; y++) {
+				for(int x = 0 ; x < item.getItemPattern().widthInBlocks ; x++) {
+
+					int currentX = minX + x;
+					int currentY = minY + y;
+
+					int xScore = 0;
+					int yScore = 0;
+
+					if(direction == Direction.LEFT) {
+
+					} else if(direction == Direction.DOWN) {
+
+					} else if(direction == Direction.RIGHT) {
+
+						if(currentX > maxXSelected) {
+							xScore = 2 / (currentX - maxXSelected);
+						}
+
+						if(currentY < minYSelected) {
+							yScore = 1 / (minYSelected - currentY);
+						} else if(currentY > maxYSelected) {
+							yScore = 1 / (currentY - maxYSelected);
+						} else {
+							yScore = 1;
+						}
+
+					} else {
+
+					}
+
+					int score = xScore + yScore;
+					if(score > maxScore) {
+						maxScore = score;
+						currentItem = item;
+					}
+				}
+			}
+
+		}
+
+		return currentItem;
 	}
 
 }
