@@ -457,10 +457,14 @@ public class Menu : MonoBehaviour {
 		}
 
 		ISelectable selected = menuSelector.selectedItem;
-		if(selected != null && selected is MenuArrow) {
+		if(selected != null && !(selected is MenuArrow)) {
 
 			currentMenuType.getCurrentSubMenuType().navigateDown();
 
+		} else {
+
+			//TODO select left or right item
+			currentMenuType.getCurrentSubMenuType().selectFirstItem();
 		}
 
 	}
