@@ -340,7 +340,7 @@ public class Menu : MonoBehaviour {
 
 
 		subMenuType.updateViews(subMenuTransform.gameObject);
-		subMenuType.selectFirstItem();
+		subMenuType.selectFirstItem(true);
 
 	}
 	
@@ -442,8 +442,12 @@ public class Menu : MonoBehaviour {
 			ISelectable selected = menuSelector.selectedItem;
 			if(selected != null && !(selected is MenuArrow)) {
 
-				//TODO select left or right
-				menuSelector.selectItem(this, MenuArrow.MENU_ARROW_RIGHT);
+				if(selected is ItemInGrid) {
+
+					bool isLeft = GameHelper.Instance.getMenu().getCurrentSubMenuType().isLeftGrid((selected as ItemInGrid).getGridName());
+
+					menuSelector.selectItem(this, isLeft ? MenuArrow.MENU_ARROW_LEFT : MenuArrow.MENU_ARROW_RIGHT);
+				}
 			}
 		}
 		
@@ -457,14 +461,17 @@ public class Menu : MonoBehaviour {
 		}
 
 		ISelectable selected = menuSelector.selectedItem;
-		if(selected != null && !(selected is MenuArrow)) {
-
-			currentMenuType.getCurrentSubMenuType().navigateDown();
+		if(selected != null) {
+			
+			if(selected is MenuArrow) {
+				currentMenuType.getCurrentSubMenuType().selectFirstItem((selected as MenuArrow).isLeft);
+			} else {
+				currentMenuType.getCurrentSubMenuType().navigateDown();
+			}
 
 		} else {
 
-			//TODO select left or right item
-			currentMenuType.getCurrentSubMenuType().selectFirstItem();
+			currentMenuType.getCurrentSubMenuType().selectFirstItem(true);
 		}
 
 	}

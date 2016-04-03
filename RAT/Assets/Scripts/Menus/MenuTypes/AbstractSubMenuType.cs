@@ -26,13 +26,13 @@ public abstract class AbstractSubMenuType : Displayable {
 
 	public virtual void updateViews(GameObject gameObjectSubMenu) {
 		
-		foreach(string gridName in getGridNames()) {
+		foreach(string gridName in getGridNames(true, true)) {
 			updateGrid(gridName);
 		}
 
 	}
 
-	public virtual List<string> getGridNames() {
+	public virtual List<string> getGridNames(bool topToBottom, bool leftToRight) {
 		return new List<string>();
 	}
 
@@ -88,21 +88,40 @@ public abstract class AbstractSubMenuType : Displayable {
 		return grid;
 	}
 
-	public virtual void selectFirstItem() {
+	public virtual bool isLeftGrid(string gridName) {
+		return true;
+	}
+
+	public virtual void selectFirstItem(bool leftToRight) {
 		
 		//select first item we can find in grids
 		ItemInGrid firstItem = null;
+		int x = leftToRight ? int.MaxValue : 0;
+		int y = int.MaxValue;
 
-		List<string> gridNames = getGridNames();
+		List<string> gridNames = getGridNames(true, leftToRight);
 
 		foreach(string gridName in gridNames) {
 			
 			List<ItemInGrid> items = GameManager.Instance.getInventory().getItems();
 			foreach(ItemInGrid item in items) {
 
-				if(gridName.Equals(item.getGridName())) {
-					firstItem = item;
-					break;
+				if(!gridName.Equals(item.getGridName())) {
+					continue;
+				}
+
+				if(leftToRight) {
+					if(item.getPosYInBlocks() <= y && item.getPosXInBlocks() <= x) {
+						firstItem = item;
+						x = item.getPosXInBlocks();
+						y = item.getPosYInBlocks();
+					}
+				} else {
+					if(item.getPosYInBlocks() <= y && item.getPosXInBlocks() >= x) {
+						firstItem = item;
+						x = item.getPosXInBlocks();
+						y = item.getPosYInBlocks();
+					}
 				}
 			}
 
