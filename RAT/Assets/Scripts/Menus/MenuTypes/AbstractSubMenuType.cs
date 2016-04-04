@@ -225,8 +225,15 @@ public abstract class AbstractSubMenuType : Displayable {
 
 	protected ItemInGrid getNextItemInGrid(ItemInGrid selectedItem, Direction direction) {
 
-		int minXSelected = selectedItem.getPosXInBlocks();
-		int minYSelected = selectedItem.getPosYInBlocks();
+		AbstractSubMenuType currentSubMenuType = GameHelper.Instance.getMenu().getCurrentSubMenuType();
+
+		InventoryGrid gridSelected = currentSubMenuType.findInventoryGrid(selectedItem.getGridName());
+		if(gridSelected == null) {
+			return selectedItem;
+		}
+
+		int minXSelected = gridSelected.posXInBlocks + selectedItem.getPosXInBlocks();
+		int minYSelected = gridSelected.posYInBlocks + selectedItem.getPosYInBlocks();
 		int maxXSelected = minXSelected + selectedItem.getItemPattern().widthInBlocks - 1;
 		int maxYSelected = minYSelected + selectedItem.getItemPattern().heightInBlocks - 1;
 
@@ -239,13 +246,13 @@ public abstract class AbstractSubMenuType : Displayable {
 				continue;
 			}
 
-			if(!item.getGridName().Equals(selectedItem.getGridName())) {
-				//TODO manage
+			InventoryGrid grid = currentSubMenuType.findInventoryGrid(item.getGridName());
+			if(grid == null) {
 				continue;
 			}
 
-			int minX = item.getPosXInBlocks();
-			int minY = item.getPosYInBlocks();
+			int minX = grid.posXInBlocks + item.getPosXInBlocks();
+			int minY = grid.posYInBlocks + item.getPosYInBlocks();
 			int maxX = minX + item.getItemPattern().widthInBlocks - 1;
 			int maxY = minY + item.getItemPattern().heightInBlocks - 1;
 

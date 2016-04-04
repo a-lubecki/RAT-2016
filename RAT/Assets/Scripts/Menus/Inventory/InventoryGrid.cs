@@ -12,7 +12,10 @@ public class InventoryGrid : MonoBehaviour {
 
 	public string nameTrKey = "";
 	public string descriptionTrKey = "";
-	
+
+	public int posXInBlocks = 0;
+	public int posYInBlocks = 0;
+
 	public int width = 1;
 	public int height = 1;
 
