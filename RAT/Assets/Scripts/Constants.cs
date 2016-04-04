@@ -88,6 +88,8 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_MENU_ARROW_LEFT = "MenuArrowLeft";
 	public static readonly string GAME_OBJECT_NAME_MENU_ARROW_RIGHT = "MenuArrowRight";
 	public static readonly string GAME_OBJECT_NAME_MENU_CURSOR = "MenuCursor";
+	public static readonly string GAME_OBJECT_NAME_MENU_ITEM_NAME = "MenuItemName";
+	public static readonly string GAME_OBJECT_NAME_MENU_ITEM_DESCRIPTION = "MenuItemDescription";
 
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_KEEPER = "SubMenuKeeper";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_CHARACTER_STATUS = "SubMenuTypeCharacterStatus";

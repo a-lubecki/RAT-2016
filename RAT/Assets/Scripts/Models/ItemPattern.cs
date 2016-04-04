@@ -68,7 +68,7 @@ public class ItemPattern : Displayable {
 
 	}
 
-	private string getDescription() {
+	public string getTrDescription() {
 		return Constants.tr(trKey + ".Description");
 	}
 

@@ -136,6 +136,35 @@ public abstract class AbstractSubMenuType : Displayable {
 
 	}
 
+
+	public virtual void onItemSelected(ItemInGrid item) {
+
+		if(item == null) {
+			throw new ArgumentException();
+		}
+
+		InventoryGrid grid = findInventoryGrid(item.getGridName());
+		if(grid == null) {
+			return;
+		}
+
+		RectTransform gridRectTransform = grid.GetComponent<RectTransform>();
+		RectTransform subMenuRectTransform = grid.transform.parent.GetComponent<RectTransform>();
+
+		Vector2 itemPos = new Vector2(subMenuRectTransform.offsetMin.x + gridRectTransform.offsetMin.x + item.getPosXInBlocks() * 1.6f,
+			subMenuRectTransform.offsetMax.y + gridRectTransform.offsetMax.y - item.getPosYInBlocks() * 1.6f);
+
+		GameHelper.Instance.getMenuCursorBehavior().show(itemPos, gridRectTransform, item.getItemPattern().widthInBlocks, item.getItemPattern().heightInBlocks);
+	
+	}
+
+	public virtual void onItemDeselected() {
+
+		GameHelper.Instance.getMenuCursorBehavior().hide();
+
+	}
+
+
 	/**
 	 * Return if the action is consumed by the submenu or if the menu must take over
 	 */

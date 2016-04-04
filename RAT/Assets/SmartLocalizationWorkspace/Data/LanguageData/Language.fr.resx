@@ -201,25 +201,25 @@
 		<value>Casque militaire</value>
 	</data>
 	<data name="Item.E_ARMY_HELMET.Description" xml:space="preserve">
-		<value>Le casque de base de l'armée, protège contre tout type de munition légères.</value>
+		<value>Le casque de base de l'armée, protège contre tout type de munition légère.</value>
 	</data>
 	<data name="Item.H_NANOMACHINES" xml:space="preserve">
 		<value>Nanomachines</value>
 	</data>
 	<data name="Item.H_NANOMACHINES.Description" xml:space="preserve">
-		<value>Le pack de nanomachines ressoudent les os et reconstituent les tissus sur une courte durée.</value>
+		<value>Le pack de nanomachines ressoude les os et reconstitue les tissus pendant une courte durée.</value>
 	</data>
-	<data name="Item.H_REGENATION" xml:space="preserve">
+	<data name="Item.H_REGENERATION" xml:space="preserve">
 		<value>Régénération</value>
 	</data>
-	<data name="Item.H_REGENATION.Description" xml:space="preserve">
-		<value>Due aux diverses modifications génétiques, la régénération permet de regagner un peu de santé.</value>
+	<data name="Item.H_REGENERATION.Description" xml:space="preserve">
+		<value>Les diverses modifications génétiques ont mené à une spécificité des cellules mutantes de rat. Après une brève concentration, les influx nerveux régénèrent les tissus.</value>
 	</data>
 	<data name="Item.O_AMMO_BULLET" xml:space="preserve">
 		<value>Balle</value>
 	</data>
 	<data name="Item.O_AMMO_BULLET.Description" xml:space="preserve">
-		<value>Balles 10mm de dernière génération.</value>
+		<value>Balles 10 mm de dernière génération.</value>
 	</data>
 	<data name="Item.O_AMMO_ENERGY" xml:space="preserve">
 		<value>Énergie</value>
@@ -267,19 +267,19 @@
 		<value>Minidisque</value>
 	</data>
 	<data name="Item.S_STORAGE_10GB.Description" xml:space="preserve">
-		<value>Minidisque de données 10Go</value>
+		<value>Minidisque de données 10 Go.</value>
 	</data>
 	<data name="Item.S_STORAGE_1GB" xml:space="preserve">
 		<value>Minidisque</value>
 	</data>
 	<data name="Item.S_STORAGE_1GB.Description" xml:space="preserve">
-		<value>Minidisque de données 1Go</value>
+		<value>Minidisque de données 1 Go.</value>
 	</data>
 	<data name="Item.S_STORAGE_20GB" xml:space="preserve">
 		<value>Minidisque</value>
 	</data>
 	<data name="Item.S_STORAGE_20GB.Description" xml:space="preserve">
-		<value>Minidisque de données 20Go</value>
+		<value>Minidisque de données 20 Go.</value>
 	</data>
 	<data name="Item.W_ARMY_SHIELD" xml:space="preserve">
 		<value>Bouclier de l'armée</value>
@@ -291,13 +291,13 @@
 		<value>Griffes</value>
 	</data>
 	<data name="Item.W_CLAWS.Description" xml:space="preserve">
-		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles ne vous sauveront si vous manquez de munitions.</value>
+		<value>Votre premier moyen de défense. Affutées pour déchirer la chair, elles vous sauveront si vous manquez de munitions.</value>
 	</data>
 	<data name="Item.W_GUN" xml:space="preserve">
 		<value>Pistolet</value>
 	</data>
 	<data name="Item.W_GUN.Description" xml:space="preserve">
-		<value>Pistolet fabriqué par l'armée il y a longtemps. Ce modèle est principalement utilisé par les résistants aujourd'hui.</value>
+		<value>Pistolet fabriqué par l'armée il y a plusieurs années. Ce modèle est principalement utilisé par les résistants aujourd'hui.</value>
 	</data>
 	<data name="Item.W_KATANA" xml:space="preserve">
 		<value>Katana</value>

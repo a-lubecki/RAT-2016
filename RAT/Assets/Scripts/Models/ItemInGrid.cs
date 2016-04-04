@@ -159,23 +159,12 @@ public class ItemInGrid : ISelectable {
 
 	void ISelectable.onSelect() {
 
-		InventoryGrid grid = GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(getGridName());
-		if(grid == null) {
-			return;
-		}
-
-		RectTransform gridRectTransform = grid.GetComponent<RectTransform>();
-		RectTransform subMenuRectTransform = grid.transform.parent.GetComponent<RectTransform>();
-
-		Vector2 itemPos = new Vector2(subMenuRectTransform.offsetMin.x + gridRectTransform.offsetMin.x + posXInBlocks * 1.6f,
-			subMenuRectTransform.offsetMax.y + gridRectTransform.offsetMax.y - posYInBlocks * 1.6f);
-
-		GameHelper.Instance.getMenuCursorBehavior().show(itemPos, gridRectTransform, itemPattern.widthInBlocks, itemPattern.heightInBlocks);
+		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemSelected(this);
 	}
 
 	void ISelectable.onDeselect() {
 
-		GameHelper.Instance.getMenuCursorBehavior().hide();
+		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemDeselected();
 	}
 
 	void ISelectable.onSelectionValidated() {
