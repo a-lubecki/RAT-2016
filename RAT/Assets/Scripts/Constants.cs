@@ -81,7 +81,8 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_TOTAL = "TextXpTotal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_EARNED = "TextXpEarned";
 	public static readonly string GAME_OBJECT_NAME_XP_DISPLAY_MANAGER = "XpDisplayManager";
-	
+
+	public static readonly string GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS = "ImageForegroundGlass";
 	public static readonly string GAME_OBJECT_NAME_MENU = "Menu";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_LEFT = "SubMenuTitleLeft";
 	public static readonly string GAME_OBJECT_NAME_SUB_MENU_TITLE_RIGHT = "SubMenuTitleRight";

@@ -201,6 +201,24 @@ public class GameHelper {
 		return component;
 	}
 
+	public ItemInGridBehavior getItemInGridBehavior(ItemInGrid itemInGrid) {
+
+		InventoryGrid grid = getMenu().getCurrentSubMenuType().findInventoryGrid(itemInGrid.getGridName());
+		if(grid == null) {
+			return null;
+		}
+
+		ItemInGridBehavior[] itemInGridBehaviors = grid.transform.GetComponentsInChildren<ItemInGridBehavior>();
+
+		foreach(ItemInGridBehavior itemInGridBehavior in itemInGridBehaviors) {
+			if(itemInGridBehavior.itemInGrid == itemInGrid) {
+				return itemInGridBehavior;
+			}
+		}
+
+		return null;
+	}
+
 	
 	public Hub getHub() {
 		return getLevelManager().hub;

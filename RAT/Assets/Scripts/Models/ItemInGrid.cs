@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemInGrid : ISelectable {
 	
@@ -169,12 +170,34 @@ public class ItemInGrid : ISelectable {
 
 	void ISelectable.onSelectionValidated() {
 
+		//display glassview on top
+		GameObject glassGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
+		glassGameObject.transform.SetAsLastSibling();
+		glassGameObject.GetComponent<Image>().enabled = true;
+
+		GameHelper.Instance.getItemInGridBehavior(this).transform.SetParent(glassGameObject.transform);
+		GameHelper.Instance.getMenuCursorBehavior().transform.SetParent(glassGameObject.transform);
+
 		//TODO open item choice
+
 	}
 
 	void ISelectable.onSelectionCancelled() {
 
+		//hide glassview
+		GameObject glassGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
+		glassGameObject.GetComponent<Image>().enabled = false;
+
+		ItemInGridBehavior itemInGridBehavior = glassGameObject.transform.GetComponentInChildren<ItemInGridBehavior>();
+
+		InventoryGrid grid = GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(getGridName());
+		itemInGridBehavior.transform.SetParent(grid.transform);
+
+		MenuCursorBehavior menuCursorBehavior = glassGameObject.transform.GetComponentInChildren<MenuCursorBehavior>();
+		menuCursorBehavior.transform.SetParent(GameHelper.Instance.getMenu().transform);
+
 		//TODO close item choice
+
 	}
 
 }
