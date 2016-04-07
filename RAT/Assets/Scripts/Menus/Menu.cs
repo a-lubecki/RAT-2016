@@ -402,7 +402,12 @@ public class Menu : MonoBehaviour {
 
 
 	public void validate() {
-		
+
+		if(menuSelector.isValidated) {
+			//TODO validate item choice
+			return;
+		}
+
 		bool consumed = currentMenuType.getCurrentSubMenuType().validate();
 
 		if(!consumed) {
@@ -491,6 +496,10 @@ public class Menu : MonoBehaviour {
 	}
 	
 	public void navigateLeft() {
+
+		if(menuSelector.isValidated) {
+			return;
+		}
 
 		bool consumed = currentMenuType.getCurrentSubMenuType().navigateLeft();
 
