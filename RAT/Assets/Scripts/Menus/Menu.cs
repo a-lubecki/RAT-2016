@@ -113,7 +113,11 @@ public class Menu : MonoBehaviour {
 		if(coroutineOpening != null) {
 			StopCoroutine(coroutineOpening);
 		}
-		
+
+		if(menuSelector.isValidated) {
+			menuSelector.cancelSelectedItem();
+		}
+
 		coroutineOpening = StartCoroutine(animateClosing());
 	}
 	

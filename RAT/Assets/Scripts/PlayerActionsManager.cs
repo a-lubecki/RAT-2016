@@ -87,24 +87,11 @@ public class PlayerActionsManager {
 		this.action = action;
 
 		//show
-		GameObject actionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
-		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION);
-		
-		Text textComponent = actionObject.GetComponent<Text>();
-		Image imageComponent = backgroundObject.GetComponent<Image>();
+		GameObject buttonGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BUTTON_ACTION_DEFAULT);
+		ButtonActionBehavior button = buttonGameObject.GetComponent<ButtonActionBehavior>();
 
-		textComponent.enabled = true;
-		imageComponent.enabled = true;
-		
-		textComponent.text = action.actionLabel;
-
-		Color textColor = Color.cyan;
-		if(!action.enabled) {
-			textColor = Color.gray;
-		} else if(action.hasWarning) {
-			textColor = Color.yellow;
-		}
-		textComponent.color = textColor;
+		button.show(action);
+		button.setSelected(true);
 
 		//notify
 		action.notifyActionShown();
@@ -136,16 +123,10 @@ public class PlayerActionsManager {
 		action = null;
 		
 		//hide
-		GameObject actionObject = GameObject.Find(Constants.GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION);
-		GameObject backgroundObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION);
-		
-		Text textComponent = actionObject.GetComponent<Text>();
-		Image imageComponent = backgroundObject.GetComponent<Image>();
-		
-		textComponent.text = "";
-		
-		textComponent.enabled = false;
-		imageComponent.enabled = false;
+		GameObject buttonGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_BUTTON_ACTION_DEFAULT);
+		ButtonActionBehavior button = buttonGameObject.GetComponent<ButtonActionBehavior>();
+
+		button.hide();
 
 		//notify
 		retainedAction.notifyActionHidden();

@@ -76,8 +76,11 @@ public class Constants {
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_BIG = "BackgroundMessageBig";
 	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_NORMAL = "TextMessageNormal";
 	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_NORMAL = "BackgroundMessageNormal";
-	public static readonly string GAME_OBJECT_NAME_TEXT_MESSAGE_ACTION = "TextMessageAction";
-	public static readonly string GAME_OBJECT_NAME_BACKGROUND_MESSAGE_ACTION = "BackgroundMessageAction";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_ACTION_DEFAULT = "ButtonActionDefault";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_SELECTION_BOTTOM = "ButtonSelectionBottom";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_SELECTION_TOP = "ButtonSelectionTop";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_SELECTION_RIGHT = "ButtonSelectionRight";
+	public static readonly string GAME_OBJECT_NAME_BUTTON_SELECTION_LEFT = "ButtonSelectionLeft";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_TOTAL = "TextXpTotal";
 	public static readonly string GAME_OBJECT_NAME_TEXT_XP_EARNED = "TextXpEarned";
 	public static readonly string GAME_OBJECT_NAME_XP_DISPLAY_MANAGER = "XpDisplayManager";
