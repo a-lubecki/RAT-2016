@@ -154,7 +154,17 @@ public abstract class AbstractSubMenuType : Displayable {
 		Vector2 itemPos = new Vector2(subMenuRectTransform.offsetMin.x + gridRectTransform.offsetMin.x + item.getPosXInBlocks() * 1.6f,
 			subMenuRectTransform.offsetMax.y + gridRectTransform.offsetMax.y - item.getPosYInBlocks() * 1.6f);
 
-		GameHelper.Instance.getMenuCursorBehavior().show(itemPos, gridRectTransform, item.getItemPattern().widthInBlocks, item.getItemPattern().heightInBlocks);
+		int cursorWidth;
+		int cursorHeight;
+		if(item.getOrientation() == Orientation.FACE) {
+			cursorWidth = item.getItemPattern().widthInBlocks;
+			cursorHeight = item.getItemPattern().heightInBlocks;
+		} else {
+			cursorWidth = item.getItemPattern().heightInBlocks;
+			cursorHeight = item.getItemPattern().widthInBlocks;
+		}
+
+		GameHelper.Instance.getMenuCursorBehavior().show(itemPos, gridRectTransform, cursorWidth, cursorHeight);
 	
 	}
 
