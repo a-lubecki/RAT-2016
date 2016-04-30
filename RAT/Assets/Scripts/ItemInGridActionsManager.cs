@@ -135,10 +135,14 @@ public class ItemInGridActionsManager {
 			return;
 		}
 
-		if(selectedActionPos <= 0) {
-			selectedActionPos = 0;
-		} else {
-			selectedActionPos--;
+		int nbActions = actions.Count;
+
+		for(int i = selectedActionPos - 1 ; i >= 0 ; i--) {
+
+			if(actions[i].enabled) {
+				selectedActionPos = i;
+				break;
+			}
 		}
 
 		updateSelectedAction();
@@ -152,10 +156,12 @@ public class ItemInGridActionsManager {
 
 		int nbActions = actions.Count;
 
-		if(selectedActionPos >= nbActions - 1) {
-			selectedActionPos = nbActions - 1;
-		} else {
-			selectedActionPos++;
+		for(int i = selectedActionPos + 1 ; i < nbActions ; i++) {
+
+			if(actions[i].enabled) {
+				selectedActionPos = i;
+				break;
+			}
 		}
 
 		updateSelectedAction();

@@ -66,7 +66,7 @@ public class ButtonActionBehavior : MonoBehaviour {
 				mGraphic.name.Equals(Constants.GAME_OBJECT_NAME_BUTTON_SELECTION_RIGHT) ||
 				mGraphic.name.Equals(Constants.GAME_OBJECT_NAME_BUTTON_SELECTION_LEFT);
 
-			mGraphic.enabled = isVisible && (!isSelectionObject || isSelected);
+			mGraphic.enabled = isVisible && (!isSelectionObject || (action.enabled && isSelected));
 
 			if(mGraphic.enabled && mGraphic != backgroundComponent) {
 

@@ -181,8 +181,8 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 		List<BaseAction> itemActions = new List<BaseAction>();
 		itemActions.Add(new ActionItemInGridMove(this));
-		itemActions.Add(new ActionItemInGridSendToHub(this));
-		itemActions.Add(new ActionItemInGridCast(this));
+		itemActions.Add(new ActionItemInGridSendToHub(this, itemPattern.isCastable));
+		itemActions.Add(new ActionItemInGridCast(this, itemPattern.isCastable));
 		ItemInGridActionsManager.Instance.showActions(itemActions);
 
 	}

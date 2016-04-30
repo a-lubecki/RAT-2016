@@ -440,7 +440,9 @@ public class Menu : MonoBehaviour {
 	public void navigateUp() {
 		
 		if(menuSelector.isValidated) {
-			//TODO select item choice
+			if(ItemInGridActionsManager.Instance.isShowingActions()) {
+				ItemInGridActionsManager.Instance.selectPreviousAction();
+			}
 			return;
 		}
 
@@ -465,7 +467,9 @@ public class Menu : MonoBehaviour {
 	public void navigateDown() {
 		
 		if(menuSelector.isValidated) {
-			//TODO select item choice
+			if(ItemInGridActionsManager.Instance.isShowingActions()) {
+				ItemInGridActionsManager.Instance.selectNextAction();
+			}
 			return;
 		}
 
