@@ -10,7 +10,7 @@ public class ButtonActionBehavior : MonoBehaviour {
 	public bool isVisible { get; private set; }
 	public bool isSelected { get; private set; }
 
-	void Start() {
+	void Awake() {
 
 		hide();
 	}

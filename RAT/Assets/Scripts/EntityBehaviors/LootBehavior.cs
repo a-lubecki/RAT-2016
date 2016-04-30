@@ -170,7 +170,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 			if(!loot.canCollect()) {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this, false));
 			} else if(loot.mustReorderBeforeCollecting()) {
-				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenReorder(this));
+				PlayerActionsManager.Instance.showAction(new ActionLootCollectThenSendToHub(this));
 			} else {
 				PlayerActionsManager.Instance.showAction(new ActionLootCollect(this, true));
 			}
@@ -201,7 +201,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 			isColliding = false;
 
-			PlayerActionsManager.Instance.hideAction(new ActionLootCollectThenReorder(this));
+			PlayerActionsManager.Instance.hideAction(new ActionLootCollectThenSendToHub(this));
 			PlayerActionsManager.Instance.hideAction(new ActionLootCollect(this, false));
 		}
 

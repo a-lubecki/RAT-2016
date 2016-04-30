@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInGrid : ISelectable {
+public class ItemInGrid : ISelectable, IActionnable {
 	
 	private ItemPattern itemPattern;
 
@@ -171,21 +172,30 @@ public class ItemInGrid : ISelectable {
 	void ISelectable.onSelectionValidated() {
 
 		//display glassview on top
-		GameObject glassGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
+		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
 		glassGameObject.transform.SetAsLastSibling();
 		glassGameObject.GetComponent<Image>().enabled = true;
 
 		GameHelper.Instance.getItemInGridBehavior(this).transform.SetParent(glassGameObject.transform);
 		GameHelper.Instance.getMenuCursorBehavior().transform.SetParent(glassGameObject.transform);
 
-		//TODO open item choice
+		List<BaseAction> itemActions = new List<BaseAction>();
+		itemActions.Add(new ActionItemInGridMove(this));
+		itemActions.Add(new ActionItemInGridSendToHub(this));
+		itemActions.Add(new ActionItemInGridCast(this));
+		ItemInGridActionsManager.Instance.showActions(itemActions);
 
 	}
 
 	void ISelectable.onSelectionCancelled() {
 
 		//hide glassview
-		GameObject glassGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
+		hideSelection();
+	}
+
+	private void hideSelection() {
+
+		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
 		glassGameObject.GetComponent<Image>().enabled = false;
 
 		ItemInGridBehavior itemInGridBehavior = glassGameObject.transform.GetComponentInChildren<ItemInGridBehavior>();
@@ -196,8 +206,20 @@ public class ItemInGrid : ISelectable {
 		MenuCursorBehavior menuCursorBehavior = glassGameObject.transform.GetComponentInChildren<MenuCursorBehavior>();
 		menuCursorBehavior.transform.SetParent(GameHelper.Instance.getMenu().transform);
 
-		//TODO close item choice
+		ItemInGridActionsManager.Instance.hideActions();
+	}
 
+	void IActionnable.notifyActionShown(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionHidden(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionValidated(BaseAction action) {
+
+		hideSelection();
 	}
 
 }

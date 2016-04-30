@@ -125,11 +125,20 @@
 	<data name="Action.Hub.Use" xml:space="preserve">
 		<value>Utiliser</value>
 	</data>
+	<data name="Action.ItemInGrid.Cast" xml:space="preserve">
+		<value>Jeter</value>
+	</data>
+	<data name="Action.ItemInGrid.Move" xml:space="preserve">
+		<value>Déplacer</value>
+	</data>
+	<data name="Action.ItemInGrid.SendToHub" xml:space="preserve">
+		<value>Envoyer au hub</value>
+	</data>
 	<data name="Action.Loot.Collect" xml:space="preserve">
 		<value>Ramasser</value>
 	</data>
-	<data name="Action.Loot.CollectThenReorder" xml:space="preserve">
-		<value>Ramasser + Réorganiser</value>
+	<data name="Action.Loot.CollectThenSendToHub" xml:space="preserve">
+		<value>Envoyer au hub</value>
 	</data>
 	<data name="Action.Note.Show" xml:space="preserve">
 		<value>Voir le message</value>

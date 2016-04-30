@@ -146,6 +146,16 @@ public class GameHelper {
 		return gameObject;
 	}
 
+	public GameObject getForegroundGlassGameObject() {
+
+		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
+		if(gameObject == null) {
+			throw new System.InvalidOperationException();
+		}
+
+		return gameObject;
+	}
+
 	public GameObject getMenuGameObject() {
 
 		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MENU);
