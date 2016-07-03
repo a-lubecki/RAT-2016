@@ -3,40 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInGridBehavior : MonoBehaviour {
+public class ItemInGridBehavior : BaseEntityBehavior {
 
-	public ItemInGrid itemInGrid { get; private set; }
-
-
-	public void init(ItemInGrid itemInGrid) {
-
-		if(itemInGrid == null) {
-			throw new ArgumentException();
-		}
-
-		this.itemInGrid = itemInGrid;
-
-		if(isActiveAndEnabled) {
-			itemInGrid.addBehavior(this);
+	public ItemInGrid itemInGrid {
+		get {
+			return (ItemInGrid) entity;
 		}
 	}
 
-	void OnEnable() {
 
-		if(itemInGrid == null) {
-			return;
-		}
+	public override void onBehaviorAttached() {
 
-		itemInGrid.addBehavior(this);
+		updateViews();
 	}
 
-	void OnDisable() {
-
-		if(itemInGrid == null) {
-			return;
-		}
-
-		itemInGrid.removeBehavior(this);
+	public override void onBehaviorDetached() {
+		//do nothing
 	}
 
 

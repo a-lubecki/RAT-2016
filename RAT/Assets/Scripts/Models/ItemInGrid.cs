@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInGrid : ISelectable, IActionnable {
-
-	private readonly BehaviorKeeper<ItemInGridBehavior> behaviorKeeper = new BehaviorKeeper<ItemInGridBehavior>();
-
+public class ItemInGrid : BaseEntity, ISelectable, IActionnable {
+	
 	private ItemPattern itemPattern;
 
 	private string gridName;
@@ -40,25 +38,6 @@ public class ItemInGrid : ISelectable, IActionnable {
 		this.nbGrouped = nbGrouped;
 
 	}	
-
-
-	public void addBehavior(ItemInGridBehavior behavior) {
-
-		if(!behaviorKeeper.has(behavior)) {
-			behavior.updateViews();
-		}
-
-		behaviorKeeper.add(behavior);
-	}
-
-	public void removeBehavior(ItemInGridBehavior behavior) {
-
-		behaviorKeeper.remove(behavior);
-	}
-
-	public ItemInGridBehavior getBehavior() {
-		return behaviorKeeper.getBehavior();
-	}
 
 
 	public ItemPattern getItemPattern() {
@@ -185,7 +164,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void ISelectable.onSelect() {
 		
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.onSelect();
 		}
@@ -193,7 +172,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void ISelectable.onDeselect() {
 
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.onDeselect();
 		}
@@ -202,7 +181,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void ISelectable.onSelectionValidated() {
 
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.onSelectionValidated();
 		}
@@ -211,7 +190,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void ISelectable.onSelectionCancelled() {
 
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.onSelectionCancelled();
 		}
@@ -219,8 +198,8 @@ public class ItemInGrid : ISelectable, IActionnable {
 	}
 
 	void IActionnable.notifyActionShown(BaseAction action) {
-		
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.notifyActionShown(action);
 		}
@@ -229,7 +208,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void IActionnable.notifyActionHidden(BaseAction action) {
 
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.notifyActionHidden(action);
 		}
@@ -238,7 +217,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
 		if(behavior != null) {
 			behavior.notifyActionValidated(action);
 		}

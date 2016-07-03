@@ -27,7 +27,7 @@ public class BehaviorKeeper<T> where T : MonoBehaviour {
 	public bool has(T behavior) {
 
 		if(behavior == null) {
-			return false;
+			throw new ArgumentException();
 		}
 
 		removeDeadReferences();
@@ -42,22 +42,26 @@ public class BehaviorKeeper<T> where T : MonoBehaviour {
 	}
 
 
-	public void add(T behavior) {
+	public bool add(T behavior) {
 
 		if(behavior == null) {
-			return;
+			throw new ArgumentException();
 		}
+
+		bool hadBehavior = has(behavior);
 
 		remove(behavior);
 
 		//insert at the first index to indicate that it's the new behavior that must be used
 		behaviorRefs.Insert(0, new WeakReference(behavior));
+
+		return !hadBehavior;
 	}
 
-	public void remove(T behavior) {
+	public bool remove(T behavior) {
 					
 		if(behavior == null) {
-			return;
+			throw new ArgumentException();
 		}
 
 		removeDeadReferences();
@@ -73,7 +77,10 @@ public class BehaviorKeeper<T> where T : MonoBehaviour {
 
 		if(referenceToRemove != null) {
 			behaviorRefs.Remove(referenceToRemove);
+			return true;
 		}
+
+		return false;
 	}
 
 	public void clear(T behavior) {
