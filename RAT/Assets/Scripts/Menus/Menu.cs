@@ -408,7 +408,9 @@ public class Menu : MonoBehaviour {
 	public void validate() {
 
 		if(menuSelector.isValidated) {
-			//TODO validate item choice
+			if(ItemInGridActionsManager.Instance.isShowingActions()) {
+				ItemInGridActionsManager.Instance.executeSelectedAction();
+			}
 			return;
 		}
 

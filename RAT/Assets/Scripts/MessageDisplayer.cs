@@ -75,7 +75,7 @@ public class MessageDisplayer : MonoBehaviour {
 		Message message = queue[0];
 		queue.RemoveAt(0);
 
-		showNormalMessage(message);
+		showNormalMessage(message, queue.Count > 0);
 	}
 
 
@@ -104,7 +104,7 @@ public class MessageDisplayer : MonoBehaviour {
 	
 	}
 
-	private void showNormalMessage(Message message) {
+	private void showNormalMessage(Message message, bool hasNextMessage) {
 
 		currentMessage = message;
 
@@ -117,7 +117,9 @@ public class MessageDisplayer : MonoBehaviour {
 		textComponent.enabled = true;
 		imageComponent.enabled = true;
 
-		textComponent.text = message.text;
+		string nextMessageText = hasNextMessage ? " >>" : "";
+
+		textComponent.text = message.text + nextMessageText;
 	}
 
 	private void hideNormalMessage() {

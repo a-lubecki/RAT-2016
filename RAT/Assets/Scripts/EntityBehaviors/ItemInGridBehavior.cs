@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +16,29 @@ public class ItemInGridBehavior : MonoBehaviour {
 
 		this.itemInGrid = itemInGrid;
 
-		updateViews();
+		if(isActiveAndEnabled) {
+			itemInGrid.addBehavior(this);
+		}
 	}
+
+	void OnEnable() {
+
+		if(itemInGrid == null) {
+			return;
+		}
+
+		itemInGrid.addBehavior(this);
+	}
+
+	void OnDisable() {
+
+		if(itemInGrid == null) {
+			return;
+		}
+
+		itemInGrid.removeBehavior(this);
+	}
+
 
 	public void updateViews() {
 
@@ -108,6 +130,122 @@ public class ItemInGridBehavior : MonoBehaviour {
 			}
 
 		}
+
+	}
+
+
+	public void updatePosition() {
+
+	}
+
+	public void updateRotation() {
+
+	}
+
+	public void updateVisibility() {
+
+	}
+
+	public void updateNbGrouped() {
+
+	}
+
+
+	public void onSelect() {
+
+		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemSelected(itemInGrid);
+	}
+
+	public void onDeselect() {
+
+		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemDeselected();
+	}
+
+	public void onSelectionValidated() {
+
+		//display glassview on top
+		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
+
+		Image image = glassGameObject.GetComponent<Image>();
+		if(image.enabled) {
+			//already visible
+			return;
+		}
+
+		image.enabled = true;
+		glassGameObject.transform.SetAsLastSibling();
+
+		GameHelper.Instance.getItemInGridBehavior(itemInGrid).transform.SetParent(glassGameObject.transform);
+		GameHelper.Instance.getMenuCursorBehavior().transform.SetParent(glassGameObject.transform);
+
+		List<BaseAction> itemActions = new List<BaseAction>();
+		itemActions.Add(new ActionItemInGridMove(itemInGrid));
+		itemActions.Add(new ActionItemInGridSendToHub(itemInGrid, itemInGrid.getItemPattern().isCastable));
+		itemActions.Add(new ActionItemInGridCast(itemInGrid, itemInGrid.getItemPattern().isCastable));
+		ItemInGridActionsManager.Instance.showActions(itemActions);
+
+	}
+
+	public void onSelectionCancelled() {
+
+		//hide glassview
+		hideSelection();
+	}
+
+	private void hideSelection() {
+
+		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
+
+		Image image = glassGameObject.GetComponent<Image>();
+		if(!image.enabled) {
+			//already hidden
+			return;
+		}
+
+		image.enabled = false;
+
+		ItemInGridBehavior itemInGridBehavior = glassGameObject.transform.GetComponentInChildren<ItemInGridBehavior>();
+
+		InventoryGrid grid = GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(itemInGrid.getGridName());
+		itemInGridBehavior.transform.SetParent(grid.transform);
+
+		MenuCursorBehavior menuCursorBehavior = glassGameObject.transform.GetComponentInChildren<MenuCursorBehavior>();
+		menuCursorBehavior.transform.SetParent(GameHelper.Instance.getMenu().transform);
+
+		ItemInGridActionsManager.Instance.hideActions();
+	}
+
+	public void notifyActionShown(BaseAction action) {
+		//do nothing
+	}
+
+	public void notifyActionHidden(BaseAction action) {
+		//do nothing
+	}
+
+	public void notifyActionValidated(BaseAction action) {
+
+		if(action is ActionItemInGridMove) {
+
+			//TODO;
+
+		} else if(action is ActionItemInGridSendToHub) {
+
+
+		} else if(action is ActionItemInGridCast) {
+
+			hideSelection();
+
+			//TODO;
+
+
+			GameManager.Instance.getInventory().removeItem(itemInGrid);
+
+			GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(itemInGrid.getGridName()).removeItem(itemInGrid);
+
+			GameHelper.Instance.getMenu().getCurrentSubMenuType().selectFirstItem(true);
+		}
+
 
 	}
 

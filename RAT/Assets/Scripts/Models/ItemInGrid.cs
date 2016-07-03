@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemInGrid : ISelectable, IActionnable {
-	
+
+	private readonly BehaviorKeeper<ItemInGridBehavior> behaviorKeeper = new BehaviorKeeper<ItemInGridBehavior>();
+
 	private ItemPattern itemPattern;
 
 	private string gridName;
@@ -38,6 +40,26 @@ public class ItemInGrid : ISelectable, IActionnable {
 		this.nbGrouped = nbGrouped;
 
 	}	
+
+
+	public void addBehavior(ItemInGridBehavior behavior) {
+
+		if(!behaviorKeeper.has(behavior)) {
+			behavior.updateViews();
+		}
+
+		behaviorKeeper.add(behavior);
+	}
+
+	public void removeBehavior(ItemInGridBehavior behavior) {
+
+		behaviorKeeper.remove(behavior);
+	}
+
+	public ItemInGridBehavior getBehavior() {
+		return behaviorKeeper.getBehavior();
+	}
+
 
 	public ItemPattern getItemPattern() {
 		return itemPattern;
@@ -126,6 +148,7 @@ public class ItemInGrid : ISelectable, IActionnable {
 		return (nbGrouped < itemPattern.maxGroupable);
 	}
 	*/
+
 	/**
 	 * Group with another item, return the item if the grouping succeeded,
 	 * the grouped item result location is the current item's.
@@ -159,67 +182,68 @@ public class ItemInGrid : ISelectable, IActionnable {
 			res);
 	}
 
-	void ISelectable.onSelect() {
 
-		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemSelected(this);
+	void ISelectable.onSelect() {
+		
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.onSelect();
+		}
 	}
 
 	void ISelectable.onDeselect() {
 
-		GameHelper.Instance.getMenu().getCurrentSubMenuType().onItemDeselected();
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.onDeselect();
+		}
+
 	}
 
 	void ISelectable.onSelectionValidated() {
 
-		//display glassview on top
-		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
-		glassGameObject.transform.SetAsLastSibling();
-		glassGameObject.GetComponent<Image>().enabled = true;
-
-		GameHelper.Instance.getItemInGridBehavior(this).transform.SetParent(glassGameObject.transform);
-		GameHelper.Instance.getMenuCursorBehavior().transform.SetParent(glassGameObject.transform);
-
-		List<BaseAction> itemActions = new List<BaseAction>();
-		itemActions.Add(new ActionItemInGridMove(this));
-		itemActions.Add(new ActionItemInGridSendToHub(this, itemPattern.isCastable));
-		itemActions.Add(new ActionItemInGridCast(this, itemPattern.isCastable));
-		ItemInGridActionsManager.Instance.showActions(itemActions);
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.onSelectionValidated();
+		}
 
 	}
 
 	void ISelectable.onSelectionCancelled() {
 
-		//hide glassview
-		hideSelection();
-	}
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.onSelectionCancelled();
+		}
 
-	private void hideSelection() {
-
-		GameObject glassGameObject = GameHelper.Instance.getForegroundGlassGameObject();
-		glassGameObject.GetComponent<Image>().enabled = false;
-
-		ItemInGridBehavior itemInGridBehavior = glassGameObject.transform.GetComponentInChildren<ItemInGridBehavior>();
-
-		InventoryGrid grid = GameHelper.Instance.getMenu().getCurrentSubMenuType().findInventoryGrid(getGridName());
-		itemInGridBehavior.transform.SetParent(grid.transform);
-
-		MenuCursorBehavior menuCursorBehavior = glassGameObject.transform.GetComponentInChildren<MenuCursorBehavior>();
-		menuCursorBehavior.transform.SetParent(GameHelper.Instance.getMenu().transform);
-
-		ItemInGridActionsManager.Instance.hideActions();
 	}
 
 	void IActionnable.notifyActionShown(BaseAction action) {
-		//do nothing
+		
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.notifyActionShown(action);
+		}
+
 	}
 
 	void IActionnable.notifyActionHidden(BaseAction action) {
-		//do nothing
+
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.notifyActionHidden(action);
+		}
+
 	}
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		hideSelection();
+		ItemInGridBehavior behavior = behaviorKeeper.getBehavior();
+		if(behavior != null) {
+			behavior.notifyActionValidated(action);
+		}
+
 	}
+
 
 }
