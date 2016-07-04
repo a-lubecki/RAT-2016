@@ -5,9 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using Node;
 
-public class LootBehavior : MonoBehaviour, IActionnable {
+public class LootBehavior : BaseEntityBehavior, IActionnable {
 
-	public Loot loot { get; private set; }
+	public Loot loot {
+		get {
+			return (Loot) entity;
+		}
+	}
 
 	public bool isCollecting { get; private set; }
 
@@ -15,11 +19,7 @@ public class LootBehavior : MonoBehaviour, IActionnable {
 
 	public void init(Loot loot) {
 
-		if(loot == null) {
-			throw new ArgumentException();
-		}
-
-		this.loot = loot;
+		base.init(loot);
 
 		GetComponent<Gif>().startAnimation();
 

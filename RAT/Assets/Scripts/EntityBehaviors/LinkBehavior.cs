@@ -2,17 +2,17 @@
 using System;
 using Node;
 
-public class LinkBehavior : MonoBehaviour {
+public class LinkBehavior : BaseEntityBehavior {
 
-	public Link link { get; private set; }
+	public Link link {
+		get {
+			return (Link) entity;
+		}
+	}
 
 	public void init(Link link) {
 
-		if(link == null) {
-			throw new ArgumentException();
-		}
-
-		this.link = link;
+		base.init(link);
 
 	}
 

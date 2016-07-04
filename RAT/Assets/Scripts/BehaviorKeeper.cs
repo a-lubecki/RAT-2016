@@ -6,22 +6,20 @@ public class BehaviorKeeper<T> where T : MonoBehaviour {
 
 	private List<WeakReference> behaviorRefs = new List<WeakReference>();
 
-	/**
-	 * Return the first found, still available
-	 */
-	public T getBehavior() {
+
+	public List<T> getBehaviors() {
 
 		removeDeadReferences();
 
-		T behavior = null;
+		List<T> behaviors = new List<T>(behaviorRefs.Count);
 
 		foreach(WeakReference reference in behaviorRefs) {
 			if(reference.IsAlive) {
-				behavior = reference.Target as T;
+				behaviors.Add(reference.Target as T);
 			}
 		}
 
-		return behavior;
+		return behaviors;
 	}
 
 	public bool has(T behavior) {

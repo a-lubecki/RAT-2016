@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseEntity {
@@ -21,8 +22,8 @@ public abstract class BaseEntity {
 		}
 	}
 
-	public BaseEntityBehavior getBehavior() {
-		return behaviorKeeper.getBehavior();
+	public List<BaseEntityBehavior> getBehaviors() {
+		return behaviorKeeper.getBehaviors();
 	}
 
 

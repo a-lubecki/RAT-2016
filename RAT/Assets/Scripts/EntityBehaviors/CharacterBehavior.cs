@@ -2,9 +2,14 @@ using UnityEngine;
 using System;
 using System.Collections;
 
-public abstract class CharacterBehavior : MonoBehaviour {
+public abstract class CharacterBehavior : BaseEntityBehavior {
 
-	public Character character { get; private set; }
+	public Character character {
+		get {
+			return (Character) entity;
+		}
+	}
+
 	public CharacterRendererBehavior characterRendererBehavior { get; private set; }
 
 	public CharacterDirection currentDirection { get; private set; }
@@ -15,17 +20,14 @@ public abstract class CharacterBehavior : MonoBehaviour {
 	private Coroutine coroutineRun;
 	private Coroutine coroutineStateAnimation;
 
-
 	protected void init(Character character, CharacterRendererBehavior characterRendererBehavior, bool setRealPosition, int posX, int posY) {
 
-		if(character == null) {
-			throw new ArgumentException();
-		}
+		base.init(character);
+
 		if(characterRendererBehavior == null) {
 			throw new ArgumentException();
 		}
 
-		this.character = character;
 		this.characterRendererBehavior = characterRendererBehavior;
 
 		isControlsEnabled = true;
@@ -39,6 +41,7 @@ public abstract class CharacterBehavior : MonoBehaviour {
 		}
 
 		changeState(BaseCharacterState.WAIT);
+
 	}
 
 

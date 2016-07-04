@@ -163,63 +163,56 @@ public class ItemInGrid : BaseEntity, ISelectable, IActionnable {
 
 
 	void ISelectable.onSelect() {
-		
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.onSelect();
+
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).onSelect();
 		}
 	}
 
 	void ISelectable.onDeselect() {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.onDeselect();
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).onDeselect();
 		}
 
 	}
 
 	void ISelectable.onSelectionValidated() {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.onSelectionValidated();
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).onSelectionValidated();
 		}
 
 	}
 
 	void ISelectable.onSelectionCancelled() {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.onSelectionCancelled();
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).onSelectionCancelled();
 		}
 
 	}
 
 	void IActionnable.notifyActionShown(BaseAction action) {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.notifyActionShown(action);
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).notifyActionShown(action);
 		}
 
 	}
 
 	void IActionnable.notifyActionHidden(BaseAction action) {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.notifyActionHidden(action);
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).notifyActionHidden(action);
 		}
 
 	}
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		ItemInGridBehavior behavior = (ItemInGridBehavior) getBehavior();
-		if(behavior != null) {
-			behavior.notifyActionValidated(action);
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			((ItemInGridBehavior) behavior).notifyActionValidated(action);
 		}
 
 	}

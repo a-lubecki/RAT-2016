@@ -2,9 +2,13 @@
 using System.Collections;
 using Node;
 
-public class DoorBehavior : MonoBehaviour, IActionnable {
+public class DoorBehavior : BaseEntityBehavior, IActionnable {
 	
-	public Door door { get; private set; }
+	public Door door {
+		get {
+			return (Door) entity;
+		}
+	}
 
 
 	private bool isAnimatingDoor = false;
@@ -26,12 +30,7 @@ public class DoorBehavior : MonoBehaviour, IActionnable {
 
 	public void init(Door door) {
 
-		if(door == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		this.door = door;
-		
+		base.init(door);
 		
 		Orientation orientation = door.orientation;
 		int spacing = door.spacing;

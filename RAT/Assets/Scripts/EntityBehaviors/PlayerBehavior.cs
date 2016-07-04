@@ -46,6 +46,8 @@ public class PlayerBehavior : CharacterBehavior {
 		}
 	}
 
+
+
 	public void earnXp(int newXp) {
 
 		int lastXp = player.xp;

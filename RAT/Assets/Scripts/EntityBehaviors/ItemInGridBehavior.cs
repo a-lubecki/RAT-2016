@@ -11,14 +11,9 @@ public class ItemInGridBehavior : BaseEntityBehavior {
 		}
 	}
 
-
 	public override void onBehaviorAttached() {
 
 		updateViews();
-	}
-
-	public override void onBehaviorDetached() {
-		//do nothing
 	}
 
 

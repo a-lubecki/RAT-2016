@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Node;
 using UnityEngine;
 
-public abstract class BaseListenerModel {
+public abstract class BaseListenerModel : BaseEntity {
 
 	public static List<Listener> getListeners(BasePositionableElement nodeElement) {
 

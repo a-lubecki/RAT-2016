@@ -3,9 +3,14 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 
-public abstract class CharacterRendererBehavior : MonoBehaviour {
+public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 
-	public Character character { get; private set; }
+	public Character character {
+		get {
+			return (Character) entity;
+		}
+	}
+
 	public CharacterBehavior characterBehavior { get; private set; }
 
 	public string currentSpritePrefix { get; private set; }
@@ -15,15 +20,13 @@ public abstract class CharacterRendererBehavior : MonoBehaviour {
 
 	protected void init(Character character, CharacterBehavior characterBehavior) {
 
-		if(character == null) {
-			throw new ArgumentException();
-		}
+		base.init(character);
+
 		if(characterBehavior == null) {
 			throw new ArgumentException();
 		}
 
 		this.characterBehavior = characterBehavior;
-		this.character = character;
 
 		if(character is Player) {
 			currentSpritePrefix = "Character.Rat.";
@@ -33,7 +36,12 @@ public abstract class CharacterRendererBehavior : MonoBehaviour {
 		}
 	}
 
+
 	protected virtual void FixedUpdate () {
+
+		if(!isActiveAndEnabled) {
+			return;
+		}
 
 		if(character == null) {
 			//not prepared

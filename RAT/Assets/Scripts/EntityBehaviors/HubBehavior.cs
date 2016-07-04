@@ -3,12 +3,16 @@ using Node;
 using System;
 using System.Collections;
 
-public class HubBehavior : MonoBehaviour, IActionnable {
+public class HubBehavior : BaseEntityBehavior, IActionnable {
+
+	public Hub hub {
+		get {
+			return (Hub) entity;
+		}
+	}
 
 	private static Sprite spriteDeactivated;
 	private static Sprite spriteActivated;
-
-	public Hub hub { get; private set; }
 
 
 	void Awake() {
@@ -33,11 +37,7 @@ public class HubBehavior : MonoBehaviour, IActionnable {
 
 	public void init(Hub hub) {
 
-		if(hub == null) {
-			throw new ArgumentException();
-		}
-
-		this.hub = hub;
+		base.init(hub);
 		
 		if(hub.isActivated) {
 			GetComponent<SpriteRenderer>().sprite = spriteActivated;

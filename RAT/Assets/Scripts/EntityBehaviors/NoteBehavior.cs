@@ -5,19 +5,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using Node;
 
-public class NoteBehavior : MonoBehaviour, IActionnable {
+public class NoteBehavior : BaseEntityBehavior, IActionnable {
 
-	public Note note { get; private set; }
+	public Note note {
+		get {
+			return (Note) entity;
+		}
+	}
 
 	private bool isColliding = false;
 
 	public void init(Note note) {
 
-		if(note == null) {
-			throw new ArgumentException();
-		}
-
-		this.note = note;
+		base.init(note);
 
 	}
 
