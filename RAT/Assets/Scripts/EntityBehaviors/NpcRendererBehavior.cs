@@ -20,25 +20,36 @@ public class NpcRendererBehavior : CharacterRendererBehavior {
 
 	public void init(Npc npc, NpcBehavior npcBehavior, NpcBar npcBar) {
 
-		base.init(npc, npcBehavior);
-
 		if(npcBar == null) {
 			throw new System.ArgumentException();
 		}
 
 		this.npcBar = npcBar;
 
+		base.init(npc, npcBehavior);
+
+	}
+
+
+	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
+
 		npcBar.setValues(npc.life, npc.maxLife, false);
 	}
 
 	protected override void FixedUpdate() {
 
+		base.FixedUpdate();
+
+		if(!isActiveAndEnabled) {
+			return;
+		}
+
 		if(npc == null) {
 			//not prepared
 			return;
 		}
-
-		base.FixedUpdate();
 
 		if(npcBar == null) {
 			return;

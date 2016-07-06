@@ -5,6 +5,9 @@ public abstract class BaseEntityBehavior : MonoBehaviour {
 
 	protected BaseEntity entity { get; private set; }
 
+	private bool wasActiveAndEnabled = false;
+
+
 	public virtual void init(BaseEntity entity) {
 
 		if(entity == null) {
@@ -18,23 +21,35 @@ public abstract class BaseEntityBehavior : MonoBehaviour {
 		}
 	}
 
-	void OnEnable() {
+	protected virtual void FixedUpdate() {
 
-		if(entity == null) {
-			return;
+		if(isActiveAndEnabled) {
+
+			if(!wasActiveAndEnabled) {
+
+				//trigger listener
+				if(entity != null) {
+					entity.addBehavior(this);
+				}
+
+				wasActiveAndEnabled = true;
+			}
+
+		} else {
+
+			if(wasActiveAndEnabled) {
+
+				//trigger listener
+				if(entity != null) {
+					entity.removeBehavior(this);
+				}
+
+				wasActiveAndEnabled = false;
+			}
+
 		}
 
-		entity.addBehavior(this);
-	}
 
-
-	void OnDisable() {
-
-		if(entity == null) {
-			return;
-		}
-
-		entity.removeBehavior(this);
 	}
 
 

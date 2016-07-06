@@ -19,9 +19,9 @@ public class LootBehavior : BaseEntityBehavior, IActionnable {
 
 	public void init(Loot loot) {
 
-		base.init(loot);
-
 		GetComponent<Gif>().startAnimation();
+
+		base.init(loot);
 
 	}
 

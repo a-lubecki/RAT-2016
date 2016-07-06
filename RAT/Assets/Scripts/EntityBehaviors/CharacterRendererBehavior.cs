@@ -20,8 +20,6 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 
 	protected void init(Character character, CharacterBehavior characterBehavior) {
 
-		base.init(character);
-
 		if(characterBehavior == null) {
 			throw new ArgumentException();
 		}
@@ -34,10 +32,15 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 			//TODO get with character type
 			currentSpritePrefix = "Enemy.Insect.";
 		}
+
+		base.init(character);
+
 	}
 
 
-	protected virtual void FixedUpdate () {
+	protected override void FixedUpdate() {
+
+		base.FixedUpdate();
 
 		if(!isActiveAndEnabled) {
 			return;

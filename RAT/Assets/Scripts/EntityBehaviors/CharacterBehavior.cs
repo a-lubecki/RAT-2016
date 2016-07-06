@@ -20,9 +20,11 @@ public abstract class CharacterBehavior : BaseEntityBehavior {
 	private Coroutine coroutineRun;
 	private Coroutine coroutineStateAnimation;
 
-	protected void init(Character character, CharacterRendererBehavior characterRendererBehavior, bool setRealPosition, int posX, int posY) {
+	private bool initSetRealPosition;
+	private int initPosX;
+	private int initPosY;
 
-		base.init(character);
+	protected void init(Character character, CharacterRendererBehavior characterRendererBehavior, bool setRealPosition, int posX, int posY) {
 
 		if(characterRendererBehavior == null) {
 			throw new ArgumentException();
@@ -33,8 +35,20 @@ public abstract class CharacterBehavior : BaseEntityBehavior {
 		isControlsEnabled = true;
 		isControlsEnabledWhileAnimating = true;
 
-		if(setRealPosition) {
-			updateRealPosition(posX, posY, character.angleDegrees);
+		initSetRealPosition = setRealPosition;
+		initPosX = posX;
+		initPosY = posY;
+
+		base.init(character);
+
+	}
+
+	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
+
+		if(initSetRealPosition) {
+			updateRealPosition(initPosX, initPosY, character.angleDegrees);
 		} else {
 			updateMapPosition(character.initialPosX, character.initialPosY);
 			updateDirection(character.initialDirection);
@@ -135,7 +149,9 @@ public abstract class CharacterBehavior : BaseEntityBehavior {
 	}
 
 	
-	protected virtual void FixedUpdate() {
+	protected override void FixedUpdate() {
+
+		base.FixedUpdate();
 
 		if(character == null) {
 			//not prepared

@@ -22,6 +22,12 @@ public class NpcBehavior : CharacterBehavior {
 
 		base.init(npc, npcRendererBehavior, setRealPosition, posX, posY);
 
+	}
+
+	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
+
 		reinitLife();
 
 		if(npc.life <= 0) {
@@ -31,6 +37,7 @@ public class NpcBehavior : CharacterBehavior {
 		}
 
 	}
+
 
 	public void reinitLifeAndPosition() {
 

@@ -30,8 +30,6 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 
 	public void init(Door door) {
 
-		base.init(door);
-		
 		Orientation orientation = door.orientation;
 		int spacing = door.spacing;
 		
@@ -78,6 +76,14 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 			collisionsCollider.offset = triggerCollider.offset = new Vector2(0, (spacing - 1) * 0.5f);
 		}
 
+		base.init(door);
+
+	}
+
+	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
+
 		if(door.isOpened) {
 			updateCollider(true);
 			updateSprite(sprites.Length);
@@ -85,6 +91,7 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 			updateCollider(false);
 			updateSprite(0);
 		}
+
 	}
 
 

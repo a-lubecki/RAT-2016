@@ -38,15 +38,25 @@ public class PlayerBehavior : CharacterBehavior {
 
 		base.init(player, playerRendererBehavior, setRealPosition, posX, posY);
 
+	}
+
+	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
+
 		GameHelper.Instance.getXpDisplayManager().setTotalXp(player.xp);
 
 		if(player.isDead()) {
 			//respawn if the player was loaded and directly dead 
 			die();
+			return;
 		}
+
+		InvokeRepeating("manageStamina", PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC, PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC);
+
+		//if coming from a save when the player has not full stamina, regain it
+		startRegainingStaminaAfterDelay(1f);
 	}
-
-
 
 	public void earnXp(int newXp) {
 
@@ -55,6 +65,11 @@ public class PlayerBehavior : CharacterBehavior {
 		player.earnXp(newXp);
 
 		GameHelper.Instance.getXpDisplayManager().earnXp(lastXp, player.xp - lastXp);
+
+		CancelInvoke("manageStamina");
+
+		stopRegainingStamina();
+		stopRunning();
 	}
 
 	protected override void die() {
@@ -88,30 +103,6 @@ public class PlayerBehavior : CharacterBehavior {
 		levelManager.processPlayerRespawn();
 	}
 
-	protected void OnEnable() {
-
-		if(player == null) {
-			return;
-		}
-
-		InvokeRepeating("manageStamina", PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC, PlayerBehavior.STAMINA_UPDATE_FREQUENCY_SEC);
-
-		//if coming from a save when the player has not full stamina, regain it
-		startRegainingStaminaAfterDelay(1f);
-	}
-
-	protected void OnDisable() {
-
-		if(player == null) {
-			return;
-		}
-
-		CancelInvoke("manageStamina");
-
-		stopRegainingStamina();
-		stopRunning();
-	}
-	
 	
 	protected override Vector2 getNewMoveVector() {
 		

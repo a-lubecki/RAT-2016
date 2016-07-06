@@ -27,12 +27,16 @@ public class PlayerRendererBehavior : CharacterRendererBehavior {
 
 	protected override void FixedUpdate() {
 
+		base.FixedUpdate();
+
+		if(!isActiveAndEnabled) {
+			return;
+		}
+
 		if(player == null) {
 			//not prepared
 			return;
 		}
-
-		base.FixedUpdate();
 
 		//update health bar
 		HUDBar healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();

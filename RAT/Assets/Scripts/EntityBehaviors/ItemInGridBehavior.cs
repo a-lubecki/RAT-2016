@@ -11,7 +11,15 @@ public class ItemInGridBehavior : BaseEntityBehavior {
 		}
 	}
 
+	public void init(ItemInGrid itemInGrid) {
+
+		base.init(itemInGrid);
+
+	}
+
 	public override void onBehaviorAttached() {
+
+		base.onBehaviorAttached();
 
 		updateViews();
 	}

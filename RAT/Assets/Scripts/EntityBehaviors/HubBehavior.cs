@@ -37,13 +37,14 @@ public class HubBehavior : BaseEntityBehavior, IActionnable {
 
 	public void init(Hub hub) {
 
-		base.init(hub);
-		
 		if(hub.isActivated) {
 			GetComponent<SpriteRenderer>().sprite = spriteActivated;
 		} else {
 			GetComponent<SpriteRenderer>().sprite = spriteDeactivated;
 		}
+
+		base.init(hub);
+
 	}
 
 	private CircleCollider2D getTriggerActionInCollider() {
