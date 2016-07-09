@@ -18,8 +18,8 @@ public class Door : BaseIdentifiableModel, IActionnable {
 	public bool isAnimatingDoor { get ; private set; }
 	public float openingPercentage { get ; private set; }
 
-	public bool hasTriggerCollider  { get ; private set; }
-	public bool hasTriggerOutCollider { get ; private set; }
+	public bool hasTriggerActionCollider  { get ; private set; }
+	public bool hasTriggerMessageOutCollider { get ; private set; }
 
 
 	public Door(NodeElementDoor nodeElementDoor, bool isOpened)
@@ -49,8 +49,8 @@ public class Door : BaseIdentifiableModel, IActionnable {
 
 		isAnimatingDoor = false;
 		openingPercentage = isOpened ? 1 : 0;
-		hasTriggerCollider = !isOpened;
-		hasTriggerOutCollider = !isOpened;
+		hasTriggerActionCollider = !isOpened;
+		hasTriggerMessageOutCollider = !isOpened;
 	}
 
 
@@ -98,8 +98,8 @@ public class Door : BaseIdentifiableModel, IActionnable {
 
 		isAnimatingDoor = true;
 
-		hasTriggerCollider = false;
-		hasTriggerOutCollider = false;
+		hasTriggerActionCollider = false;
+		hasTriggerMessageOutCollider = false;
 
 		float timeFrame = 0.5f;
 		float periodPercentage = Constants.COROUTINE_PERIOD_S / timeFrame;
@@ -146,7 +146,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 	}
 
 
-	public void onEnterTriggerCollider() {
+	public void onEnterTriggerActionCollider() {
 
 		if(isOpened) {
 			return;
@@ -155,7 +155,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		PlayerActionsManager.Instance.showAction(new ActionDoorOpen(this));
 	}
 
-	public void onExitTriggerCollider() {
+	public void onExitTriggerActionCollider() {
 
 		if(isOpened) {
 			return;
@@ -164,7 +164,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
 	}
 
-	public void onExitTriggerOutCollider() {
+	public void onExitTriggerMessageOutCollider() {
 
 		if(isOpened) {
 			return;
@@ -199,8 +199,8 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		Player player = GameHelper.Instance.getPlayer();
 		player.disableControls(this);
 
-		hasTriggerCollider = false;
-		hasTriggerOutCollider = false;
+		hasTriggerActionCollider = false;
+		hasTriggerMessageOutCollider = false;
 
 		updateBehaviors();
 
@@ -211,7 +211,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		player.enableControls(this);
 
 		if(!isOpened) {
-			hasTriggerOutCollider = true;
+			hasTriggerMessageOutCollider = true;
 			updateBehaviors();
 		}
 
@@ -220,7 +220,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		//enable collider after delay to avoid displaying the action directly
 		//with the message if the door is still closed  
 		if(!isOpened) {
-			hasTriggerCollider = true;
+			hasTriggerActionCollider = true;
 			updateBehaviors();
 		}
 	}

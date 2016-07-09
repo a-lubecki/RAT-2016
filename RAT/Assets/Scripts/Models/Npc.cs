@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Node;
+using UnityEngine;
 
 public class Npc : Character {
 
@@ -42,6 +43,18 @@ public class Npc : Character {
 
 	}
 
+	public void reinitLifeAndPosition() {
+
+		//TODO refaire correctement
+
+		GameObject gameObject = findGameObject<NpcBehavior>();
+
+		if (gameObject == null) {
+			throw new InvalidOperationException();
+		}
+
+		gameObject.GetComponent<NpcBehavior>().reinitLifeAndPosition();
+	}
 
 }
 

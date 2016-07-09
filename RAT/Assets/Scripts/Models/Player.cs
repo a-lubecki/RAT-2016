@@ -132,9 +132,7 @@ public class Player : Character {
 			throw new InvalidOperationException();
 		}
 
-		PlayerBehavior playerBehavior = gameObject.GetComponent<PlayerBehavior>();
-
-		playerBehavior.enableControls();
+		gameObject.GetComponent<PlayerBehavior>().enableControls();
 	}
 
 	public void disableControls(object caller) {
@@ -147,9 +145,7 @@ public class Player : Character {
 			throw new InvalidOperationException();
 		}
 
-		PlayerBehavior playerBehavior = gameObject.GetComponent<PlayerBehavior>();
-
-		playerBehavior.disableControls();
+		gameObject.GetComponent<PlayerBehavior>().disableControls();
 	}
 
 }

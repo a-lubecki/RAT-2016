@@ -18,11 +18,11 @@ public class DoorBehavior : BaseEntityBehavior {
 		return GetComponents<BoxCollider2D>()[0];
 	}
 	
-	private BoxCollider2D getTriggerCollider() {
+	private BoxCollider2D getTriggerActionCollider() {
 		return GetComponents<BoxCollider2D>()[1];
 	}
 	
-	private CircleCollider2D getTriggerOutCollider() {
+	private CircleCollider2D getTriggerMessageOutCollider() {
 		return GetComponent<CircleCollider2D>();
 	}
 
@@ -37,7 +37,7 @@ public class DoorBehavior : BaseEntityBehavior {
 		Texture2D texture = GameHelper.Instance.loadTexture2DAsset(Constants.PATH_RES_ENVIRONMENTS + imageName);
 		
 		BoxCollider2D collisionsCollider = getCollisionsCollider();
-		BoxCollider2D triggerCollider = getTriggerCollider();
+		BoxCollider2D triggerCollider = getTriggerActionCollider();
 		
 		//load all sprites
 		if(orientation == Orientation.FACE) {
@@ -84,8 +84,8 @@ public class DoorBehavior : BaseEntityBehavior {
 
 		updateSprite((int) (door.openingPercentage * sprites.Length));
 
-		getTriggerCollider().enabled = door.hasTriggerCollider;
-		getTriggerOutCollider().enabled = door.hasTriggerOutCollider;
+		getTriggerActionCollider().enabled = door.hasTriggerActionCollider;
+		getTriggerMessageOutCollider().enabled = door.hasTriggerMessageOutCollider;
 
 	}
 
@@ -118,8 +118,8 @@ public class DoorBehavior : BaseEntityBehavior {
 			return;
 		}
 
-		if(getTriggerCollider().IsTouching(collider)) {
-			door.onEnterTriggerCollider();
+		if(getTriggerActionCollider().IsTouching(collider)) {
+			door.onEnterTriggerActionCollider();
 		}
 
 	}
@@ -130,12 +130,12 @@ public class DoorBehavior : BaseEntityBehavior {
 			return; 
 		}
 
-		if(!getTriggerCollider().IsTouching(collider)) {
-			door.onExitTriggerCollider();
+		if(!getTriggerActionCollider().IsTouching(collider)) {
+			door.onExitTriggerActionCollider();
 		}
 
-		if(!getTriggerOutCollider().IsTouching(collider)) {
-			door.onExitTriggerOutCollider();
+		if(!getTriggerMessageOutCollider().IsTouching(collider)) {
+			door.onExitTriggerMessageOutCollider();
 		}
 
 	}

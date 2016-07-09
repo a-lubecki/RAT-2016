@@ -22,19 +22,6 @@ public abstract class BaseEntityBehavior : MonoBehaviour {
 	}
 
 
-	public void onEntityChanged() {
-
-		if(isActiveAndEnabled) {
-			updateBehavior();
-		}
-
-	}
-
-	protected virtual void updateBehavior() {
-		//override to update
-	}
-
-
 	protected virtual void FixedUpdate() {
 
 		if(isActiveAndEnabled) {
@@ -74,6 +61,19 @@ public abstract class BaseEntityBehavior : MonoBehaviour {
 	public virtual void onBehaviorDetached() {
 		//override if necessary
 	}
+
+	public void onEntityChanged() {
+
+		if(isActiveAndEnabled) {
+			updateBehavior();
+		}
+
+	}
+
+	protected virtual void updateBehavior() {
+		//override to update
+	}
+
 
 }
 

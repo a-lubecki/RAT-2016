@@ -45,5 +45,11 @@ public class Link : BaseListenerModel, ISpawnable {
 		return nextDirection;
 	}
 
+
+	public void onEnterTriggerCollider() {
+
+		GameHelper.Instance.getLevelManager().processLink(this);
+	}
+
 }
 

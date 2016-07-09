@@ -27,6 +27,7 @@ public abstract class BaseEntity {
 		return behaviorKeeper.getBehaviors();
 	}
 
+
 	protected void updateBehaviors() {
 
 		foreach(BaseEntityBehavior behavior in getBehaviors()) {
