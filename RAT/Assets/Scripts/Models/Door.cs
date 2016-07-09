@@ -15,10 +15,10 @@ public class Door : BaseIdentifiableModel, IActionnable {
 
 	public bool isOpened { get ; set; }
 
-	public bool isAnimatingDoor { get ; private set; }
+	private bool isAnimatingDoor = false;
 	public float openingPercentage { get ; private set; }
 
-	public bool hasTriggerActionCollider  { get ; private set; }
+	public bool hasTriggerActionCollider { get ; private set; }
 	public bool hasTriggerMessageOutCollider { get ; private set; }
 
 
@@ -49,6 +49,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 
 		isAnimatingDoor = false;
 		openingPercentage = isOpened ? 1 : 0;
+
 		hasTriggerActionCollider = !isOpened;
 		hasTriggerMessageOutCollider = !isOpened;
 	}

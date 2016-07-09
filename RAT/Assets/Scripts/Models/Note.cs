@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Node;
+using MovementEffects;
 
-public class Note : BaseListenerModel {
+public class Note : BaseListenerModel, IActionnable {
 
 	public static readonly int MAX_IMAGES_NOTES = 3;
 	public static readonly string KEY_NAME_PREFIX_NOTE = "Note.";
@@ -23,6 +24,12 @@ public class Note : BaseListenerModel {
 
 	private string[] trTexts;
 	public string imageKeyName { get; private set; }
+
+	private bool isColliding = false;
+
+	public bool hasTriggerActionCollider { get ; private set; }
+	public bool hasTriggerMessageOutCollider { get ; private set; }
+
 
 	public Note(NodeElementNote nodeElementNote) 
 		: this(BaseListenerModel.getListeners(nodeElementNote),
@@ -48,6 +55,8 @@ public class Note : BaseListenerModel {
 
 		imageKeyName = KEY_NAME_PREFIX_NOTE + num;
 
+		hasTriggerActionCollider = true;
+		hasTriggerMessageOutCollider = true;
 	}
 
 
@@ -62,6 +71,82 @@ public class Note : BaseListenerModel {
 
 		return res;
 	}
+
+
+	public void onEnterTriggerActionCollider() {
+
+		if(isColliding) {
+			return;
+		}
+
+		if(!MessageDisplayer.Instance.isShowingMessageFrom(this)) {
+
+			PlayerActionsManager.Instance.showAction(new ActionNoteShow(this));
+			isColliding = PlayerActionsManager.Instance.isShowingAction(this);
+		}
+
+	}
+
+	public void onExitTriggerActionCollider() {
+
+		if(!isColliding) {
+			return;
+		}
+
+		isColliding = false;
+		PlayerActionsManager.Instance.hideAction(new ActionNoteShow(this));
+
+	}
+
+	public void onExitTriggerMessageCollider() {
+
+		//remove messages if player is exiting the larger zone
+		MessageDisplayer.Instance.removeAllMessagesFrom(this);
+	}
+
+
+	void IActionnable.notifyActionShown(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionHidden(BaseAction action) {
+		//do nothing
+	}
+
+	void IActionnable.notifyActionValidated(BaseAction action) {
+
+		Timing.RunCoroutine(delayPlayerAfterAction());
+
+	}
+
+	private IEnumerator<float> delayPlayerAfterAction() {
+
+		Player player = GameHelper.Instance.getPlayer();
+
+		player.disableControls(this);
+
+		hasTriggerActionCollider = false;
+		hasTriggerMessageOutCollider = false;
+		updateBehaviors();
+
+		yield return Timing.WaitForSeconds(0.75f);
+
+		MessageDisplayer.Instance.displayMessages(newMessages(this));
+
+		player.enableControls(this);
+
+		hasTriggerMessageOutCollider = true;
+		updateBehaviors();
+
+		yield return Timing.WaitForSeconds(1f);
+
+		//enable collider after delay to avoid displaying the action directly
+		//with the message if the door is still closed
+		hasTriggerActionCollider = true;
+		updateBehaviors();
+
+	}
+
 
 }
 

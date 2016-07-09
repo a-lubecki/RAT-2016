@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Node;
 
-public class NoteBehavior : BaseEntityBehavior, IActionnable {
+public class NoteBehavior : BaseEntityBehavior {
 
 	public Note note {
 		get {
@@ -13,13 +13,21 @@ public class NoteBehavior : BaseEntityBehavior, IActionnable {
 		}
 	}
 
-	private bool isColliding = false;
-
 	public void init(Note note) {
 
 		base.init(note);
 
 	}
+
+
+	protected override void updateBehavior() {
+
+		getTriggerActionInCollider().enabled = note.hasTriggerActionCollider;
+		getTriggerActionOutCollider().enabled = note.hasTriggerActionCollider;
+		getTriggerMessageOutCollider().enabled = note.hasTriggerMessageOutCollider;
+
+	}
+
 
 	private CircleCollider2D getTriggerActionInCollider() {
 		return GetComponents<CircleCollider2D>()[0];
@@ -29,10 +37,9 @@ public class NoteBehavior : BaseEntityBehavior, IActionnable {
 		return GetComponents<CircleCollider2D>()[1];
 	}
 
-	private CircleCollider2D getTriggerMessagesOutCollider() {
+	private CircleCollider2D getTriggerMessageOutCollider() {
 		return GetComponents<CircleCollider2D>()[2];
 	}
-
 
 	void OnTriggerStay2D(Collider2D collider) {
 
@@ -40,22 +47,11 @@ public class NoteBehavior : BaseEntityBehavior, IActionnable {
 			return;
 		}
 
-		if(!isColliding) {
-
-			if(getTriggerActionInCollider().IsTouching(collider)) {
-
-				if(!MessageDisplayer.Instance.isShowingMessageFrom(this)) {
-					
-					PlayerActionsManager.Instance.showAction(new ActionNoteShow(this));
-					isColliding = PlayerActionsManager.Instance.isShowingAction(this);
-
-				}
-
-			}
+		if(getTriggerActionInCollider().IsTouching(collider)) {
+			note.onEnterTriggerActionCollider();
 		}
 
 	}
-
 
 	void OnTriggerExit2D(Collider2D collider) {
 
@@ -63,68 +59,15 @@ public class NoteBehavior : BaseEntityBehavior, IActionnable {
 			return;
 		}
 
-		if(isColliding) {
-			
-			if(!getTriggerActionOutCollider().IsTouching(collider)) {
-
-				isColliding = false;
-				PlayerActionsManager.Instance.hideAction(new ActionNoteShow(this));
-
-			}
+		if(!getTriggerActionOutCollider().IsTouching(collider)) {
+			note.onExitTriggerActionCollider();
 		}
 
-		if(!getTriggerMessagesOutCollider().IsTouching(collider)) {
-			//remove messages if player is exiting the larger zone
-			MessageDisplayer.Instance.removeAllMessagesFrom(this);
+		if(!getTriggerMessageOutCollider().IsTouching(collider)) {
+			note.onExitTriggerMessageCollider();
 		}
 	}
 
-
-	void IActionnable.notifyActionShown(BaseAction action) {
-		//do nothing
-	}
-
-	void IActionnable.notifyActionHidden(BaseAction action) {
-		//do nothing
-	}
-
-	void IActionnable.notifyActionValidated(BaseAction action) {
-
-		StartCoroutine(delayPlayerAfterAction());
-
-	}
-
-
-	private IEnumerator delayPlayerAfterAction() {
-
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
-
-		playerBehavior.disableControls();
-		getTriggerActionInCollider().enabled = false;
-		getTriggerMessagesOutCollider().enabled = false;
-
-
-		yield return new WaitForSeconds(0.75f);
-
-		showMessages();
-
-		playerBehavior.enableControls();
-
-		getTriggerMessagesOutCollider().enabled = true;
-
-		yield return new WaitForSeconds(1f);
-
-		//enable collider after delay to avoid displaying the action directly
-		//with the message if the door is still closed  
-		getTriggerActionInCollider().enabled = true;
-
-	}
-
-	private void showMessages() {
-		
-		MessageDisplayer.Instance.displayMessages(note.newMessages(this));
-
-	}
 
 }
 
