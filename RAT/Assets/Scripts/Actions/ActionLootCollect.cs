@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ActionLootCollect : BaseAction {
 
-	public ActionLootCollect(LootBehavior lootBehavior, bool enabled) 
-		: base(lootBehavior,
-			lootBehavior.loot.getLootText() + "\n" + Constants.tr("Action.Loot.Collect"),
+	public ActionLootCollect(Loot loot, bool enabled) 
+		: base(loot,
+			loot.getLootText() + "\n" + Constants.tr("Action.Loot.Collect"),
 			false,
 			enabled) {
 

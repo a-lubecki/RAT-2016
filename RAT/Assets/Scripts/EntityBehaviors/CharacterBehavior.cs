@@ -45,8 +45,6 @@ public abstract class CharacterBehavior : BaseEntityBehavior {
 
 	public override void onBehaviorAttached() {
 
-		base.onBehaviorAttached();
-
 		if(initSetRealPosition) {
 			updateRealPosition(initPosX, initPosY, character.angleDegrees);
 		} else {

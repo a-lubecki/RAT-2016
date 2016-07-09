@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ActionNoteShow : BaseAction {
 
-	public ActionNoteShow(NoteBehavior note) 
+	public ActionNoteShow(Note note) 
 		: base(note, 
 			Constants.tr("Action.Note.Show")) {
 

@@ -15,13 +15,6 @@ public class HubBehavior : BaseEntityBehavior {
 		}
 	}
 
-	private CircleCollider2D getTriggerActionInCollider() {
-		return GetComponents<CircleCollider2D>()[0];
-	}
-
-	private CircleCollider2D getTriggerActionOutCollider() {
-		return GetComponents<CircleCollider2D>()[1];
-	}
 
 	public void init(Hub hub) {
 
@@ -56,6 +49,15 @@ public class HubBehavior : BaseEntityBehavior {
 
 		getTriggerActionInCollider().enabled = hub.hasTriggerActionCollider;
 		getTriggerActionOutCollider().enabled = hub.hasTriggerActionCollider;
+	}
+
+
+	private CircleCollider2D getTriggerActionInCollider() {
+		return GetComponents<CircleCollider2D>()[0];
+	}
+
+	private CircleCollider2D getTriggerActionOutCollider() {
+		return GetComponents<CircleCollider2D>()[1];
 	}
 
 	void OnTriggerStay2D(Collider2D collider) {

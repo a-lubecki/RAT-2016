@@ -12,19 +12,7 @@ public class DoorBehavior : BaseEntityBehavior {
 
 
 	private Sprite[] sprites;
-	
-	
-	private BoxCollider2D getCollisionsCollider() {
-		return GetComponents<BoxCollider2D>()[0];
-	}
-	
-	private BoxCollider2D getTriggerActionCollider() {
-		return GetComponents<BoxCollider2D>()[1];
-	}
-	
-	private CircleCollider2D getTriggerMessageOutCollider() {
-		return GetComponent<CircleCollider2D>();
-	}
+
 
 	public void init(Door door) {
 
@@ -80,37 +68,43 @@ public class DoorBehavior : BaseEntityBehavior {
 
 	protected override void updateBehavior() {
 
-		updateCollider(door.isOpened);
+		//update colliders
+		Collider2D[] colliders = GetComponents<Collider2D>();
+		foreach(Collider2D c in colliders) {
+			c.enabled = !door.isOpened;
+		}
 
-		updateSprite((int) (door.openingPercentage * sprites.Length));
+		//update frame
+		int frame = (int) (door.openingPercentage * sprites.Length);
+
+		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+		if(frame < 0) {
+			frame = 0;
+		} else if(frame >= sprites.Length) {
+			frame = sprites.Length - 1;
+		}
+
+		spriteRenderer.sprite = sprites[frame];
+
 
 		getTriggerActionCollider().enabled = door.hasTriggerActionCollider;
 		getTriggerMessageOutCollider().enabled = door.hasTriggerMessageOutCollider;
 
 	}
 
-	private void updateCollider(bool isOpened) {
-		
-		Collider2D[] colliders = GetComponents<Collider2D>();
-		foreach(Collider2D c in colliders) {
-			c.enabled = !isOpened;
-		}
 
+	private BoxCollider2D getCollisionsCollider() {
+		return GetComponents<BoxCollider2D>()[0];
 	}
-	
-	private void updateSprite(int frame) {
-		
-		SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-		
-		if(frame < 0) {
-			frame = 0;
-		} else if(frame >= sprites.Length) {
-			frame = sprites.Length - 1;
-		}
-		
-		spriteRenderer.sprite = sprites[frame];
+
+	private BoxCollider2D getTriggerActionCollider() {
+		return GetComponents<BoxCollider2D>()[1];
 	}
-	
+
+	private CircleCollider2D getTriggerMessageOutCollider() {
+		return GetComponent<CircleCollider2D>();
+	}
 
 	void OnTriggerStay2D(Collider2D collider) {
 
