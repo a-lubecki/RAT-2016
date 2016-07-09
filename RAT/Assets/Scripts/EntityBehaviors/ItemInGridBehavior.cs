@@ -17,15 +17,7 @@ public class ItemInGridBehavior : BaseEntityBehavior {
 
 	}
 
-	public override void onBehaviorAttached() {
-
-		base.onBehaviorAttached();
-
-		updateViews();
-	}
-
-
-	public void updateViews() {
+	protected override void updateBehavior() {
 
 		float scale = 0.8f;
 

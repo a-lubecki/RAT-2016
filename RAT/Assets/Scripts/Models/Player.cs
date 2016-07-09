@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class Player : Character {
 
@@ -119,6 +121,36 @@ public class Player : Character {
 
 	}
 
+
+	public void enableControls(object caller) {
+
+		//TODO refaire en bien
+
+		GameObject gameObject = findGameObject<PlayerBehavior>();
+
+		if (gameObject == null) {
+			throw new InvalidOperationException();
+		}
+
+		PlayerBehavior playerBehavior = gameObject.GetComponent<PlayerBehavior>();
+
+		playerBehavior.enableControls();
+	}
+
+	public void disableControls(object caller) {
+
+		//TODO refaire en bien
+
+		GameObject gameObject = findGameObject<PlayerBehavior>();
+
+		if (gameObject == null) {
+			throw new InvalidOperationException();
+		}
+
+		PlayerBehavior playerBehavior = gameObject.GetComponent<PlayerBehavior>();
+
+		playerBehavior.disableControls();
+	}
 
 }
 

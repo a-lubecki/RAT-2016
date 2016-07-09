@@ -55,7 +55,7 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 
 	private void openDoors(bool animated) {
 		
-		DoorBehavior[] doorsBehaviors = GameObject.FindObjectsOfType<DoorBehavior>();
+		Door[] doors = GameHelper.Instance.getDoors();
 		
 		//find the 3 doors
 		HashSet<string> doorsIds = new HashSet<string>();
@@ -63,11 +63,11 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 		doorsIds.Add("door12");
 		doorsIds.Add("door13");
 		
-		List<DoorBehavior> selectedDoors = new List<DoorBehavior>();
+		List<Door> selectedDoors = new List<Door>();
 		
-		foreach(DoorBehavior doorBehavior in doorsBehaviors) {
+		foreach(Door door in doors) {
 			
-			string doorId = doorBehavior.door.id;
+			string doorId = door.id;
 			bool found = false;
 			
 			foreach(string id in doorsIds) {
@@ -80,7 +80,7 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 			
 			if(found) {
 				
-				selectedDoors.Add(doorBehavior);
+				selectedDoors.Add(door);
 				
 				doorsIds.Remove(doorId);
 				
@@ -93,10 +93,15 @@ public class MapListener_Part1_Laboratory1 : MonoBehaviour, IMapListener {
 		}
 		
 		//open the selected doors
-		foreach(DoorBehavior door in selectedDoors) {
-			door.open(animated);
+		if (animated) {
+			foreach(Door door in selectedDoors) {
+				door.open();
+			}
+		} else {
+			foreach(Door door in selectedDoors) {
+				door.setOpened(true);
+			}
 		}
-
 	}
 
 }

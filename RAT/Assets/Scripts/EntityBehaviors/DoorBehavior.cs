@@ -2,7 +2,7 @@
 using System.Collections;
 using Node;
 
-public class DoorBehavior : BaseEntityBehavior, IActionnable {
+public class DoorBehavior : BaseEntityBehavior {
 	
 	public Door door {
 		get {
@@ -11,8 +11,6 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 	}
 
 
-	private bool isAnimatingDoor = false;
-	
 	private Sprite[] sprites;
 	
 	
@@ -80,102 +78,19 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 
 	}
 
-	public override void onBehaviorAttached() {
+	protected override void updateBehavior() {
 
-		base.onBehaviorAttached();
+		updateCollider(door.isOpened);
 
-		if(door.isOpened) {
-			updateCollider(true);
-			updateSprite(sprites.Length);
-		} else {
-			updateCollider(false);
-			updateSprite(0);
-		}
+		updateSprite((int) (door.openingPercentage * sprites.Length));
+
+		getTriggerCollider().enabled = door.hasTriggerCollider;
+		getTriggerOutCollider().enabled = door.hasTriggerOutCollider;
 
 	}
 
-
-	public void open(bool animated) {
-		
-		if(door.isOpened) {
-			return;
-		}
-		
-		if(animated) {
-			
-			StartCoroutine(animateDoor(true, 0.25f));
-			
-		} else {
-			
-			updateCollider(true);
-			updateSprite(sprites.Length);
-
-			PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
-		}
-	}
-	
-	public void close(bool animated) {
-		
-		if(!door.isOpened) {
-			return;
-		}
-		
-		if(animated) {
-			
-			StartCoroutine(animateDoor(false, 0.25f));
-			
-		} else {
-			
-			updateCollider(false);
-			updateSprite(0);
-		}
-	}
-	
-	IEnumerator animateDoor(bool actionOpen, float totalTime) {
-		
-		if(isAnimatingDoor) {
-			yield break;
-		}
-		
-		isAnimatingDoor = true;
-
-		if(!actionOpen) {
-			//the player can't go through the door during the closing animation
-			updateCollider(false);
-		}
-
-		int frame = 1;
-		float deltaTime = totalTime / (float)sprites.Length;
-		
-		while(frame < sprites.Length) {
-			
-			int currentFrame = frame;
-			if(!actionOpen) {
-				currentFrame = sprites.Length - frame - 1;
-			}
-
-			updateSprite(currentFrame);
-			
-			frame++;
-			
-			yield return new WaitForSeconds(deltaTime);
-		}
-		
-		if(actionOpen) {
-			open(false);
-		} else {
-			close(false);
-		}
-		
-		isAnimatingDoor = false;
-		
-	}
-	
 	private void updateCollider(bool isOpened) {
 		
-		//disable all collider
-		door.isOpened = isOpened;
-
 		Collider2D[] colliders = GetComponents<Collider2D>();
 		foreach(Collider2D c in colliders) {
 			c.enabled = !isOpened;
@@ -203,12 +118,8 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 			return;
 		}
 
-		if(door.isOpened) {
-			return;
-		}
-	
 		if(getTriggerCollider().IsTouching(collider)) {
-			PlayerActionsManager.Instance.showAction(new ActionDoorOpen(this));
+			door.onEnterTriggerCollider();
 		}
 
 	}
@@ -216,116 +127,18 @@ public class DoorBehavior : BaseEntityBehavior, IActionnable {
 	void OnTriggerExit2D(Collider2D collider) {
 
 		if(!Constants.GAME_OBJECT_NAME_PLAYER.Equals(collider.name)) {
-			return;
-		}
-		
-		if(door.isOpened) {
-			return;
+			return; 
 		}
 
 		if(!getTriggerCollider().IsTouching(collider)) {
-			PlayerActionsManager.Instance.hideAction(new ActionDoorOpen(this));
+			door.onExitTriggerCollider();
 		}
 
 		if(!getTriggerOutCollider().IsTouching(collider)) {
-			//remove messages if player is exiting the larger zone
-			MessageDisplayer.Instance.removeAllMessagesFrom(this);
+			door.onExitTriggerOutCollider();
 		}
 
 	}
 
-	void IActionnable.notifyActionShown(BaseAction action) {
-		//do nothing
-	}
-
-	void IActionnable.notifyActionHidden(BaseAction action) {
-		//do nothing
-	}
-
-	void IActionnable.notifyActionValidated(BaseAction action) {
-
-		if(door.isOpened) {
-			return;
-		}
-
-		StartCoroutine(delayPlayerAfterAction());
-
-	}
-	
-	private IEnumerator delayPlayerAfterAction() {
-		
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
-		
-		playerBehavior.disableControls();
-		getTriggerCollider().enabled = false;
-		getTriggerOutCollider().enabled = false;
-
-		
-		yield return new WaitForSeconds(0.75f);
-
-		manageDoorOpening();
-		
-		playerBehavior.enableControls();
-		
-		if(!door.isOpened) {
-			getTriggerOutCollider().enabled = true;
-		}
-
-		yield return new WaitForSeconds(1f);
-
-		//enable collider after delay to avoid displaying the action directly
-		//with the message if the door is still closed  
-		if(!door.isOpened) {
-			getTriggerCollider().enabled = true;
-		}
-
-	}
-
-	private void manageDoorOpening() {
-		
-		//check if the player has to be in the right side to open the door
-		if(door.hasUnlockSide) {
-			
-			Direction unlockSide = door.unlockSide;
-			
-			if(unlockSide == Direction.NONE) {
-				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Blocked")));
-				return;
-			}
-			
-			GameObject playerGameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER);
-			
-			float x = transform.position.x;
-			float y = transform.position.y;
-			float xPlayer = playerGameObject.transform.position.x;
-			float yPlayer = playerGameObject.transform.position.y;
-			
-			if((unlockSide == Direction.UP && y > yPlayer) ||
-			   (unlockSide == Direction.DOWN && y < yPlayer) ||
-			   (unlockSide == Direction.LEFT && x < xPlayer) ||
-			   (unlockSide == Direction.RIGHT && x > xPlayer)) {
-				
-				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.WrongSide")));
-				return;
-			}
-		}
-
-		ItemPattern requiredItemPattern = door.requiredItemPattern;
-		if(requiredItemPattern != null) {
-
-			if(!GameManager.Instance.getInventory().hasItemWithPattern(requiredItemPattern)) {
-				//door remains locked
-				MessageDisplayer.Instance.displayMessages(new Message(this, Constants.tr("Message.Door.Locked")));
-				return;
-			}
-
-			//door unlocked with item
-			MessageDisplayer.Instance.displayMessages(new Message(this, string.Format(Constants.tr("Message.Door.Unlock"), requiredItemPattern.getTrName())));
-
-		}
-		
-		open(true);
-
-	}
 }
 

@@ -12,6 +12,7 @@ public abstract class BaseEntity {
 
 		if(behaviorKeeper.add(behavior)) {
 			behavior.onBehaviorAttached();
+			behavior.onEntityChanged();
 		}
 	}
 
@@ -26,6 +27,52 @@ public abstract class BaseEntity {
 		return behaviorKeeper.getBehaviors();
 	}
 
+	protected void updateBehaviors() {
+
+		foreach(BaseEntityBehavior behavior in getBehaviors()) {
+			behavior.onEntityChanged();
+		}
+
+	}
+
+	public List<GameObject> getGameObjects() {
+
+		List<BaseEntityBehavior> behaviors = getBehaviors();
+		List<GameObject> res = new List<GameObject>(behaviors.Count);
+
+		foreach(BaseEntityBehavior behavior in behaviors) {
+			res.Add(behavior.gameObject);
+		}
+
+		return res;
+	}
+
+	public GameObject findGameObject() {
+
+		List<GameObject> gameObjects = getGameObjects();
+
+		if (gameObjects.Count <= 0) {
+			return null;
+		}
+
+		return gameObjects[0];
+	}
+
+	public GameObject findGameObject<T>() where T : BaseEntityBehavior {
+
+		List<GameObject> playerGameObjects = getGameObjects();
+
+		GameObject playerGameObject = null;
+		foreach (GameObject gameObject in playerGameObjects) {
+
+			if (gameObject.GetComponent<T>() != null) {
+				playerGameObject = gameObject;
+				break;
+			}
+		}
+
+		return playerGameObject;
+	}
 
 }
 
