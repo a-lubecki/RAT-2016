@@ -59,7 +59,7 @@ public class NpcBehavior : CharacterBehavior {
 	protected override void die() {
 		base.die();
 
-		GameHelper.Instance.findPlayerBehavior().earnXp(500);//TODO test
+		GameHelper.Instance.getPlayer().earnXp(500);//TODO test
 	}
 
 

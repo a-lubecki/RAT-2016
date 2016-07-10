@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class PlayerSaveData {
@@ -36,10 +37,10 @@ public class PlayerSaveData {
 			throw new System.ArgumentException();
 		}
 
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
-		if(playerBehavior != null) {
-			currentPosX = (int)(playerBehavior.transform.position.x);
-			currentPosY = (int)(playerBehavior.transform.position.y);
+		GameObject playerGameObject = player.findGameObject<PlayerBehavior>();
+		if(playerGameObject != null) {
+			currentPosX = (int)(playerGameObject.transform.position.x);
+			currentPosY = (int)(playerGameObject.transform.position.y);
 		} else {
 			currentPosX = player.initialPosX;
 			currentPosY = player.initialPosY;

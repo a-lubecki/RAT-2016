@@ -66,12 +66,20 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void enablePlayerGameObjects(bool enabled) {
+		
+		Player player = GameHelper.Instance.getPlayer();
+		if (player == null) {
+			return;
+		}
 
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		PlayerBehavior playerBehavior = player.findBehavior<PlayerBehavior>();//TODO refaire
+
 		if(playerBehavior != null) {
 			playerBehavior.enabled = enabled;
 		}
-		PlayerRendererBehavior playerRendererBehavior = GameHelper.Instance.findPlayerRendererBehavior();
+
+		PlayerRendererBehavior playerRendererBehavior = player.findBehavior<PlayerRendererBehavior>();//TODO refaire
+
 		if(playerRendererBehavior != null) {
 			playerRendererBehavior.enabled = enabled;
 		}
@@ -438,8 +446,9 @@ public class LevelManager : MonoBehaviour {
 			player.levelNameForLastHub = levelNameForLastHub;
 		}
 
-		PlayerRendererBehavior playerRendererBehavior = GameHelper.Instance.findPlayerRendererBehavior();
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		Transform mapTransform = GameHelper.Instance.getMapGameObject().transform;
+		PlayerBehavior playerBehavior = mapTransform.Find(Constants.GAME_OBJECT_NAME_PLAYER).GetComponent<PlayerBehavior>();
+		PlayerRendererBehavior playerRendererBehavior = mapTransform.Find(Constants.GAME_OBJECT_NAME_PLAYER_RENDERER).GetComponent<PlayerRendererBehavior>();
 
 		playerRendererBehavior.init(player, playerBehavior);
 		playerBehavior.init(player, playerRendererBehavior, setRealPosition, posX, posY);
@@ -474,7 +483,7 @@ public class LevelManager : MonoBehaviour {
 		if(hasCurrentLevel) {
 			//the current level is not currently loading
 
-			GameHelper.Instance.findPlayerBehavior().disableControls();
+			GameHelper.Instance.getPlayer().disableControls(this);
 
 			//when the user quit the level, the doors, enemies... must be saved to be at this state when the player come back after
 			GameManager.Instance.saveGame(false);

@@ -32,7 +32,16 @@ public class InputActionPlayerMove : AbstractInputAction {
 
 	public override bool isActionDone() {
 		
-		PlayerBehavior playerBehavior = GameHelper.Instance.findPlayerBehavior();
+		Player player = GameHelper.Instance.getPlayer();
+		if (player == null) {
+			return false;
+		}
+
+		PlayerBehavior playerBehavior = player.findBehavior<PlayerBehavior>();//TODO refaire
+		if (playerBehavior == null) {
+			return false;
+		}
+
 		if(!playerBehavior.isControlsEnabled || !playerBehavior.isControlsEnabledWhileAnimating) {
 			return false;
 		}

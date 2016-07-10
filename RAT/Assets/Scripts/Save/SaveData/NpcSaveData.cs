@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class NpcSaveData {
@@ -35,10 +36,10 @@ public class NpcSaveData {
 
 		id = npc.id;
 
-		NpcBehavior npcBehavior = GameHelper.Instance.findNpcBehavior(npc);
-		if(npcBehavior != null) {
-			currentPosX = (int)(npcBehavior.transform.position.x);
-			currentPosY = (int)(npcBehavior.transform.position.y);
+		GameObject npcGameObject = npc.findGameObject<NpcBehavior>();
+		if(npcGameObject != null) {
+			currentPosX = (int)(npcGameObject.transform.position.x);
+			currentPosY = (int)(npcGameObject.transform.position.y);
 		} else {
 			currentPosX = npc.initialPosX;
 			currentPosY = npc.initialPosY;

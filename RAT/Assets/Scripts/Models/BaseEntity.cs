@@ -27,6 +27,22 @@ public abstract class BaseEntity {
 		return behaviorKeeper.getBehaviors();
 	}
 
+	public T findBehavior<T>() where T : BaseEntityBehavior { 
+
+		List<BaseEntityBehavior> behaviors = getBehaviors(); 
+
+		T selecteBehavior = null; 
+		foreach (BaseEntityBehavior behavior in behaviors) { 
+
+			if (behavior is T) { 
+				selecteBehavior = behavior as T; 
+				break; 
+			} 
+		} 
+
+		return selecteBehavior; 
+	} 
+
 
 	protected void updateBehaviors() {
 

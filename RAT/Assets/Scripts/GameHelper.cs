@@ -234,98 +234,20 @@ public class GameHelper {
 		return getLevelManager().hub;
 	}
 
-	public HubBehavior findHubBehavior() {
-		return GameObject.FindObjectOfType<HubBehavior>();//can be null
-	}
-
 	public Door[] getDoors() {
 		return getLevelManager().doors;
-	}
-
-	public DoorBehavior findDoorBehavior(Door door) {
-
-		foreach(DoorBehavior doorBehavior in GameObject.FindObjectsOfType<DoorBehavior>()) {
-			if(doorBehavior.door == door) {
-				return doorBehavior;
-			}
-		}
-
-		return null;//not found
 	}
 
 	public Loot[] getLoots() {
 		return getLevelManager().loots;
 	}
 
-	public LootBehavior findLootBehavior(Loot loot) {
-
-		foreach(LootBehavior lootBehavior in GameObject.FindObjectsOfType<LootBehavior>()) {
-			if(lootBehavior.loot == loot) {
-				return lootBehavior;
-			}
-		}
-
-		return null;//not found
-	}
-
 	public Npc[] getNpcs() {
 		return getLevelManager().npcs;
 	}
 
-	public NpcBehavior findNpcBehavior(Npc npc) {
-
-		foreach(NpcBehavior npcBehavior in GameObject.FindObjectsOfType<NpcBehavior>()) {
-			if(npcBehavior.npc == npc) {
-				return npcBehavior;
-			}
-		}
-
-		return null;//not found
-	}
-
-	public NpcRendererBehavior findNpcRendererBehavior(Npc npc) {
-
-		foreach(NpcRendererBehavior npcRendererBehavior in GameObject.FindObjectsOfType<NpcRendererBehavior>()) {
-			if(npcRendererBehavior.npc == npc) {
-				return npcRendererBehavior;
-			}
-		}
-
-		return null;//not found
-	}
-
 	public Player getPlayer() {
 		return getLevelManager().player;
-	}
-	
-	public PlayerBehavior findPlayerBehavior() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		PlayerBehavior component = gameObject.GetComponent<PlayerBehavior>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return component;
-	}
-
-	public PlayerRendererBehavior findPlayerRendererBehavior() {
-
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_PLAYER_RENDERER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		PlayerRendererBehavior component = gameObject.GetComponent<PlayerRendererBehavior>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return component;
 	}
 
 	public XpDisplayManager getXpDisplayManager() {
