@@ -11,20 +11,16 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 		}
 	}
 
-	public CharacterBehavior characterBehavior { get; private set; }
-
 	public string currentSpritePrefix { get; private set; }
 
 	private Coroutine coroutineUpdateSprite;
 
+	//used to update sprite only if it needs to changed
+	CharacterAnimation previousCharacterAnimation;
+	CharacterAnimationKey previousCharacterAnimationKey;
+	CharacterDirection previousDirection;
 
-	protected void init(Character character, CharacterBehavior characterBehavior) {
-
-		if(characterBehavior == null) {
-			throw new ArgumentException();
-		}
-
-		this.characterBehavior = characterBehavior;
+	protected void init(Character character) {
 
 		if(character is Player) {
 			currentSpritePrefix = "Character.Rat.";
@@ -37,31 +33,48 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 
 	}
 
+	protected override void updateBehavior() {
 
-	protected override void FixedUpdate() {
+		//display the right sprite
+		CharacterAnimation characterAnimation = getCurrentCharacterAnimation(character.currentState);
 
-		base.FixedUpdate();
+		if (characterAnimation != null) {
 
-		if(!isActiveAndEnabled) {
-			return;
+			int frame = character.animationPercentage / (float)characterAnimation.sortedKeys.Count;
+			CharacterAnimationKey characterAnimationKey = characterAnimation.sortedKeys[frame];
+
+			CharacterDirection currentDirection = getCharacterDirection(previousDirection, 55);
+
+			//change sprite if something changed from the last time
+			if (characterAnimation != previousCharacterAnimation ||
+				characterAnimationKey != previousCharacterAnimationKey ||
+				currentDirection != previousDirection) {
+
+				Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
+					Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
+					characterAnimationKey.imagePos + "." + currentDirection.ToString());
+
+				GetComponent<SpriteRenderer>().sprite = sprite;
+
+				previousCharacterAnimation = characterAnimation;
+				previousCharacterAnimationKey = characterAnimationKey;
+				previousDirection = currentDirection;
+			}
 		}
 
-		if(character == null) {
-			//not prepared
-			return;
-		}
 
+		//change the layer if dead
 		string sortingLayerName = character.isDead() ? Constants.SORTING_LAYER_NAME_OBJECTS : Constants.SORTING_LAYER_NAME_CHARACTERS;
 		GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
 
+		//move to the right position
+		transform.position = snapToGrid(new Vector2(character.realPosX, character.realPosY));
 
-		transform.position = snapToGrid(characterBehavior.transform.position);
-
-		//Debug.Log(">>> " + transform.position.x + " - " + transform.position.y);
 
 		//TODO update "ground" tiles around player with GameObjects pooling : http://blogs.msdn.com/b/dave_crooks_dev_blog/archive/2014/07/21/object-pooling-for-unity3d.aspx
 
 	}
+
 
 	private static Vector2 snapToGrid(Vector2 vector) {
 		return new Vector2(
@@ -74,8 +87,64 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 		float diff = value % Constants.PIXEL_SIZE; // for PIXEL_SIZE == 1, diff : 385.7 % 1 = 0.7
 		return value - diff; // 385.7 - 0.7 = 385.7
 	}
-	
-	public void animate(BaseCharacterState characterState, CharacterAction characterAction) {
+
+	protected abstract CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState);
+
+
+	public CharacterDirection getCharacterDirection(CharacterDirection currentDirection, int halfAngle) {
+
+		if(currentDirection == CharacterDirection.RIGHT ||
+			currentDirection == CharacterDirection.LEFT) {
+
+			if(isCharacterDirectionRight(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.RIGHT;
+			} 
+			if(isCharacterDirectionLeft(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.LEFT;
+			} 
+			if(isCharacterDirectionUp(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.UP;
+			} 
+			if(isCharacterDirectionDown(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.DOWN;
+			}
+		}
+
+		if(currentDirection == CharacterDirection.UP ||
+			currentDirection == CharacterDirection.DOWN) {
+
+			if(isCharacterDirectionUp(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.UP;
+			} 
+			if(isCharacterDirectionDown(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.DOWN;
+			} 
+			if(isCharacterDirectionRight(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.RIGHT;
+			} 
+			if(isCharacterDirectionLeft(character.angleDegrees, halfAngle)) {
+				return CharacterDirection.LEFT;
+			}
+		}
+
+		return CharacterDirection.DOWN;
+	}
+
+	private static bool isCharacterDirectionUp(float angle, int halfAngle) {
+		return (360 - halfAngle <= angle || angle <= halfAngle);
+	}
+	private static bool isCharacterDirectionRight(float angle, int halfAngle) {
+		return (90 - halfAngle <= angle && angle <= 90 + halfAngle);
+	}
+	private static bool isCharacterDirectionDown(float angle, int halfAngle) {
+		return (180 - halfAngle <= angle && angle <= 180 + halfAngle);
+	}
+	private static bool isCharacterDirectionLeft(float angle, int halfAngle) {
+		return (270 - halfAngle <= angle && angle <= 270 + halfAngle);
+	}
+
+	/*
+	private void animate(BaseCharacterState characterState, CharacterAction characterAction) {
 		
 		if(characterAction == null) {
 			return;
@@ -90,11 +159,7 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 			return;
 		}
 
-		if(coroutineUpdateSprite != null) {
-			StopCoroutine(coroutineUpdateSprite);
-		}
-
-		coroutineUpdateSprite = StartCoroutine(updateSprite(characterAction, characterAnimation));
+		updateSprite(characterAction, characterAnimation);
 	}
 
 	private IEnumerator updateSprite(CharacterAction characterAction, CharacterAnimation characterAnimation) {
@@ -108,7 +173,7 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 		float totalTime = characterAction.durationSec;
 		float elapsedTime = 0;
 
-		for(int i=1;i<sortedKeys.Count;i++) {
+		for (int i = 1 ; i < sortedKeys.Count ; i++) {
 
 			CharacterAnimationKey currentKey = sortedKeys[i];
 
@@ -122,18 +187,6 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 			elapsedTime = currentTime;
 		}
 
-	}
-
-	private void setCurrentSprite(CharacterAnimation characterAnimation, CharacterAnimationKey key) {
-		
-		Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
-			Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
-			key.imagePos + "." + characterBehavior.currentDirection.ToString());
-		
-		GetComponent<SpriteRenderer>().sprite = sprite;
-
-	}
-
-	protected abstract CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState);
+	}*/
 
 }

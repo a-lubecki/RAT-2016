@@ -124,16 +124,14 @@ public class Hub : BaseListenerModel, ISpawnable, IActionnable {
 		Npc[] npcs = GameHelper.Instance.getNpcs();
 		foreach(Npc npc in npcs) {
 
+			npc.reinitLifeAndPosition();
+
 			if (npc.findGameObject<NpcBehavior>() == null) {
-				
-				npc.reinitLifeAndPosition();
-			
-			} else {
 				
 				//the game object was not previously created, create it using node
 				NodeElementNpc nodeElementNpc = GameManager.Instance.getCurrentNodeLevel().findNpc(npc.id);
 
-				new NpcCreator().createNewGameObject(nodeElementNpc, npc, false, 0, 0);
+				new NpcCreator().createNewGameObject(nodeElementNpc, npc);
 			}
 		}
 

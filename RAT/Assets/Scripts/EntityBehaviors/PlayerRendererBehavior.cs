@@ -13,11 +13,10 @@ public class PlayerRendererBehavior : CharacterRendererBehavior {
 			return character as Player;
 		}
 	}
-	public PlayerBehavior playerBehavior {
-		get {
-			return characterBehavior as PlayerBehavior;
-		}
-	}
+
+	private HUDBar healthBar;
+	private HUDBar staminaBar;
+
 
 	public void init(Player player, PlayerBehavior playerBehavior) {
 
@@ -25,34 +24,24 @@ public class PlayerRendererBehavior : CharacterRendererBehavior {
 
 	}
 
-	protected override void FixedUpdate() {
+	protected void onBehaviorAttached() {
 
-		base.FixedUpdate();
+		healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
+		staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
 
-		if(!isActiveAndEnabled) {
-			return;
-		}
+	}
 
-		if(player == null) {
-			//not prepared
-			return;
-		}
+	protected void updateBehavior() {
+		
+		base.updateBehavior();
 
 		//update health bar
-		HUDBar healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
-		
-		if(healthBar != null) {
-			healthBar.setBarSize(player.maxLife / (float) MAX_PLAYER_VALUE_FOR_BARS);
-			healthBar.setValues(player.life, player.maxLife);
-		}
-		
+		healthBar.setBarSize(player.maxLife / (float) MAX_PLAYER_VALUE_FOR_BARS);
+		healthBar.setValues(player.life, player.maxLife);
+
 		//update stamina bar
-		HUDBar staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
-		
-		if(staminaBar != null) {
-			staminaBar.setBarSize(player.maxStamina / (float) MAX_PLAYER_VALUE_FOR_BARS);
-			staminaBar.setValues(player.stamina, player.maxStamina);
-		}
+		staminaBar.setBarSize(player.maxStamina / (float) MAX_PLAYER_VALUE_FOR_BARS);
+		staminaBar.setValues(player.stamina, player.maxStamina);
 
 	}
 

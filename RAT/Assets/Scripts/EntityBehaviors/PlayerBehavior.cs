@@ -48,7 +48,7 @@ public class PlayerBehavior : CharacterBehavior {
 
 		if(player.isDead()) {
 			//respawn if the player was loaded and directly dead 
-			die();
+			setAsDead();
 			return;
 		}
 
@@ -72,9 +72,7 @@ public class PlayerBehavior : CharacterBehavior {
 		stopRunning();
 	}
 
-	protected override void die() {
-
-		base.die();
+	protected override void onDie() {
 
 		//TODO set xp on body then save
 		player.xp = 0;

@@ -157,7 +157,7 @@ public class GameSaver {
 
 	}
 
-	private void deleteSave() {
+	public void deleteSave() {
 
 		string path = getFilePath();
 		if(!File.Exists(path)) {

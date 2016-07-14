@@ -17,7 +17,7 @@ public class NpcCreator : BaseEntityCreator {
 		return Constants.SORTING_LAYER_NAME_OBJECTS;
 	}
 
-	public GameObject createNewGameObject(NodeElementNpc nodeElement, Npc npc, bool setRealPosition, int posX, int posY) {
+	public GameObject createNewGameObject(NodeElementNpc nodeElement, Npc npc) {
 
 		if(nodeElement == null) {
 			throw new System.ArgumentException();
@@ -36,7 +36,7 @@ public class NpcCreator : BaseEntityCreator {
 		NpcBar npcBar = gameObjectNpcBar.GetComponent<NpcBar>();
 
 		npcRendererBehavior.init(npc, npcBehavior, npcBar);
-		npcBehavior.init(npc, npcRendererBehavior, setRealPosition, posX, posY);
+		npcBehavior.init(npc, npcRendererBehavior);
 
 		return gameObjectCollider;
 	}

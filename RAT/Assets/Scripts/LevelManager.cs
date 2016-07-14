@@ -310,29 +310,36 @@ public class LevelManager : MonoBehaviour {
 			
 			//init if previously saved
 			if(npcsSaveDataById != null && npcsSaveDataById.ContainsKey(elementId)) {
+				
 				npcSaveData = npcsSaveDataById[elementId];
-				setCurrentPosition = true;
+
+				setCurrentLife = true;
+				currentLife = npcSaveData.getCurrentLife();
+
 				currentPosX = npcSaveData.getCurrentPosX();
 				currentPosY = npcSaveData.getCurrentPosY();
 				currentAngleDegrees = npcSaveData.getCurrentAngleDegrees();
-				setCurrentLife = true;
-				currentLife = npcSaveData.getCurrentLife();
+
 			} else {
+				
+				Vector2 currentPos = GameHelper.newPositionOnMap(nodeElementNpc.nodePosition.x, nodeElementNpc.nodePosition.y);
+				currentPosX = currentPos.x;
+				currentPosY = currentPos.y;
 				currentAngleDegrees = Character.directionToAngle(nodeElementNpc.nodeDirection.value);
 			}
 
-			Npc npc = new Npc(nodeElementNpc, setCurrentLife, currentLife, currentAngleDegrees);
+			Npc npc = new Npc(nodeElementNpc, setCurrentLife, currentLife, currentPosX, currentPosY, currentAngleDegrees);
 			npcs[i] = npc;
 
 			if(!setCurrentLife || currentLife > 0) {//not dead
 
-				npcCreator.createNewGameObject(nodeElementNpc, npc, setCurrentPosition, currentPosX, currentPosY);
+				npcCreator.createNewGameObject(nodeElementNpc, npc);
 
 			} else {
 				//create body
 				
 				//TODO TEST !!!
-				//npcCreator.createNewGameObject(nodeElementNpc, npc, currentPosX, currentPosY, currentAngleDegrees);
+				//npcBodyCreator.createNewGameObject(nodeElementNpc, npc, currentPosX, currentPosY);
 				//TODO TEST !!!
 			}
 		}

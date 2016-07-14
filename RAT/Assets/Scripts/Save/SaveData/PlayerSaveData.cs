@@ -42,8 +42,8 @@ public class PlayerSaveData {
 			currentPosX = (int)(playerGameObject.transform.position.x);
 			currentPosY = (int)(playerGameObject.transform.position.y);
 		} else {
-			currentPosX = player.initialPosX;
-			currentPosY = player.initialPosY;
+			currentPosX = player.initialMapPosX;
+			currentPosY = player.initialMapPosY;
 		}
 
 		currentAngleDegrees = player.angleDegrees;

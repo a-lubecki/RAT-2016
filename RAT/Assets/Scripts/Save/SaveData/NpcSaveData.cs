@@ -41,8 +41,8 @@ public class NpcSaveData {
 			currentPosX = (int)(npcGameObject.transform.position.x);
 			currentPosY = (int)(npcGameObject.transform.position.y);
 		} else {
-			currentPosX = npc.initialPosX;
-			currentPosY = npc.initialPosY;
+			currentPosX = npc.initialMapPosX;
+			currentPosY = npc.initialMapPosY;
 		}
 
 		currentAngleDegrees = npc.angleDegrees;

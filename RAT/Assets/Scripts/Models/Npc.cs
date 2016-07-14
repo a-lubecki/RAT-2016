@@ -12,7 +12,7 @@ public class Npc : Character {
 
 	public int level { get; private set; }
 
-	public Npc(NodeElementNpc nodeElementNpc, bool setLife, int life, int angleDegrees) 
+	public Npc(NodeElementNpc nodeElementNpc, bool setLife, int life, int realPosX, int realPosY, int angleDegrees) 
 		: this(nodeElementNpc.nodeId.value,
 			BaseListenerModel.getListeners(nodeElementNpc),
 			nodeElementNpc.nodeLevel.value, 
@@ -21,18 +21,23 @@ public class Npc : Character {
 			nodeElementNpc.nodePosition.x,
 			nodeElementNpc.nodePosition.y,
 			nodeElementNpc.nodeDirection.value,
+			realPosX,
+			realPosY,
 			angleDegrees) {
 
 	}
 
-	public Npc(string id, List<Listener> listeners, int level, bool setLife, int life, int initialPosX, int initialPosY, CharacterDirection initialDirection, int angleDegrees) 
+	public Npc(string id, List<Listener> listeners, int level, bool setLife, int life,
+	int initialMapPosX, int initialMapPosY, CharacterDirection initialDirection, int realPosX, int realPosY, int angleDegrees)  
 		: base(id, 
 			listeners,
 			getMaxLife(level), 
-			setLife ? life : getMaxLife(level), 
-			initialPosX,
-			initialPosY,
+			setLife ? life : getMaxLife(level),
+			initialMapPosX,
+			initialMapPosY, 
 			initialDirection,
+			realPosX,
+			realPosY,
 			angleDegrees) {
 
 		if(level <= 0) {
@@ -43,17 +48,38 @@ public class Npc : Character {
 
 	}
 
+
 	public void reinitLifeAndPosition() {
 
-		//TODO refaire correctement
+		updateRealPositionAngle(
+			false, 
+			new Vector2(initialMapPosX * Constants.TILE_SIZE, - initialMapPosY * Constants.TILE_SIZE),
+			Character.directionToAngle(initialDirection));
 
-		GameObject gameObject = findGameObject<NpcBehavior>();
+		reinitLife();
+	}
 
-		if (gameObject == null) {
-			throw new InvalidOperationException();
-		}
+	protected override void onDie() {
 
-		gameObject.GetComponent<NpcBehavior>().reinitLifeAndPosition();
+		GameHelper.Instance.getPlayer().earnXp(500);//TODO test
+	}
+
+
+	public override Vector2 getNewMoveVector() {
+
+		return new Vector2(0, 0);//TODO
+	}
+
+	protected override bool canRun() {
+		return true;
+	}
+
+	protected override CharacterAction getCurrentCharacterAction() {
+		return new CharacterAction(false, 100);
+	}
+
+	protected override BaseCharacterState getNextState() {
+		return BaseCharacterState.WAIT;
 	}
 
 }

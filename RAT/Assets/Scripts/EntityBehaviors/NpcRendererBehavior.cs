@@ -10,15 +10,10 @@ public class NpcRendererBehavior : CharacterRendererBehavior {
 			return character as Npc;
 		}
 	}
-	public NpcBehavior npcBehavior {
-		get {
-			return characterBehavior as NpcBehavior;
-		}
-	}
 
 	private NpcBar npcBar;
 
-	public void init(Npc npc, NpcBehavior npcBehavior, NpcBar npcBar) {
+	public void init(Npc npc, NpcBar npcBar) {
 
 		if(npcBar == null) {
 			throw new System.ArgumentException();
@@ -26,45 +21,26 @@ public class NpcRendererBehavior : CharacterRendererBehavior {
 
 		this.npcBar = npcBar;
 
-		base.init(npc, npcBehavior);
+		base.init(npc);
 
 	}
 
+	protected override void updateBehavior() {
 
-	public override void onBehaviorAttached() {
+		base.updateBehavior();
 
-		base.onBehaviorAttached();
+		if(npcBar.enabled) {
 
-		npcBar.setValues(npc.life, npc.maxLife, false);
-	}
+			bool mustReveal = false;//TODO
 
-	protected override void FixedUpdate() {
+			//set the bar over the character
+			Vector2 pos = transform.position;
+			pos.y = (int) (pos.y + Constants.TILE_SIZE * 0.6f);
+			npcBar.transform.position = pos;
 
-		base.FixedUpdate();
-
-		if(!isActiveAndEnabled) {
-			return;
+			npcBar.setValues(npc.life, npc.maxLife, mustReveal);
 		}
 
-		if(npc == null) {
-			//not prepared
-			return;
-		}
-
-		if(npcBar == null) {
-			return;
-		}
-		if(!npcBar.enabled) {
-			return;
-		}
-
-		//set the bar over the character
-		Vector2 pos = transform.position;
-		pos.y = (int) (pos.y + Constants.TILE_SIZE * 0.6f);
-		npcBar.transform.position = pos;
-
-		npcBar.setValues(npc.life, npc.maxLife, true);
-	
 	}
 
 	protected override CharacterAnimation getCurrentCharacterAnimation(BaseCharacterState characterState) {
