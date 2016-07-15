@@ -18,20 +18,20 @@ public class PlayerRendererBehavior : CharacterRendererBehavior {
 	private HUDBar staminaBar;
 
 
-	public void init(Player player, PlayerBehavior playerBehavior) {
+	public void init(Player player) {
 
-		base.init(player, playerBehavior);
+		base.init(player);
 
 	}
 
-	protected void onBehaviorAttached() {
+	public override void onBehaviorAttached() {
 
 		healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
 		staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
 
 	}
 
-	protected void updateBehavior() {
+	protected override void updateBehavior() {
 		
 		base.updateBehavior();
 

@@ -21,16 +21,12 @@ public class InputActionPlayerDash : AbstractInputActionPlayer {
 			return false;
 		}
 		
-		Player player = GameHelper.Instance.getPlayer();if (player == null) {
+		Player player = GameHelper.Instance.getPlayer();
+		if (player == null) {
 			return false;
 		}
 
-		PlayerBehavior playerBehavior = player.findBehavior<PlayerBehavior>();//TODO refaire
-		if (playerBehavior == null) {
-			return false;
-		}
-
-		playerBehavior.tryDash();
+		player.tryDash();
 		
 		return true;
 	}

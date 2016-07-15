@@ -356,9 +356,8 @@ public class LevelManager : MonoBehaviour {
 		bool setStamina = false;
 		int stamina = 0;
 		int xp = 0;
-		bool setRealPosition = false;
-		int posX = 0;
-		int posY = 0;
+		float realPosX = 0;
+		float realPosY = 0;
 		int angleDegrees = 0;
 
 		//load player stats
@@ -391,9 +390,8 @@ public class LevelManager : MonoBehaviour {
 				setStamina = true;
 				stamina = playerSaveData.getCurrentStamina();
 				xp = playerSaveData.getCurrentXp();
-				setRealPosition = true;
-				posX = playerSaveData.getCurrentPosX();
-				posY = playerSaveData.getCurrentPosY();
+				realPosX = playerSaveData.getCurrentPosX();
+				realPosY = playerSaveData.getCurrentPosY();
 				angleDegrees = playerSaveData.getCurrentAngleDegrees();
 			}
 		}
@@ -442,13 +440,12 @@ public class LevelManager : MonoBehaviour {
 
 
 		if(currentSpawnable != null) {
-			setRealPosition = false;
-			posX = currentSpawnable.getNextPosX();
-			posY = currentSpawnable.getNextPosY();
+			realPosX = currentSpawnable.getNextPosX();
+			realPosY = currentSpawnable.getNextPosY();
 			angleDegrees = Character.directionToAngle(currentSpawnable.getNextDirection());
 		}
 
-		player = new Player(skillPointsHealth, skillPointsEnergy, setLife, life, setStamina, stamina, xp, angleDegrees);
+		player = new Player(skillPointsHealth, skillPointsEnergy, setLife, life, setStamina, stamina, xp, realPosX, realPosY, angleDegrees);
 		if(!string.IsNullOrEmpty(levelNameForLastHub)) {
 			player.levelNameForLastHub = levelNameForLastHub;
 		}
@@ -457,13 +454,8 @@ public class LevelManager : MonoBehaviour {
 		PlayerBehavior playerBehavior = mapTransform.Find(Constants.GAME_OBJECT_NAME_PLAYER).GetComponent<PlayerBehavior>();
 		PlayerRendererBehavior playerRendererBehavior = mapTransform.Find(Constants.GAME_OBJECT_NAME_PLAYER_RENDERER).GetComponent<PlayerRendererBehavior>();
 
-		playerRendererBehavior.init(player, playerBehavior);
-		playerBehavior.init(player, playerRendererBehavior, setRealPosition, posX, posY);
-
-		if(!setRealPosition) {
-			//move
-			playerBehavior.updateMapPosition(posX, posY);
-		}
+		playerBehavior.init(player);
+		playerRendererBehavior.init(player);
 
 		enablePlayerGameObjects(true);
 

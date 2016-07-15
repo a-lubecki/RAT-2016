@@ -13,9 +13,9 @@ public class NpcBehavior : CharacterBehavior {
 		}
 	}
 
-	public void init(Npc npc, NpcRendererBehavior npcRendererBehavior) {
+	public void init(Npc npc) {
 
-		base.init(npc, npcRendererBehavior);
+		base.init(npc);
 
 	}
 
@@ -35,12 +35,7 @@ public class NpcBehavior : CharacterBehavior {
 			return;
 		}
 
-		Player player = GameHelper.Instance.getPlayer();
-		
-		if(!player.isDead()) {
-			//TODO TEST remove player life
-			npc.takeDamages(100);
-		}
+		npc.onCollideWithPlayer();
 
 	}
 

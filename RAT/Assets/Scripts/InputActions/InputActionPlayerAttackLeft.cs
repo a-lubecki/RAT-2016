@@ -28,12 +28,7 @@ public class InputActionPlayerAttackLeft : AbstractInputActionPlayer {
 			return false;
 		}
 
-		PlayerBehavior playerBehavior = player.findBehavior<PlayerBehavior>();//TODO refaire
-		if (playerBehavior == null) {
-			return false;
-		}
-
-		playerBehavior.tryLeftAttack();
+		player.tryLeftAttack();
 
 		return true;
 	}

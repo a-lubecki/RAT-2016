@@ -12,7 +12,7 @@ public class Npc : Character {
 
 	public int level { get; private set; }
 
-	public Npc(NodeElementNpc nodeElementNpc, bool setLife, int life, int realPosX, int realPosY, int angleDegrees) 
+	public Npc(NodeElementNpc nodeElementNpc, bool setLife, int life, float realPosX, float realPosY, int angleDegrees) 
 		: this(nodeElementNpc.nodeId.value,
 			BaseListenerModel.getListeners(nodeElementNpc),
 			nodeElementNpc.nodeLevel.value, 
@@ -28,7 +28,7 @@ public class Npc : Character {
 	}
 
 	public Npc(string id, List<Listener> listeners, int level, bool setLife, int life,
-	int initialMapPosX, int initialMapPosY, CharacterDirection initialDirection, int realPosX, int realPosY, int angleDegrees)  
+	int initialMapPosX, int initialMapPosY, CharacterDirection initialDirection, float realPosX, float realPosY, int angleDegrees)  
 		: base(id, 
 			listeners,
 			getMaxLife(level), 
@@ -70,6 +70,10 @@ public class Npc : Character {
 		return new Vector2(0, 0);//TODO
 	}
 
+	protected override bool canMove() {
+		return true;
+	}
+
 	protected override bool canRun() {
 		return true;
 	}
@@ -80,6 +84,19 @@ public class Npc : Character {
 
 	protected override BaseCharacterState getNextState() {
 		return BaseCharacterState.WAIT;
+	}
+
+	public void onCollideWithPlayer() {
+
+		Player player = GameHelper.Instance.getPlayer();
+
+		if(player.isDead()) {
+			return;
+		}
+
+		//TODO TEST remove player life
+		takeDamages(100);
+
 	}
 
 }

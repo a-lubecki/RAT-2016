@@ -24,12 +24,7 @@ public class InputActionMenuOpenClose : AbstractInputAction {
 			return false;
 		}
 
-		PlayerBehavior playerBehavior = player.findBehavior<PlayerBehavior>();//TODO refaire
-		if (playerBehavior == null) {
-			return false;
-		}
-
-		if(!playerBehavior.isControlsEnabled || !playerBehavior.isControlsEnabledWhileAnimating) {
+		if(!player.isControlsEnabled || !player.isControlsEnabledWhileAnimating) {
 			return false;
 		}
 

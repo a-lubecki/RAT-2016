@@ -40,7 +40,7 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 
 		if (characterAnimation != null) {
 
-			int frame = character.animationPercentage / (float)characterAnimation.sortedKeys.Count;
+			int frame = (int)(character.animationPercentage / (float)(characterAnimation.sortedKeys.Count));
 			CharacterAnimationKey characterAnimationKey = characterAnimation.sortedKeys[frame];
 
 			CharacterDirection currentDirection = getCharacterDirection(previousDirection, 55);

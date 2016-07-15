@@ -9,8 +9,8 @@ public abstract class Character : BaseIdentifiableModel {
 	public int initialMapPosY { get ; private set; }
 	public CharacterDirection initialDirection { get ; private set; }
 
-	public int realPosX { get ; private set; }
-	public int realPosY { get ; private set; }
+	public float realPosX { get ; private set; }
+	public float realPosY { get ; private set; }
 	public int angleDegrees { get ; private set; }
 
 	public bool isMoving { get; private set; }
@@ -21,8 +21,8 @@ public abstract class Character : BaseIdentifiableModel {
 
 	public bool isInvulnerable { get; private set; }
 
-	public int maxLife { get; private set; }
-	public int life { get; private set; }
+	public int maxLife { get; protected set; }
+	public int life { get; protected set; }
 
 	public bool isControlsEnabled { get; private set; }
 	public bool isControlsEnabledWhileAnimating { get; private set; }
@@ -33,7 +33,7 @@ public abstract class Character : BaseIdentifiableModel {
 
 
 	public Character(string id, List<Listener> listeners, int maxLife, int life, 
-		int initialMapPosX, int initialMapPosY, CharacterDirection initialDirection, int realPosX, int realPosY, int angleDegrees) 
+		int initialMapPosX, int initialMapPosY, CharacterDirection initialDirection, float realPosX, float realPosY, int angleDegrees) 
 		: base(id, listeners) {
 
 		this.initialMapPosX = initialMapPosX;
@@ -58,7 +58,57 @@ public abstract class Character : BaseIdentifiableModel {
 		changeState(BaseCharacterState.WAIT);
 
 		animationPercentage = 0;
+
+
+		Timing.RunCoroutine(manageMoving(), Segment.FixedUpdate);
+
 	}
+
+	protected IEnumerator<float> manageMoving() {
+
+		while (!isDead()) {
+			
+			yield return Timing.WaitForSeconds(Time.fixedDeltaTime);
+
+			if (canMove()) {
+
+				Vector2 newVector = getNewMoveVector();
+
+				//update infos
+				float dx = newVector.x;
+				float dy = newVector.y;
+
+				bool wasMoving = isMoving;
+
+				isMoving = (dx != 0 || dy != 0);
+
+				if(isMoving) {
+
+					CharacterBehavior characterBehavior = findBehavior<CharacterBehavior>();
+					if (characterBehavior == null) {
+						throw new InvalidOperationException();
+					}
+
+					Rigidbody2D rigidBody = characterBehavior.GetComponent<Rigidbody2D>();
+
+					//update transform with int vector to move with the grid
+					rigidBody.MovePosition(
+						new Vector2(
+							rigidBody.position.x + dx * Timing.deltaTime, 
+							rigidBody.position.y + dy * Timing.deltaTime
+						)
+					);
+
+					updateRealPositionAngle(wasMoving, rigidBody.position, Constants.vectorToAngle(newVector.x, newVector.y));
+
+				}
+
+			}
+
+		}
+
+	}
+
 
 	private static int getAlignedAngleDegrees(int angle) {
 
@@ -133,13 +183,14 @@ public abstract class Character : BaseIdentifiableModel {
 
 		life = maxLife;
 
+		updateBehaviors();
 	}
 
 	public bool isDead() {
 		return (life <= 0);
 	}
 
-	public void setAsDead() {
+	public virtual void setAsDead() {
 
 		life = 0;
 
@@ -177,7 +228,7 @@ public abstract class Character : BaseIdentifiableModel {
 		if(damages < 0) {
 			throw new ArgumentException("Can't take negative damages");
 		}
-		if(heal == 0) {
+		if(damages == 0) {
 			//not a heal or a damage
 			return;
 		}
@@ -219,6 +270,9 @@ public abstract class Character : BaseIdentifiableModel {
 
 		//override
 	}
+
+
+	protected abstract bool canMove();
 
 
 	protected void startRunningAfterDelay(float delay) {
@@ -386,12 +440,22 @@ public abstract class Character : BaseIdentifiableModel {
 
 	protected abstract BaseCharacterState getNextState();
 
-	public void enableControls() {
+	public void enableControls(object caller) {
+
 		isControlsEnabled = true;
+
+		//TODO manage caller!!!
 	}
 
 	public void disableControls() {
+		disableControls(null);
+	}
+
+	public void disableControls(object caller) {
+		
 		isControlsEnabled = false;
+
+		//TODO manage caller!!!
 	}
 
 }
