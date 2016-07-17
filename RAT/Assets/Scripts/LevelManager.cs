@@ -301,8 +301,8 @@ public class LevelManager : MonoBehaviour {
 			string elementId = nodeElementNpc.nodeId.value;
 
 			bool setCurrentPosition = false;
-			int currentPosX = 0;
-			int currentPosY = 0;
+			float realPosX = 0;
+			float realPosY = 0;
 			int currentAngleDegrees;
 			bool setCurrentLife = false;
 			int currentLife = 0;
@@ -316,19 +316,19 @@ public class LevelManager : MonoBehaviour {
 				setCurrentLife = true;
 				currentLife = npcSaveData.getCurrentLife();
 
-				currentPosX = npcSaveData.getCurrentPosX();
-				currentPosY = npcSaveData.getCurrentPosY();
+				realPosX = npcSaveData.getCurrentPosX();
+				realPosY = npcSaveData.getCurrentPosY();
 				currentAngleDegrees = npcSaveData.getCurrentAngleDegrees();
 
 			} else {
 				
-				Vector2 currentPos = GameHelper.newPositionOnMap(nodeElementNpc.nodePosition.x, nodeElementNpc.nodePosition.y);
-				currentPosX = currentPos.x;
-				currentPosY = currentPos.y;
+				Vector2 currentPos = GameHelper.Instance.newRealPositionFromMapPosition(nodeElementNpc.nodePosition.x, nodeElementNpc.nodePosition.y);
+				realPosX = currentPos.x;
+				realPosY = currentPos.y;
 				currentAngleDegrees = Character.directionToAngle(nodeElementNpc.nodeDirection.value);
 			}
 
-			Npc npc = new Npc(nodeElementNpc, setCurrentLife, currentLife, currentPosX, currentPosY, currentAngleDegrees);
+			Npc npc = new Npc(nodeElementNpc, setCurrentLife, currentLife, realPosX, realPosY, currentAngleDegrees);
 			npcs[i] = npc;
 
 			if(!setCurrentLife || currentLife > 0) {//not dead
