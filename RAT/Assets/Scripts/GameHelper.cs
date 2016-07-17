@@ -20,195 +20,167 @@ public class GameHelper {
 		}
 	}
 
+	private static GameObject findGameObject(ref WeakReference reference, string gameObjectName) {
+		return findGameObject(ref reference, gameObjectName, null);
+	}
 
-	public GameObject getMainCamera() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MAIN_CAMERA);
-		if(gameObject == null) {
+	private static GameObject findGameObject(ref WeakReference reference, string gameObjectName, GameObject parentGameObject) {
+
+		//try with the stored ref
+		if (reference != null) {
+
+			object target = reference.Target;
+			if (target != null) {
+
+				//at this point the GameObject can be non-null but destroyed, there are no ways to know if it is null. The only way is to look for a trown exception from a property of GameObject.
+				try {
+					bool b = (target as GameObject).activeSelf;//trigger an exception if the game object has been destroyed
+					return target as GameObject;
+
+				} catch {
+					reference = null;
+					Debug.Log("NULL REF : " + gameObjectName);
+				}
+
+			}
+
+		}
+
+		//retrieve the game object then store it in the ref
+
+		GameObject gameObject = null;
+
+		if (parentGameObject == null) {
+			
+			gameObject = GameObject.Find(gameObjectName);
+
+			if(gameObject == null) {
+				throw new System.InvalidOperationException();
+			}
+
+		} else {
+			
+			Transform transform = parentGameObject.transform.Find(gameObjectName);
+
+			if(transform == null) {
+				throw new System.InvalidOperationException();
+			}
+
+			gameObject = transform.gameObject;
+		}
+
+		reference = new WeakReference(gameObject);
+
+		return gameObject;
+	}
+
+	private static T findComponent<T>(GameObject gameObject) {
+
+		T component = gameObject.GetComponent<T>();
+		if (component == null) {
 			throw new System.InvalidOperationException();
 		}
-		
-		return gameObject;
+
+		return component;
+	}
+
+	private WeakReference mainCameraRef;
+	private WeakReference HUDRef;
+	private WeakReference HUDHealthBarRef;
+	private WeakReference HUDStaminaBarRef;
+	private WeakReference subMenuKeeperRef;
+	private WeakReference splashScreenManagerRef;
+	private WeakReference levelManagerRef;
+	private WeakReference inputsManagerRef;
+	private WeakReference messageDisplayerRef;
+	private WeakReference mapRef;
+	private WeakReference foregroundGlassRef;
+	private WeakReference menuRef;
+	private WeakReference menuArrowLeftRef;
+	private WeakReference menuArrowRightRef;
+	private WeakReference menuCursorRef;
+	private WeakReference xpDisplayManagerRef;
+
+	public GameObject getMainCameraGameObject() {
+		return findGameObject(ref mainCameraRef, Constants.GAME_OBJECT_NAME_MAIN_CAMERA);
 	}
 
 	public CameraResizer getMainCameraResizer() {
-
-		return getMainCamera().GetComponent<CameraResizer>();
+		return findComponent<CameraResizer>(
+			getMainCameraGameObject()
+		);
 	}
 
-	public GameObject getHUD() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_HUD);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return gameObject;
+	public GameObject getHUDGameObject() {
+		return findGameObject(ref HUDRef, Constants.GAME_OBJECT_NAME_HUD);
 	}
 
-	public GameObject getHUDHealthBar() {
-		
-		Transform transform = getHUD().transform.Find(Constants.GAME_OBJECT_NAME_HUD_HEALTH_BAR);
-		if(transform == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return transform.gameObject;
+	public GameObject getHUDHealthBarGameObject() {
+		return findGameObject(ref HUDHealthBarRef, Constants.GAME_OBJECT_NAME_HUD_HEALTH_BAR, getHUDGameObject());
 	}
-	
-	public GameObject getHUDStaminaBar() {
 		
-		Transform transform = getHUD().transform.Find(Constants.GAME_OBJECT_NAME_HUD_STAMINA_BAR);
-		if(transform == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return transform.gameObject;
+	public GameObject getHUDStaminaBarGameObject() {
+		return findGameObject(ref HUDStaminaBarRef, Constants.GAME_OBJECT_NAME_HUD_STAMINA_BAR, getHUDGameObject());
 	}
 
-	public GameObject getSubMenuKeeper() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_SUB_MENU_KEEPER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return gameObject;
+	public GameObject getSubMenuKeeperGameObject() {
+		return findGameObject(ref subMenuKeeperRef, Constants.GAME_OBJECT_NAME_SUB_MENU_KEEPER);
 	}
 
 	public SplashScreenManager getSplashScreenManager() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_SPLASHSCREEN_MANAGER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		SplashScreenManager component = gameObject.GetComponent<SplashScreenManager>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return component;
+		return findComponent<SplashScreenManager>(
+			findGameObject(ref splashScreenManagerRef, Constants.GAME_OBJECT_NAME_SPLASHSCREEN_MANAGER)
+		);
 	}
 
 	public LevelManager getLevelManager() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_LEVEL_MANAGER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		LevelManager component = gameObject.GetComponent<LevelManager>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return component;
+		return findComponent<LevelManager>(
+			findGameObject(ref levelManagerRef, Constants.GAME_OBJECT_NAME_LEVEL_MANAGER)
+		);
 	}
 
 	public InputsManager getInputsManager() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_INPUTS_MANAGER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		InputsManager component = gameObject.GetComponent<InputsManager>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return component; 
+		return findComponent<InputsManager>(
+			findGameObject(ref inputsManagerRef, Constants.GAME_OBJECT_NAME_INPUTS_MANAGER)
+		);
 	}
 
 	public MessageDisplayer getMessageDisplayer() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MESSAGE_DISPLAYER);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		MessageDisplayer component = gameObject.GetComponent<MessageDisplayer>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return component;
+		return findComponent<MessageDisplayer>(
+			findGameObject(ref messageDisplayerRef, Constants.GAME_OBJECT_NAME_MESSAGE_DISPLAYER)
+		);
 	}
 
 	public GameObject getMapGameObject() {
-		
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MAP);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return gameObject;
+		return findGameObject(ref mapRef, Constants.GAME_OBJECT_NAME_MAP);
 	}
 
 	public GameObject getForegroundGlassGameObject() {
-
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return gameObject;
+		return findGameObject(ref foregroundGlassRef, Constants.GAME_OBJECT_NAME_IMAGE_FOREGROUND_GLASS);
 	}
 
 	public GameObject getMenuGameObject() {
-
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_MENU);
-		if(gameObject == null) {
-			throw new System.InvalidOperationException();
-		}
-		
-		return gameObject;
+		return findGameObject(ref menuRef, Constants.GAME_OBJECT_NAME_MENU);
 	}
 
 	public Menu getMenu() {
-		
-		Menu component = getMenuGameObject().GetComponent<Menu>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return component;
+		return findComponent<Menu>(
+			getMenuGameObject()
+		);
 	}
 
 	public GameObject getMenuArrowLeft() {
-
-		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT);
-		if(transform == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return transform.gameObject;
+		return findGameObject(ref menuArrowLeftRef, Constants.GAME_OBJECT_NAME_MENU_ARROW_LEFT, getMenuGameObject());
 	}
 
 	public GameObject getMenuArrowRight() {
-
-		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT);
-		if(transform == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return transform.gameObject;
+		return findGameObject(ref menuArrowRightRef, Constants.GAME_OBJECT_NAME_MENU_ARROW_RIGHT, getMenuGameObject());
 	}
 
 	public MenuCursorBehavior getMenuCursorBehavior() {
-		
-		Transform transform = getMenuGameObject().transform.Find(Constants.GAME_OBJECT_NAME_MENU_CURSOR);
-		if(transform == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		MenuCursorBehavior component = transform.GetComponent<MenuCursorBehavior>();
-		if(component == null) {
-			throw new System.InvalidOperationException();
-		}
-
-		return component;
+		return findComponent<MenuCursorBehavior>(
+			findGameObject(ref menuCursorRef, Constants.GAME_OBJECT_NAME_MENU_CURSOR)
+		);
 	}
 
 	public ItemInGridBehavior getItemInGridBehavior(ItemInGrid itemInGrid) {
@@ -251,47 +223,57 @@ public class GameHelper {
 	}
 
 	public XpDisplayManager getXpDisplayManager() {
-				
-		GameObject gameObject = GameObject.Find(Constants.GAME_OBJECT_NAME_XP_DISPLAY_MANAGER);
-		if(gameObject == null) {
-			return null;
-		}
-		
-		return gameObject.GetComponent<XpDisplayManager>();
+		return findComponent<XpDisplayManager>(
+			findGameObject(ref xpDisplayManagerRef, Constants.GAME_OBJECT_NAME_XP_DISPLAY_MANAGER)
+		);
 	}
 
-	public Texture2D loadTexture2DAsset(string imagePath) {
-		
-		if(string.IsNullOrEmpty(imagePath)) {
+
+	private static T loadAsset<T>(string path) where T : UnityEngine.Object {
+
+		if(string.IsNullOrEmpty(path)) {
 			return null;
 		}
 
-		Texture2D texture = Resources.Load<Texture2D>(imagePath) as Texture2D;
-		if(texture == null) {
-			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
+		T asset = Resources.Load<T>(path) as T;
+		if(asset == null) {
+			throw new System.InvalidOperationException("Could not load " + typeof(T) + " asset : " + path);
 		}
 
+		return asset;
+	}
+
+	public Texture2D loadTexture2DAsset(string path) {
+
+		Texture2D texture = loadAsset<Texture2D>(path);
 		texture.filterMode = FilterMode.Point;
 
 		return texture;
 	}
 	
-	public Sprite loadSpriteAsset(string imagePath) {
-
-		if(string.IsNullOrEmpty(imagePath)) {
-			return null;
-		}
-		
-		Sprite sprite = Resources.Load<Sprite>(imagePath) as Sprite;
-		if(sprite == null) {
-			throw new System.InvalidOperationException("Could not load image asset : " + imagePath);
-		}
-
-		return sprite;
+	public Sprite loadSpriteAsset(string path) {
+		return loadAsset<Sprite>(path);
 	}
 
+	public TextAsset loadTextAsset(string path) {
+		return loadAsset<TextAsset>(path);
+	}
+
+	public TextAsset loadLevelAsset(string levelName) {
+		return loadTextAsset(Constants.PATH_RES_MAPS + "Level." + levelName);
+	}
+	
+	public TextAsset loadMapAsset(string levelName) {
+		return loadTextAsset(Constants.PATH_RES_MAPS + "Map." + levelName);
+	}
+
+	public GameObject loadPrefabAsset(string prefabName) {
+		return loadAsset<GameObject>(Constants.PATH_RES_PREFABS + prefabName);
+	}
+
+
 	public Sprite loadMultiSpriteAsset(string imagePath, string spriteName) {
-		
+
 		if(string.IsNullOrEmpty(imagePath)) {
 			return null;
 		}
@@ -319,42 +301,11 @@ public class GameHelper {
 		throw new System.InvalidOperationException("Could not load image asset : " + imagePath + " => " + spriteName);
 	}
 
-	public TextAsset loadTextAsset(string path) {
 
-		if(string.IsNullOrEmpty(path)) {
-			return null;
-		}
-		return Resources.Load<TextAsset>(path) as TextAsset;
-	}
-
-	public TextAsset loadLevelAsset(string levelName) {
-
-		if(string.IsNullOrEmpty(levelName)) {
-			return null;
-		}
-		return loadTextAsset(Constants.PATH_RES_MAPS + "Level." + levelName);
-	}
-	
-	public TextAsset loadMapAsset(string levelName) {
-		
-		if(string.IsNullOrEmpty(levelName)) {
-			return null;
-		}
-		return loadTextAsset(Constants.PATH_RES_MAPS + "Map." + levelName);
-	}
-
-	public GameObject loadPrefabAsset(string prefabName) {
-		
-		if(string.IsNullOrEmpty(prefabName)) {
-			return null;
-		}
-		return Resources.Load<GameObject>(Constants.PATH_RES_PREFABS + prefabName) as GameObject;
-	}
-
-
-	public Vector2 newPositionOnMap(int x, int y) {
+	public Vector2 newRealPositionFromMapPosition(int x, int y) {
 		return new Vector2(x * Constants.TILE_SIZE, - y * Constants.TILE_SIZE);
 	}
+
 
 	public GameObject newGameObjectFromPrefab(GameObject prefab) {
 		return newGameObjectFromPrefab(prefab, 0, 0);
@@ -372,7 +323,7 @@ public class GameHelper {
 
 		return GameObject.Instantiate(
 			prefab, 
-			newPositionOnMap(x, y), 
+			newRealPositionFromMapPosition(x, y), 
 			rotation) as GameObject;
 	}
 
@@ -416,5 +367,6 @@ public class GameHelper {
 		}
 
 		return mapListener;
-	} 
+	}
+
 }

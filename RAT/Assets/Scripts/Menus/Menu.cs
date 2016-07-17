@@ -319,7 +319,7 @@ public class Menu : MonoBehaviour {
 
 		AbstractSubMenuType subMenuType = currentMenuType.getCurrentSubMenuType();
 
-		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
+		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeperGameObject();
 
 		Transform subMenuTransform = subMenuKeeper.transform.Find(subMenuType.getGameObjectName());
 		if(subMenuTransform == null) {
@@ -361,7 +361,7 @@ public class Menu : MonoBehaviour {
 
 		menuSelector.deselectItem();
 
-		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
+		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeperGameObject();
 		
 		subMenuGameObject.SetActive(false);
 

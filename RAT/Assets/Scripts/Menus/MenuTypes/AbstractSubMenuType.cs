@@ -53,7 +53,7 @@ public abstract class AbstractSubMenuType : Displayable {
 
 	private GameObject getGameObject() {
 
-		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeper();
+		GameObject subMenuKeeper = GameHelper.Instance.getSubMenuKeeperGameObject();
 
 		Transform subMenuTransform = subMenuKeeper.transform.Find(getGameObjectName());
 		if(subMenuTransform == null) {

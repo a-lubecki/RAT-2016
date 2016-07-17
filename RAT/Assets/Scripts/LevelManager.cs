@@ -300,7 +300,6 @@ public class LevelManager : MonoBehaviour {
 			NodeElementNpc nodeElementNpc = currentNodeLevel.getNpc(i);
 			string elementId = nodeElementNpc.nodeId.value;
 
-			bool setCurrentPosition = false;
 			float realPosX = 0;
 			float realPosY = 0;
 			int currentAngleDegrees;

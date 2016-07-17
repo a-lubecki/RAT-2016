@@ -26,8 +26,8 @@ public class PlayerRendererBehavior : CharacterRendererBehavior {
 
 	public override void onBehaviorAttached() {
 
-		healthBar = GameHelper.Instance.getHUDHealthBar().GetComponent<HUDBar>();
-		staminaBar = GameHelper.Instance.getHUDStaminaBar().GetComponent<HUDBar>();
+		healthBar = GameHelper.Instance.getHUDHealthBarGameObject().GetComponent<HUDBar>();
+		staminaBar = GameHelper.Instance.getHUDStaminaBarGameObject().GetComponent<HUDBar>();
 
 	}
 
