@@ -94,7 +94,7 @@ public class Hub : BaseListenerModel, ISpawnable, IActionnable {
 		MessageDisplayer.Instance.displayBigMessage(Constants.tr("BigMessage.HubActivated"), true);
 
 
-		Timing.RunCoroutine(delayPlayerAfterAction());
+		Timing.RunCoroutine(delayPlayerAfterAction(), Segment.FixedUpdate);
 	}
 
 	private IEnumerator<float> delayPlayerAfterAction() {
@@ -147,7 +147,7 @@ public class Hub : BaseListenerModel, ISpawnable, IActionnable {
 
 	private void openHubMenu() {
 
-		Timing.RunCoroutine(delayPlayerAfterAction());
+		Timing.RunCoroutine(delayPlayerAfterAction(), Segment.FixedUpdate);
 
 		GameHelper.Instance.getMenu().open(new MenuTypeHub(this));
 

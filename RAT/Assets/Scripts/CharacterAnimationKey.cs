@@ -21,5 +21,23 @@ public class CharacterAnimationKey {
 		this.imagePos = imagePos;
 	}
 
+	public override bool Equals (object obj) {
+		if (obj == null)
+			return false;
+		if (ReferenceEquals (this, obj))
+			return true;
+		if (obj.GetType () != typeof(CharacterAnimationKey))
+			return false;
+		CharacterAnimationKey other = (CharacterAnimationKey)obj;
+		return percentage == other.percentage && imagePos == other.imagePos;
+	}
+	
+
+	public override int GetHashCode () {
+		unchecked {
+			return percentage.GetHashCode () ^ imagePos.GetHashCode ();
+		}
+	}
+	
 }
 

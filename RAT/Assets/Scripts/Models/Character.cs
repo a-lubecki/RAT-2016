@@ -59,9 +59,6 @@ public abstract class Character : BaseIdentifiableModel {
 
 		animationPercentage = 0;
 
-
-		Timing.RunCoroutine(manageMoving(), Segment.FixedUpdate);
-
 	}
 
 	protected IEnumerator<float> manageMoving() {

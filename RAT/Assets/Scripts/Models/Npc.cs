@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Node;
 using UnityEngine;
+using MovementEffects;
 
 public class Npc : Character {
 
@@ -45,6 +46,8 @@ public class Npc : Character {
 		}
 
 		this.level = level;
+
+		Timing.RunCoroutine(manageMoving(), Segment.FixedUpdate);
 
 	}
 

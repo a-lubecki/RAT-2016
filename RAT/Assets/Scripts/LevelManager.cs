@@ -439,8 +439,9 @@ public class LevelManager : MonoBehaviour {
 
 
 		if(currentSpawnable != null) {
-			realPosX = currentSpawnable.getNextPosX();
-			realPosY = currentSpawnable.getNextPosY();
+			Vector2 currentPos = GameHelper.Instance.newRealPositionFromMapPosition(currentSpawnable.getNextPosX(), currentSpawnable.getNextPosY());
+			realPosX = currentPos.x;
+			realPosY = currentPos.y;
 			angleDegrees = Character.directionToAngle(currentSpawnable.getNextDirection());
 		}
 

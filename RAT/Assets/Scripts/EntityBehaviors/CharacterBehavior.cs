@@ -17,9 +17,13 @@ public abstract class CharacterBehavior : BaseEntityBehavior {
 
 	}
 
-	protected override void updateBehavior() {
+	public override void onBehaviorAttached() {
 
 		transform.position = new Vector2(character.realPosX, character.realPosY);
+
+	}
+
+	protected override void updateBehavior() {
 
 		if (character.isDead()) {
 

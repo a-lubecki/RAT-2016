@@ -115,7 +115,7 @@ public class Note : BaseListenerModel, IActionnable {
 
 	void IActionnable.notifyActionValidated(BaseAction action) {
 
-		Timing.RunCoroutine(delayPlayerAfterAction());
+		Timing.RunCoroutine(delayPlayerAfterAction(), Segment.FixedUpdate);
 
 	}
 

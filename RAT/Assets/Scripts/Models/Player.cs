@@ -78,10 +78,14 @@ public class Player : Character {
 			this.xp = xp;
 		}
 
+		GameHelper.Instance.getXpDisplayManager().setTotalXp(xp);
+
 		//if coming from a save when the player has not full stamina, regain it
 		startRegainingStaminaAfterDelay(1f);
 
 		Timing.RunCoroutine(manageStamina(), Segment.FixedUpdate);
+
+		Timing.RunCoroutine(manageMoving(), Segment.FixedUpdate);
 
 	}
 

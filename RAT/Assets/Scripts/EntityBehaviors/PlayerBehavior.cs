@@ -21,7 +21,7 @@ public class PlayerBehavior : CharacterBehavior {
 		
 		base.updateBehavior();
 
-		GameHelper.Instance.getXpDisplayManager().setTotalXp(player.xp);
+		//TODO
 
 	}
 

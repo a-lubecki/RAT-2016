@@ -291,7 +291,7 @@ public class Loot : BaseIdentifiableModel, IActionnable {
 			return;
 		}
 
-		Timing.RunCoroutine(delayPlayerAfterAction());
+		Timing.RunCoroutine(delayPlayerAfterAction(), Segment.FixedUpdate);
 
 	}
 

@@ -46,9 +46,15 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 			CharacterDirection currentDirection = getCharacterDirection(previousDirection, 55);
 
 			//change sprite if something changed from the last time
-			if (characterAnimation != previousCharacterAnimation ||
-				characterAnimationKey != previousCharacterAnimationKey ||
+			if (!characterAnimation.Equals(previousCharacterAnimation) ||
+				!characterAnimationKey.Equals(previousCharacterAnimationKey) ||
 				currentDirection != previousDirection) {
+
+				Debug.Log("Sprite change curr : " + 
+					characterAnimation.textureName + " - " + characterAnimation.sortedKeys + " : " +
+					characterAnimationKey.imagePos + " - " + characterAnimationKey.percentage + " : " +
+					currentDirection
+				);
 
 				Sprite sprite = GameHelper.Instance.loadMultiSpriteAsset(
 					Constants.PATH_RES_CHARACTERS + characterAnimation.textureName,
@@ -142,51 +148,5 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 	private static bool isCharacterDirectionLeft(float angle, int halfAngle) {
 		return (270 - halfAngle <= angle && angle <= 270 + halfAngle);
 	}
-
-	/*
-	private void animate(BaseCharacterState characterState, CharacterAction characterAction) {
-		
-		if(characterAction == null) {
-			return;
-		}
-
-		if(!isActiveAndEnabled) {
-			return;
-		}
-
-		CharacterAnimation characterAnimation = getCurrentCharacterAnimation(characterState);
-		if(characterAnimation == null) {
-			return;
-		}
-
-		updateSprite(characterAction, characterAnimation);
-	}
-
-	private IEnumerator updateSprite(CharacterAction characterAction, CharacterAnimation characterAnimation) {
-
-		ReadOnlyCollection<CharacterAnimationKey> sortedKeys = characterAnimation.sortedKeys;
-
-		CharacterAnimationKey lastKey = sortedKeys[0];
-		
-		setCurrentSprite(characterAnimation, lastKey);
-
-		float totalTime = characterAction.durationSec;
-		float elapsedTime = 0;
-
-		for (int i = 1 ; i < sortedKeys.Count ; i++) {
-
-			CharacterAnimationKey currentKey = sortedKeys[i];
-
-			float currentTime = currentKey.percentage * totalTime;
-			
-			yield return new WaitForSeconds(currentTime - elapsedTime);
-			
-			setCurrentSprite(characterAnimation, currentKey);
-
-			lastKey = currentKey;
-			elapsedTime = currentTime;
-		}
-
-	}*/
 
 }
