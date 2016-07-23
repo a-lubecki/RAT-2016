@@ -103,7 +103,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		hasTriggerMessageOutCollider = false;
 
 		float timeFrame = 0.5f;
-		float periodPercentage = Constants.COROUTINE_PERIOD_S / timeFrame;
+		float periodPercentage = Constants.COROUTINE_RENDERER_PERIOD_S / timeFrame;
 
 		if (actionOpen) {
 			//if open, hide the open action
@@ -121,7 +121,7 @@ public class Door : BaseIdentifiableModel, IActionnable {
 		updateBehaviors();
 
 
-		Timing.CallPeriodically(timeFrame, Constants.COROUTINE_PERIOD_S, 
+		Timing.CallPeriodically(timeFrame, Constants.COROUTINE_RENDERER_PERIOD_S, 
 			delegate {
 
 				//increment percentage

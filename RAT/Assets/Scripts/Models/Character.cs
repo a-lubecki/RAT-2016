@@ -62,10 +62,10 @@ public abstract class Character : BaseIdentifiableModel {
 	}
 
 	protected IEnumerator<float> manageMoving() {
-
+		
 		while (!isDead()) {
-			
-			yield return Timing.WaitForSeconds(Time.fixedDeltaTime);
+
+			yield return Timing.WaitForSeconds(Constants.COROUTINE_FIXED_UPDATE_S);
 
 			if (canMove()) {
 
@@ -376,7 +376,7 @@ public abstract class Character : BaseIdentifiableModel {
 				animationPercentage = 0;
 
 				lastCharacterAction = getCurrentCharacterAction();
-				nextPercentage = Constants.COROUTINE_PERIOD_S / lastCharacterAction.durationSec;
+				nextPercentage = Constants.COROUTINE_RENDERER_PERIOD_S / lastCharacterAction.durationSec;
 
 				lastState = currentState;
 			}
@@ -389,7 +389,7 @@ public abstract class Character : BaseIdentifiableModel {
 
 			updateBehaviors();
 
-			yield return Timing.WaitForSeconds(Constants.COROUTINE_PERIOD_S);
+			yield return Timing.WaitForSeconds(Constants.COROUTINE_RENDERER_PERIOD_S);
 
 			if (animationPercentage >= 1) {
 
@@ -413,7 +413,7 @@ public abstract class Character : BaseIdentifiableModel {
 
 		animationPercentage = 0;
 		CharacterAction characterActionDeath = getCurrentCharacterAction();
-		nextPercentage = Constants.COROUTINE_PERIOD_S / characterActionDeath.durationSec;
+		nextPercentage = Constants.COROUTINE_RENDERER_PERIOD_S / characterActionDeath.durationSec;
 
 		while (animationPercentage < 1) {
 
@@ -423,7 +423,7 @@ public abstract class Character : BaseIdentifiableModel {
 
 			updateBehaviors();
 
-			yield return Timing.WaitForSeconds(Constants.COROUTINE_PERIOD_S);
+			yield return Timing.WaitForSeconds(Constants.COROUTINE_RENDERER_PERIOD_S);
 		}
 
 		//call onfinish action
