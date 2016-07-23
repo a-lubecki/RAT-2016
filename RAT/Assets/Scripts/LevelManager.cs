@@ -578,7 +578,7 @@ public class LevelManager : MonoBehaviour {
 		
 		while(isRunningSaverLoop) {
 			
-			yield return new WaitForSeconds(10);
+			yield return new WaitForSeconds(Constants.SAVER_PERIOD_S);
 
 			GameManager.Instance.saveGame(false);
 

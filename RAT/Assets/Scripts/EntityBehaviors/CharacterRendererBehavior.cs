@@ -11,14 +11,13 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 		}
 	}
 
-	public string currentSpritePrefix { get; private set; }
-
-	private Coroutine coroutineUpdateSprite;
+	public string currentSpritePrefix { get; protected set; }
 
 	//used to update sprite only if it needs to changed
-	CharacterAnimation previousCharacterAnimation;
-	CharacterAnimationKey previousCharacterAnimationKey;
-	CharacterDirection previousDirection;
+	private CharacterAnimation previousCharacterAnimation;
+	private CharacterAnimationKey previousCharacterAnimationKey;
+	private CharacterDirection previousDirection;
+
 
 	protected void init(Character character) {
 
@@ -34,7 +33,7 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 	}
 
 	protected override void updateBehavior() {
-
+		
 		//display the right sprite
 		CharacterAnimation characterAnimation = getCurrentCharacterAnimation(character.currentState);
 
@@ -72,7 +71,7 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 		//change the layer if dead
 		string sortingLayerName = character.isDead() ? Constants.SORTING_LAYER_NAME_OBJECTS : Constants.SORTING_LAYER_NAME_CHARACTERS;
 		GetComponent<SpriteRenderer>().sortingLayerName = sortingLayerName;
-
+		
 		//move to the right position
 		transform.position = snapToGrid(new Vector2(character.realPosX, character.realPosY));
 

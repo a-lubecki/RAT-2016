@@ -49,7 +49,6 @@ public abstract class BaseEntity {
 		foreach(BaseEntityBehavior behavior in getBehaviors()) {
 			behavior.onEntityChanged();
 		}
-
 	}
 
 	public List<GameObject> getGameObjects() {

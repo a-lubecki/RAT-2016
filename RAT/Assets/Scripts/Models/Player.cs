@@ -465,7 +465,7 @@ public class Player : Character {
 	}
 
 	protected void startRegainingStaminaAfterDelay(float delay) {
-
+		
 		if(isRegainingStamina) {
 			return;
 		}
@@ -491,7 +491,7 @@ public class Player : Character {
 	}
 
 	protected void stopRegainingStamina() {
-
+		
 		mustStopTriggeredRegainingStamina = true;
 
 		isRegainingStamina = false;
