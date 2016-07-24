@@ -33,13 +33,19 @@ public abstract class CharacterRendererBehavior : BaseEntityBehavior {
 	}
 
 	protected override void updateBehavior() {
-		
+
 		//display the right sprite
 		CharacterAnimation characterAnimation = getCurrentCharacterAnimation(character.currentState);
 
 		if (characterAnimation != null) {
 
-			int frame = (int)(character.animationPercentage / (float)(characterAnimation.sortedKeys.Count));
+			int frameCount = characterAnimation.sortedKeys.Count;
+
+			int frame = (int)(character.animationPercentage * (float)(frameCount));
+			if (frame >= frameCount) {
+				frame = frameCount - 1;
+			}
+
 			CharacterAnimationKey characterAnimationKey = characterAnimation.sortedKeys[frame];
 
 			CharacterDirection currentDirection = getCharacterDirection(previousDirection, 55);

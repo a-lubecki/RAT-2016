@@ -79,14 +79,14 @@ public abstract class Character : BaseIdentifiableModel {
 
 				isMoving = (dx != 0 || dy != 0);
 
+				CharacterBehavior characterBehavior = findBehavior<CharacterBehavior>();
+				if (characterBehavior == null) {
+					throw new InvalidOperationException();
+				}
+
+				Rigidbody2D rigidBody = characterBehavior.GetComponent<Rigidbody2D>();
+
 				if(isMoving) {
-
-					CharacterBehavior characterBehavior = findBehavior<CharacterBehavior>();
-					if (characterBehavior == null) {
-						throw new InvalidOperationException();
-					}
-
-					Rigidbody2D rigidBody = characterBehavior.GetComponent<Rigidbody2D>();
 
 					//update transform with int vector to move with the grid
 					rigidBody.MovePosition(
@@ -96,9 +96,16 @@ public abstract class Character : BaseIdentifiableModel {
 						)
 					);
 
-					updateRealPositionAngle(wasMoving, rigidBody.position, Constants.vectorToAngle(newVector.x, newVector.y));
+				} 
 
+				int newAngle;
+				if (newVector.x == 0 && newVector.y == 0) {
+					newAngle = angleDegrees;
+				} else {
+					newAngle = Constants.vectorToAngle(newVector.x, newVector.y);
 				}
+
+				updateRealPositionAngle(wasMoving, rigidBody.position, newAngle);
 
 			}
 
@@ -140,14 +147,12 @@ public abstract class Character : BaseIdentifiableModel {
 
 		angleDegrees = getAlignedAngleDegrees(newAngle);
 
-		//trigger walk/run state
-		if(!wasMoving && currentState != BaseCharacterState.WALK) {
-			changeState(BaseCharacterState.WALK);
-		} else if(isRunning && currentState != BaseCharacterState.RUN) {
-			changeState(BaseCharacterState.RUN);
-		}
-
 		updateBehaviors();
+
+		//trigger walking
+		if (!wasMoving && isMoving) {
+			changeState(BaseCharacterState.WALK);
+		}
 
 	}
 
@@ -297,6 +302,8 @@ public abstract class Character : BaseIdentifiableModel {
 
 				isRunning = true;
 
+				changeState(BaseCharacterState.RUN);
+
 				didStartRunning();
 			}
 		);
@@ -335,6 +342,7 @@ public abstract class Character : BaseIdentifiableModel {
 		}
 
 		currentState = state;
+		animationPercentage = 0;
 
 		updateBehaviors();
 
@@ -368,13 +376,16 @@ public abstract class Character : BaseIdentifiableModel {
 		CharacterAction lastCharacterAction = null;
 		float nextPercentage = 0;
 
+		animationPercentage = 0;
+
 		do {
+			if (currentState == BaseCharacterState.UNDEFINED) {
+				changeState(getNextState());
+			}
 
 			//check if changed between 2 loops
 			if (currentState != lastState) {
 				
-				animationPercentage = 0;
-
 				lastCharacterAction = getCurrentCharacterAction();
 				nextPercentage = Constants.COROUTINE_RENDERER_PERIOD_S / lastCharacterAction.durationSec;
 
@@ -403,7 +414,10 @@ public abstract class Character : BaseIdentifiableModel {
 				//enable again
 				PlayerActionsManager.Instance.setEnabled(this, true);
 
-				changeState(BaseCharacterState.WAIT);
+				animationPercentage = 0;
+
+				//reset state
+				currentState = BaseCharacterState.UNDEFINED;
 			}
 
 		} while(currentState != BaseCharacterState.DEATH);
@@ -412,6 +426,7 @@ public abstract class Character : BaseIdentifiableModel {
 		//animate death
 
 		animationPercentage = 0;
+
 		CharacterAction characterActionDeath = getCurrentCharacterAction();
 		nextPercentage = Constants.COROUTINE_RENDERER_PERIOD_S / characterActionDeath.durationSec;
 

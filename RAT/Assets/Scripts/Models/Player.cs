@@ -401,17 +401,19 @@ public class Player : Character {
 	}
 
 	protected override BaseCharacterState getNextState() {
-
-		if(isMoving) { 
-			if(currentState == BaseCharacterState.WALK) {
-				return BaseCharacterState.WALK;
-			}
-			if(currentState == BaseCharacterState.RUN) {
-				return BaseCharacterState.WALK;
-			}
+		
+		if (isDead()) {
+			return BaseCharacterState.DEATH;
+		}
+		if (isRunning) {
+			return BaseCharacterState.RUN;
+		}
+		if (isMoving) {
+			return BaseCharacterState.WALK;
 		}
 
 		return BaseCharacterState.WAIT;
+
 	}
 
 

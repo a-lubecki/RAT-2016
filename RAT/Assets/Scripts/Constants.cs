@@ -8,7 +8,7 @@ using UnityEngine;
 public class Constants {
 
 	public static readonly float COROUTINE_FIXED_UPDATE_S = 0.005f;
-	public static readonly float COROUTINE_RENDERER_PERIOD_S = 0.1f;
+	public static readonly float COROUTINE_RENDERER_PERIOD_S = 0.05f;
 	public static readonly int SAVER_PERIOD_S = 2;
 
 	public static readonly int TILE_SIZE = 32;
