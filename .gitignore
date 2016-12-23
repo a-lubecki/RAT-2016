@@ -25,9 +25,3 @@ sysinfo.txt
 
 # Backups freeplane
 .backup/
-/SyncFilesProject/nbproject/private/
-/ResourcesSynchronizer/nbproject/private/
-/ResourcesSynchronizer/dist/
-
-# Personal
-*.password
